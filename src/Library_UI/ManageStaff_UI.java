@@ -14,7 +14,7 @@ public class ManageStaff_UI {
     private JButton logIn;
     private JPanel inFo;
     public ManageStaff_UI(){
-        ImageIcon bk_Icon = new ImageIcon("src/Image_Icon/background/list_1.png");
+        ImageIcon bk_Icon = new ImageIcon("src/Image_Icon/background/_Staff_UI_.png");
         label = new JLabel(bk_Icon);
         label.setSize(1794,956);
 
@@ -108,7 +108,7 @@ public class ManageStaff_UI {
             }
         });
 
-        Font Font_left = new Font("MV Boli", Font.PLAIN, 30);
+        Font Font_left = new Font("MV Boli", Font.PLAIN, 16);
         Font Font_login = new Font("Lucida Calligraphy", Font.PLAIN, 20);
         Font Font_me_2 = new Font("Lucida Console", Font.PLAIN, 48);
         Font Font_me_3 = new Font("MV Boli", Font.ITALIC, 12);
@@ -135,7 +135,7 @@ public class ManageStaff_UI {
         brand.setForeground(Color_me);
 // create 3 button -> function
         bt_add = new JButton("Add staff");
-        bt_add.setBounds(74,287,228,50);
+        bt_add.setBounds(75,287+8,190,42);
         bt_add.setFont(Font_left);
         bt_add.setBorder(BorderFactory.createLineBorder(Color_me));
         bt_add.setForeground(Color_me);
@@ -170,7 +170,7 @@ public class ManageStaff_UI {
         });
 
         bt_remove = new JButton("Remove staff");
-        bt_remove.setBounds(74,399,228,50);
+        bt_remove.setBounds(75,399+8,190,42);
         bt_remove.setFont(Font_left);
         bt_remove.setBorder(BorderFactory.createLineBorder(Color_me));
         bt_remove.setForeground(Color_me);
@@ -205,7 +205,7 @@ public class ManageStaff_UI {
         });
 
         bt_search = new JButton("???");
-        bt_search.setBounds(74,511,228,50);
+        bt_search.setBounds(75,511+8,190,42);
         bt_search.setFont(Font_left);
         bt_search.setBorder(BorderFactory.createLineBorder(Color_me));
         bt_search.setForeground(Color_me);
