@@ -350,7 +350,7 @@ public class Lobby_UI {
         txt_Group.setFont(Font_me_3);
         txt_Group.setBorder(BorderFactory.createLineBorder(new Color(84, 103, 71)));
         txt_Group.setForeground(Color_ForeG);
-        txt_Group.setBounds(1200,890,230,20);
+        txt_Group.setBounds(1200,910,230,20);
         txt_Group.setEditable(false);
 
 // add 3 properties of book on the left side
