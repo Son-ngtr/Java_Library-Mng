@@ -4,22 +4,21 @@ import javax.swing.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-public class LentBooks_UI {
+public class DayHis_UI {
     private JFrame main_Frame;
     private JLabel label, notification_Label, logout_Label,exit_Label;
-    public LentBooks_UI(){
-        ImageIcon bk_Icon = new ImageIcon("src/Image_Icon/background/_LentBooks_UI_.png");
+    public DayHis_UI(){
+        ImageIcon bk_Icon = new ImageIcon("src/Image_Icon/background/Day_His.png");
         label = new JLabel(bk_Icon);
         label.setSize(1794,956);
 
         ImageIcon notification_Icon = new ImageIcon("src/Image_Icon/icon/notification (1).png");
         notification_Label = new JLabel(notification_Icon);
         notification_Label.setSize(80,80);
-        notification_Label.setBounds(1643,700,45,45);
+        notification_Label.setBounds(1508,876,45,45);
         notification_Label.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-
             }
 
             @Override
@@ -34,7 +33,6 @@ public class LentBooks_UI {
 
             @Override
             public void mouseEntered(MouseEvent e) {
-
             }
 
             @Override
@@ -46,7 +44,7 @@ public class LentBooks_UI {
         ImageIcon logout_Icon = new ImageIcon("src/Image_Icon/icon/log-out (1).png");
         logout_Label = new JLabel(logout_Icon);
         logout_Label.setSize(80,80);
-        logout_Label.setBounds(1639,765,45,45);
+        logout_Label.setBounds(1610,876,45,45);
         logout_Label.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -77,7 +75,7 @@ public class LentBooks_UI {
         ImageIcon exit_Icon = new ImageIcon("src/Image_Icon/icon/power (1).png");
         exit_Label = new JLabel(exit_Icon);
         exit_Label.setSize(80,80);
-        exit_Label.setBounds(1643,830,45,45);
+        exit_Label.setBounds(1695,876,45,45);
         exit_Label.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -86,7 +84,6 @@ public class LentBooks_UI {
 
             @Override
             public void mousePressed(MouseEvent e) {
-
             }
 
             @Override
@@ -124,6 +121,6 @@ public class LentBooks_UI {
 
 
     public static void main(String[] args) {
-        new LentBooks_UI();
+        new DayHis_UI();
     }
 }

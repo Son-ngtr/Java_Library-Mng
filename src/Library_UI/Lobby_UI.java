@@ -245,7 +245,7 @@ public class Lobby_UI {
         b4.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                JOptionPane.showMessageDialog(null, "On process ...");
+                new LentBooks_UI();
             }
 
             @Override
@@ -280,8 +280,7 @@ public class Lobby_UI {
         b5.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                JOptionPane.showMessageDialog(null, "On process ...");
-
+                new DayHis_UI();
             }
 
             @Override
