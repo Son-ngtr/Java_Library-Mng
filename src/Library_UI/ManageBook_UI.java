@@ -3,6 +3,7 @@ package Library_UI;
 import Library_UI.Funtion.Addbook_UI;
 
 import javax.swing.*;
+import javax.swing.table.JTableHeader;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -114,6 +115,7 @@ public class ManageBook_UI {
 //        Font Font_me_2 = new Font("Lucida Console", Font.PLAIN, 48);
         Font Font_Brand = new Font("MV Boli", Font.BOLD, 60);
         Font Font_me_3 = new Font("MV Boli", Font.ITALIC, 12);
+        Font Font_Table = new Font("MV Boli", Font.PLAIN, 12);
 
         Color Color_me = new Color(250,183,61);
         Color Color_ForeG = new Color(13,54,57);
@@ -239,8 +241,30 @@ public class ManageBook_UI {
             }
         });
 
+// create table content
+        String[][] tableData = {{"01", "Conan", "13/6/2022", "20.000", "Gosho Aoyama", "Kim Dong", "Anime", "123" }};
+
+        String[] tableColumn = {"ID", "NAME", "DATE ADDED", "PRICE", "AUTHOR", "PUBLISHER", "CATEGORY", "QUANTITY"};
+
+        JTable jt = new JTable(tableData, tableColumn);
+        jt.setFont(Font_Table);
+        jt.setGridColor(Color_ForeG);
+        jt.setBackground(Color_me);
+        jt.setForeground(Color_ForeG);
+
+        JTableHeader jth = jt.getTableHeader();
+        jth.setBackground(Color_ForeG);
+        jth.setFont(Font_Table);
+        jth.setForeground(Color_me);
+
+
+        JScrollPane Jsc = new JScrollPane(jt);
+        Jsc.setBounds(400, 130, 1330, 710);
+        Jsc.setForeground(Color_me);
+        Jsc.setFont(Font_Table);
 
 // add all properties on UI
+        label.add(Jsc);
         label.add(brand);
         label.add(txt_Group);
         label.add(notification_Label);

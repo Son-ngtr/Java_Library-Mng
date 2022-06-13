@@ -315,8 +315,7 @@ public class Lobby_UI {
         b6.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                JOptionPane.showMessageDialog(null, "On process ...");
-
+                new Team_In4();
             }
 
             @Override

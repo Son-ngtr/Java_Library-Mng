@@ -1,6 +1,7 @@
 package Library_UI;
 
 import javax.swing.*;
+import javax.swing.table.JTableHeader;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -113,6 +114,7 @@ public class ManageStaff_UI {
         Font Font_me_2 = new Font("Lucida Console", Font.PLAIN, 48);
         Font Font_me_3 = new Font("MV Boli", Font.ITALIC, 12);
         Font Font_Brand = new Font("MV Boli", Font.BOLD, 60);
+        Font Font_Table = new Font("MV Boli", Font.PLAIN, 12);
 
 
         Color Color_me = new Color(250,183,61);
@@ -239,8 +241,30 @@ public class ManageStaff_UI {
             }
         });
 
+// create table content
+        String[][] tableData = {{"01", "Nguyen Van A", "Male", "25/10/1991", "Le Thanh Nghi","+84 123 758 851",  "librarian"}};
+
+        String[] tableColumn = {"ID", "NAME", "GENDER", "YEAR.BORN","ADDRESS", "PHONE.NB", "STAFF"};
+
+        JTable jt = new JTable(tableData, tableColumn);
+        jt.setFont(Font_Table);
+        jt.setGridColor(Color_ForeG);
+        jt.setBackground(Color_me);
+        jt.setForeground(Color_ForeG);
+
+        JTableHeader jth = jt.getTableHeader();
+        jth.setBackground(Color_ForeG);
+        jth.setFont(Font_Table);
+        jth.setForeground(Color_me);
+
+
+        JScrollPane Jsc = new JScrollPane(jt);
+        Jsc.setBounds(400, 130, 1330, 710);
+        Jsc.setForeground(Color_me);
+        Jsc.setFont(Font_Table);
 
 // add all properties on UI
+        label.add(Jsc);
         label.add(brand);
         label.add(txt_Group);
         label.add(notification_Label);
