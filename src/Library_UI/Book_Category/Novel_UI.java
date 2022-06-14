@@ -110,6 +110,73 @@ public class Novel_UI {
             }
         });
 
+// next + back category
+        ImageIcon left_Icon = new ImageIcon("src/Image_Icon/icon/left.png");
+        JLabel left_Label = new JLabel(left_Icon);
+        left_Label.setSize(45,45);
+        left_Label.setBounds(900,876,45,45);
+        left_Label.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                new TextBook_UI();
+                main_Frame.dispose();
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+
+            }
+        });
+
+        ImageIcon right_Icon = new ImageIcon("src/Image_Icon/icon/right.png");
+        JLabel right_Label = new JLabel(right_Icon);
+        right_Label.setSize(45,45);
+        right_Label.setBounds(960,876,45,45);
+        right_Label.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                new ChildrenBook_UI();
+                main_Frame.dispose();
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+
+            }
+        });
+
+
+
         Font Font_left = new Font("MV Boli", Font.PLAIN, 16);
 //        Font Font_login = new Font("Lucida Calligraphy", Font.PLAIN, 20);
 //        Font Font_me_2 = new Font("Lucida Console", Font.PLAIN, 48);
@@ -270,6 +337,8 @@ public class Novel_UI {
         label.add(notification_Label);
         label.add(logout_Label);
         label.add(exit_Label);
+        label.add(left_Label);
+        label.add(right_Label);
         label.add(bt_add);
         label.add(bt_remove);
         label.add(bt_search);

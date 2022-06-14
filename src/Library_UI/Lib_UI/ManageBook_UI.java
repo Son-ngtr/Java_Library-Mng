@@ -1,5 +1,6 @@
 package Library_UI.Lib_UI;
 
+import Library_UI.Book_Category.ChildrenBook_UI;
 import Library_UI.Funtion.Addbook_UI;
 
 import javax.swing.*;
@@ -11,7 +12,7 @@ import java.awt.event.MouseListener;
 public class ManageBook_UI {
     private JFrame main_Frame;
     private ImageIcon bk_Icon;
-    private JLabel label, notification_Label, logout_Label, exit_Label;
+    private JLabel label, notification_Label, logout_Label, exit_Label, right_Label, left_Label;
     private JButton bt_add, bt_remove, bt_search;
     private JTextField txt_Group;
     private JLabel brand;
@@ -109,6 +110,45 @@ public class ManageBook_UI {
 
             }
         });
+
+// next + back category
+        ImageIcon left_Icon = new ImageIcon("src/Image_Icon/icon/left.png");
+        JLabel left_Label = new JLabel(left_Icon);
+        left_Label.setSize(45,45);
+        left_Label.setBounds(900,876,45,45);
+
+        ImageIcon right_Icon = new ImageIcon("src/Image_Icon/icon/right.png");
+        JLabel right_Label = new JLabel(right_Icon);
+        right_Label.setSize(45,45);
+        right_Label.setBounds(960,876,45,45);
+        right_Label.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                new ChildrenBook_UI();
+                main_Frame.dispose();
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+
+            }
+        });
+
 
         Font Font_left = new Font("MV Boli", Font.PLAIN, 16);
 //        Font Font_login = new Font("Lucida Calligraphy", Font.PLAIN, 20);
@@ -263,13 +303,19 @@ public class ManageBook_UI {
         Jsc.setForeground(Color_me);
         Jsc.setFont(Font_Table);
 
+
 // add all properties on UI
         label.add(Jsc);
         label.add(brand);
         label.add(txt_Group);
+
         label.add(notification_Label);
         label.add(logout_Label);
         label.add(exit_Label);
+
+        label.add(left_Label);
+        label.add(right_Label);
+
         label.add(bt_add);
         label.add(bt_remove);
         label.add(bt_search);
