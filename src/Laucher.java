@@ -1,7 +1,7 @@
+import Library_UI.Lib_UI.Login_UI;
+
 public class Laucher {
     public static void main(String[] args) {
-        System.out.println("Team");
-
-        System.out.println("Son");
+        new Login_UI();
     }
 }
