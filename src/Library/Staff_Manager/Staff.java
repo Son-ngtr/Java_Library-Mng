@@ -11,10 +11,10 @@ public class Staff {
     private String phoneNumber;
     private String staff;
     private Long salary;
-    private boolean attendace;
+    private String attendace;
 
     //Constructor
-    public Staff(int id, String name, String gender, Calendar dateOfBirth, String address, String phoneNumber, String staff, Long salary, boolean attendace) {
+    public Staff(int id, String name, String gender, Calendar dateOfBirth, String address, String phoneNumber, String staff, Long salary, String attendace) {
         this.id = id;
         this.name = name;
         this.gender = gender;
@@ -91,11 +91,11 @@ public class Staff {
         this.salary = salary;
     }
 
-    public boolean isAttendace() {
+    public String getAttendace() {
         return attendace;
     }
 
-    public void setAttendace(boolean attendace) {
+    public void setAttendace(String attendace) {
         this.attendace = attendace;
     }
 

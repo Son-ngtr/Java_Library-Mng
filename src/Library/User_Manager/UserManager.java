@@ -22,9 +22,15 @@ public class UserManager extends Check {
     private ArrayList<User> users = new ArrayList<>();
 
     //User Header
-    public String[] userCategory(){
+    public String[] userContent(){
         String staffCategory[] = {"ID", "Name", "Gender", "Date Of Birth", "Address", "Phone Number", "Email", "EXP.Date", "REGIS.Date", "Fine Money"};
         return staffCategory;
+    }
+
+    //User Gender
+    public String[] userGender(){
+        String userGender[] = {"Male", "Female", "Other"};
+        return userGender;
     }
 
     //Create a User
@@ -35,7 +41,7 @@ public class UserManager extends Check {
     }
 
     //Add User
-    public void addStaff(User user){
+    public void addUser(User user){
         users.add(user);
     }
 

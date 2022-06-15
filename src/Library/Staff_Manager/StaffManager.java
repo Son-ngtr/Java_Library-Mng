@@ -22,13 +22,31 @@ public class StaffManager extends Check {
     private ArrayList<Staff> staffs = new ArrayList<>();
 
     //Staff Header
+    public String[] staffContent(){
+        String staffContent[] = {"ID", "Name", "Gender", "Date Of Birth", "Address", "Phone Number", "Position", "Salary", "Attendance"};
+        return staffContent;
+    }
+
+    //Staff Category
     public String[] staffCategory(){
-        String staffCategory[] = {"ID", "Name", "Gender", "Date Of Birth", "Address", "Phone Number", "Position", "Salary", "Attendance"};
+        String staffCategory[] = {"Sanitation worker", "Treasurer"};
         return staffCategory;
     }
 
+    //Staff Gender
+    public String[] staffGender(){
+        String staffGender[] = {"Male", "Female", "Other"};
+        return staffGender;
+    }
+
+    //Staff Attendence
+    public String[] staffAttendence(){
+        String staffAttendence[] = {"Attendance", "Absent", "Late", "Leave of Absence Letter" , "Quit"};
+        return staffAttendence;
+    }
+
     //Create a Staff
-    public Staff createStaff(String name, String gender, Calendar dateOfBirth, String address, String phoneNumber, String staff, Long salary, boolean attendace){
+    public Staff createStaff(String name, String gender, Calendar dateOfBirth, String address, String phoneNumber, String staff, Long salary, String attendace){
         codeCount++;
         Staff staff1 = new Staff(codeCount, name, gender, dateOfBirth, address, phoneNumber, staff , salary, attendace);
         return staff1;
@@ -76,7 +94,7 @@ public class StaffManager extends Check {
                         mainObj[count][i] = staff.moneyConvert();
                         break;
                     case 8:
-                        mainObj[count][i] = staff.isAttendace() ? "true" : "false";
+                        mainObj[count][i] = staff.getAttendace();
                     default:
                         break;
                 }
@@ -128,13 +146,7 @@ public class StaffManager extends Check {
                         staff.setSalary(Long.parseLong(value));
                         break;
                     case 8:
-                        boolean b;
-                        if (value.equalsIgnoreCase("true")){
-                            b = true;
-                        }else {
-                            b = false;
-                        }
-                        staff.setAttendace(b);
+                        staff.setAttendace(value);
                         break;
                     default:
                         break;
