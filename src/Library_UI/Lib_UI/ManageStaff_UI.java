@@ -274,7 +274,7 @@ public class ManageStaff_UI {
         label.add(bt_remove);
         label.add(bt_search);
 
-        JFrame main_Frame = new JFrame("Main_UI");
+        main_Frame = new JFrame("Main_UI");
         main_Frame.add(label);
         main_Frame.setSize(1794,956);
         main_Frame.setResizable(false);

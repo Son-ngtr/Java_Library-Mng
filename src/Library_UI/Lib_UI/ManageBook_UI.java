@@ -1,13 +1,22 @@
 package Library_UI.Lib_UI;
 
+import Library.Book_Manager.BookManager;
 import Library_UI.Book_Category.ChildrenBook_UI;
 import Library_UI.Funtion.Addbook_UI;
 
 import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.Calendar;
 
 public class ManageBook_UI {
     private JFrame main_Frame;
@@ -16,6 +25,31 @@ public class ManageBook_UI {
     private JButton bt_add, bt_remove, bt_search;
     private JTextField txt_Group;
     private JLabel brand;
+    private JTable jt;
+    private DefaultTableModel defaultTableModel;
+    private BookManager bookManager= new BookManager();
+    private JComboBox cb = new JComboBox(bookManager.bookCategory());
+
+    public void createTableExample(){
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(2020, 10, 10);
+        bookManager.addBookChild(bookManager.createBookChild("Quang", calendar, 1000L, "Son", "Dfsd", 10, "Cổ Điển", "6->10"));
+        calendar.set(2020, 10, 10);
+        bookManager.addBookLearning(bookManager.createBookLearning("Shark", calendar, 1000L, "Sn", "Dfsdf", 10, "Mẫu Giáo", "Toán"));
+        calendar.set(2020, 10, 10);
+        bookManager.addBookPsychology(bookManager.createBookPsychology("Babe", calendar, 1000L, "Sn", "Dfsdf", 10, "Nhận Thức", "11->16"));
+        calendar.set(2020, 10, 10);
+        bookManager.addBookNovel(bookManager.createBookNovel("Duong", calendar, 1000L, "Sn", "Dfsdf", 10, "Khoa Học Viễn Tưởng", "11->16"));
+    }
+
+    //Table reset
+    public void tableReset(){
+        bookManager.setIsUpdate(true);
+        defaultTableModel.setDataVector(bookManager.listBookAll(), bookManager.bookContent());
+        jt.getColumnModel().getColumn(6).setCellEditor(new DefaultCellEditor(cb));
+        bookManager.setIsUpdate(false);
+    }
+
     public ManageBook_UI(){
         ImageIcon bk_Icon = new ImageIcon("src/Image_Icon/background/_Book_UI_.png");
         label = new JLabel(bk_Icon);
@@ -185,7 +219,9 @@ public class ManageBook_UI {
         bt_add.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                new Addbook_UI();
+                Addbook_UI addBook = new Addbook_UI();
+                addBook.setManagerUser(main_Frame, bookManager, defaultTableModel, jt);
+                main_Frame.setEnabled(false);
             }
 
             @Override
@@ -220,7 +256,8 @@ public class ManageBook_UI {
         bt_remove.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-
+                bookManager.removeBook(String.valueOf(jt.getValueAt(jt.getSelectedRow(), 0)));
+                tableReset();
             }
 
             @Override
@@ -282,16 +319,31 @@ public class ManageBook_UI {
         });
 
 // create table content
-        String[][] tableData = {{"01", "Conan", "13/6/2022", "20.000", "Gosho Aoyama", "Kim Dong", "Anime", "123" }};
+        //Search Field
+        JTextField bookFilter = new JTextField("  ",20);
+        bookFilter.setBounds(400, 130, 1330, 35);
+        Font filterFont = new Font("Arial", Font.PLAIN, 20);
+        bookFilter.setFont(filterFont);
+        bookFilter.setBackground(Color_left);
+        bookFilter.setBorder(BorderFactory.createLineBorder(Color_me));
+        bookFilter.setForeground(Color_me);
 
-        String[] tableColumn = {"ID", "NAME", "DATE ADDED", "PRICE", "AUTHOR", "PUBLISHER", "CATEGORY", "QUANTITY"};
 
-        JTable jt = new JTable(tableData, tableColumn);
+        //Table
+        createTableExample();
+        defaultTableModel = new DefaultTableModel(bookManager.listBookAll(), bookManager.bookContent());
+        jt = new JTable(defaultTableModel) {
+            public boolean isCellEditable(int row, int column) {
+                if (column == 0) return false;
+                return true;
+            }
+        };
+        jt.getTableHeader().setReorderingAllowed(false);
+        jt.getColumnModel().getColumn(6).setCellEditor(new DefaultCellEditor(cb));
         jt.setFont(Font_Table);
         jt.setGridColor(Color_ForeG);
         jt.setBackground(Color_me);
         jt.setForeground(Color_ForeG);
-
         JTableHeader jth = jt.getTableHeader();
         jth.setBackground(Color_ForeG);
         jth.setFont(Font_Table);
@@ -299,12 +351,142 @@ public class ManageBook_UI {
 
 
         JScrollPane Jsc = new JScrollPane(jt);
-        Jsc.setBounds(400, 130, 1330, 710);
+        Jsc.setBounds(400, 165, 1330, 710);
         Jsc.setForeground(Color_me);
         Jsc.setFont(Font_Table);
 
+        //Table Search
+        TableRowSorter<TableModel> rowSorter = new TableRowSorter<>(jt.getModel());
+        jt.setRowSorter(rowSorter);
+        bookFilter.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                String text = bookFilter.getText().trim();
+                if(text.length() == 0){
+                    rowSorter.setRowFilter(null);
+                }else {
+                    rowSorter.setRowFilter(RowFilter.regexFilter("(?i)" + text));
+                }
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                String text = bookFilter.getText().trim();
+                if(text.length() == 0){
+                    rowSorter.setRowFilter(null);
+                }else {
+                    rowSorter.setRowFilter(RowFilter.regexFilter("(?i)" + text));
+                }
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+
+            }
+        });
+
+        //Table Fĩx
+        jt.getModel().addTableModelListener(new TableModelListener() {
+            @Override
+            public void tableChanged(TableModelEvent e) {
+                if(!bookManager.getIsUpdate()){
+                    String codeValue = String.valueOf(jt.getValueAt(jt.getSelectedRow(), 0)).trim();
+                    String newValue = String.valueOf(jt.getValueAt(jt.getSelectedRow(), jt.getSelectedColumn())).trim();
+                    switch (jt.getSelectedColumn()){
+                        case 1:
+                            if(!bookManager.getIsUpdate()){
+                                if(newValue.trim().length() > 0){
+                                    bookManager.editBook(codeValue, jt.getSelectedColumn(), newValue);
+                                }else {
+                                    int row = jt.getSelectedRow();
+                                    int col = jt.getSelectedColumn();
+                                    JOptionPane.showMessageDialog(null, "Tên phải được đưa vào ở dạng chuỗi và có nhiều hơn 1 kí tự");
+                                    tableReset();
+                                }
+                            }
+                            break;
+                        case 2:
+                            if(!bookManager.getIsUpdate()){
+                                if(newValue.trim().length() > 0 && bookManager.isDateOrNot(newValue)){
+                                    bookManager.editBook(codeValue, jt.getSelectedColumn(), newValue);
+                                }else {
+                                    int row = jt.getSelectedRow();
+                                    int col = jt.getSelectedColumn();
+                                    JOptionPane.showMessageDialog(null, "Thông tin phải được nhập dưới dạng d/m/y và tồn tại thời điểm nhập");
+                                    tableReset();
+                                }
+                            }
+                            break;
+                        case 3:
+                            if(!bookManager.getIsUpdate()){
+                                if(newValue.trim().length() > 0 && bookManager.isLong(newValue)){
+                                    bookManager.editBook(codeValue, jt.getSelectedColumn(), newValue);
+                                    tableReset();
+                                }else {
+                                    if(bookManager.moneyCheck(newValue)){
+                                        bookManager.editBook(codeValue, jt.getSelectedColumn(), bookManager.moneyConvert(newValue));
+                                        tableReset();
+                                    }else {
+                                        int row = jt.getSelectedRow();
+                                        int col = jt.getSelectedColumn();
+                                        JOptionPane.showMessageDialog(null, "Giá phải được nhập dưới dạng (VD: 10000 or 10.000VND)");
+                                        tableReset();
+                                    }
+                                }
+                            }
+                            break;
+                        case 4:
+                            if(!bookManager.getIsUpdate()){
+                                if(newValue.trim().length() > 0 ){
+                                    bookManager.editBook(codeValue, jt.getSelectedColumn(), newValue);
+                                }else {
+                                    int row = jt.getSelectedRow();
+                                    int col = jt.getSelectedColumn();
+                                    JOptionPane.showMessageDialog(null, "Tên tác giả phải được đưa vào ở dạng chuỗi và có nhiều hơn 1 kí tự");
+                                    tableReset();
+                                }
+                            }
+                            break;
+                        case 5:
+                            if(!bookManager.getIsUpdate()){
+                                if(newValue.trim().length() > 0 ){
+                                    bookManager.editBook(codeValue, jt.getSelectedColumn(), newValue);
+                                }else {
+                                    int row = jt.getSelectedRow();
+                                    int col = jt.getSelectedColumn();
+                                    JOptionPane.showMessageDialog(null, "Tên phải được đưa vào ở dạng chuỗi và có nhiều hơn 1 kí tự");
+                                    tableReset();
+                                }
+                            }
+                            break;
+                        case 6:
+                            if(!bookManager.getIsUpdate()){
+                                if(newValue.trim().length() > 0 ){
+                                    bookManager.editBook(codeValue, jt.getSelectedColumn(), newValue);
+                                }
+                            }
+                            break;
+                        case 7:
+                            if(!bookManager.getIsUpdate()){
+                                if(newValue.trim().length() > 0 && bookManager.mathCheck(bookManager.mathAnalysis(newValue))){
+                                    bookManager.editBook(codeValue, jt.getSelectedColumn(), bookManager.matConvert(bookManager.mathAnalysis(newValue)));
+                                    tableReset();
+                                }else {
+                                    int row = jt.getSelectedRow();
+                                    int col = jt.getSelectedColumn();
+                                    JOptionPane.showMessageDialog(null, "Số lượng sách phải được nhập dưới dạng number(int)");
+                                    tableReset();
+                                }
+                            }
+                            break;
+                    }
+                }
+            }
+        });
+
 
 // add all properties on UI
+        label.add(bookFilter);
         label.add(Jsc);
         label.add(brand);
         label.add(txt_Group);
