@@ -41,7 +41,7 @@ public class StaffManager extends Check {
 
     //Staff Attendence
     public String[] staffAttendence(){
-        String staffAttendence[] = {"Attendance", "Absent", "Late", "Leave of Absence Letter" , "Quit"};
+        String staffAttendence[] = {"None", "Attendance", "Absent", "Late", "Leave of Absence Letter" , "Quit"};
         return staffAttendence;
     }
 

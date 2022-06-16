@@ -37,10 +37,10 @@ public class ManageStaff_UI {
     public void createTableExample(){
         Calendar calendar = Calendar.getInstance();
         calendar.set(2020, 10, 10);
-        staffManager.addStaff(staffManager.createStaff("Quang", "Male", calendar, "Sai Dong", "324234234","Treasurer", 1000L, "Attendance" ));
-        staffManager.addStaff(staffManager.createStaff("Phong", "Female", calendar, "Sai Dong", "324234234","Treasurer", 1000L, "Attendance" ));
-        staffManager.addStaff(staffManager.createStaff("Hieu", "Other", calendar, "Sai Dong", "324234234","Treasurer", 1000L, "Attendance" ));
-        staffManager.addStaff(staffManager.createStaff("Binh", "Male", calendar, "Sai Dong", "324234234","Treasurer", 1000L, "Late"));
+        staffManager.addStaff(staffManager.createStaff("Quang", "Male", calendar, "Sai Dong", "324234234","Treasurer", 1000L, "None" ));
+        staffManager.addStaff(staffManager.createStaff("Phong", "Female", calendar, "Sai Dong", "324234234","Treasurer", 1000L, "None" ));
+        staffManager.addStaff(staffManager.createStaff("Hieu", "Other", calendar, "Sai Dong", "324234234","Treasurer", 1000L, "None" ));
+        staffManager.addStaff(staffManager.createStaff("Binh", "Male", calendar, "Sai Dong", "324234234","Treasurer", 1000L, "None"));
     }
 
     //Table add Combobox and CheckBox
