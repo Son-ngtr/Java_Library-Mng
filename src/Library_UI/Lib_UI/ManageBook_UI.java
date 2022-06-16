@@ -2,6 +2,7 @@ package Library_UI.Lib_UI;
 
 import Library.Book_Manager.BookManager;
 import Library_UI.Book_Category.ChildrenBook_UI;
+import Library_UI.Book_Category.PsyBook_UI;
 import Library_UI.Funtion.Addbook_UI;
 
 import javax.swing.*;
@@ -19,6 +20,13 @@ import java.awt.event.MouseListener;
 import java.util.Calendar;
 
 public class ManageBook_UI {
+    //Constructor
+    public ManageBook_UI(BookManager bookManager){
+        this.bookManager = bookManager;
+        cb = new JComboBox(bookManager.bookCategory());
+        Content();
+    }
+
     private JFrame main_Frame;
     private ImageIcon bk_Icon;
     private JLabel label, notification_Label, logout_Label, exit_Label, right_Label, left_Label;
@@ -27,20 +35,10 @@ public class ManageBook_UI {
     private JLabel brand;
     private JTable jt;
     private DefaultTableModel defaultTableModel;
-    private BookManager bookManager= new BookManager();
-    private JComboBox cb = new JComboBox(bookManager.bookCategory());
+    private BookManager bookManager;
+    private JComboBox cb;
 
-    public void createTableExample(){
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(2020, 10, 10);
-        bookManager.addBookChild(bookManager.createBookChild("Quang", calendar, 1000L, "Son", "Dfsd", 10, "Cổ Điển", "6->10"));
-        calendar.set(2020, 10, 10);
-        bookManager.addBookLearning(bookManager.createBookLearning("Shark", calendar, 1000L, "Sn", "Dfsdf", 10, "Mẫu Giáo", "Toán"));
-        calendar.set(2020, 10, 10);
-        bookManager.addBookPsychology(bookManager.createBookPsychology("Babe", calendar, 1000L, "Sn", "Dfsdf", 10, "Nhận Thức", "11->16"));
-        calendar.set(2020, 10, 10);
-        bookManager.addBookNovel(bookManager.createBookNovel("Duong", calendar, 1000L, "Sn", "Dfsdf", 10, "Khoa Học Viễn Tưởng", "11->16"));
-    }
+
 
     //Table reset
     public void tableReset(){
@@ -50,7 +48,7 @@ public class ManageBook_UI {
         bookManager.setIsUpdate(false);
     }
 
-    public ManageBook_UI(){
+    public void Content(){
         ImageIcon bk_Icon = new ImageIcon("src/Image_Icon/background/_Book_UI_.png");
         label = new JLabel(bk_Icon);
         label.setSize(1794,956);
@@ -150,6 +148,33 @@ public class ManageBook_UI {
         JLabel left_Label = new JLabel(left_Icon);
         left_Label.setSize(45,45);
         left_Label.setBounds(900,876,45,45);
+        left_Label.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                PsyBook_UI psyBook_ui = new PsyBook_UI(bookManager);
+                main_Frame.dispose();
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+
+            }
+        });
 
         ImageIcon right_Icon = new ImageIcon("src/Image_Icon/icon/right.png");
         JLabel right_Label = new JLabel(right_Icon);
@@ -158,7 +183,7 @@ public class ManageBook_UI {
         right_Label.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                new ChildrenBook_UI();
+                ChildrenBook_UI childrenBook_ui = new ChildrenBook_UI(bookManager);
                 main_Frame.dispose();
             }
 
@@ -330,11 +355,10 @@ public class ManageBook_UI {
 
 
         //Table
-        createTableExample();
         defaultTableModel = new DefaultTableModel(bookManager.listBookAll(), bookManager.bookContent());
         jt = new JTable(defaultTableModel) {
             public boolean isCellEditable(int row, int column) {
-                if (column == 0) return false;
+                if (column == 0 || column == 6) return false;
                 return true;
             }
         };
@@ -514,6 +538,6 @@ public class ManageBook_UI {
     }
 
     public static void main(String[] args) {
-        new ManageBook_UI();
+
     }
 }

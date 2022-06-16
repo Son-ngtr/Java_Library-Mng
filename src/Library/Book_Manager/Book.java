@@ -125,6 +125,12 @@ public class Book {
     }
 
     //Book Child Methods
+    public String childGetType() {
+        return "";
+    }
+    public String childGetRecommentForAge() {
+        return "";
+    }
     public void childSetType(String type) {
 
     }
@@ -133,6 +139,9 @@ public class Book {
     }
     public int childCode(){
         return 0;
+    }
+    public void childSetCode(int typeCode){
+
     }
     public String[] childType(){
         String a[] = {};
@@ -144,6 +153,12 @@ public class Book {
     }
 
     //Book Learning Methods
+    public String learningGetEducation() {
+        return "";
+    }
+    public String learningGetEducation_subjects() {
+        return "";
+    }
     public void learningSetEducation(String education) {
 
     }
@@ -152,6 +167,9 @@ public class Book {
     }
     public int learningCode(){
         return 0;
+    }
+    public void leaningSetCode(int typeCode){
+
     }
     public String[] learningEducation(){
         String a[] = {};
@@ -163,24 +181,40 @@ public class Book {
     }
 
     //Book Novel Methods
-    public void novalSetType(String type) {
+    public String novelGetType() {
+        return "";
     }
-    public void novalSetAgeLimited(String ageLimited) {
+    public String novalGetAgeLimited() {
+        return "";
+    }
+    public void novalSetType(String type) {
+
+    }
+    public void novelSetAgeLimited(String ageLimited) {
 
     }
     public int novelCode(){
         return 0;
     }
+    public void novelSetCode(int typeCode){
+
+    }
     public String[] novelType(){
-        String a[] = {};
-        return a;
+        String[] type = {};
+        return type;
     }
     public String[] novelAgeLimited(){
-        String a[] = {};
-        return a;
+        String age[] = {};
+        return age;
     }
 
     //Book Psychology Methods
+    public String psychologyGetType() {
+        return "";
+    }
+    public String psychologyGetRecommentForAge() {
+        return "";
+    }
     public void psychologySetType(String type) {
 
     }
@@ -189,6 +223,9 @@ public class Book {
     }
     public int psychologyCode(){
         return 0;
+    }
+    public void psychologySetCode(int typeCode){
+
     }
     public String[] psychologyType(){
         String a[] = {};

@@ -20,20 +20,20 @@ public class Book_Novel extends Book{
     }
 
     //Getter and Setter
-    public String getType() {
+    public String novelGetType() {
         return type;
     }
 
-    @Override
     public void novalSetType(String type) {
+        System.out.println("dfsdfsd");
         this.type = type;
     }
 
-    public String getAgeLimited() {
+    public String novalGetAgeLimited() {
         return ageLimited;
     }
 
-    public void novalSetAgeLimited(String ageLimited) {
+    public void novelSetAgeLimited(String ageLimited) {
         this.ageLimited = ageLimited;
     }
 
@@ -41,10 +41,13 @@ public class Book_Novel extends Book{
     public int novelCode(){
         return typeCode;
     }
+    public void novelSetCode(int typeCode){
+        this.typeCode = typeCode;
+    }
 
     //Novel Type
     public String[] novelType(){
-        String[] type = {"Science Fiction", "Sports", "Horror", "Slice Of Life", "Fantasy", "Comedy", "Adult"};
+        String[] type = {"Science Fiction", "Sports", "Slice Of Life", "Fantasy", "Comedy", "Adult"};
         return type;
     }
     public String[] novelAgeLimited(){
