@@ -293,8 +293,10 @@ public class ChildrenBook_UI {
         bt_remove.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                bookManager.removeBookChild(String.valueOf(jt.getValueAt(jt.getSelectedRow(), 0)));
-                tableReset();
+                if(jt.getSelectedRow() != -1){
+                    bookManager.removeBookChild(String.valueOf(jt.getValueAt(jt.getSelectedRow(), 0)));
+                    tableReset();
+                }
             }
 
             @Override

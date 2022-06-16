@@ -226,8 +226,10 @@ public class ManageStaff_UI {
         bt_remove.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                staffManager.removeStaff(String.valueOf(jt.getValueAt(jt.getSelectedRow(), 0)));
-                tableReset();
+                if(jt.getSelectedRow() != -1){
+                    staffManager.removeStaff(String.valueOf(jt.getValueAt(jt.getSelectedRow(), 0)));
+                    tableReset();
+                }
             }
 
             @Override

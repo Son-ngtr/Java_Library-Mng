@@ -219,8 +219,10 @@ public class ManageUser_UI {
         bt_remove.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                userManager.removeUser(String.valueOf(jt.getValueAt(jt.getSelectedRow(), 0)));
-                tableReset();
+                if(jt.getSelectedRow() != -1){
+                    userManager.removeUser(String.valueOf(jt.getValueAt(jt.getSelectedRow(), 0)));
+                    tableReset();
+                }
             }
 
             @Override
