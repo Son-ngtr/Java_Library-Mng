@@ -145,7 +145,6 @@ public class Lobby_UI {
         b1.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                new ManageBook_UI();
                 main_Frame.dispose();
                 BookManager bookManager = new BookManager();
                 Calendar calendar = Calendar.getInstance();

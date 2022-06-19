@@ -2,11 +2,9 @@ package Library_UI.Lib_UI;
 
 import Library.Book_Manager.BookManager;
 import Library_UI.Book_Category.ChildrenBook_UI;
-<<<<<<< HEAD
+
 import Library_UI.Book_Category.TextBook_UI;
-=======
 import Library_UI.Book_Category.PsyBook_UI;
->>>>>>> Quang
 import Library_UI.Funtion.Addbook_UI;
 
 import javax.swing.*;
@@ -156,12 +154,9 @@ public class ManageBook_UI {
         left_Label.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-<<<<<<< HEAD
                 JOptionPane.showMessageDialog(null, "none page front");
-=======
                 PsyBook_UI psyBook_ui = new PsyBook_UI(bookManager);
                 main_Frame.dispose();
->>>>>>> Quang
             }
 
             @Override
@@ -192,11 +187,7 @@ public class ManageBook_UI {
         right_Label.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-<<<<<<< HEAD
-                new TextBook_UI();
-=======
                 ChildrenBook_UI childrenBook_ui = new ChildrenBook_UI(bookManager);
->>>>>>> Quang
                 main_Frame.dispose();
             }
 

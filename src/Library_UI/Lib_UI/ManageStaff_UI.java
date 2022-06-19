@@ -21,14 +21,6 @@ import java.util.Calendar;
 
 public class ManageStaff_UI {
     private JFrame main_Frame;
-<<<<<<< HEAD
-//    private ImageIcon bk_Icon, notepad_Icon, login_Ani, login_ef;
-//    private JLabel label, notification_Label, login_Icon, logout_Label, exit_Label, brand;
-//    private JButton button, bt_add, bt_remove, bt_search;
-//    private JTextField txt_Group;
-//    private JButton logIn;
-//    private JPanel inFo;
-=======
     private ImageIcon bk_Icon, notepad_Icon, login_Ani, login_ef;
     private JLabel label, notification_Label, login_Icon, logout_Label, exit_Label, brand;
     private JButton button, bt_add, bt_remove, bt_search;
@@ -66,7 +58,6 @@ public class ManageStaff_UI {
         staffManager.setIsUpdate(false);
     }
 
->>>>>>> Quang
     public ManageStaff_UI(){
         ImageIcon bk_Icon = new ImageIcon("src/Image_Icon/background/_Staff_UI_.png");
         JLabel label = new JLabel(bk_Icon);
