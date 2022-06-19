@@ -11,10 +11,10 @@ public class Staff {
     private String phoneNumber;
     private String staff;
     private Long salary;
-    private boolean attendace;
+    private String attendace;
 
     //Constructor
-    public Staff(int id, String name, String gender, Calendar dateOfBirth, String address, String phoneNumber, String staff, Long salary, boolean attendace) {
+    public Staff(int id, String name, String gender, Calendar dateOfBirth, String address, String phoneNumber, String staff, Long salary, String attendace) {
         this.id = id;
         this.name = name;
         this.gender = gender;
@@ -91,18 +91,17 @@ public class Staff {
         this.salary = salary;
     }
 
-    public boolean isAttendace() {
+    public String getAttendace() {
         return attendace;
     }
 
-    public void setAttendace(boolean attendace) {
+    public void setAttendace(String attendace) {
         this.attendace = attendace;
     }
 
     //Date convert
     public String dateConvert(){
-        String date = getDateOfBirth().get(Calendar.DATE) + "/" + (getDateOfBirth().get(Calendar.MONTH) + 1) + "/" + getDateOfBirth().get(Calendar.YEAR);
-        return date;
+        return getDateOfBirth().get(Calendar.DATE) + "/" + (getDateOfBirth().get(Calendar.MONTH) + 1) + "/" + getDateOfBirth().get(Calendar.YEAR);
     }
 
     //DateReConvert
@@ -112,7 +111,7 @@ public class Staff {
         int date = Integer.parseInt(times[0]);
         int month = Integer.parseInt(times[1]);
         int year = Integer.parseInt(times[2]);
-        newCalendar.set(year+0, month - 1 , date+0);
+        newCalendar.set(year, month - 1 , date);
         setDateOfBirth(newCalendar);
     }
 

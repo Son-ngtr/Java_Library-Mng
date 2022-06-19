@@ -17,7 +17,7 @@ public class Book_Psychology extends Book{
     }
 
     //Getter and Setter
-    public String getType() {
+    public String psychologyGetType() {
         return type;
     }
 
@@ -26,7 +26,7 @@ public class Book_Psychology extends Book{
         this.type = type;
     }
 
-    public String getRecommentForAge() {
+    public String psychologyGetRecommentForAge() {
         return recommentForAge;
     }
 
@@ -39,16 +39,17 @@ public class Book_Psychology extends Book{
     public int psychologyCode(){
         return typeCode;
     }
+    public void psychologySetCode(int typeCode){
+        this.typeCode = typeCode;
+    }
 
     //Psychology Type
     public String[] psychologyType(){
-        String[] type = {"Awareness", "Behavior", "Criminal"};
-        return type;
+        return new String[]{"Awareness", "Behavior", "Criminal"};
     }
 
     //Psychology RecommentForAge
     public String[] psychologyRecommentForAge(){
-        String[] recommentForAge = {"6->10", "11->16", "16->18", "18+"};
-        return recommentForAge;
+        return new String[]{"6->10", "11->16", "16->18", "18+"};
     }
 }

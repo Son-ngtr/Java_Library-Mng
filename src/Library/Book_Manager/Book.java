@@ -95,8 +95,7 @@ public class Book {
 
     //Date convert
     public String dateConvert(){
-        String date = getDateAdded().get(Calendar.DATE) + "/" + (getDateAdded().get(Calendar.MONTH) + 1) + "/" + getDateAdded().get(Calendar.YEAR);
-        return date;
+        return getDateAdded().get(Calendar.DATE) + "/" + (getDateAdded().get(Calendar.MONTH) + 1) + "/" + getDateAdded().get(Calendar.YEAR);
     }
 
     //DateReConvert
@@ -106,7 +105,7 @@ public class Book {
         int date = Integer.parseInt(times[0]);
         int month = Integer.parseInt(times[1]);
         int year = Integer.parseInt(times[2]);
-        newCalendar.set(year+0, month - 1 , date+0);
+        newCalendar.set(year, month - 1 , date);
         setDateAdded(newCalendar);
     }
 
@@ -125,6 +124,12 @@ public class Book {
     }
 
     //Book Child Methods
+    public String childGetType() {
+        return "";
+    }
+    public String childGetRecommentForAge() {
+        return "";
+    }
     public void childSetType(String type) {
 
     }
@@ -134,16 +139,23 @@ public class Book {
     public int childCode(){
         return 0;
     }
+    public void childSetCode(int typeCode){
+
+    }
     public String[] childType(){
-        String a[] = {};
-        return a;
+        return new String[]{};
     }
     public String[] childRecommentForAge(){
-        String a[] = {};
-        return a;
+        return new String[]{};
     }
 
     //Book Learning Methods
+    public String learningGetEducation() {
+        return "";
+    }
+    public String learningGetEducation_subjects() {
+        return "";
+    }
     public void learningSetEducation(String education) {
 
     }
@@ -153,34 +165,49 @@ public class Book {
     public int learningCode(){
         return 0;
     }
+    public void leaningSetCode(int typeCode){
+
+    }
     public String[] learningEducation(){
-        String a[] = {};
-        return a;
+        return new String[]{};
     }
     public String[] learningEducaitionType(){
-        String a[] = {};
-        return a;
+        return new String[]{};
     }
 
     //Book Novel Methods
-    public void novalSetType(String type) {
+    public String novelGetType() {
+        return "";
     }
-    public void novalSetAgeLimited(String ageLimited) {
+    public String novalGetAgeLimited() {
+        return "";
+    }
+    public void novalSetType(String type) {
+
+    }
+    public void novelSetAgeLimited(String ageLimited) {
 
     }
     public int novelCode(){
         return 0;
     }
+    public void novelSetCode(int typeCode){
+
+    }
     public String[] novelType(){
-        String a[] = {};
-        return a;
+        return new String[]{};
     }
     public String[] novelAgeLimited(){
-        String a[] = {};
-        return a;
+        return new String[]{};
     }
 
     //Book Psychology Methods
+    public String psychologyGetType() {
+        return "";
+    }
+    public String psychologyGetRecommentForAge() {
+        return "";
+    }
     public void psychologySetType(String type) {
 
     }
@@ -190,12 +217,13 @@ public class Book {
     public int psychologyCode(){
         return 0;
     }
+    public void psychologySetCode(int typeCode){
+
+    }
     public String[] psychologyType(){
-        String a[] = {};
-        return a;
+        return new String[]{};
     }
     public String[] psychologyRecommentForAge(){
-        String a[] = {};
-        return a;
+        return new String[]{};
     }
 }

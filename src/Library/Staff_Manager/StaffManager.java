@@ -19,19 +19,32 @@ public class StaffManager extends Check {
     }
 
     //Staff List
-    private ArrayList<Staff> staffs = new ArrayList<>();
+    private final ArrayList<Staff> staffs = new ArrayList<>();
 
     //Staff Header
+    public String[] staffContent(){
+        return new String[]{"ID", "Name", "Gender", "Date Of Birth", "Address", "Phone Number", "Position", "Salary", "Attendance"};
+    }
+
+    //Staff Category
     public String[] staffCategory(){
-        String staffCategory[] = {"ID", "Name", "Gender", "Date Of Birth", "Address", "Phone Number", "Position", "Salary", "Attendance"};
-        return staffCategory;
+        return new String[]{"Sanitation worker", "Treasurer"};
+    }
+
+    //Staff Gender
+    public String[] staffGender(){
+        return new String[]{"Male", "Female", "Other"};
+    }
+
+    //Staff Attendence
+    public String[] staffAttendence(){
+        return new String[]{"None", "Attendance", "Absent", "Late", "Leave of Absence Letter" , "Quit"};
     }
 
     //Create a Staff
-    public Staff createStaff(String name, String gender, Calendar dateOfBirth, String address, String phoneNumber, String staff, Long salary, boolean attendace){
+    public Staff createStaff(String name, String gender, Calendar dateOfBirth, String address, String phoneNumber, String staff, Long salary, String attendace){
         codeCount++;
-        Staff staff1 = new Staff(codeCount, name, gender, dateOfBirth, address, phoneNumber, staff , salary, attendace);
-        return staff1;
+        return new Staff(codeCount, name, gender, dateOfBirth, address, phoneNumber, staff , salary, attendace);
     }
 
     //Add Staff
@@ -76,7 +89,7 @@ public class StaffManager extends Check {
                         mainObj[count][i] = staff.moneyConvert();
                         break;
                     case 8:
-                        mainObj[count][i] = staff.isAttendace() ? "true" : "false";
+                        mainObj[count][i] = staff.getAttendace();
                     default:
                         break;
                 }
@@ -105,39 +118,17 @@ public class StaffManager extends Check {
     public void editStaff(String code, int col, String value){
         for (Staff staff: staffs){
             if(Integer.toString(staff.getId()).equalsIgnoreCase(code.trim())){
-                switch (col){
-                    case 1:
-                        staff.setName(value);
-                        break;
-                    case 2:
-                        staff.setGender(value);
-                        break;
-                    case 3:
-                        staff.dateReConvert(value);
-                        break;
-                    case 4:
-                        staff.setAddress(value);
-                        break;
-                    case 5:
-                        staff.setPhoneNumber(value);
-                        break;
-                    case 6:
-                        staff.setStaff(value);
-                        break;
-                    case 7:
-                        staff.setSalary(Long.parseLong(value));
-                        break;
-                    case 8:
-                        boolean b;
-                        if (value.equalsIgnoreCase("true")){
-                            b = true;
-                        }else {
-                            b = false;
-                        }
-                        staff.setAttendace(b);
-                        break;
-                    default:
-                        break;
+                switch (col) {
+                    case 1 -> staff.setName(value);
+                    case 2 -> staff.setGender(value);
+                    case 3 -> staff.dateReConvert(value);
+                    case 4 -> staff.setAddress(value);
+                    case 5 -> staff.setPhoneNumber(value);
+                    case 6 -> staff.setStaff(value);
+                    case 7 -> staff.setSalary(Long.parseLong(value));
+                    case 8 -> staff.setAttendace(value);
+                    default -> {
+                    }
                 }
             }
         }

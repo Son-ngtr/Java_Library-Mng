@@ -6,9 +6,7 @@ public class Check {
     public boolean isInteger(String s) {
         try {
             Integer.parseInt(s);
-        } catch(NumberFormatException e) {
-            return false;
-        } catch(NullPointerException e) {
+        } catch(NumberFormatException | NullPointerException e) {
             return false;
         }
         return true;
@@ -71,32 +69,12 @@ public class Check {
         }
     }
 
-    //Kiểm tra có phải money không
-    public boolean moneyCheck(String money){
-        String s = "";
-        if(money.length() == 0){
-            return false;
-        }
-        for (int i=0; i<money.length() ; i++){
-            char a = money.charAt(i);
-            if(Character.compare(a, '.') != 0 && Character.compare(a, 'v') != 0 && Character.compare(a, 'n') != 0 && Character.compare(a, 'd') != 0 && Character.compare(a, '.') != 0 && Character.compare(a, 'V') != 0 && Character.compare(a, 'N') != 0 && Character.compare(a, 'D') != 0){
-                s += a;
-            }
-        }
-        try {
-            Long.parseLong(s);
-        }catch (NumberFormatException e){
-            return false;
-        }catch (NullPointerException e){
-            return false;
-        }
-        return true;
-    }
+    //Money Convert
     public String moneyConvert(String money){
         String s ="";
         for (int i=0; i<money.length() ; i++){
             char a = money.charAt(i);
-            if(Character.compare(a, '.') != 0 && Character.compare(a, 'v') != 0 && Character.compare(a, 'n') != 0 && Character.compare(a, 'd') != 0 && Character.compare(a, '.') != 0 && Character.compare(a, 'V') != 0 && Character.compare(a, 'N') != 0 && Character.compare(a, 'D') != 0){
+            if(a != 'v' && a != 'n' && a != 'd' && a != '.' && a != 'V' && a != 'N' && a != 'D'){
                 s += a;
             }
         }
@@ -105,7 +83,7 @@ public class Check {
 
     //Kiểm tra có phải phép tính không
     public String[] mathAnalysis(String math){
-        String result[] = new String[2];
+        String[] result = new String[2];
         result[0] = "";
         result[1] = "+";
         for (int i=0; i<math.length() ; i++){
@@ -120,7 +98,7 @@ public class Check {
                     result[0] += " ";
                     break;
                 default:
-                    if(Character.compare(a, '0') >= 0 && Character.compare(a, '9') <= 0){
+                    if(a >= '0' && a <= '9'){
                         result[0] += a;
                     }
                     break;
@@ -129,10 +107,10 @@ public class Check {
         return result;
     }
     public boolean mathCheck(String[] analysisResult){
-        String s1[] = analysisResult[0].trim().split(" ");
-        String s2[] = analysisResult[1].split("");
+        String[] s1 = analysisResult[0].trim().split(" ");
+        String[] s2 = analysisResult[1].split("");
 
-        if (s1.length != s2.length || analysisResult[0].trim() == ""){
+        if (s1.length != s2.length || analysisResult[0].trim().equals("")){
             return false;
         }
 
@@ -141,27 +119,16 @@ public class Check {
     public String matConvert(String[] analysisResult){
         long result = 0;
 
-        String s1[] = analysisResult[0].split(" ");
-        String s2[] = analysisResult[1].split("");
+        String[] s1 = analysisResult[0].split(" ");
+        String[] s2 = analysisResult[1].split("");
 
         for (int i=0 ; i<s2.length;i++){
-            switch (s2[i]){
-                case "+":
-                    result = result + Long.parseLong(s1[i]);
-                    break;
-                case "-":
-                    result = result - Long.parseLong(s1[i]);
-                    break;
-                case "x":
-                    result = result * Long.parseLong(s1[i]);
-                    break;
-                case "*":
-                    result = result * Long.parseLong(s1[i]);
-                    break;
-                case "/":
-                    result = result / Long.parseLong(s1[i]);
-                    break;
-
+            switch (s2[i]) {
+                case "+" -> result = result + Long.parseLong(s1[i]);
+                case "-" -> result = result - Long.parseLong(s1[i]);
+                case "x" -> result = result * Long.parseLong(s1[i]);
+                case "*" -> result = result * Long.parseLong(s1[i]);
+                case "/" -> result = result / Long.parseLong(s1[i]);
             }
         }
         if(result < 0){

@@ -1,6 +1,8 @@
 package Library_UI.Lib_UI;
 
 
+import Library.Book_Manager.BookManager;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.Color;
@@ -8,6 +10,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.Calendar;
 import javax.swing.JFrame;
 
 public class Lobby_UI {
@@ -144,6 +147,26 @@ public class Lobby_UI {
             public void mouseClicked(MouseEvent e) {
                 new ManageBook_UI();
                 main_Frame.dispose();
+                BookManager bookManager = new BookManager();
+                Calendar calendar = Calendar.getInstance();
+                calendar.set(2020, 10, 10);
+                bookManager.addBookChild(bookManager.createBookChild("Quang", calendar, 1000L, "Son", "Dfsd", 10, "Classic", "6->10"));
+                bookManager.addBookChild(bookManager.createBookChild("Phong", calendar, 1000L, "Son", "Dfsd", 10, "Classic", "6->10"));
+                bookManager.addBookChild(bookManager.createBookChild("Toan", calendar, 1000L, "Son", "Dfsd", 10, "Classic", "6->10"));
+                calendar.set(2020, 11, 20);
+                bookManager.addBookLearning(bookManager.createBookLearning("Shark", calendar, 1000L, "Sn", "Dfsdf", 10, "High School", "Math"));
+                bookManager.addBookLearning(bookManager.createBookLearning("Meme", calendar, 1000L, "Sn", "Dfsdf", 10, "High School", "Math"));
+                bookManager.addBookLearning(bookManager.createBookLearning("Leesin", calendar, 1000L, "Sn", "Dfsdf", 10, "High School", "Math"));
+                calendar.set(2020, 1, 9);
+                bookManager.addBookPsychology(bookManager.createBookPsychology("Babe", calendar, 1000L, "Sn", "Dfsdf", 10, "Criminal", "11->16"));
+                bookManager.addBookPsychology(bookManager.createBookPsychology("Babe shark", calendar, 1000L, "Sn", "Dfsdf", 10, "Criminal", "11->16"));
+                bookManager.addBookPsychology(bookManager.createBookPsychology("Babe Sister", calendar, 1000L, "Sn", "Dfsdf", 10, "Criminal", "11->16"));
+                calendar.set(2020, 4, 1);
+                bookManager.addBookNovel(bookManager.createBookNovel("Duong", calendar, 1000L, "Sn", "Dfsdf", 10, "Science Fictiong", "11->16"));
+                bookManager.addBookNovel(bookManager.createBookNovel("Duoc", calendar, 1000L, "Sn", "Dfsdf", 10, "Science Fictiong", "11->16"));
+                bookManager.addBookNovel(bookManager.createBookNovel("Dung", calendar, 1000L, "Sn", "Dfsdf", 10, "Science Fictiong", "11->16"));
+
+                ManageBook_UI manageBook_ui = new ManageBook_UI(bookManager);
             }
 
             @Override

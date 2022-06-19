@@ -1,10 +1,23 @@
 package Library_UI.Lib_UI;
 
+import Library.Book_Manager.BookManager;
+import Library.Staff_Manager.StaffManager;
+import Library.User_Manager.UserManager;
+import Library_UI.Funtion.Addbook_UI;
+
 import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.Calendar;
 
 public class ManageUser_UI {
     private JFrame main_Frame;
@@ -14,6 +27,28 @@ public class ManageUser_UI {
     private JTextField txt_Group;
     private JButton logIn;
     private JPanel inFo;
+    private JTable jt;
+    private DefaultTableModel defaultTableModel;
+    private UserManager userManager= new UserManager();
+    private JComboBox cb = new JComboBox(userManager.userGender());
+
+    public void createTableExample(){
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(2020, 10, 10);
+        userManager.addUser(userManager.createUser("Quang", "Male", calendar, "sdfsdf", "dsfsd", "dsfsd", calendar, calendar, 1000L));
+        userManager.addUser(userManager.createUser("Phong", "Other", calendar, "sdfsdf", "dsfsd", "dsfsd", calendar, calendar, 1000L));
+        userManager.addUser(userManager.createUser("Hai", "Female", calendar, "sdfsdf", "dsfsd", "dsfsd", calendar, calendar, 1000L));
+        userManager.addUser(userManager.createUser("Duong", "Male", calendar, "sdfsdf", "dsfsd", "dsfsd", calendar, calendar, 1000L));
+    }
+
+    //Table reset
+    public void tableReset(){
+        userManager.setIsUpdate(true);
+        defaultTableModel.setDataVector(userManager.listUser(), userManager.userContent());
+        jt.getColumnModel().getColumn(2).setCellEditor(new DefaultCellEditor(cb));
+        userManager.setIsUpdate(false);
+    }
+
     public ManageUser_UI(){
         ImageIcon bk_Icon = new ImageIcon("src/Image_Icon/background/_Reader_UI_.png");
         label = new JLabel(bk_Icon);
@@ -148,7 +183,9 @@ public class ManageUser_UI {
         bt_add.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-//                new addBook_UI();
+//                Addbook_UI addBook = new Addbook_UI();
+//                addBook.setManagerUser(main_Frame, userManager, defaultTableModel, jt);
+//                main_Frame.setEnabled(false);
             }
 
             @Override
@@ -183,7 +220,10 @@ public class ManageUser_UI {
         bt_remove.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-
+                if(jt.getSelectedRow() != -1){
+                    userManager.removeUser(String.valueOf(jt.getValueAt(jt.getSelectedRow(), 0)));
+                    tableReset();
+                }
             }
 
             @Override
@@ -245,11 +285,26 @@ public class ManageUser_UI {
         });
 
 // create table content
-        String[][] tableData = {{"01", "Aokiji", "Male", "21/9/1790", "Ice land","+81 081 2890", "Hie.Aokiji@gmail.com", "13/6/2022", "25/12/2022"}};
+        //Search Field
+        JTextField bookFilter = new JTextField("  ",20);
+        bookFilter.setBounds(400, 130, 1330, 35);
+        Font filterFont = new Font("Arial", Font.PLAIN, 20);
+        bookFilter.setFont(filterFont);
+        bookFilter.setBackground(Color_left);
+        bookFilter.setBorder(BorderFactory.createLineBorder(Color_me));
+        bookFilter.setForeground(Color_me);
 
-        String[] tableColumn = {"ID", "NAME", "GENDER", "YEAR.BORN", "ADDRESS", "PHONE.NB", "EMAIL", "EXP.DATE", "REGIS.DATE"};
-
-        JTable jt = new JTable(tableData, tableColumn);
+        //Table
+        createTableExample();
+        defaultTableModel = new DefaultTableModel(userManager.listUser(), userManager.userContent());
+        jt = new JTable(defaultTableModel){
+            public boolean isCellEditable(int row, int column) {
+                if (column == 0) return false;
+                return true;
+            }
+        };
+        jt.getTableHeader().setReorderingAllowed(false);
+        jt.getColumnModel().getColumn(2).setCellEditor(new DefaultCellEditor(cb));
         jt.setFont(Font_Table);
         jt.setGridColor(Color_ForeG);
         jt.setBackground(Color_me);
@@ -262,11 +317,143 @@ public class ManageUser_UI {
 
 
         JScrollPane Jsc = new JScrollPane(jt);
-        Jsc.setBounds(400, 130, 1330, 710);
+        Jsc.setBounds(400, 165, 1330, 710);
         Jsc.setForeground(Color_me);
         Jsc.setFont(Font_Table);
 
+        //Table Search
+        TableRowSorter<TableModel> rowSorter = new TableRowSorter<>(jt.getModel());
+        jt.setRowSorter(rowSorter);
+        bookFilter.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                String text = bookFilter.getText().trim();
+                if(text.length() == 0){
+                    rowSorter.setRowFilter(null);
+                }else {
+                    rowSorter.setRowFilter(RowFilter.regexFilter("(?i)" + text));
+                }
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                String text = bookFilter.getText().trim();
+                if(text.length() == 0){
+                    rowSorter.setRowFilter(null);
+                }else {
+                    rowSorter.setRowFilter(RowFilter.regexFilter("(?i)" + text));
+                }
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+
+            }
+        });
+
+        //Table Fĩx
+        jt.getModel().addTableModelListener(new TableModelListener() {
+            @Override
+            public void tableChanged(TableModelEvent e) {
+                if(!userManager.getIsUpdate()){
+                    String codeValue = String.valueOf(jt.getValueAt(jt.getSelectedRow(), 0)).trim();
+                    String newValue = String.valueOf(jt.getValueAt(jt.getSelectedRow(), jt.getSelectedColumn())).trim();
+                    switch (jt.getSelectedColumn()){
+                        case 1:
+                            if(!userManager.getIsUpdate()){
+                                if(newValue.trim().length() > 0){
+                                    userManager.editUser(codeValue, jt.getSelectedColumn(), newValue);
+                                }else {
+                                    JOptionPane.showMessageDialog(null, "Tên phải được đưa vào ở dạng chuỗi và có nhiều hơn 1 kí tự");
+                                    tableReset();
+                                }
+                            }
+                            break;
+                        case 2:
+                            if(!userManager.getIsUpdate()){
+                                if(newValue.trim().length() > 0){
+                                    userManager.editUser(codeValue, jt.getSelectedColumn(), newValue);
+                                }
+                            }
+                            break;
+                        case 3:
+                            if(!userManager.getIsUpdate()){
+                                if(newValue.trim().length() > 0 && userManager.isDateOrNot(newValue)){
+                                    userManager.editUser(codeValue, jt.getSelectedColumn(), newValue);
+                                }else {
+                                    JOptionPane.showMessageDialog(null, "Thông tin phải được nhập dưới dạng d/m/y và tồn tại thời điểm nhập");
+                                    tableReset();
+                                }
+                            }
+                            break;
+                        case 4:
+                            if(!userManager.getIsUpdate()){
+                                if(newValue.trim().length() > 0 ){
+                                    userManager.editUser(codeValue, jt.getSelectedColumn(), newValue);
+                                }else {
+                                    JOptionPane.showMessageDialog(null, "Địa chỉ");
+                                    tableReset();
+                                }
+                            }
+                            break;
+                        case 5:
+                            if(!userManager.getIsUpdate()){
+                                if(newValue.trim().length() > 0 ){
+                                    userManager.editUser(codeValue, jt.getSelectedColumn(), newValue);
+                                }else {
+                                    JOptionPane.showMessageDialog(null, "SDT");
+                                    tableReset();
+                                }
+                            }
+                            break;
+                        case 6:
+                            if(!userManager.getIsUpdate()){
+                                if(newValue.trim().length() > 0 ){
+                                    userManager.editUser(codeValue, jt.getSelectedColumn(), newValue);
+                                }else {
+                                    JOptionPane.showMessageDialog(null, "Gmail");
+                                    tableReset();
+                                }
+                            }
+                            break;
+                        case 7:
+                            if(!userManager.getIsUpdate()){
+                                if(newValue.trim().length() > 0 && userManager.isDateOrNot(newValue)){
+                                    userManager.editUser(codeValue, jt.getSelectedColumn(), newValue);
+                                }else {
+                                    JOptionPane.showMessageDialog(null, "Thông tin phải được nhập dưới dạng d/m/y và tồn tại thời điểm nhập");
+                                    tableReset();
+                                }
+                            }
+                            break;
+                        case 8:
+                            if(!userManager.getIsUpdate()){
+                                if(newValue.trim().length() > 0 && userManager.isDateOrNot(newValue)){
+                                    userManager.editUser(codeValue, jt.getSelectedColumn(), newValue);
+                                }else {
+                                    JOptionPane.showMessageDialog(null, "Thông tin phải được nhập dưới dạng d/m/y và tồn tại thời điểm nhập");
+                                    tableReset();
+                                }
+                            }
+                            break;
+                        case 9:
+                            if(!userManager.getIsUpdate()){
+                                if(newValue.trim().length() > 0 && userManager.mathCheck(userManager.mathAnalysis(newValue))){
+                                    userManager.editUser(codeValue, jt.getSelectedColumn(), userManager.moneyConvert(userManager.matConvert(userManager.mathAnalysis(newValue))) );
+                                    tableReset();
+                                }else {
+                                    JOptionPane.showMessageDialog(null, "Số lượng sách phải được nhập dưới dạng number(int)");
+                                    tableReset();
+                                }
+                            }
+                            break;
+                    }
+                }
+            }
+        });
+
 // add all properties on UI
+        label.add(bookFilter);
         label.add(Jsc);
         label.add(brand);
         label.add(txt_Group);

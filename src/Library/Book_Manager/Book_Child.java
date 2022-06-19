@@ -20,7 +20,7 @@ public class Book_Child extends Book{
     }
 
     //Getter and Setter
-    public String getType() {
+    public String childGetType() {
         return type;
     }
 
@@ -28,7 +28,7 @@ public class Book_Child extends Book{
         this.type = type;
     }
 
-    public String getRecommentForAge() {
+    public String childGetRecommentForAge() {
         return recommentForAge;
     }
 
@@ -40,16 +40,17 @@ public class Book_Child extends Book{
     public int childCode(){
         return typeCode;
     }
+    public void childSetCode(int typeCode){
+        this.typeCode = typeCode;
+    }
 
     //ChildType
     public String[] childType(){
-        String[] type = {"Classic", "Modern"};
-        return type;
+        return new String[]{"Classic", "Modern"};
     }
 
     //ChildRecommentForAge
     public String[] childRecommentForAge(){
-        String[] recommentForAge = {"6->10", "11->16", "16+"};
-        return recommentForAge;
+        return new String[]{"6->10", "11->16", "16+"};
     }
 }

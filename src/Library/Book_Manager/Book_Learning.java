@@ -20,7 +20,7 @@ public class Book_Learning extends Book{
     }
 
     //Getter and Setter
-    public String getEducation() {
+    public String learningGetEducation() {
         return education;
     }
 
@@ -28,7 +28,7 @@ public class Book_Learning extends Book{
         this.education = education;
     }
 
-    public String getEducation_subjects() {
+    public String learningGetEducation_subjects() {
         return education_subjects;
     }
 
@@ -40,16 +40,17 @@ public class Book_Learning extends Book{
     public int learningCode(){
         return typeCode;
     }
+    public void leaningSetCode(int typeCode){
+        this.typeCode = typeCode;
+    }
 
     //Education
     public String[] learningEducation(){
-        String education[] = {"Kindergarten", "Primary School", "Secondary School", "High School", "College"};
-        return education;
+        return new String[]{"Kindergarten", "Primary School", "Secondary School", "High School", "College"};
     }
 
     //Education Type
     public String[] learningEducaitionType(){
-        String[] education_subjects = {"Math", "Psychic", "Chemistry", "History", "Literary", "English", "Japanese", "Chinese", "Biological"};
-        return education_subjects;
+        return new String[]{"Math", "Psychic", "Chemistry", "History", "Literary", "English", "Japanese", "Chinese", "Biological"};
     }
 }

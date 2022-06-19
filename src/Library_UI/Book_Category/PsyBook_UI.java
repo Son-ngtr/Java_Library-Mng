@@ -1,21 +1,63 @@
 package Library_UI.Book_Category;
 
+import Library.Book_Manager.BookManager;
 import Library_UI.Funtion.Addbook_UI;
+import Library_UI.Lib_UI.ManageBook_UI;
 
 import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.Calendar;
 
 public class PsyBook_UI {
+    //Constructor
+    public PsyBook_UI(BookManager bookManager){
+        this.bookManager = bookManager;
+        cbBookType = new JComboBox(bookManager.bookCategory());
+        cbPsychologyType = new JComboBox(bookManager.psychologyType());
+        cbPsychologyForAge = new JComboBox(bookManager.psychologyRecommentForAge());
+        Content();
+    }
+
     private JFrame main_Frame;
     private ImageIcon bk_Icon;
     private JLabel label, notification_Label, logout_Label, exit_Label;
     private JButton bt_add, bt_remove, bt_search;
     private JTextField txt_Group;
     private JLabel brand;
-    public PsyBook_UI(){
+    private JTable jt;
+    private DefaultTableModel defaultTableModel;
+    private BookManager bookManager;
+    private JComboBox cbBookType;
+    private JComboBox cbPsychologyType;
+    private JComboBox cbPsychologyForAge ;
+
+
+    //Table add Combobox and CheckBox
+    public void tableAddCombobox(){
+        jt.getColumnModel().getColumn(6).setCellEditor(new DefaultCellEditor(cbBookType));
+        jt.getColumnModel().getColumn(8).setCellEditor(new DefaultCellEditor(cbPsychologyType));
+        jt.getColumnModel().getColumn(9).setCellEditor(new DefaultCellEditor(cbPsychologyForAge));
+    }
+
+    //Table reset
+    public void tableReset(){
+        bookManager.setIsUpdate(true);
+        defaultTableModel.setDataVector(bookManager.listBookPsychology(), bookManager.bookContentPsychology());
+        tableAddCombobox();
+        bookManager.setIsUpdate(false);
+    }
+
+    public void Content(){
         ImageIcon bk_Icon = new ImageIcon("src/Image_Icon/background/_psyBook_UI_.png");
         label = new JLabel(bk_Icon);
         label.setSize(1794,956);
@@ -118,7 +160,7 @@ public class PsyBook_UI {
         left_Label.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                new ChildrenBook_UI();
+                Novel_UI novel_ui = new Novel_UI(bookManager);
                 main_Frame.dispose();
             }
 
@@ -150,7 +192,12 @@ public class PsyBook_UI {
         right_Label.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
+<<<<<<< HEAD
                 JOptionPane.showMessageDialog(null, "none page next");
+=======
+                ManageBook_UI manageBook_ui = new ManageBook_UI(bookManager);
+                main_Frame.dispose();
+>>>>>>> Quang
             }
 
             @Override
@@ -210,7 +257,9 @@ public class PsyBook_UI {
         bt_add.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                new Addbook_UI();
+//                Addbook_UI addBook = new Addbook_UI();
+//                addBook.setManagerUser(main_Frame, staffManager, defaultTableModel, jt);
+//                main_Frame.setEnabled(false);
             }
 
             @Override
@@ -245,6 +294,10 @@ public class PsyBook_UI {
         bt_remove.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
+                if(jt.getSelectedRow() != -1){
+                    bookManager.removeBookPsychology(String.valueOf(jt.getValueAt(jt.getSelectedRow(), 0)));
+                    tableReset();
+                }
 
             }
 
@@ -307,11 +360,25 @@ public class PsyBook_UI {
         });
 
 // create table content
-        String[][] tableData = {{"01", "Conan", "13/6/2022", "20.000", "Gosho Aoyama", "Kim Dong", "Anime", "123" }};
+        //Search Field
+        JTextField bookFilter = new JTextField("  ",20);
+        bookFilter.setBounds(400, 130, 1330, 35);
+        Font filterFont = new Font("Arial", Font.PLAIN, 20);
+        bookFilter.setFont(filterFont);
+        bookFilter.setBackground(Color_left);
+        bookFilter.setBorder(BorderFactory.createLineBorder(Color_me));
+        bookFilter.setForeground(Color_me);
 
-        String[] tableColumn = {"ID", "NAME", "DATE ADDED", "PRICE", "AUTHOR", "PUBLISHER", "CATEGORY", "QUANTITY"};
-
-        JTable jt = new JTable(tableData, tableColumn);
+        //Table
+        defaultTableModel = new DefaultTableModel(bookManager.listBookPsychology(), bookManager.bookContentPsychology());
+        jt = new JTable(defaultTableModel){
+            public boolean isCellEditable(int row, int column) {
+                if (column == 0 || column == 6) return false;
+                return true;
+            }
+        };
+        jt.getTableHeader().setReorderingAllowed(false);
+        tableAddCombobox();
         jt.setFont(Font_Table);
         jt.setGridColor(Color_ForeG);
         jt.setBackground(Color_me);
@@ -324,11 +391,139 @@ public class PsyBook_UI {
 
 
         JScrollPane Jsc = new JScrollPane(jt);
-        Jsc.setBounds(400, 130, 1330, 710);
+        Jsc.setBounds(400, 165, 1330, 710);
         Jsc.setForeground(Color_me);
         Jsc.setFont(Font_Table);
 
+        //Table Search
+        TableRowSorter<TableModel> rowSorter = new TableRowSorter<>(jt.getModel());
+        jt.setRowSorter(rowSorter);
+        bookFilter.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                String text = bookFilter.getText().trim();
+                if(text.length() == 0){
+                    rowSorter.setRowFilter(null);
+                }else {
+                    rowSorter.setRowFilter(RowFilter.regexFilter("(?i)" + text));
+                }
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                String text = bookFilter.getText().trim();
+                if(text.length() == 0){
+                    rowSorter.setRowFilter(null);
+                }else {
+                    rowSorter.setRowFilter(RowFilter.regexFilter("(?i)" + text));
+                }
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+
+            }
+        });
+
+        //Table Fĩx
+        jt.getModel().addTableModelListener(new TableModelListener() {
+            @Override
+            public void tableChanged(TableModelEvent e) {
+                if(!bookManager.getIsUpdate()){
+                    String codeValue = String.valueOf(jt.getValueAt(jt.getSelectedRow(), 0)).trim();
+                    String newValue = String.valueOf(jt.getValueAt(jt.getSelectedRow(), jt.getSelectedColumn())).trim();
+                    switch (jt.getSelectedColumn()){
+                        case 1:
+                            if(!bookManager.getIsUpdate()){
+                                if(newValue.trim().length() > 0){
+                                    bookManager.editBookPsychology(codeValue, jt.getSelectedColumn(), newValue);
+                                }else {
+                                    JOptionPane.showMessageDialog(null, "Tên phải được đưa vào ở dạng chuỗi và có nhiều hơn 1 kí tự");
+                                    tableReset();
+                                }
+                            }
+                            break;
+                        case 2:
+                            if(!bookManager.getIsUpdate()){
+                                if(newValue.trim().length() > 0 && bookManager.isDateOrNot(newValue)){
+                                    bookManager.editBookPsychology(codeValue, jt.getSelectedColumn(), newValue);
+                                    tableReset();
+                                }else {
+                                    JOptionPane.showMessageDialog(null, "Thông tin phải được nhập dưới dạng d/m/y và tồn tại thời điểm nhập");
+                                    tableReset();
+                                }
+                            }
+                            break;
+                        case 3:
+                            if(!bookManager.getIsUpdate()){
+                                if(newValue.trim().length() > 0 && bookManager.mathCheck(bookManager.mathAnalysis(newValue))){
+                                    bookManager.editBookPsychology(codeValue, jt.getSelectedColumn(), bookManager.moneyConvert(bookManager.matConvert(bookManager.mathAnalysis(newValue))) );
+                                    tableReset();
+                                }else {
+                                    JOptionPane.showMessageDialog(null, "Số lượng sách phải được nhập dưới dạng number(int)");
+                                    tableReset();
+                                }
+                            }
+                            break;
+                        case 4:
+                            if(!bookManager.getIsUpdate()){
+                                if(newValue.trim().length() > 0 ){
+                                    bookManager.editBookPsychology(codeValue, jt.getSelectedColumn(), newValue);
+                                }else {
+                                    JOptionPane.showMessageDialog(null, "Tác Giả");
+                                    tableReset();
+                                }
+                            }
+                            break;
+                        case 5:
+                            if(!bookManager.getIsUpdate()){
+                                if(newValue.trim().length() > 0 ){
+                                    bookManager.editBookPsychology(codeValue, jt.getSelectedColumn(), newValue);
+                                }else {
+                                    JOptionPane.showMessageDialog(null, "Phone Number");
+                                    tableReset();
+                                }
+                            }
+                            break;
+                        case 6:
+                            if(!bookManager.getIsUpdate()){
+                                if(newValue.trim().length() > 0 ){
+                                    bookManager.editBookPsychology(codeValue, jt.getSelectedColumn(), newValue);
+                                }
+                            }
+                            break;
+                        case 7:
+                            if(!bookManager.getIsUpdate()){
+                                if(newValue.trim().length() > 0 && bookManager.mathCheck(bookManager.mathAnalysis(newValue))){
+                                    bookManager.editBookPsychology(codeValue, jt.getSelectedColumn(), bookManager.matConvert(bookManager.mathAnalysis(newValue)));
+                                    tableReset();
+                                }else {
+                                    JOptionPane.showMessageDialog(null, "Số lượng sách phải được nhập dưới dạng number(int)");
+                                    tableReset();
+                                }
+                            }
+                            break;
+                        case 8:
+                            if(!bookManager.getIsUpdate()){
+                                if(newValue.trim().length() > 0 ){
+                                    bookManager.editBookPsychology(codeValue, jt.getSelectedColumn(), newValue);
+                                }
+                            }
+                            break;
+                        case 9:
+                            if(!bookManager.getIsUpdate()){
+                                if(newValue.trim().length() > 0 ){
+                                    bookManager.editBookPsychology(codeValue, jt.getSelectedColumn(), newValue);
+                                }
+                            }
+                            break;
+                    }
+                }
+            }
+        });
+
 // add all properties on UI
+        label.add(bookFilter);
         label.add(Jsc);
         label.add(brand);
         label.add(txt_Group);
@@ -353,7 +548,6 @@ public class PsyBook_UI {
     }
 
     public static void main(String[] args) {
-        new PsyBook_UI();
 
     }
 }

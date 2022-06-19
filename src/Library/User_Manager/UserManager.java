@@ -19,23 +19,26 @@ public class UserManager extends Check {
     }
 
     //Staff List
-    private ArrayList<User> users = new ArrayList<>();
+    private final ArrayList<User> users = new ArrayList<>();
 
     //User Header
-    public String[] userCategory(){
-        String staffCategory[] = {"ID", "Name", "Gender", "Date Of Birth", "Address", "Phone Number", "Email", "EXP.Date", "REGIS.Date", "Fine Money"};
-        return staffCategory;
+    public String[] userContent(){
+        return new String[]{"ID", "Name", "Gender", "Date Of Birth", "Address", "Phone Number", "Email", "EXP.Date", "REGIS.Date", "Fine Money"};
+    }
+
+    //User Gender
+    public String[] userGender(){
+        return new String[]{"Male", "Female", "Other"};
     }
 
     //Create a User
     public User createUser(String name, String gender, Calendar dateOfBirth, String address, String phoneNumber, String email, Calendar expDate, Calendar regisDate, Long moneyFine){
         codeCount++;
-        User user = new User(codeCount, name, gender, dateOfBirth, address, phoneNumber, email , expDate, regisDate, moneyFine);
-        return user;
+        return new User(codeCount, name, gender, dateOfBirth, address, phoneNumber, email , expDate, regisDate, moneyFine);
     }
 
     //Add User
-    public void addStaff(User user){
+    public void addUser(User user){
         users.add(user);
     }
 
@@ -50,39 +53,19 @@ public class UserManager extends Check {
         int count = 0;
         for (User user : users){
             for (int i=0; i<10; i++){
-                switch (i){
-                    case 0:
-                        mainObj[count][i] = String.valueOf(user.getId());
-                        break;
-                    case 1:
-                        mainObj[count][i] = user.getName();
-                        break;
-                    case 2:
-                        mainObj[count][i] = user.getGender();
-                        break;
-                    case 3:
-                        mainObj[count][i] = user.dateConvert(user.getDateOfBirth());
-                        break;
-                    case 4:
-                        mainObj[count][i] = user.getAddress();
-                        break;
-                    case 5:
-                        mainObj[count][i] = user.getPhoneNumber();
-                        break;
-                    case 6:
-                        mainObj[count][i] = user.getEmail();
-                        break;
-                    case 7:
-                        mainObj[count][i] = user.dateConvert(user.getExpDate());
-                        break;
-                    case 8:
-                        mainObj[count][i] = user.dateConvert(user.getRegisDate());
-                        break;
-                    case 9:
-                        mainObj[count][i] = user.moneyConvert();
-                        break;
-                    default:
-                        break;
+                switch (i) {
+                    case 0 -> mainObj[count][i] = String.valueOf(user.getId());
+                    case 1 -> mainObj[count][i] = user.getName();
+                    case 2 -> mainObj[count][i] = user.getGender();
+                    case 3 -> mainObj[count][i] = user.dateConvert(user.getDateOfBirth());
+                    case 4 -> mainObj[count][i] = user.getAddress();
+                    case 5 -> mainObj[count][i] = user.getPhoneNumber();
+                    case 6 -> mainObj[count][i] = user.getEmail();
+                    case 7 -> mainObj[count][i] = user.dateConvert(user.getExpDate());
+                    case 8 -> mainObj[count][i] = user.dateConvert(user.getRegisDate());
+                    case 9 -> mainObj[count][i] = user.moneyConvert();
+                    default -> {
+                    }
                 }
             }
             count++;
@@ -109,36 +92,18 @@ public class UserManager extends Check {
     public void editUser(String code, int col, String value){
         for (User user: users){
             if(Integer.toString(user.getId()).equalsIgnoreCase(code.trim())){
-                switch (col){
-                    case 1:
-                        user.setName(value);
-                        break;
-                    case 2:
-                        user.setGender(value);
-                        break;
-                    case 3:
-                        user.dateReConvert(value);
-                        break;
-                    case 4:
-                        user.setAddress(value);
-                        break;
-                    case 5:
-                        user.setPhoneNumber(value);
-                        break;
-                    case 6:
-                        user.setEmail(value);
-                        break;
-                    case 7:
-                        user.dateReConvert(value);
-                        break;
-                    case 8:
-                        user.dateReConvert(value);
-                        break;
-                    case 9:
-                        user.setMoneyFine(Long.parseLong(value));
-                        break;
-                    default:
-                        break;
+                switch (col) {
+                    case 1 -> user.setName(value);
+                    case 2 -> user.setGender(value);
+                    case 3 -> user.setDateOfBirth(user.dateReConvert(value));
+                    case 4 -> user.setAddress(value);
+                    case 5 -> user.setPhoneNumber(value);
+                    case 6 -> user.setEmail(value);
+                    case 7 -> user.setExpDate(user.dateReConvert(value));
+                    case 8 -> user.setRegisDate(user.dateReConvert(value));
+                    case 9 -> user.setMoneyFine(Long.parseLong(value));
+                    default -> {
+                    }
                 }
             }
         }
