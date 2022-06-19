@@ -433,8 +433,6 @@ public class Novel_UI {
                                 if(newValue.trim().length() > 0){
                                     bookManager.editBookNoval(codeValue, jt.getSelectedColumn(), newValue);
                                 }else {
-                                    int row = jt.getSelectedRow();
-                                    int col = jt.getSelectedColumn();
                                     JOptionPane.showMessageDialog(null, "Tên phải được đưa vào ở dạng chuỗi và có nhiều hơn 1 kí tự");
                                     tableReset();
                                 }
@@ -446,8 +444,6 @@ public class Novel_UI {
                                     bookManager.editBookNoval(codeValue, jt.getSelectedColumn(), newValue);
                                     tableReset();
                                 }else {
-                                    int row = jt.getSelectedRow();
-                                    int col = jt.getSelectedColumn();
                                     JOptionPane.showMessageDialog(null, "Thông tin phải được nhập dưới dạng d/m/y và tồn tại thời điểm nhập");
                                     tableReset();
                                 }
@@ -455,19 +451,12 @@ public class Novel_UI {
                             break;
                         case 3:
                             if(!bookManager.getIsUpdate()){
-                                if(newValue.trim().length() > 0 && bookManager.isLong(newValue)){
-                                    bookManager.editBookNoval(codeValue, jt.getSelectedColumn(), newValue);
+                                if(newValue.trim().length() > 0 && bookManager.mathCheck(bookManager.mathAnalysis(newValue))){
+                                    bookManager.editBookNoval(codeValue, jt.getSelectedColumn(), bookManager.moneyConvert(bookManager.matConvert(bookManager.mathAnalysis(newValue))) );
                                     tableReset();
                                 }else {
-                                    if(bookManager.moneyCheck(newValue)){
-                                        bookManager.editBookNoval(codeValue, jt.getSelectedColumn(), bookManager.moneyConvert(newValue));
-                                        tableReset();
-                                    }else {
-                                        int row = jt.getSelectedRow();
-                                        int col = jt.getSelectedColumn();
-                                        JOptionPane.showMessageDialog(null, "Lương phải được nhập dưới dạng (VD: 10000 or 10.000VND)");
-                                        tableReset();
-                                    }
+                                    JOptionPane.showMessageDialog(null, "Số lượng sách phải được nhập dưới dạng number(int)");
+                                    tableReset();
                                 }
                             }
                             break;
@@ -476,8 +465,6 @@ public class Novel_UI {
                                 if(newValue.trim().length() > 0 ){
                                     bookManager.editBookNoval(codeValue, jt.getSelectedColumn(), newValue);
                                 }else {
-                                    int row = jt.getSelectedRow();
-                                    int col = jt.getSelectedColumn();
                                     JOptionPane.showMessageDialog(null, "Tác Giả");
                                     tableReset();
                                 }
@@ -488,8 +475,6 @@ public class Novel_UI {
                                 if(newValue.trim().length() > 0 ){
                                     bookManager.editBookNoval(codeValue, jt.getSelectedColumn(), newValue);
                                 }else {
-                                    int row = jt.getSelectedRow();
-                                    int col = jt.getSelectedColumn();
                                     JOptionPane.showMessageDialog(null, "Phone Number");
                                     tableReset();
                                 }
@@ -508,8 +493,6 @@ public class Novel_UI {
                                     bookManager.editBookNoval(codeValue, jt.getSelectedColumn(), bookManager.matConvert(bookManager.mathAnalysis(newValue)));
                                     tableReset();
                                 }else {
-                                    int row = jt.getSelectedRow();
-                                    int col = jt.getSelectedColumn();
                                     JOptionPane.showMessageDialog(null, "Số lượng sách phải được nhập dưới dạng number(int)");
                                     tableReset();
                                 }

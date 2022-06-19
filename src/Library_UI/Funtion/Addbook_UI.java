@@ -52,7 +52,7 @@ public class Addbook_UI {
             inputCheck = false;
         }else
         {
-            if(txt_2.getText().trim().length() == 0 || !bookManager.moneyCheck(txt_2.getText().trim())){
+            if(txt_2.getText().trim().length() == 0 || !bookManager.mathCheck(bookManager.mathAnalysis(txt_2.getText().trim()))){
                 JOptionPane.showMessageDialog(null, "Thiếu thông tin tên giá hoặc nhập vào sai thông tin");
                 inputCheck = false;
             }  else
@@ -228,7 +228,7 @@ public class Addbook_UI {
 
 
 //                if (inputCheck){
-//                    createNewBook(txt_1.getText().trim(), Long.parseLong(bookManager.moneyConvert(txt_2.getText().trim())) , txt_3.getText().trim(), txt_4.getText().trim(), type , Integer.parseInt(bookManager.matConvert(bookManager.mathAnalysis(txt_6.getText().trim()))) );
+//                    createNewBook(txt_1.getText().trim(), Long.parseLong(bookManager.moneyConvert(bookManager.matConvert(bookManager.mathAnalysis(txt_2.getText().trim()))) , txt_3.getText().trim(), txt_4.getText().trim(), type , Integer.parseInt(bookManager.matConvert(bookManager.mathAnalysis(txt_6.getText().trim()))) );
 //                    txt_1.setText("");
 //                    txt_2.setText("");
 //                    txt_3.setText("");

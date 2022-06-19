@@ -46,13 +46,11 @@ public class Book_Child extends Book{
 
     //ChildType
     public String[] childType(){
-        String[] type = {"Classic", "Modern"};
-        return type;
+        return new String[]{"Classic", "Modern"};
     }
 
     //ChildRecommentForAge
     public String[] childRecommentForAge(){
-        String[] recommentForAge = {"6->10", "11->16", "16+"};
-        return recommentForAge;
+        return new String[]{"6->10", "11->16", "16+"};
     }
 }

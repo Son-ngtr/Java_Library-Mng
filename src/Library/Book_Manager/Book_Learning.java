@@ -46,13 +46,11 @@ public class Book_Learning extends Book{
 
     //Education
     public String[] learningEducation(){
-        String education[] = {"Kindergarten", "Primary School", "Secondary School", "High School", "College"};
-        return education;
+        return new String[]{"Kindergarten", "Primary School", "Secondary School", "High School", "College"};
     }
 
     //Education Type
     public String[] learningEducaitionType(){
-        String[] education_subjects = {"Math", "Psychic", "Chemistry", "History", "Literary", "English", "Japanese", "Chinese", "Biological"};
-        return education_subjects;
+        return new String[]{"Math", "Psychic", "Chemistry", "History", "Literary", "English", "Japanese", "Chinese", "Biological"};
     }
 }

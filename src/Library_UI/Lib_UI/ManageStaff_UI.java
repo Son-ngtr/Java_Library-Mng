@@ -370,8 +370,6 @@ public class ManageStaff_UI {
                                 if(newValue.trim().length() > 0){
                                     staffManager.editStaff(codeValue, jt.getSelectedColumn(), newValue);
                                 }else {
-                                    int row = jt.getSelectedRow();
-                                    int col = jt.getSelectedColumn();
                                     JOptionPane.showMessageDialog(null, "Tên phải được đưa vào ở dạng chuỗi và có nhiều hơn 1 kí tự");
                                     tableReset();
                                 }
@@ -390,8 +388,6 @@ public class ManageStaff_UI {
                                     staffManager.editStaff(codeValue, jt.getSelectedColumn(), newValue);
                                     tableReset();
                                 }else {
-                                    int row = jt.getSelectedRow();
-                                    int col = jt.getSelectedColumn();
                                     JOptionPane.showMessageDialog(null, "Thông tin phải được nhập dưới dạng d/m/y và tồn tại thời điểm nhập");
                                     tableReset();
                                 }
@@ -402,8 +398,6 @@ public class ManageStaff_UI {
                                 if(newValue.trim().length() > 0 ){
                                     staffManager.editStaff(codeValue, jt.getSelectedColumn(), newValue);
                                 }else {
-                                    int row = jt.getSelectedRow();
-                                    int col = jt.getSelectedColumn();
                                     JOptionPane.showMessageDialog(null, "Địa chỉ");
                                     tableReset();
                                 }
@@ -414,8 +408,6 @@ public class ManageStaff_UI {
                                 if(newValue.trim().length() > 0 ){
                                     staffManager.editStaff(codeValue, jt.getSelectedColumn(), newValue);
                                 }else {
-                                    int row = jt.getSelectedRow();
-                                    int col = jt.getSelectedColumn();
                                     JOptionPane.showMessageDialog(null, "Phone Number");
                                     tableReset();
                                 }
@@ -430,19 +422,12 @@ public class ManageStaff_UI {
                             break;
                         case 7:
                             if(!staffManager.getIsUpdate()){
-                                if(newValue.trim().length() > 0 && staffManager.isLong(newValue)){
-                                    staffManager.editStaff(codeValue, jt.getSelectedColumn(), newValue);
+                                if(newValue.trim().length() > 0 && staffManager.mathCheck(staffManager.mathAnalysis(newValue))){
+                                    staffManager.editStaff(codeValue, jt.getSelectedColumn(), staffManager.moneyConvert(staffManager.matConvert(staffManager.mathAnalysis(newValue))) );
                                     tableReset();
                                 }else {
-                                    if(staffManager.moneyCheck(newValue)){
-                                        staffManager.editStaff(codeValue, jt.getSelectedColumn(), staffManager.moneyConvert(newValue));
-                                        tableReset();
-                                    }else {
-                                        int row = jt.getSelectedRow();
-                                        int col = jt.getSelectedColumn();
-                                        JOptionPane.showMessageDialog(null, "Lương phải được nhập dưới dạng (VD: 10000 or 10.000VND)");
-                                        tableReset();
-                                    }
+                                    JOptionPane.showMessageDialog(null, "Số lượng sách phải được nhập dưới dạng number(int)");
+                                    tableReset();
                                 }
                             }
                             break;

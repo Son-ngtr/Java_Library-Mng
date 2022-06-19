@@ -111,19 +111,18 @@ public class User {
 
     //Date convert
     public String dateConvert(Calendar calendar){
-        String date = calendar.get(Calendar.DATE) + "/" + (calendar.get(Calendar.MONTH) + 1) + "/" + calendar.get(Calendar.YEAR);
-        return date;
+        return calendar.get(Calendar.DATE) + "/" + (calendar.get(Calendar.MONTH) + 1) + "/" + calendar.get(Calendar.YEAR);
     }
 
     //DateReConvert
-    public void dateReConvert(String dateReConvert){
+    public Calendar dateReConvert(String dateReConvert){
         Calendar newCalendar = Calendar.getInstance();
         String[] times = dateReConvert.split("/");
         int date = Integer.parseInt(times[0]);
         int month = Integer.parseInt(times[1]);
         int year = Integer.parseInt(times[2]);
-        newCalendar.set(year+0, month - 1 , date+0);
-        setDateOfBirth(newCalendar);
+        newCalendar.set(year, month - 1 , date);
+        return newCalendar;
     }
 
     //Money convert

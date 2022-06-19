@@ -45,13 +45,11 @@ public class Book_Psychology extends Book{
 
     //Psychology Type
     public String[] psychologyType(){
-        String[] type = {"Awareness", "Behavior", "Criminal"};
-        return type;
+        return new String[]{"Awareness", "Behavior", "Criminal"};
     }
 
     //Psychology RecommentForAge
     public String[] psychologyRecommentForAge(){
-        String[] recommentForAge = {"6->10", "11->16", "16->18", "18+"};
-        return recommentForAge;
+        return new String[]{"6->10", "11->16", "16->18", "18+"};
     }
 }

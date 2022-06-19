@@ -363,8 +363,6 @@ public class ManageUser_UI {
                                 if(newValue.trim().length() > 0){
                                     userManager.editUser(codeValue, jt.getSelectedColumn(), newValue);
                                 }else {
-                                    int row = jt.getSelectedRow();
-                                    int col = jt.getSelectedColumn();
                                     JOptionPane.showMessageDialog(null, "Tên phải được đưa vào ở dạng chuỗi và có nhiều hơn 1 kí tự");
                                     tableReset();
                                 }
@@ -382,8 +380,6 @@ public class ManageUser_UI {
                                 if(newValue.trim().length() > 0 && userManager.isDateOrNot(newValue)){
                                     userManager.editUser(codeValue, jt.getSelectedColumn(), newValue);
                                 }else {
-                                    int row = jt.getSelectedRow();
-                                    int col = jt.getSelectedColumn();
                                     JOptionPane.showMessageDialog(null, "Thông tin phải được nhập dưới dạng d/m/y và tồn tại thời điểm nhập");
                                     tableReset();
                                 }
@@ -394,8 +390,6 @@ public class ManageUser_UI {
                                 if(newValue.trim().length() > 0 ){
                                     userManager.editUser(codeValue, jt.getSelectedColumn(), newValue);
                                 }else {
-                                    int row = jt.getSelectedRow();
-                                    int col = jt.getSelectedColumn();
                                     JOptionPane.showMessageDialog(null, "Địa chỉ");
                                     tableReset();
                                 }
@@ -406,8 +400,6 @@ public class ManageUser_UI {
                                 if(newValue.trim().length() > 0 ){
                                     userManager.editUser(codeValue, jt.getSelectedColumn(), newValue);
                                 }else {
-                                    int row = jt.getSelectedRow();
-                                    int col = jt.getSelectedColumn();
                                     JOptionPane.showMessageDialog(null, "SDT");
                                     tableReset();
                                 }
@@ -418,8 +410,6 @@ public class ManageUser_UI {
                                 if(newValue.trim().length() > 0 ){
                                     userManager.editUser(codeValue, jt.getSelectedColumn(), newValue);
                                 }else {
-                                    int row = jt.getSelectedRow();
-                                    int col = jt.getSelectedColumn();
                                     JOptionPane.showMessageDialog(null, "Gmail");
                                     tableReset();
                                 }
@@ -430,8 +420,6 @@ public class ManageUser_UI {
                                 if(newValue.trim().length() > 0 && userManager.isDateOrNot(newValue)){
                                     userManager.editUser(codeValue, jt.getSelectedColumn(), newValue);
                                 }else {
-                                    int row = jt.getSelectedRow();
-                                    int col = jt.getSelectedColumn();
                                     JOptionPane.showMessageDialog(null, "Thông tin phải được nhập dưới dạng d/m/y và tồn tại thời điểm nhập");
                                     tableReset();
                                 }
@@ -442,8 +430,6 @@ public class ManageUser_UI {
                                 if(newValue.trim().length() > 0 && userManager.isDateOrNot(newValue)){
                                     userManager.editUser(codeValue, jt.getSelectedColumn(), newValue);
                                 }else {
-                                    int row = jt.getSelectedRow();
-                                    int col = jt.getSelectedColumn();
                                     JOptionPane.showMessageDialog(null, "Thông tin phải được nhập dưới dạng d/m/y và tồn tại thời điểm nhập");
                                     tableReset();
                                 }
@@ -451,19 +437,12 @@ public class ManageUser_UI {
                             break;
                         case 9:
                             if(!userManager.getIsUpdate()){
-                                if(newValue.trim().length() > 0 && userManager.isLong(newValue)){
-                                    userManager.editUser(codeValue, jt.getSelectedColumn(), newValue);
+                                if(newValue.trim().length() > 0 && userManager.mathCheck(userManager.mathAnalysis(newValue))){
+                                    userManager.editUser(codeValue, jt.getSelectedColumn(), userManager.moneyConvert(userManager.matConvert(userManager.mathAnalysis(newValue))) );
                                     tableReset();
                                 }else {
-                                    if(userManager.moneyCheck(newValue)){
-                                        userManager.editUser(codeValue, jt.getSelectedColumn(), userManager.moneyConvert(newValue));
-                                        tableReset();
-                                    }else {
-                                        int row = jt.getSelectedRow();
-                                        int col = jt.getSelectedColumn();
-                                        JOptionPane.showMessageDialog(null, "Giá phải được nhập dưới dạng (VD: 10000 or 10.000VND)");
-                                        tableReset();
-                                    }
+                                    JOptionPane.showMessageDialog(null, "Số lượng sách phải được nhập dưới dạng number(int)");
+                                    tableReset();
                                 }
                             }
                             break;

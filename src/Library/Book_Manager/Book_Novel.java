@@ -47,11 +47,9 @@ public class Book_Novel extends Book{
 
     //Novel Type
     public String[] novelType(){
-        String[] type = {"Science Fiction", "Sports", "Slice Of Life", "Fantasy", "Comedy", "Adult"};
-        return type;
+        return new String[]{"Science Fiction", "Sports", "Slice Of Life", "Fantasy", "Comedy", "Adult"};
     }
     public String[] novelAgeLimited(){
-        String age[] = {"6->10", "11->16", "16->18", "18+"};
-        return age;
+        return new String[]{"6->10", "11->16", "16->18", "18+"};
     }
 }
