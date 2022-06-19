@@ -60,7 +60,8 @@ public class Lobby_UI {
         logout_Label.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-
+                main_Frame.dispose();
+                new Login_UI();
             }
 
             @Override
@@ -142,6 +143,7 @@ public class Lobby_UI {
             @Override
             public void mouseClicked(MouseEvent e) {
                 new ManageBook_UI();
+                main_Frame.dispose();
             }
 
             @Override
@@ -177,6 +179,7 @@ public class Lobby_UI {
             @Override
             public void mouseClicked(MouseEvent e) {
                 new ManageUser_UI();
+                main_Frame.dispose();
             }
 
             @Override
@@ -212,6 +215,7 @@ public class Lobby_UI {
             @Override
             public void mouseClicked(MouseEvent e) {
                 new ManageStaff_UI();
+                main_Frame.dispose();
             }
 
             @Override
@@ -247,6 +251,7 @@ public class Lobby_UI {
             @Override
             public void mouseClicked(MouseEvent e) {
                 new LentBooks_UI();
+                main_Frame.dispose();
             }
 
             @Override
@@ -282,6 +287,7 @@ public class Lobby_UI {
             @Override
             public void mouseClicked(MouseEvent e) {
                 new DayHis_UI();
+                main_Frame.dispose();
             }
 
             @Override
@@ -317,6 +323,7 @@ public class Lobby_UI {
             @Override
             public void mouseClicked(MouseEvent e) {
                 new Team_In4();
+                main_Frame.dispose();
             }
 
             @Override

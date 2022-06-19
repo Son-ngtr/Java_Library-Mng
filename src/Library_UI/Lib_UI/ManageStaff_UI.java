@@ -56,6 +56,7 @@ public class ManageStaff_UI {
             @Override
             public void mouseClicked(MouseEvent e) {
                 main_Frame.dispose();
+                new Lobby_UI();
             }
 
             @Override

@@ -2,6 +2,7 @@ package Library_UI.Lib_UI;
 
 import Library.Book_Manager.BookManager;
 import Library_UI.Book_Category.ChildrenBook_UI;
+import Library_UI.Book_Category.TextBook_UI;
 import Library_UI.Funtion.Addbook_UI;
 
 import javax.swing.*;
@@ -150,6 +151,32 @@ public class ManageBook_UI {
         JLabel left_Label = new JLabel(left_Icon);
         left_Label.setSize(45,45);
         left_Label.setBounds(900,876,45,45);
+        left_Label.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                JOptionPane.showMessageDialog(null, "none page front");
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+
+            }
+        });
 
         ImageIcon right_Icon = new ImageIcon("src/Image_Icon/icon/right.png");
         JLabel right_Label = new JLabel(right_Icon);
@@ -158,7 +185,7 @@ public class ManageBook_UI {
         right_Label.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                new ChildrenBook_UI();
+                new TextBook_UI();
                 main_Frame.dispose();
             }
 

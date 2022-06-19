@@ -52,6 +52,7 @@ public class Team_In4 {
             @Override
             public void mouseClicked(MouseEvent e) {
                 main_Frame.dispose();
+                new Lobby_UI();
             }
 
             @Override

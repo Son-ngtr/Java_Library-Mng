@@ -147,6 +147,32 @@ public class PsyBook_UI {
         JLabel right_Label = new JLabel(right_Icon);
         right_Label.setSize(45,45);
         right_Label.setBounds(960,876,45,45);
+        right_Label.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                JOptionPane.showMessageDialog(null, "none page next");
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+
+            }
+        });
 
 
         Font Font_left = new Font("MV Boli", Font.PLAIN, 16);

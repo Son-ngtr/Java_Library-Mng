@@ -91,6 +91,7 @@ public class Login_UI {
                 if (txtName.getText().equals("admin") && txtPassword.getText().equals("password")){
 //                    JOptionPane.showMessageDialog(null, "Log in completed");
                     new Lobby_UI();
+                    main_Frame.dispose();
                 }
                 else JOptionPane.showMessageDialog(null,"Log in uncompleted");
             }
