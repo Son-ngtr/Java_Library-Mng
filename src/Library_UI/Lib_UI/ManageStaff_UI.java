@@ -37,17 +37,17 @@ public class ManageStaff_UI {
     public void createTableExample(){
         Calendar calendar = Calendar.getInstance();
         calendar.set(2020, 10, 10);
-        staffManager.addStaff(staffManager.createStaff("Quang", "Male", calendar, "Sai Dong", "324234234","Treasurer", 1000L, "None" ));
-        staffManager.addStaff(staffManager.createStaff("Phong", "Female", calendar, "Sai Dong", "324234234","Treasurer", 1000L, "None" ));
-        staffManager.addStaff(staffManager.createStaff("Hieu", "Other", calendar, "Sai Dong", "324234234","Treasurer", 1000L, "None" ));
-        staffManager.addStaff(staffManager.createStaff("Binh", "Male", calendar, "Sai Dong", "324234234","Treasurer", 1000L, "None"));
+        staffManager.addStaff(staffManager.createStaff("Quang", "Male", calendar, "Sai Dong", "324234234","sdfsdf","Treasurer", 1000L, "None" ));
+        staffManager.addStaff(staffManager.createStaff("Phong", "Female", calendar, "Sai Dong", "324234234","sdfds","Treasurer", 1000L, "None" ));
+        staffManager.addStaff(staffManager.createStaff("Hieu", "Other", calendar, "Sai Dong", "324234234","dsfsdf","Treasurer", 1000L, "None" ));
+        staffManager.addStaff(staffManager.createStaff("Binh", "Male", calendar, "Sai Dong", "324234234","dsfsdf","Treasurer", 1000L, "None"));
     }
 
     //Table add Combobox and CheckBox
     public void tableAddCombobox(){
-        jt.getColumnModel().getColumn(6).setCellEditor(new DefaultCellEditor(cbCategory));
+        jt.getColumnModel().getColumn(7).setCellEditor(new DefaultCellEditor(cbCategory));
         jt.getColumnModel().getColumn(2).setCellEditor(new DefaultCellEditor(cbGender));
-        jt.getColumnModel().getColumn(8).setCellEditor(new DefaultCellEditor(cbAttendence));
+        jt.getColumnModel().getColumn(9).setCellEditor(new DefaultCellEditor(cbAttendence));
     }
 
     //Table reset
@@ -418,10 +418,20 @@ public class ManageStaff_UI {
                             if(!staffManager.getIsUpdate()){
                                 if(newValue.trim().length() > 0 ){
                                     staffManager.editStaff(codeValue, jt.getSelectedColumn(), newValue);
+                                }else {
+                                    JOptionPane.showMessageDialog(null, "Phone Number");
+                                    tableReset();
                                 }
                             }
                             break;
                         case 7:
+                            if(!staffManager.getIsUpdate()){
+                                if(newValue.trim().length() > 0 ){
+                                    staffManager.editStaff(codeValue, jt.getSelectedColumn(), newValue);
+                                }
+                            }
+                            break;
+                        case 8:
                             if(!staffManager.getIsUpdate()){
                                 if(newValue.trim().length() > 0 && staffManager.mathCheck(staffManager.mathAnalysis(newValue))){
                                     staffManager.editStaff(codeValue, jt.getSelectedColumn(), staffManager.moneyConvert(staffManager.matConvert(staffManager.mathAnalysis(newValue))) );
@@ -432,7 +442,7 @@ public class ManageStaff_UI {
                                 }
                             }
                             break;
-                        case 8:
+                        case 9:
                             if(!staffManager.getIsUpdate()){
                                 if(newValue.trim().length() > 0 ){
                                     staffManager.editStaff(codeValue, jt.getSelectedColumn(), newValue);

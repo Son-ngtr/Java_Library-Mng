@@ -9,18 +9,20 @@ public class Staff {
     private Calendar dateOfBirth;
     private String address;
     private String phoneNumber;
+    private String email;
     private String staff;
     private Long salary;
     private String attendace;
 
     //Constructor
-    public Staff(int id, String name, String gender, Calendar dateOfBirth, String address, String phoneNumber, String staff, Long salary, String attendace) {
+    public Staff(int id, String name, String gender, Calendar dateOfBirth, String address, String phoneNumber, String email,String staff, Long salary, String attendace) {
         this.id = id;
         this.name = name;
         this.gender = gender;
         this.dateOfBirth = dateOfBirth;
         this.address = address;
         this.phoneNumber = phoneNumber;
+        this.email = email;
         this.staff = staff;
         this.salary = salary;
         this.attendace = attendace;
@@ -73,6 +75,14 @@ public class Staff {
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getStaff() {
