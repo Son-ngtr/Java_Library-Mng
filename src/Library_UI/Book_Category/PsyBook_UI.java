@@ -160,7 +160,7 @@ public class PsyBook_UI {
         left_Label.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                Novel_UI novel_ui = new Novel_UI(bookManager);
+                new Novel_UI(bookManager);
                 main_Frame.dispose();
             }
 
@@ -192,12 +192,8 @@ public class PsyBook_UI {
         right_Label.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-<<<<<<< HEAD
+
                 JOptionPane.showMessageDialog(null, "none page next");
-=======
-                ManageBook_UI manageBook_ui = new ManageBook_UI(bookManager);
-                main_Frame.dispose();
->>>>>>> Quang
             }
 
             @Override
