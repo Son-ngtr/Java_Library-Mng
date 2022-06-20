@@ -2,6 +2,7 @@ package Library_UI.Book_Category;
 
 import Library.Book_Manager.BookManager;
 import Library_UI.Funtion.Addbook_UI;
+import Library_UI.Lib_UI.Lobby_UI;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
@@ -98,6 +99,7 @@ public class Novel_UI {
             @Override
             public void mouseClicked(MouseEvent e) {
                 main_Frame.dispose();
+                new Lobby_UI();
             }
 
             @Override
