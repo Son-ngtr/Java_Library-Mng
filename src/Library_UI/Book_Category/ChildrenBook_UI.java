@@ -3,6 +3,7 @@ package Library_UI.Book_Category;
 import Library.Book_Manager.BookManager;
 import Library.Staff_Manager.StaffManager;
 import Library_UI.Funtion.Addbook_UI;
+import Library_UI.Lib_UI.Lobby_UI;
 import Library_UI.Lib_UI.ManageBook_UI;
 
 import javax.swing.*;
@@ -101,6 +102,7 @@ public class ChildrenBook_UI {
             @Override
             public void mouseClicked(MouseEvent e) {
                 main_Frame.dispose();
+                new Lobby_UI();
             }
 
             @Override
