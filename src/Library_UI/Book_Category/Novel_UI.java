@@ -1,6 +1,7 @@
 package Library_UI.Book_Category;
 
 import Library.Book_Manager.BookManager;
+import Library_UI.Funtion.Add_novel_UI;
 import Library_UI.Funtion.Addbook_UI;
 import Library_UI.Lib_UI.Lobby_UI;
 
@@ -255,9 +256,7 @@ public class Novel_UI {
         bt_add.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-//                Addbook_UI addBook = new Addbook_UI();
-//                addBook.setManagerUser(main_Frame, staffManager, defaultTableModel, jt);
-//                main_Frame.setEnabled(false);
+                new Add_novel_UI();
             }
 
             @Override

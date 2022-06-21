@@ -2,6 +2,7 @@ package Library_UI.Book_Category;
 
 import Library.Book_Manager.BookManager;
 import Library.Staff_Manager.StaffManager;
+import Library_UI.Funtion.Add_childrenBook_UI;
 import Library_UI.Funtion.Addbook_UI;
 import Library_UI.Lib_UI.Lobby_UI;
 import Library_UI.Lib_UI.ManageBook_UI;
@@ -258,9 +259,7 @@ public class ChildrenBook_UI {
         bt_add.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-//                Addbook_UI addBook = new Addbook_UI();
-//                addBook.setManagerUser(main_Frame, staffManager, defaultTableModel, jt);
-//                main_Frame.setEnabled(false);
+                new Add_childrenBook_UI();
             }
 
             @Override
