@@ -257,87 +257,134 @@ public class BookManager {
 
     //Xóa Sách
     public void removeBook(String code){
-        boolean codeReduce = false;
-        for (int i=0; i<books.size(); i++){
-            if(Integer.toString(books.get(i).getCode()).equalsIgnoreCase(code.trim()) && !codeReduce){
-                String cLearning = Integer.toString(books.get(i).learningCode());
-                String cNoval = Integer.toString(books.get(i).novelCode());
-                String cChild = Integer.toString(books.get(i).childCode());
-                String cPsychology = Integer.toString(books.get(i).psychologyCode());
-                String category = books.get(i).getCategory().trim();
-                books.remove(books.get(i));
+        //New Version
+        int intCode = Integer.parseInt(code);
+        if(intCode <= codeCountAll ){
+            if(Integer.toString(books.get(intCode-1).getCode()).equalsIgnoreCase(code.trim())){
+                System.out.println(books.get(intCode -1 ).getCode());
+                String cLearning = Integer.toString(books.get(intCode-1).learningCode());
+                String cNoval = Integer.toString(books.get(intCode -1).novelCode());
+                String cChild = Integer.toString(books.get(intCode -1).childCode());
+                String cPsychology = Integer.toString(books.get(intCode - 1).psychologyCode());
+                String category = books.get(intCode -1 ).getCategory().trim();
+                books.remove(books.get(intCode - 1));
+                codeCountAll--;
                 switch (category) {
                     case "Learning Book" -> removeBookLearning(cLearning);
                     case "Noval Book" -> removeBookNoval(cNoval);
                     case "Children Book" -> removeBookChild(cChild);
                     case "Psychological Book" -> removeBookPsychology(cPsychology);
                 }
-                codeReduce = true;
-                codeCountAll--;
-            }
-            if (codeReduce && i!=books.size()){
-                books.get(i).setCode(books.get(i).getCode() - 1);
+
+                for (int i=intCode-1;i<books.size(); i++ ){
+                    books.get(i).setCode(books.get(i).getCode() - 1);
+                }
             }
         }
+
+//        //Old Version
+//        boolean codeReduce = false;
+//        for (int i=0; i<books.size(); i++){
+//            if(Integer.toString(books.get(i).getCode()).equalsIgnoreCase(code.trim()) && !codeReduce){
+//                String cLearning = Integer.toString(books.get(i).learningCode());
+//                String cNoval = Integer.toString(books.get(i).novelCode());
+//                String cChild = Integer.toString(books.get(i).childCode());
+//                String cPsychology = Integer.toString(books.get(i).psychologyCode());
+//                String category = books.get(i).getCategory().trim();
+//                books.remove(books.get(i));
+//                switch (category) {
+//                    case "Learning Book" -> removeBookLearning(cLearning);
+//                    case "Noval Book" -> removeBookNoval(cNoval);
+//                    case "Children Book" -> removeBookChild(cChild);
+//                    case "Psychological Book" -> removeBookPsychology(cPsychology);
+//                }
+//                codeReduce = true;
+//                codeCountAll--;
+//            }
+//            if (codeReduce && i!=books.size()){
+//                books.get(i).setCode(books.get(i).getCode() - 1);
+//            }
+//        }
     }
     public void removeBookNoval(String code){
-        boolean codeReduce = false;
-        for (int i=0; i<booksNovel.size(); i++){
-            if(Integer.toString(booksNovel.get(i).novelCode()).equalsIgnoreCase(code.trim()) && !codeReduce){
-                String c = String.valueOf(booksNovel.get(i).getCode());
-                booksNovel.remove(booksNovel.get(i));
+        //New Version
+        int intCode = Integer.parseInt(code);
+        if(intCode <= codeCountNovel ){
+            if(Integer.toString(booksNovel.get(intCode-1).novelCode()).equalsIgnoreCase(code.trim())){
+                String c = String.valueOf(booksNovel.get(intCode - 1).getCode());
+                booksNovel.remove(intCode - 1);
                 removeBook(c);
-                codeReduce = true;
                 codeCountNovel--;
+
+                for (int i=intCode-1;i<booksNovel.size(); i++ ){
+                    booksNovel.get(i).novelSetCode(booksNovel.get(i).novelCode() - 1);
+                }
             }
-            if (codeReduce && i!=booksNovel.size()){
-                booksNovel.get(i).novelSetCode(booksNovel.get(i).novelCode() - 1);
-            }
+
         }
+
+
+//        //Old Version
+//        boolean codeReduce = false;
+//        for (int i=0; i<booksNovel.size(); i++){
+//            if(Integer.toString(booksNovel.get(i).novelCode()).equalsIgnoreCase(code.trim()) && !codeReduce){
+//                String c = String.valueOf(booksNovel.get(i).getCode());
+//                booksNovel.remove(booksNovel.get(i));
+//                removeBook(c);
+//                codeReduce = true;
+//                codeCountNovel--;
+//            }
+//            if (codeReduce && i!=booksNovel.size()){
+//                booksNovel.get(i).novelSetCode(booksNovel.get(i).novelCode() - 1);
+//            }
+//        }
     }
     public void removeBookChild(String code){
-        boolean codeReduce = false;
-        for (int i=0; i<booksChild.size(); i++){
-            if(Integer.toString(booksChild.get(i).childCode()).equalsIgnoreCase(code.trim()) && !codeReduce){
-                String c = String.valueOf(booksChild.get(i).getCode());
-                booksChild.remove(booksChild.get(i));
+        int intCode = Integer.parseInt(code);
+        if(intCode <= codeCountChild ){
+            if(Integer.toString(booksChild.get(intCode-1).childCode()).equalsIgnoreCase(code.trim())){
+                String c = String.valueOf(booksChild.get(intCode - 1).getCode());
+                booksChild.remove(intCode - 1);
                 removeBook(c);
-                codeReduce = true;
                 codeCountChild--;
+
+                for (int i=intCode-1;i<booksChild.size(); i++ ){
+                    booksChild.get(i).childSetCode(booksChild.get(i).childCode() - 1);
+                }
             }
-            if (codeReduce && i!=booksChild.size()){
-                booksChild.get(i).childSetCode(booksChild.get(i).childCode() - 1);
-            }
+
         }
     }
     public void removeBookLearning(String code){
-        boolean codeReduce = false;
-        for (int i=0; i<booksLearning.size(); i++){
-            if(Integer.toString(booksLearning.get(i).learningCode()).equalsIgnoreCase(code.trim()) && !codeReduce){
-                String c = String.valueOf(booksLearning.get(i).getCode());
-                booksLearning.remove(booksLearning.get(i));
+        int intCode = Integer.parseInt(code);
+        if(intCode <= codeCountLearning ){
+            if(Integer.toString(booksLearning.get(intCode-1).learningCode()).equalsIgnoreCase(code.trim())){
+                String c = String.valueOf(booksLearning.get(intCode - 1).getCode());
+                booksLearning.remove(intCode - 1);
                 removeBook(c);
-                codeReduce = true;
                 codeCountLearning--;
+
+                for (int i=intCode-1;i<booksLearning.size(); i++ ){
+                    booksLearning.get(i).leaningSetCode(booksLearning.get(i).learningCode() - 1);
+                }
             }
-            if (codeReduce && i!=booksLearning.size()){
-                booksLearning.get(i).leaningSetCode(booksLearning.get(i).learningCode() - 1);
-            }
+
         }
     }
     public void removeBookPsychology(String code){
-        boolean codeReduce = false;
-        for (int i=0; i<booksPsychology.size(); i++){
-            if(Integer.toString(booksPsychology.get(i).psychologyCode()).equalsIgnoreCase(code.trim()) && !codeReduce){
-                String c = String.valueOf(booksPsychology.get(i).getCode());
-                booksPsychology.remove(booksPsychology.get(i));
+        int intCode = Integer.parseInt(code);
+        if(intCode <= codeCountPsychology ){
+            if(Integer.toString(booksPsychology.get(intCode-1).psychologyCode()).equalsIgnoreCase(code.trim())){
+                String c = String.valueOf(booksPsychology.get(intCode - 1).getCode());
+                booksPsychology.remove(intCode - 1);
                 removeBook(c);
-                codeReduce = true;
                 codeCountPsychology--;
+
+                for (int i=intCode-1;i<booksPsychology.size(); i++ ){
+                    booksPsychology.get(i).psychologySetCode(booksPsychology.get(i).psychologyCode() - 1);
+                }
             }
-            if (codeReduce && i!=booksPsychology.size()){
-                booksPsychology.get(i).psychologySetCode(booksPsychology.get(i).psychologyCode() - 1);
-            }
+
         }
     }
 
