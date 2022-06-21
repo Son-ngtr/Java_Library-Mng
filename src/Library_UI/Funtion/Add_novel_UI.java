@@ -23,7 +23,7 @@ public class Add_novel_UI {
     private JPanel inFo;
     private BookManager bookManager;
     private DefaultTableModel defaultTableModel;
-    private String bookCategory[] = {"Learning Book", "Noval Book", "Children Book", "Psychological Book"};
+    private String bookCategory[] = {"Noval Book","Learning Book", "Children Book", "Psychological Book"};
     private JComboBox cb = new JComboBox(bookCategory);
     private JTable table;
 
@@ -165,17 +165,17 @@ public class Add_novel_UI {
         b6.setForeground(Color_me);
         b6.setBackground(Color_left);
 
-        JButton b7 = new JButton("type");
+        JButton b7 = new JButton("~ type");
         b7.setBounds(po_x, po_y+65*6, width, height);
         b7.setFont(Font_me_3);
-        b7.setBorder(BorderFactory.createLineBorder(Color_me));
+        b7.setBorder(BorderFactory.createLineBorder(Color_left));
         b7.setForeground(Color_me);
         b7.setBackground(Color_left);
 
-        JButton b8 = new JButton("ageLimited");
+        JButton b8 = new JButton("~ ageLimited");
         b8.setBounds(po_x, po_y+65*7, width, height);
         b8.setFont(Font_me_3);
-        b8.setBorder(BorderFactory.createLineBorder(Color_me));
+        b8.setBorder(BorderFactory.createLineBorder(Color_left));
         b8.setForeground(Color_me);
         b8.setBackground(Color_left);
 
@@ -326,6 +326,9 @@ public class Add_novel_UI {
                 txt_6.setText("");
             }
         });
+
+// set combo box
+        cb.setEnabled(false);
 
 // add all properties on UI
         label.add(b1);
