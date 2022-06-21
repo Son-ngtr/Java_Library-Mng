@@ -1,6 +1,7 @@
 package Library_UI.Book_Category;
 
 import Library.Book_Manager.BookManager;
+import Library.Check;
 import Library.Staff_Manager.StaffManager;
 import Library_UI.Funtion.Add_childrenBook_UI;
 import Library_UI.Funtion.Addbook_UI;
@@ -43,7 +44,7 @@ public class ChildrenBook_UI {
     private JComboBox cbBookType;
     private JComboBox cbChildType;
     private JComboBox cbChildRecommentForAge;
-
+    private Check check = new Check();
 
 
     //Table add Combobox and CheckBox
@@ -259,7 +260,9 @@ public class ChildrenBook_UI {
         bt_add.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                new Add_childrenBook_UI();
+                Add_childrenBook_UI add_childrenBook_ui = new Add_childrenBook_UI();
+                add_childrenBook_ui.setManagerUser(main_Frame, bookManager, defaultTableModel, jt);
+                main_Frame.setEnabled(false);
             }
 
             @Override
@@ -444,7 +447,7 @@ public class ChildrenBook_UI {
                             break;
                         case 2:
                             if(!bookManager.getIsUpdate()){
-                                if(newValue.trim().length() > 0 && bookManager.isDateOrNot(newValue)){
+                                if(newValue.trim().length() > 0 && check.isDateOrNot(newValue)){
                                     bookManager.editBookChild(codeValue, jt.getSelectedColumn(), newValue);
                                     tableReset();
                                 }else {
@@ -455,8 +458,8 @@ public class ChildrenBook_UI {
                             break;
                         case 3:
                             if(!bookManager.getIsUpdate()){
-                                if(newValue.trim().length() > 0 && bookManager.mathCheck(bookManager.mathAnalysis(newValue))){
-                                    bookManager.editBookChild(codeValue, jt.getSelectedColumn(), bookManager.moneyConvert(bookManager.matConvert(bookManager.mathAnalysis(newValue))) );
+                                if(newValue.trim().length() > 0 && check.mathCheck(check.mathAnalysis(newValue))){
+                                    bookManager.editBookChild(codeValue, jt.getSelectedColumn(), check.moneyConvert(check.matConvert(check.mathAnalysis(newValue))) );
                                     tableReset();
                                 }else {
                                     JOptionPane.showMessageDialog(null, "Số lượng sách phải được nhập dưới dạng number(int)");
@@ -493,8 +496,8 @@ public class ChildrenBook_UI {
                             break;
                         case 7:
                             if(!bookManager.getIsUpdate()){
-                                if(newValue.trim().length() > 0 && bookManager.mathCheck(bookManager.mathAnalysis(newValue))){
-                                    bookManager.editBookChild(codeValue, jt.getSelectedColumn(), bookManager.matConvert(bookManager.mathAnalysis(newValue)));
+                                if(newValue.trim().length() > 0 && check.mathCheck(check.mathAnalysis(newValue))){
+                                    bookManager.editBookChild(codeValue, jt.getSelectedColumn(), check.matConvert(check.mathAnalysis(newValue)));
                                     tableReset();
                                 }else {
                                     JOptionPane.showMessageDialog(null, "Số lượng sách phải được nhập dưới dạng number(int)");

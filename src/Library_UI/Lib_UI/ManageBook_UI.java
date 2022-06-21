@@ -1,6 +1,7 @@
 package Library_UI.Lib_UI;
 
 import Library.Book_Manager.BookManager;
+import Library.Check;
 import Library_UI.Book_Category.ChildrenBook_UI;
 
 import Library_UI.Book_Category.TextBook_UI;
@@ -39,7 +40,7 @@ public class ManageBook_UI {
     private DefaultTableModel defaultTableModel;
     private BookManager bookManager;
     private JComboBox cb;
-
+    private Check check = new Check();
 
 
     //Table reset
@@ -435,7 +436,7 @@ public class ManageBook_UI {
                             break;
                         case 2:
                             if(!bookManager.getIsUpdate()){
-                                if(newValue.trim().length() > 0 && bookManager.isDateOrNot(newValue)){
+                                if(newValue.trim().length() > 0 && check.isDateOrNot(newValue)){
                                     bookManager.editBook(codeValue, jt.getSelectedColumn(), newValue);
                                 }else {
                                     JOptionPane.showMessageDialog(null, "Thông tin phải được nhập dưới dạng d/m/y và tồn tại thời điểm nhập");
@@ -445,8 +446,8 @@ public class ManageBook_UI {
                             break;
                         case 3:
                             if(!bookManager.getIsUpdate()){
-                                if(newValue.trim().length() > 0 && bookManager.mathCheck(bookManager.mathAnalysis(newValue))){
-                                    bookManager.editBook(codeValue, jt.getSelectedColumn(), bookManager.moneyConvert(bookManager.matConvert(bookManager.mathAnalysis(newValue))) );
+                                if(newValue.trim().length() > 0 && check.mathCheck(check.mathAnalysis(newValue))){
+                                    bookManager.editBook(codeValue, jt.getSelectedColumn(), check.moneyConvert(check.matConvert(check.mathAnalysis(newValue))) );
                                     tableReset();
                                 }else {
                                     JOptionPane.showMessageDialog(null, "Số lượng sách phải được nhập dưới dạng number(int)");
@@ -483,8 +484,8 @@ public class ManageBook_UI {
                             break;
                         case 7:
                             if(!bookManager.getIsUpdate()){
-                                if(newValue.trim().length() > 0 && bookManager.mathCheck(bookManager.mathAnalysis(newValue))){
-                                    bookManager.editBook(codeValue, jt.getSelectedColumn(), bookManager.matConvert(bookManager.mathAnalysis(newValue)));
+                                if(newValue.trim().length() > 0 && check.mathCheck(check.mathAnalysis(newValue))){
+                                    bookManager.editBook(codeValue, jt.getSelectedColumn(), check.matConvert(check.mathAnalysis(newValue)));
                                     tableReset();
                                 }else {
                                     JOptionPane.showMessageDialog(null, "Số lượng sách phải được nhập dưới dạng number(int)");

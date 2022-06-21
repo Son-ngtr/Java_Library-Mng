@@ -5,7 +5,7 @@ import Library.Check;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-public class BookManager extends Check {
+public class BookManager {
     private boolean isUpdate = false;
 //    private int backGroundCode = 0;
     private int codeCountAll = 0;

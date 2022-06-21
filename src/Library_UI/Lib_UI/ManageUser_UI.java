@@ -1,6 +1,7 @@
 package Library_UI.Lib_UI;
 
 import Library.Book_Manager.BookManager;
+import Library.Check;
 import Library.Staff_Manager.StaffManager;
 import Library.User_Manager.UserManager;
 import Library_UI.Funtion.Addbook_UI;
@@ -31,6 +32,7 @@ public class ManageUser_UI {
     private DefaultTableModel defaultTableModel;
     private UserManager userManager= new UserManager();
     private JComboBox cb = new JComboBox(userManager.userGender());
+    private Check check = new Check();
 
     public void createTableExample(){
         Calendar calendar = Calendar.getInstance();
@@ -378,7 +380,7 @@ public class ManageUser_UI {
                             break;
                         case 3:
                             if(!userManager.getIsUpdate()){
-                                if(newValue.trim().length() > 0 && userManager.isDateOrNot(newValue)){
+                                if(newValue.trim().length() > 0 && check.isDateOrNot(newValue)){
                                     userManager.editUser(codeValue, jt.getSelectedColumn(), newValue);
                                 }else {
                                     JOptionPane.showMessageDialog(null, "Thông tin phải được nhập dưới dạng d/m/y và tồn tại thời điểm nhập");
@@ -418,7 +420,7 @@ public class ManageUser_UI {
                             break;
                         case 7:
                             if(!userManager.getIsUpdate()){
-                                if(newValue.trim().length() > 0 && userManager.isDateOrNot(newValue)){
+                                if(newValue.trim().length() > 0 && check.isDateOrNot(newValue)){
                                     userManager.editUser(codeValue, jt.getSelectedColumn(), newValue);
                                 }else {
                                     JOptionPane.showMessageDialog(null, "Thông tin phải được nhập dưới dạng d/m/y và tồn tại thời điểm nhập");
@@ -428,7 +430,7 @@ public class ManageUser_UI {
                             break;
                         case 8:
                             if(!userManager.getIsUpdate()){
-                                if(newValue.trim().length() > 0 && userManager.isDateOrNot(newValue)){
+                                if(newValue.trim().length() > 0 && check.isDateOrNot(newValue)){
                                     userManager.editUser(codeValue, jt.getSelectedColumn(), newValue);
                                 }else {
                                     JOptionPane.showMessageDialog(null, "Thông tin phải được nhập dưới dạng d/m/y và tồn tại thời điểm nhập");
@@ -438,8 +440,8 @@ public class ManageUser_UI {
                             break;
                         case 9:
                             if(!userManager.getIsUpdate()){
-                                if(newValue.trim().length() > 0 && userManager.mathCheck(userManager.mathAnalysis(newValue))){
-                                    userManager.editUser(codeValue, jt.getSelectedColumn(), userManager.moneyConvert(userManager.matConvert(userManager.mathAnalysis(newValue))) );
+                                if(newValue.trim().length() > 0 && check.mathCheck(check.mathAnalysis(newValue))){
+                                    userManager.editUser(codeValue, jt.getSelectedColumn(), check.moneyConvert(check.matConvert(check.mathAnalysis(newValue))) );
                                     tableReset();
                                 }else {
                                     JOptionPane.showMessageDialog(null, "Số lượng sách phải được nhập dưới dạng number(int)");

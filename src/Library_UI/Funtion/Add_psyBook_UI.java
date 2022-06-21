@@ -1,6 +1,7 @@
 package Library_UI.Funtion;
 
 import Library.Book_Manager.BookManager;
+import Library.Check;
 
 import javax.swing.*;
 import java.awt.*;
@@ -26,6 +27,7 @@ public class Add_psyBook_UI {
     private String bookCategory[] = {"Psychological Book", "Learning Book", "Noval Book", "Children Book" };
     private JComboBox cb = new JComboBox(bookCategory);
     private JTable table;
+    private Check check = new Check();
 
     //Manager Book Side
     public void setManagerUser(JFrame frame, BookManager bookManager, DefaultTableModel defaultTableModel, JTable table){
@@ -52,7 +54,7 @@ public class Add_psyBook_UI {
             inputCheck = false;
         }else
         {
-            if(txt_2.getText().trim().length() == 0 || !bookManager.mathCheck(bookManager.mathAnalysis(txt_2.getText().trim()))){
+            if(txt_2.getText().trim().length() == 0 || !check.mathCheck(check.mathAnalysis(txt_2.getText().trim()))){
                 JOptionPane.showMessageDialog(null, "Thiếu thông tin tên giá hoặc nhập vào sai thông tin");
                 inputCheck = false;
             }  else
@@ -72,7 +74,7 @@ public class Add_psyBook_UI {
                             inputCheck = false;
                         }else
                         {
-                            if(txt_6.getText().trim().length() == 0 || !bookManager.mathCheck(bookManager.mathAnalysis(txt_6.getText()))){
+                            if(txt_6.getText().trim().length() == 0 || !check.mathCheck(check.mathAnalysis(txt_6.getText()))){
                                 JOptionPane.showMessageDialog(null, "Thiếu thông tin số lượng sách");
                                 inputCheck = false;
                             }

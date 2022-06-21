@@ -5,7 +5,7 @@ import Library.Check;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-public class StaffManager extends Check {
+public class StaffManager {
     private boolean isUpdate = false;
     private int codeCount = 0;
 
@@ -23,7 +23,7 @@ public class StaffManager extends Check {
 
     //Staff Header
     public String[] staffContent(){
-        return new String[]{"ID", "Name", "Gender", "Date Of Birth", "Address", "Phone Number", "Position", "Salary", "Attendance"};
+        return new String[]{"ID", "Name", "Gender", "Date Of Birth", "Address", "Phone Number", "Email", "Position", "Salary", "Attendance"};
     }
 
     //Staff Category
@@ -42,9 +42,9 @@ public class StaffManager extends Check {
     }
 
     //Create a Staff
-    public Staff createStaff(String name, String gender, Calendar dateOfBirth, String address, String phoneNumber, String staff, Long salary, String attendace){
+    public Staff createStaff(String name, String gender, Calendar dateOfBirth, String address, String phoneNumber,String email, String staff, Long salary, String attendace){
         codeCount++;
-        return new Staff(codeCount, name, gender, dateOfBirth, address, phoneNumber, staff , salary, attendace);
+        return new Staff(codeCount, name, gender, dateOfBirth, address, phoneNumber, email,staff , salary, attendace);
     }
 
     //Add Staff
@@ -59,10 +59,10 @@ public class StaffManager extends Check {
 
     //Staff List
     public String[][] listStaff(){
-        String[][] mainObj = new String[totalStaff()][9];
+        String[][] mainObj = new String[totalStaff()][10];
         int count = 0;
         for (Staff staff : staffs){
-            for (int i=0; i<9; i++){
+            for (int i=0; i<10; i++){
                 switch (i){
                     case 0:
                         mainObj[count][i] = String.valueOf(staff.getId());
@@ -83,12 +83,15 @@ public class StaffManager extends Check {
                         mainObj[count][i] = staff.getPhoneNumber();
                         break;
                     case 6:
-                        mainObj[count][i] = staff.getStaff();
+                        mainObj[count][i] = staff.getEmail();
                         break;
                     case 7:
-                        mainObj[count][i] = staff.moneyConvert();
+                        mainObj[count][i] = staff.getStaff();
                         break;
                     case 8:
+                        mainObj[count][i] = staff.moneyConvert();
+                        break;
+                    case 9:
                         mainObj[count][i] = staff.getAttendace();
                     default:
                         break;
@@ -124,9 +127,10 @@ public class StaffManager extends Check {
                     case 3 -> staff.dateReConvert(value);
                     case 4 -> staff.setAddress(value);
                     case 5 -> staff.setPhoneNumber(value);
-                    case 6 -> staff.setStaff(value);
-                    case 7 -> staff.setSalary(Long.parseLong(value));
-                    case 8 -> staff.setAttendace(value);
+                    case 6 -> staff.setEmail(value);
+                    case 7 -> staff.setStaff(value);
+                    case 8 -> staff.setSalary(Long.parseLong(value));
+                    case 9 -> staff.setAttendace(value);
                     default -> {
                     }
                 }
