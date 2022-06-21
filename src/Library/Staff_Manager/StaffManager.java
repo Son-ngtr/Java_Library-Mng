@@ -5,7 +5,7 @@ import Library.Check;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-public class StaffManager extends Check {
+public class StaffManager {
     private boolean isUpdate = false;
     private int codeCount = 0;
 

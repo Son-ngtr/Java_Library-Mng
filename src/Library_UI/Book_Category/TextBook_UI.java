@@ -1,6 +1,7 @@
 package Library_UI.Book_Category;
 
 import Library.Book_Manager.BookManager;
+import Library.Check;
 import Library_UI.Funtion.Addbook_UI;
 import Library_UI.Lib_UI.Lobby_UI;
 import Library_UI.Lib_UI.ManageBook_UI;
@@ -41,6 +42,7 @@ public class TextBook_UI {
     private JComboBox cbBookType;
     private JComboBox cbEducation;
     private JComboBox cbEducationType;
+    private Check check = new Check();
 
 
     //Table add Combobox and CheckBox
@@ -442,7 +444,7 @@ public class TextBook_UI {
                             break;
                         case 2:
                             if(!bookManager.getIsUpdate()){
-                                if(newValue.trim().length() > 0 && bookManager.isDateOrNot(newValue)){
+                                if(newValue.trim().length() > 0 && check.isDateOrNot(newValue)){
                                     bookManager.editBookLearning(codeValue, jt.getSelectedColumn(), newValue);
                                     tableReset();
                                 }else {
@@ -453,8 +455,8 @@ public class TextBook_UI {
                             break;
                         case 3:
                             if(!bookManager.getIsUpdate()){
-                                if(newValue.trim().length() > 0 && bookManager.mathCheck(bookManager.mathAnalysis(newValue))){
-                                    bookManager.editBookLearning(codeValue, jt.getSelectedColumn(), bookManager.moneyConvert(bookManager.matConvert(bookManager.mathAnalysis(newValue))));
+                                if(newValue.trim().length() > 0 && check.mathCheck(check.mathAnalysis(newValue))){
+                                    bookManager.editBookLearning(codeValue, jt.getSelectedColumn(), check.moneyConvert(check.matConvert(check.mathAnalysis(newValue))));
                                     tableReset();
                                 }else {
                                     JOptionPane.showMessageDialog(null, "Số lượng sách phải được nhập dưới dạng number(int)");
@@ -491,8 +493,8 @@ public class TextBook_UI {
                             break;
                         case 7:
                             if(!bookManager.getIsUpdate()){
-                                if(newValue.trim().length() > 0 && bookManager.mathCheck(bookManager.mathAnalysis(newValue))){
-                                    bookManager.editBookLearning(codeValue, jt.getSelectedColumn(), bookManager.matConvert(bookManager.mathAnalysis(newValue)));
+                                if(newValue.trim().length() > 0 && check.mathCheck(check.mathAnalysis(newValue))){
+                                    bookManager.editBookLearning(codeValue, jt.getSelectedColumn(), check.matConvert(check.mathAnalysis(newValue)));
                                     tableReset();
                                 }else {
                                     JOptionPane.showMessageDialog(null, "Số lượng sách phải được nhập dưới dạng number(int)");

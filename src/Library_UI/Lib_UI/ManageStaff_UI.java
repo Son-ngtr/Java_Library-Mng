@@ -1,6 +1,7 @@
 package Library_UI.Lib_UI;
 
 import Library.Book_Manager.BookManager;
+import Library.Check;
 import Library.Staff_Manager.Staff;
 import Library.Staff_Manager.StaffManager;
 import Library_UI.Funtion.Addbook_UI;
@@ -33,6 +34,7 @@ public class ManageStaff_UI {
     private JComboBox cbCategory = new JComboBox(staffManager.staffCategory());
     private JComboBox cbGender = new JComboBox(staffManager.staffGender());
     private JComboBox cbAttendence = new JComboBox(staffManager.staffAttendence());
+    private Check check = new Check();
 
     public void createTableExample(){
         Calendar calendar = Calendar.getInstance();
@@ -385,7 +387,7 @@ public class ManageStaff_UI {
                             break;
                         case 3:
                             if(!staffManager.getIsUpdate()){
-                                if(newValue.trim().length() > 0 && staffManager.isDateOrNot(newValue)){
+                                if(newValue.trim().length() > 0 && check.isDateOrNot(newValue)){
                                     staffManager.editStaff(codeValue, jt.getSelectedColumn(), newValue);
                                     tableReset();
                                 }else {
@@ -433,8 +435,8 @@ public class ManageStaff_UI {
                             break;
                         case 8:
                             if(!staffManager.getIsUpdate()){
-                                if(newValue.trim().length() > 0 && staffManager.mathCheck(staffManager.mathAnalysis(newValue))){
-                                    staffManager.editStaff(codeValue, jt.getSelectedColumn(), staffManager.moneyConvert(staffManager.matConvert(staffManager.mathAnalysis(newValue))) );
+                                if(newValue.trim().length() > 0 && check.mathCheck(check.mathAnalysis(newValue))){
+                                    staffManager.editStaff(codeValue, jt.getSelectedColumn(), check.moneyConvert(check.matConvert(check.mathAnalysis(newValue))) );
                                     tableReset();
                                 }else {
                                     JOptionPane.showMessageDialog(null, "Số lượng sách phải được nhập dưới dạng number(int)");
