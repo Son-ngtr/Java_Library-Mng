@@ -4,6 +4,7 @@ import Library.Book_Manager.BookManager;
 import Library.Check;
 import Library.Staff_Manager.Staff;
 import Library.Staff_Manager.StaffManager;
+import Library_UI.Funtion.AddStaff_UI;
 import Library_UI.Funtion.Addbook_UI;
 
 import javax.swing.*;
@@ -192,9 +193,7 @@ public class ManageStaff_UI {
         bt_add.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-//                Addbook_UI addBook = new Addbook_UI();
-//                addBook.setManagerUser(main_Frame, staffManager, defaultTableModel, jt);
-//                main_Frame.setEnabled(false);
+                new AddStaff_UI();
             }
 
             @Override
