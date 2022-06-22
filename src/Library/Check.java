@@ -136,4 +136,16 @@ public class Check {
         }
         return Long.toString(result);
     }
+
+    //Check Convert
+    public String codeConvert(String code){
+        String s ="";
+        for (int i=0 ;i<code.length(); i++){
+            char a = code.charAt(i);
+            if(a >= '0' && a <= '9'){
+                s += a;
+            }
+        }
+        return s;
+    }
 }

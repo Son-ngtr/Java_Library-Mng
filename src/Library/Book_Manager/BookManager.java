@@ -113,7 +113,7 @@ public class BookManager {
         for (Book book : books){
             for (int i=0; i<8; i++){
                 switch (i) {
-                    case 0 -> mainObj[count][i] = String.valueOf(book.getCode());
+                    case 0 -> mainObj[count][i] = String.valueOf(book.getSTT());
                     case 1 -> mainObj[count][i] = book.getName();
                     case 2 -> mainObj[count][i] = book.dateConvert();
                     case 3 -> mainObj[count][i] = book.moneyConvert();
@@ -137,7 +137,10 @@ public class BookManager {
         for (Book bookNovel : booksNovel){
             for (int i=0; i<10; i++){
                 switch (i) {
-                    case 0 -> mainObj[count][i] = String.valueOf(bookNovel.novelCode());
+                    case 0 -> {
+                        String code = "N" + String.valueOf(bookNovel.novelCode());
+                        mainObj[count][i] = code;
+                    }
                     case 1 -> mainObj[count][i] = bookNovel.getName();
                     case 2 -> mainObj[count][i] = bookNovel.dateConvert();
                     case 3 -> mainObj[count][i] = bookNovel.moneyConvert();
@@ -161,7 +164,10 @@ public class BookManager {
         for (Book bookChild : booksChild){
             for (int i=0; i<10; i++){
                 switch (i) {
-                    case 0 -> mainObj[count][i] = String.valueOf(bookChild.childCode());
+                    case 0 -> {
+                        String code = "C" + String.valueOf(bookChild.childCode());
+                        mainObj[count][i] = code;
+                    }
                     case 1 -> mainObj[count][i] = bookChild.getName();
                     case 2 -> mainObj[count][i] = bookChild.dateConvert();
                     case 3 -> mainObj[count][i] = bookChild.moneyConvert();
@@ -185,7 +191,10 @@ public class BookManager {
         for (Book bookLearning: booksLearning){
             for (int i=0; i<10; i++){
                 switch (i) {
-                    case 0 -> mainObj[count][i] = String.valueOf(bookLearning.learningCode());
+                    case 0 -> {
+                        String code = "L" + String.valueOf(bookLearning.learningCode());
+                        mainObj[count][i] = code;
+                    }
                     case 1 -> mainObj[count][i] = bookLearning.getName();
                     case 2 -> mainObj[count][i] = bookLearning.dateConvert();
                     case 3 -> mainObj[count][i] = bookLearning.moneyConvert();
@@ -209,7 +218,10 @@ public class BookManager {
         for (Book bookPsychology : booksPsychology){
             for (int i=0; i<10; i++){
                 switch (i) {
-                    case 0 -> mainObj[count][i] = String.valueOf(bookPsychology.psychologyCode());
+                    case 0 -> {
+                        String code = "P" + String.valueOf(bookPsychology.psychologyCode());
+                        mainObj[count][i] = code;
+                    }
                     case 1 -> mainObj[count][i] = bookPsychology.getName();
                     case 2 -> mainObj[count][i] = bookPsychology.dateConvert();
                     case 3 -> mainObj[count][i] = bookPsychology.moneyConvert();
@@ -230,7 +242,7 @@ public class BookManager {
     //Tiêu Đề Danh Sách
     public String[] bookContent(){
         return new String[]{
-              "Code", "Name", "Date Added", "Price", "Author", "Publisher", "Category", "Quantity"
+              "Number", "Name", "Date Added", "Price", "Author", "Publisher", "Category", "Quantity"
         };
     }
     public String[] bookContentChildren(){
@@ -260,8 +272,8 @@ public class BookManager {
         //New Version
         int intCode = Integer.parseInt(code);
         if(intCode <= codeCountAll ){
-            if(Integer.toString(books.get(intCode-1).getCode()).equalsIgnoreCase(code.trim())){
-                System.out.println(books.get(intCode -1 ).getCode());
+            if(Integer.toString(books.get(intCode-1).getSTT()).equalsIgnoreCase(code.trim())){
+                System.out.println(books.get(intCode -1 ).getSTT());
                 String cLearning = Integer.toString(books.get(intCode-1).learningCode());
                 String cNoval = Integer.toString(books.get(intCode -1).novelCode());
                 String cChild = Integer.toString(books.get(intCode -1).childCode());
@@ -277,7 +289,7 @@ public class BookManager {
                 }
 
                 for (int i=intCode-1;i<books.size(); i++ ){
-                    books.get(i).setCode(books.get(i).getCode() - 1);
+                    books.get(i).setSTT(books.get(i).getSTT() - 1);
                 }
             }
         }
@@ -311,7 +323,7 @@ public class BookManager {
         int intCode = Integer.parseInt(code);
         if(intCode <= codeCountNovel ){
             if(Integer.toString(booksNovel.get(intCode-1).novelCode()).equalsIgnoreCase(code.trim())){
-                String c = String.valueOf(booksNovel.get(intCode - 1).getCode());
+                String c = String.valueOf(booksNovel.get(intCode - 1).getSTT());
                 booksNovel.remove(intCode - 1);
                 removeBook(c);
                 codeCountNovel--;
@@ -343,7 +355,7 @@ public class BookManager {
         int intCode = Integer.parseInt(code);
         if(intCode <= codeCountChild ){
             if(Integer.toString(booksChild.get(intCode-1).childCode()).equalsIgnoreCase(code.trim())){
-                String c = String.valueOf(booksChild.get(intCode - 1).getCode());
+                String c = String.valueOf(booksChild.get(intCode - 1).getSTT());
                 booksChild.remove(intCode - 1);
                 removeBook(c);
                 codeCountChild--;
@@ -359,7 +371,7 @@ public class BookManager {
         int intCode = Integer.parseInt(code);
         if(intCode <= codeCountLearning ){
             if(Integer.toString(booksLearning.get(intCode-1).learningCode()).equalsIgnoreCase(code.trim())){
-                String c = String.valueOf(booksLearning.get(intCode - 1).getCode());
+                String c = String.valueOf(booksLearning.get(intCode - 1).getSTT());
                 booksLearning.remove(intCode - 1);
                 removeBook(c);
                 codeCountLearning--;
@@ -375,7 +387,7 @@ public class BookManager {
         int intCode = Integer.parseInt(code);
         if(intCode <= codeCountPsychology ){
             if(Integer.toString(booksPsychology.get(intCode-1).psychologyCode()).equalsIgnoreCase(code.trim())){
-                String c = String.valueOf(booksPsychology.get(intCode - 1).getCode());
+                String c = String.valueOf(booksPsychology.get(intCode - 1).getSTT());
                 booksPsychology.remove(intCode - 1);
                 removeBook(c);
                 codeCountPsychology--;
@@ -403,7 +415,7 @@ public class BookManager {
     }
     public void editBook(String code, int col, String value){
         for (Book book: books){
-            if(Integer.toString(book.getCode()).equalsIgnoreCase(code.trim())){
+            if(Integer.toString(book.getSTT()).equalsIgnoreCase(code.trim())){
                 editCommonValue(col, book, value);
             }
         }
@@ -435,10 +447,7 @@ public class BookManager {
             if(Integer.toString(bookNoval.novelCode()).equalsIgnoreCase(code.trim())){
                 editCommonValue(col, bookNoval, value);
                 switch (col) {
-                    case 8 -> {
-                        System.out.println("col ");
-                        bookNoval.novalSetType(value);
-                    }
+                    case 8 -> bookNoval.novalSetType(value);
                     case 9 -> bookNoval.novelSetAgeLimited(value);
                 }
             }
