@@ -185,9 +185,8 @@ public class ManageUser_UI {
         bt_add.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-//                Addbook_UI addBook = new Addbook_UI();
-//                addBook.setManagerUser(main_Frame, userManager, defaultTableModel, jt);
-//                main_Frame.setEnabled(false);
+                new LentBooks_UI();
+                main_Frame.setEnabled(false);
             }
 
             @Override
