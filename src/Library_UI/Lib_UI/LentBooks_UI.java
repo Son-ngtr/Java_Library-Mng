@@ -1,16 +1,33 @@
 package Library_UI.Lib_UI;
 
+import Library_UI.Funtion.lent_UI;
+
 import javax.swing.*;
+import javax.swing.table.JTableHeader;
+import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 public class LentBooks_UI {
+
     private JFrame main_Frame;
     private JLabel label, notification_Label, logout_Label,exit_Label;
     public LentBooks_UI(){
         ImageIcon bk_Icon = new ImageIcon("src/Image_Icon/background/_LentBooks_UI_.png");
         label = new JLabel(bk_Icon);
         label.setSize(1794,956);
+
+        Font Font_left = new Font("MV Boli", Font.PLAIN, 16);
+//        Font Font_login = new Font("Lucida Calligraphy", Font.PLAIN, 20);
+//        Font Font_me_2 = new Font("Lucida Console", Font.PLAIN, 48);
+        Font Font_Brand = new Font("MV Boli", Font.BOLD, 60);
+        Font Font_me_3 = new Font("MV Boli", Font.ITALIC, 12);
+        Font Font_Table = new Font("MV Boli", Font.PLAIN, 12);
+
+        Color Color_me = new Color(250,183,61);
+        Color Color_ForeG = new Color(13,54,57);
+//        Color Color_ForeG_2 = new Color(236,131,2);
+        Color Color_left = new Color(84, 103, 71);
 
         ImageIcon notification_Icon = new ImageIcon("src/Image_Icon/icon/notification (1).png");
         notification_Label = new JLabel(notification_Icon);
@@ -106,6 +123,80 @@ public class LentBooks_UI {
             }
         });
 
+
+// create table
+        JTextField bookFilter = new JTextField("  ",20);
+        bookFilter.setBounds(160, 85, 1475, 35);
+        bookFilter.setFont(Font_Table);
+        bookFilter.setBackground(Color_left);
+        bookFilter.setBorder(BorderFactory.createLineBorder(Color_me));
+        bookFilter.setForeground(Color_me);
+
+
+        String[][] tableData = {{"1", "one piece", "20.000", "Oda Eiichiro", "Kim Dong", "Anime", "26"}};
+
+        String[] tableColumn = {"code", "name", "price", "author", "publisher", "category", "quantity"};
+
+        JTable jt = new JTable(tableData, tableColumn);
+
+        JScrollPane Jsc = new JScrollPane(jt);
+        jt.setFont(Font_Table);
+        jt.setGridColor(Color_ForeG);
+        jt.setBackground(Color_me);
+        jt.setForeground(Color_ForeG);
+        JTableHeader jth = jt.getTableHeader();
+        jth.setBackground(Color_ForeG);
+        jth.setFont(Font_Table);
+        jth.setForeground(Color_me);
+
+        Jsc.setBounds(160, 120, 1475, 750);
+        Jsc.setForeground(Color_me);
+        Jsc.setFont(Font_Table);
+
+
+
+// create button lent book
+        JButton add_bt = new JButton("lent");
+        add_bt.setBounds(102,816,55,55);
+        add_bt.setFont(Font_left);
+        add_bt.setBorder(BorderFactory.createLineBorder(Color_me));
+        add_bt.setForeground(Color_ForeG);
+        add_bt.setBackground(Color_me);
+        add_bt.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                new lent_UI();
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                add_bt.setBackground(Color_ForeG);
+                add_bt.setForeground(Color_me);
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                add_bt.setBackground(Color_me);
+                add_bt.setForeground(Color_ForeG);
+            }
+        });
+
+
+
+// add to frame
+        label.add(Jsc);
+        label.add(bookFilter);
+        label.add(add_bt);
         label.add(notification_Label);
         label.add(logout_Label);
         label.add(exit_Label);

@@ -9,10 +9,10 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-public class DayHis_UI {
+public class DayHis_Op_UI {
     private JFrame main_Frame;
     private JLabel label, notification_Label, logout_Label,exit_Label;
-    public DayHis_UI(){
+    public DayHis_Op_UI(){
         ImageIcon bk_Icon = new ImageIcon("src/Image_Icon/background/Day_His.png");
         label = new JLabel(bk_Icon);
         label.setSize(1794,956);
@@ -128,7 +128,8 @@ public class DayHis_UI {
         left_Label.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                JOptionPane.showMessageDialog(null, "None page front");
+                new DayHis_UI();
+                main_Frame.dispose();
             }
 
             @Override
@@ -159,8 +160,7 @@ public class DayHis_UI {
         right_Label.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                new DayHis_Op_UI();
-                main_Frame.dispose();
+                JOptionPane.showMessageDialog(null, "None page next !!!");
             }
 
             @Override
@@ -185,8 +185,8 @@ public class DayHis_UI {
         });
 
 // create label
-        JLabel head = new JLabel("lent.His");
-        head.setBounds(760, 60, 1475, 100);
+        JLabel head = new JLabel("BookBack.His");
+        head.setBounds(725, 60, 1475, 100);
         head.setFont(Font_Brand);
         head.setForeground(Color_me);
 
@@ -244,6 +244,6 @@ public class DayHis_UI {
 
 
     public static void main(String[] args) {
-        new DayHis_UI();
+        new DayHis_Op_UI();
     }
 }
