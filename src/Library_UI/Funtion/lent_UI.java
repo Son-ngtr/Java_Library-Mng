@@ -38,7 +38,7 @@ public class lent_UI {
     private Check check = new Check();
 
 // get time
-    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     LocalDateTime now = LocalDateTime.now();
 
     public lent_UI(){
