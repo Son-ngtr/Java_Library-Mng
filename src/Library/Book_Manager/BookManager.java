@@ -24,6 +24,10 @@ public class BookManager extends Check {
     }
 
     //Array List, Book List
+    Book bookNovel = new Book_Novel();
+    Book bookLearning = new Book_Learning();
+    Book bookPsychology = new Book_Psychology();
+    Book bookChild = new Book_Child();
     private ArrayList<Book> books = new ArrayList<>();
     private ArrayList<Book> booksLearning = new ArrayList<>();
     private ArrayList<Book> booksNovel = new ArrayList<>();
@@ -149,10 +153,10 @@ public class BookManager extends Check {
 
     //List Book Novel
     public String[][] listBookNovel(){
-        String[][] mainObj = new String[totalBookDifferentNoval()][8];
+        String[][] mainObj = new String[totalBookDifferentNoval()][10];
         int count = 0;
         for (Book bookNovel : booksNovel){
-            for (int i=0; i<8; i++){
+            for (int i=0; i<10; i++){
                 switch (i){
                     case 0:
                         mainObj[count][i] = String.valueOf(bookNovel.novelCode());
@@ -178,7 +182,11 @@ public class BookManager extends Check {
                     case 7:
                         mainObj[count][i] = String.valueOf(bookNovel.getQuantity());
                         break;
-                    default:
+                    case 8:
+                        mainObj[count][i] = bookNovel.novelGetType();
+                        break;
+                    case 9:
+                        mainObj[count][i] = bookNovel.novalGetAgeLimited();
                         break;
                 }
             }
@@ -189,13 +197,13 @@ public class BookManager extends Check {
 
     //List Book Child
     public String[][] listBookChild(){
-        String[][] mainObj = new String[totalBookDifferentChild()][8];
+        String[][] mainObj = new String[totalBookDifferentChild()][10];
         int count = 0;
         for (Book bookChild : booksChild){
-            for (int i=0; i<8; i++){
+            for (int i=0; i<10; i++){
                 switch (i){
                     case 0:
-                        mainObj[count][i] = String.valueOf(bookChild.getCode());
+                        mainObj[count][i] = String.valueOf(bookChild.childCode());
                         break;
                     case 1:
                         mainObj[count][i] = bookChild.getName();
@@ -218,7 +226,11 @@ public class BookManager extends Check {
                     case 7:
                         mainObj[count][i] = String.valueOf(bookChild.getQuantity());
                         break;
-                    default:
+                    case 8:
+                        mainObj[count][i] = bookChild.childGetType();
+                        break;
+                    case 9:
+                        mainObj[count][i] = bookChild.childGetRecommentForAge();
                         break;
                 }
             }
@@ -229,13 +241,13 @@ public class BookManager extends Check {
 
     //List Book Learning
     public String[][] listBookLearning(){
-        String[][] mainObj = new String[totalBookDifferentLearning()][8];
+        String[][] mainObj = new String[totalBookDifferentLearning()][10];
         int count = 0;
         for (Book bookLearning: booksLearning){
-            for (int i=0; i<8; i++){
+            for (int i=0; i<10; i++){
                 switch (i){
                     case 0:
-                        mainObj[count][i] = String.valueOf(bookLearning.getCode());
+                        mainObj[count][i] = String.valueOf(bookLearning.learningCode());
                         break;
                     case 1:
                         mainObj[count][i] = bookLearning.getName();
@@ -258,7 +270,11 @@ public class BookManager extends Check {
                     case 7:
                         mainObj[count][i] = String.valueOf(bookLearning.getQuantity());
                         break;
-                    default:
+                    case 8:
+                        mainObj[count][i] = bookLearning.learningGetEducation();
+                        break;
+                    case 9:
+                        mainObj[count][i] = bookLearning.learningGetEducation_subjects();
                         break;
                 }
             }
@@ -269,13 +285,13 @@ public class BookManager extends Check {
 
     //List Book Psychology
     public String[][] listBookPsychology(){
-        String[][] mainObj = new String[totalBookDifferentPsychology()][8];
+        String[][] mainObj = new String[totalBookDifferentPsychology()][10];
         int count = 0;
         for (Book bookPsychology : booksPsychology){
-            for (int i=0; i<8; i++){
+            for (int i=0; i<10; i++){
                 switch (i){
                     case 0:
-                        mainObj[count][i] = String.valueOf(bookPsychology.getCode());
+                        mainObj[count][i] = String.valueOf(bookPsychology.psychologyCode());
                         break;
                     case 1:
                         mainObj[count][i] = bookPsychology.getName();
@@ -298,7 +314,11 @@ public class BookManager extends Check {
                     case 7:
                         mainObj[count][i] = String.valueOf(bookPsychology.getQuantity());
                         break;
-                    default:
+                    case 8:
+                        mainObj[count][i] = bookPsychology.psychologyGetType();
+                        break;
+                    case 9:
+                        mainObj[count][i] = bookPsychology.psychologyGetRecommentForAge();
                         break;
                 }
             }
@@ -312,6 +332,30 @@ public class BookManager extends Check {
     public String[] bookContent(){
         String[] obj = {
               "Code", "Name", "Date Added", "Price", "Author", "Publisher", "Category", "Quantity"
+        };
+        return obj;
+    }
+    public String[] bookContentChildren(){
+        String[] obj = {
+                "Code", "Name", "Date Added", "Price", "Author", "Publisher", "Category", "Quantity", "Type", "Age Recomment"
+        };
+        return obj;
+    }
+    public String[] bookContentNoval(){
+        String[] obj = {
+                "Code", "Name", "Date Added", "Price", "Author", "Publisher", "Category", "Quantity" , "Type", "Age Recomment"
+        };
+        return obj;
+    }
+    public String[] bookContentLearning(){
+        String[] obj = {
+                "Code", "Name", "Date Added", "Price", "Author", "Publisher", "Category", "Quantity", "Education", "Subjects"
+        };
+        return obj;
+    }
+    public String[] bookContentPsychology(){
+        String[] obj = {
+                "Code", "Name", "Date Added", "Price", "Author", "Publisher", "Category", "Quantity","Type", "Age Recomment"
         };
         return obj;
     }
@@ -361,7 +405,7 @@ public class BookManager extends Check {
                 codeCountNovel--;
             }
             if (codeReduce && i!=booksNovel.size()){
-                booksNovel.get(i).setCode(booksNovel.get(i).getCode() - 1);
+                booksNovel.get(i).novelSetCode(booksNovel.get(i).novelCode() - 1);
             }
         }
     }
@@ -376,7 +420,7 @@ public class BookManager extends Check {
                 codeCountChild--;
             }
             if (codeReduce && i!=booksChild.size()){
-                booksChild.get(i).setCode(booksChild.get(i).getCode() - 1);
+                booksChild.get(i).childSetCode(booksChild.get(i).childCode() - 1);
             }
         }
     }
@@ -391,7 +435,7 @@ public class BookManager extends Check {
                 codeCountLearning--;
             }
             if (codeReduce && i!=booksLearning.size()){
-                booksLearning.get(i).setCode(booksLearning.get(i).getCode() - 1);
+                booksLearning.get(i).leaningSetCode(booksLearning.get(i).learningCode() - 1);
             }
         }
     }
@@ -406,7 +450,7 @@ public class BookManager extends Check {
                 codeCountPsychology--;
             }
             if (codeReduce && i!=booksPsychology.size()){
-                booksPsychology.get(i).setCode(booksPsychology.get(i).getCode() - 1);
+                booksPsychology.get(i).psychologySetCode(booksPsychology.get(i).psychologyCode() - 1);
             }
         }
     }
@@ -482,10 +526,11 @@ public class BookManager extends Check {
                 editCommonValue(col, bookNoval, value);
                 switch (col){
                     case 8:
+                        System.out.println("col ");
                         bookNoval.novalSetType(value);
                         break;
                     case 9:
-                        bookNoval.novalSetAgeLimited(value);
+                        bookNoval.novelSetAgeLimited(value);
                         break;
                 }
             }
@@ -505,5 +550,37 @@ public class BookManager extends Check {
                 }
             }
         }
+    }
+
+    //Book Child Methods
+    public String[] childType(){
+        return bookChild.childType();
+    }
+    public String[] childRecommentForAge(){
+        return bookChild.childRecommentForAge();
+    }
+
+    //Book Learning Methods
+    public String[] learningEducation(){
+        return bookLearning.learningEducation();
+    }
+    public String[] learningEducaitionType(){
+        return bookLearning.learningEducaitionType();
+    }
+
+    //Book Novel Methods
+    public String[] novelType(){
+        return bookNovel.novelType();
+    }
+    public String[] novelAgeLimited(){
+        return bookNovel.novelAgeLimited();
+    }
+
+    //Book Psychology Methods
+    public String[] psychologyType(){
+        return bookPsychology.psychologyType();
+    }
+    public String[] psychologyRecommentForAge(){
+        return bookPsychology.psychologyRecommentForAge();
     }
 }

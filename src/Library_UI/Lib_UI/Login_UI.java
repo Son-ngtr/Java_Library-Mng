@@ -1,12 +1,15 @@
 package Library_UI.Lib_UI;
 
+import Database.AccountData;
+import Database.LibraryManager;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.awt.image.ImagingOpException;
+import java.sql.Connection;
 
 public class Login_UI {
     private JFrame main_Frame;
@@ -88,11 +91,14 @@ public class Login_UI {
         logIn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (txtName.getText().equals("admin") && txtPassword.getText().equals("password")){
-//                    JOptionPane.showMessageDialog(null, "Log in completed");
-                    new Lobby_UI();
+                String usename = txtName.getText();
+                String password = String.valueOf(txtPassword.getPassword());
+                AccountData accountData = new AccountData(usename, password);
+                Connection conn = LibraryManager.getConnect(accountData);
+                if(conn !=null){
+                    new Lobby_UI(conn);
                 }
-                else JOptionPane.showMessageDialog(null,"Log in uncompleted");
+//                else JOptionPane.showMessageDialog(null,"Log in uncompleted");
             }
         });
 
