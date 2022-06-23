@@ -54,7 +54,7 @@ public class UserManager {
         for (User user : users){
             for (int i=0; i<10; i++){
                 switch (i) {
-                    case 0 -> mainObj[count][i] = String.valueOf(user.getId());
+                    case 0 -> mainObj[count][i] = "HU" + String.valueOf(user.getId());
                     case 1 -> mainObj[count][i] = user.getName();
                     case 2 -> mainObj[count][i] = user.getGender();
                     case 3 -> mainObj[count][i] = user.dateConvert(user.getDateOfBirth());

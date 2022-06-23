@@ -28,7 +28,7 @@ public class StaffManager {
 
     //Staff Category
     public String[] staffCategory(){
-        return new String[]{"Sanitation worker", "Treasurer"};
+        return new String[]{"Sanitation worker", "Treasurer", "Librarian"};
     }
 
     //Staff Gender
@@ -65,7 +65,7 @@ public class StaffManager {
             for (int i=0; i<10; i++){
                 switch (i){
                     case 0:
-                        mainObj[count][i] = String.valueOf(staff.getId());
+                        mainObj[count][i] = "HS" + String.valueOf(staff.getId());
                         break;
                     case 1:
                         mainObj[count][i] = staff.getName();

@@ -25,7 +25,7 @@ public class AddStaff_UI {
     private JPanel inFo;
     private StaffManager staffManager;
     private DefaultTableModel defaultTableModel;
-    private String job[] = {"Sanitation worker", "Treasurer", "librarian"};
+    private String job[] = {"Sanitation worker", "Treasurer", "Librarian"};
     private JComboBox cb = new JComboBox(job);
     private JTable table;
     private Check check = new Check();
