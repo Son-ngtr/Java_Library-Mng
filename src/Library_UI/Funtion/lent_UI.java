@@ -427,18 +427,19 @@ public class lent_UI {
         b_bir.setForeground(Color_me);
         b_bir.setBackground(Color_left);
 // create txt field
+        JDatePickerImpl datePicker_birth;
         SqlDateModel model_birth = new SqlDateModel();
         Properties p_birth = new Properties();
         p_birth.put("text.day", "Day");
         p_birth.put("text.month", "Month");
         p_birth.put("text.year", "Year");
-        JDatePanelImpl panel_birth = new JDatePanelImpl(model, p);
-        datePicker_birth = new JDatePickerImpl(panel, new JFormattedTextField.AbstractFormatter() {
+        JDatePanelImpl panel_birth = new JDatePanelImpl(model_birth, p_birth);
+        datePicker_birth = new JDatePickerImpl(panel_birth, new JFormattedTextField.AbstractFormatter() {
             @Override
             public String valueToString(Object value) throws ParseException {
                 if(value != null){
                     Calendar cal_1 = (Calendar) value;
-                    SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd");
+                    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
                     String strDate = format.format(cal_1.getTime());
 
 
