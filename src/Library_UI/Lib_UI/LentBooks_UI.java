@@ -17,7 +17,7 @@ import java.awt.event.MouseListener;
 
 public class LentBooks_UI {
 
-    private JFrame main_Frame;
+    private JFrame main_Frame, managerUserFrame;
     private JLabel label, notification_Label, logout_Label,exit_Label;
     private BookManager bookManager;
     private DefaultTableModel defaultTableModel, defaultTableModelUser;
@@ -34,7 +34,8 @@ public class LentBooks_UI {
     }
 
     //ManagerUser Side
-    public void setManagerUserSide(DefaultTableModel defaultTableModel){
+    public void setManagerUserSide(JFrame jFrame, DefaultTableModel defaultTableModel){
+        managerUserFrame = jFrame;
         defaultTableModelUser = defaultTableModel;
     }
 
@@ -94,8 +95,14 @@ public class LentBooks_UI {
         logout_Label.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                main_Frame.dispose();
-                new Lobby_UI();
+                if(managerUserFrame != null){
+                    managerUserFrame.setEnabled(true);
+                    main_Frame.dispose();
+                }else {
+                    new Lobby_UI();
+                    main_Frame.dispose();
+                }
+
             }
 
             @Override

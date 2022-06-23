@@ -26,7 +26,7 @@ import javax.swing.table.DefaultTableModel;
 
 public class lent_UI {
     private UserManager userManager;
-    private JFrame main_Frame, managerBookFrame;
+    private JFrame main_Frame, lentBookFrame;
     private ImageIcon bk_Icon, notepad_Icon, login_Ani, login_ef;
     private JLabel label, notification_Label, login_Icon, logout_Label, exit_Label;
     private JButton button ,b1, b2, b3, b4, b5, b6, bt_save, bt_exit, bt_reset;
@@ -54,7 +54,7 @@ public class lent_UI {
 
     //Lent Books Side
     public void setLentBooksSide(JFrame frame ,DefaultTableModel defaultTableModelBook, DefaultTableModel defaultTableModelUser, JTable table){
-        managerBookFrame = frame;
+        lentBookFrame = frame;
         this.defaultTableModelBook = defaultTableModelBook;
         this.defaultTableModelUser = defaultTableModelUser;
         this.table = table;
@@ -293,6 +293,9 @@ public class lent_UI {
                                      0L
                             )
                     );
+                    if(defaultTableModelUser != null){
+                        tableUserReset();
+                    }
 
                     //Fix Quantity Of Book
                     switch (codeLetter){
@@ -315,7 +318,7 @@ public class lent_UI {
                     }
 
                     //Exit Lent UI
-                    managerBookFrame.setEnabled(true);
+                    lentBookFrame.setEnabled(true);
                     main_Frame.dispose();
                 }
                 if(result < 0 ){
@@ -333,7 +336,7 @@ public class lent_UI {
         bt_exit.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                managerBookFrame.setEnabled(true);
+                lentBookFrame.setEnabled(true);
                 main_Frame.dispose();
             }
 

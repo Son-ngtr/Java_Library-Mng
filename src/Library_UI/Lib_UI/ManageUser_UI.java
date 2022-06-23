@@ -187,7 +187,7 @@ public class ManageUser_UI {
             @Override
             public void mouseClicked(MouseEvent e) {
                 LentBooks_UI lentBooks_ui = new LentBooks_UI(bookManager, userManager);
-                lentBooks_ui.setManagerUserSide(defaultTableModel);
+                lentBooks_ui.setManagerUserSide(main_Frame,defaultTableModel);
                 main_Frame.setEnabled(false);
             }
 
