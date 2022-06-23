@@ -2,6 +2,9 @@ package Library_UI.Funtion;
 
 import Library.Book_Manager.BookManager;
 import Library.Check;
+import org.jdatepicker.impl.JDatePanelImpl;
+import org.jdatepicker.impl.JDatePickerImpl;
+import org.jdatepicker.impl.SqlDateModel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -10,9 +13,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
+import java.util.Properties;
 import javax.swing.JFrame;
 import javax.swing.table.DefaultTableModel;
 
@@ -26,13 +32,13 @@ public class lent_UI {
     private JPanel inFo;
     private BookManager bookManager;
     private DefaultTableModel defaultTableModel;
-    private String gender[] = {"male", "female", "unknown"};
+    private String gender[] = {"male", "female", "other"};
     private JComboBox gd = new JComboBox(gender);
     private JTable table;
     private Check check = new Check();
 
 // get time
-    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
     LocalDateTime now = LocalDateTime.now();
 
     public lent_UI(){
@@ -169,12 +175,12 @@ public class lent_UI {
         txt_6.setFont(Font_me_3);
         txt_6.setEditable(false);
 
-        JTextField txt_7 = new JTextField();
-        txt_7.setBackground(Color_left);
-        txt_7.setBounds(283, po_y+65*6, 337, height);
-        txt_7.setForeground(Color_me);
-        txt_7.setBorder(BorderFactory.createLineBorder(Color_me));
-        txt_7.setFont(Font_me_3);
+//        JTextField txt_7 = new JTextField();
+//        txt_7.setBackground(Color_left);
+//        txt_7.setBounds(283, po_y+65*6, 337, height);
+//        txt_7.setForeground(Color_me);
+//        txt_7.setBorder(BorderFactory.createLineBorder(Color_me));
+//        txt_7.setFont(Font_me_3);
 
         JTextField txt_8 = new JTextField();
         txt_8.setBackground(Color_left);
@@ -224,7 +230,7 @@ public class lent_UI {
         bt_exit.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                managerBookFrame.setEnabled(true);
+//                managerBookFrame.setEnabled(true);
                 main_Frame.dispose();
             }
 
@@ -269,6 +275,43 @@ public class lent_UI {
 
 // set combo box
 //        gd.setEnabled(false);
+//        datePicker.getJFormattedTextField().getText();
+
+// add calendar
+        JDatePickerImpl datePicker;
+        SqlDateModel model = new SqlDateModel();
+        Properties p = new Properties();
+        p.put("text.day", "Day");
+        p.put("text.month", "Month");
+        p.put("text.year", "Year");
+        JDatePanelImpl panel = new JDatePanelImpl(model, p);
+        datePicker = new JDatePickerImpl(panel, new JFormattedTextField.AbstractFormatter() {
+            @Override
+            public String valueToString(Object value) throws ParseException {
+                if(value != null){
+                Calendar cal = (Calendar) value;
+                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+                String strDate = format.format(cal.getTime());
+                return strDate;}
+                return "";
+            }
+
+            @Override
+            public Object stringToValue(String text) throws ParseException {
+                return "";
+            }
+
+        });
+
+        datePicker.setBounds(283, po_y+65*6, 337, height);
+        datePicker.setBackground(Color_left);
+        datePicker.setForeground(Color_me);
+        datePicker.setFont(Font_me_3);
+        datePicker.getJFormattedTextField().setBackground(Color_left);
+        datePicker.getJFormattedTextField().setFont(Font_me_3);
+        datePicker.getJFormattedTextField().setForeground(Color_me);
+        datePicker.getJFormattedTextField().setBorder(BorderFactory.createLineBorder(Color_me));
+
 
 // add all properties on UI
         label.add(b1);
@@ -286,12 +329,13 @@ public class lent_UI {
         label.add(txt_4);
         label.add(txt_5);
         label.add(txt_6);
-        label.add(txt_7);
+//        label.add(txt_7);
         label.add(txt_8);
 
         label.add(bt_save);
         label.add(bt_exit);
         label.add(bt_reset);
+        label.add(datePicker);
 
         main_Frame = new JFrame("Main_UI");
         main_Frame.add(label);
@@ -307,4 +351,5 @@ public class lent_UI {
     public static void main(String[] args) {
         new lent_UI();
     }
+
 }
