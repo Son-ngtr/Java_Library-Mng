@@ -106,7 +106,39 @@ public class BookManager {
         return total;
     }
 
-    //Danh Sách All
+    //Danh Sách
+    public String[][] listBookBorrow(){
+        String[][] mainObj = new String[totalBookDifferent()][7];
+        int count = 0;
+        for (Book book : books){
+            for (int i=0; i<8; i++){
+                switch (i) {
+                    case 0 ->{
+                        String s;
+                        switch (book.getCategory()) {
+                            case "Learning Book" -> s = "L" + book.learningCode();
+                            case "Noval Book" -> s = "N" + book.novelCode();
+                            case "Children Book" -> s = "C" + book.childCode();
+                            case "Psychological Book" -> s = "P" + book.psychologyCode();
+                            default -> s = "";
+                        }
+                        mainObj[count][i] = s;
+
+                    }
+                    case 1 -> mainObj[count][i] = book.getName();
+                    case 2 -> mainObj[count][i] = book.moneyConvert();
+                    case 3 -> mainObj[count][i] = book.getAuthor();
+                    case 4 -> mainObj[count][i] = book.getPublisher();
+                    case 5 -> mainObj[count][i] = book.getCategory();
+                    case 6 -> mainObj[count][i] = String.valueOf(book.getQuantity());
+                    default -> {
+                    }
+                }
+            }
+            count++;
+        }
+        return mainObj;
+    }
     public String[][] listBookAll(){
         String[][] mainObj = new String[totalBookDifferent()][8];
         int count = 0;
@@ -240,6 +272,12 @@ public class BookManager {
 
 
     //Tiêu Đề Danh Sách
+
+    public String[] bookBorrowContent(){
+        return new String[]{
+                "code", "name", "price", "author", "publisher", "category", "quantity"
+        };
+    }
     public String[] bookContent(){
         return new String[]{
               "Number", "Name", "Date Added", "Price", "Author", "Publisher", "Category", "Quantity"

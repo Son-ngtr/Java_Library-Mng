@@ -2,6 +2,8 @@ package Library_UI.Lib_UI;
 
 
 import Library.Book_Manager.BookManager;
+import Library.Staff_Manager.StaffManager;
+import Library.User_Manager.UserManager;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,6 +15,7 @@ import java.awt.event.MouseListener;
 import java.util.Calendar;
 import javax.swing.JFrame;
 
+
 public class Lobby_UI {
     private JFrame main_Frame;
     private ImageIcon bk_Icon, notepad_Icon, login_Ani, login_ef;
@@ -21,7 +24,55 @@ public class Lobby_UI {
     private JTextField txt_Group, txt_Reader, txt_NoBook, txt_NoBookBorrowed;
     private JButton logIn;
     private JPanel inFo;
+    private BookManager bookManager = new BookManager();
+    private UserManager userManager = new UserManager();
+    private StaffManager staffManager = new StaffManager();
+
+    public void addBookExample(){
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(2020, 10, 10);
+        bookManager.addBookChild(bookManager.createBookChild("Quang", calendar, 1000L, "Son", "Dfsd", 10, "Classic", "6->10"));
+        bookManager.addBookChild(bookManager.createBookChild("Phong", calendar, 1000L, "Son", "Dfsd", 10, "Classic", "6->10"));
+        bookManager.addBookChild(bookManager.createBookChild("Toan", calendar, 1000L, "Son", "Dfsd", 10, "Classic", "6->10"));
+        calendar.set(2020, 11, 20);
+        bookManager.addBookLearning(bookManager.createBookLearning("Shark", calendar, 1000L, "Sn", "Dfsdf", 10, "High School", "Math"));
+        bookManager.addBookLearning(bookManager.createBookLearning("Meme", calendar, 1000L, "Sn", "Dfsdf", 10, "High School", "Math"));
+        bookManager.addBookLearning(bookManager.createBookLearning("Leesin", calendar, 1000L, "Sn", "Dfsdf", 10, "High School", "Math"));
+        calendar.set(2020, 1, 9);
+        bookManager.addBookPsychology(bookManager.createBookPsychology("Babe", calendar, 1000L, "Sn", "Dfsdf", 10, "Criminal", "11->16"));
+        bookManager.addBookPsychology(bookManager.createBookPsychology("Babe shark", calendar, 1000L, "Sn", "Dfsdf", 10, "Criminal", "11->16"));
+        bookManager.addBookPsychology(bookManager.createBookPsychology("Babe Sister", calendar, 1000L, "Sn", "Dfsdf", 10, "Criminal", "11->16"));
+        calendar.set(2020, 4, 1);
+        bookManager.addBookNovel(bookManager.createBookNovel("Duong", calendar, 1000L, "Sn", "Dfsdf", 10, "Science Fictiong", "11->16"));
+        bookManager.addBookNovel(bookManager.createBookNovel("Duoc", calendar, 1000L, "Sn", "Dfsdf", 10, "Science Fictiong", "11->16"));
+        bookManager.addBookNovel(bookManager.createBookNovel("Dung", calendar, 1000L, "Sn", "Dfsdf", 10, "Science Fictiong", "11->16"));
+    }
+
+    public void addUserExample(){
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(2020, 10, 10);
+        userManager.addUser(userManager.createUser("Quang", "Male", calendar, "sdfsdf", "dsfsd", "dsfsd", calendar, calendar, 1000L));
+        userManager.addUser(userManager.createUser("Phong", "Other", calendar, "sdfsdf", "dsfsd", "dsfsd", calendar, calendar, 1000L));
+        userManager.addUser(userManager.createUser("Hai", "Female", calendar, "sdfsdf", "dsfsd", "dsfsd", calendar, calendar, 1000L));
+        userManager.addUser(userManager.createUser("Duong", "Male", calendar, "sdfsdf", "dsfsd", "dsfsd", calendar, calendar, 1000L));
+    }
+
+    public void addStaffExample(){
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(2020, 10, 10);
+        staffManager.addStaff(staffManager.createStaff("Quang", "Male", calendar, "Sai Dong", "324234234","sdfsdf","Treasurer", 1000L, "None" ));
+        staffManager.addStaff(staffManager.createStaff("Phong", "Female", calendar, "Sai Dong", "324234234","sdfds","Treasurer", 1000L, "None" ));
+        staffManager.addStaff(staffManager.createStaff("Hieu", "Other", calendar, "Sai Dong", "324234234","dsfsdf","Treasurer", 1000L, "None" ));
+        staffManager.addStaff(staffManager.createStaff("Binh", "Male", calendar, "Sai Dong", "324234234","dsfsdf","Treasurer", 1000L, "None"));
+    }
+
+
     public Lobby_UI(){
+        //Example
+        addBookExample();
+        addUserExample();
+        addStaffExample();
+
         ImageIcon bk_Icon = new ImageIcon("src/Image_Icon/background/lobby_1.png");
         label = new JLabel(bk_Icon);
         label.setSize(bk_Icon.getIconWidth(), bk_Icon.getIconHeight());
@@ -146,25 +197,6 @@ public class Lobby_UI {
             @Override
             public void mouseClicked(MouseEvent e) {
                 main_Frame.dispose();
-                BookManager bookManager = new BookManager();
-                Calendar calendar = Calendar.getInstance();
-                calendar.set(2020, 10, 10);
-                bookManager.addBookChild(bookManager.createBookChild("Quang", calendar, 1000L, "Son", "Dfsd", 10, "Classic", "6->10"));
-                bookManager.addBookChild(bookManager.createBookChild("Phong", calendar, 1000L, "Son", "Dfsd", 10, "Classic", "6->10"));
-                bookManager.addBookChild(bookManager.createBookChild("Toan", calendar, 1000L, "Son", "Dfsd", 10, "Classic", "6->10"));
-                calendar.set(2020, 11, 20);
-                bookManager.addBookLearning(bookManager.createBookLearning("Shark", calendar, 1000L, "Sn", "Dfsdf", 10, "High School", "Math"));
-                bookManager.addBookLearning(bookManager.createBookLearning("Meme", calendar, 1000L, "Sn", "Dfsdf", 10, "High School", "Math"));
-                bookManager.addBookLearning(bookManager.createBookLearning("Leesin", calendar, 1000L, "Sn", "Dfsdf", 10, "High School", "Math"));
-                calendar.set(2020, 1, 9);
-                bookManager.addBookPsychology(bookManager.createBookPsychology("Babe", calendar, 1000L, "Sn", "Dfsdf", 10, "Criminal", "11->16"));
-                bookManager.addBookPsychology(bookManager.createBookPsychology("Babe shark", calendar, 1000L, "Sn", "Dfsdf", 10, "Criminal", "11->16"));
-                bookManager.addBookPsychology(bookManager.createBookPsychology("Babe Sister", calendar, 1000L, "Sn", "Dfsdf", 10, "Criminal", "11->16"));
-                calendar.set(2020, 4, 1);
-                bookManager.addBookNovel(bookManager.createBookNovel("Duong", calendar, 1000L, "Sn", "Dfsdf", 10, "Science Fictiong", "11->16"));
-                bookManager.addBookNovel(bookManager.createBookNovel("Duoc", calendar, 1000L, "Sn", "Dfsdf", 10, "Science Fictiong", "11->16"));
-                bookManager.addBookNovel(bookManager.createBookNovel("Dung", calendar, 1000L, "Sn", "Dfsdf", 10, "Science Fictiong", "11->16"));
-
                 ManageBook_UI manageBook_ui = new ManageBook_UI(bookManager);
             }
 
@@ -200,7 +232,7 @@ public class Lobby_UI {
         b2.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                new ManageUser_UI();
+                new ManageUser_UI(bookManager, userManager);
                 main_Frame.dispose();
             }
 
@@ -236,7 +268,7 @@ public class Lobby_UI {
         b3.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                new ManageStaff_UI();
+                new ManageStaff_UI(staffManager);
                 main_Frame.dispose();
             }
 
@@ -272,7 +304,7 @@ public class Lobby_UI {
         b4.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                new LentBooks_UI();
+                new LentBooks_UI(bookManager, userManager);
                 main_Frame.dispose();
             }
 

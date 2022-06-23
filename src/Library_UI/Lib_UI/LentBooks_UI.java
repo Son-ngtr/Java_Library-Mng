@@ -1,9 +1,16 @@
 package Library_UI.Lib_UI;
 
+import Library.Book_Manager.BookManager;
+import Library.User_Manager.UserManager;
 import Library_UI.Funtion.lent_UI;
 
 import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -12,7 +19,27 @@ public class LentBooks_UI {
 
     private JFrame main_Frame;
     private JLabel label, notification_Label, logout_Label,exit_Label;
-    public LentBooks_UI(){
+    private BookManager bookManager;
+    private DefaultTableModel defaultTableModel, defaultTableModelUser;
+    private JTable jt;
+    private UserManager userManager;
+    private String[] tableContent;
+
+    //Constructor
+    public LentBooks_UI(BookManager bookManager, UserManager userManager){
+        this.bookManager = bookManager;
+        this.userManager = userManager;
+        tableContent = bookManager.bookBorrowContent();
+        content();
+    }
+
+    //ManagerUser Side
+    public void setManagerUserSide(DefaultTableModel defaultTableModel){
+        defaultTableModelUser = defaultTableModel;
+    }
+
+
+    public void content(){
         ImageIcon bk_Icon = new ImageIcon("src/Image_Icon/background/_LentBooks_UI_.png");
         label = new JLabel(bk_Icon);
         label.setSize(1794,956);
@@ -125,6 +152,7 @@ public class LentBooks_UI {
 
 
 // create table
+        //Search Field
         JTextField bookFilter = new JTextField("  ",20);
         bookFilter.setBounds(160, 85, 1475, 35);
         bookFilter.setFont(Font_Table);
@@ -133,25 +161,58 @@ public class LentBooks_UI {
         bookFilter.setForeground(Color_me);
 
 
-        String[][] tableData = {{"1", "one piece", "20.000", "Oda Eiichiro", "Kim Dong", "Anime", "26"}};
-
-        String[] tableColumn = {"code", "name", "price", "author", "publisher", "category", "quantity"};
-
-        JTable jt = new JTable(tableData, tableColumn);
-
-        JScrollPane Jsc = new JScrollPane(jt);
+        //Table
+        defaultTableModel = new DefaultTableModel(bookManager.listBookBorrow(), tableContent);
+        jt = new JTable(defaultTableModel){
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+        jt.getTableHeader().setReorderingAllowed(false);
         jt.setFont(Font_Table);
         jt.setGridColor(Color_ForeG);
         jt.setBackground(Color_me);
         jt.setForeground(Color_ForeG);
+
         JTableHeader jth = jt.getTableHeader();
         jth.setBackground(Color_ForeG);
         jth.setFont(Font_Table);
         jth.setForeground(Color_me);
 
+        JScrollPane Jsc = new JScrollPane(jt);
         Jsc.setBounds(160, 120, 1475, 750);
         Jsc.setForeground(Color_me);
         Jsc.setFont(Font_Table);
+
+        //Table Search
+        TableRowSorter<TableModel> rowSorter = new TableRowSorter<>(jt.getModel());
+        jt.setRowSorter(rowSorter);
+        bookFilter.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                String text = bookFilter.getText().trim();
+                if(text.length() == 0){
+                    rowSorter.setRowFilter(null);
+                }else {
+                    rowSorter.setRowFilter(RowFilter.regexFilter("(?i)" + text));
+                }
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                String text = bookFilter.getText().trim();
+                if(text.length() == 0){
+                    rowSorter.setRowFilter(null);
+                }else {
+                    rowSorter.setRowFilter(RowFilter.regexFilter("(?i)" + text));
+                }
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+
+            }
+        });
 
 
 
@@ -165,7 +226,13 @@ public class LentBooks_UI {
         add_bt.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                new lent_UI();
+                if(jt.getSelectedRow() != -1){
+                    lent_UI lent_ui = new lent_UI(String.valueOf(jt.getValueAt(jt.getSelectedRow(), 0)).trim(), userManager, bookManager);
+                    lent_ui.setLentBooksSide(main_Frame, defaultTableModel, defaultTableModelUser,jt);
+                    main_Frame.setEnabled(false);
+                }else {
+                    JOptionPane.showMessageDialog(null,"Please chose a book form the list");
+                }
             }
 
             @Override
@@ -216,6 +283,6 @@ public class LentBooks_UI {
 
 
     public static void main(String[] args) {
-        new LentBooks_UI();
+//        new LentBooks_UI();
     }
 }

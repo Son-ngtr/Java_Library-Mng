@@ -1,5 +1,7 @@
 package Library;
 
+import java.util.Calendar;
+
 public class Check {
 
     //Kiểm tra có phải số nguyên
@@ -137,7 +139,7 @@ public class Check {
         return Long.toString(result);
     }
 
-    //Check Convert
+    //Code Convert
     public String codeConvert(String code){
         String s ="";
         for (int i=0 ;i<code.length(); i++){
@@ -147,5 +149,26 @@ public class Check {
             }
         }
         return s;
+    }
+    public String codeLetter(String code){
+        String s ="";
+        for (int i=0 ;i<code.length(); i++){
+            char a = code.charAt(i);
+            if(a <= '0' || a >= '9'){
+                s += a;
+            }
+        }
+        return s;
+    }
+
+    //DateReConvert
+    public Calendar dateReConvert(String dateReConvert){
+        Calendar newCalendar = Calendar.getInstance();
+        String[] times = dateReConvert.split("/");
+        int date = Integer.parseInt(times[0]);
+        int month = Integer.parseInt(times[1]);
+        int year = Integer.parseInt(times[2]);
+        newCalendar.set(year, month - 1 , date);
+        return newCalendar;
     }
 }

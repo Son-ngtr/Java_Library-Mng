@@ -48,7 +48,6 @@ public class Addbook_UI {
     //Check Common Value
     public boolean checkCommonValue(){
         boolean inputCheck = true;
-        String type = String.valueOf(cb.getItemAt(cb.getSelectedIndex()));
         if(txt_1.getText().trim().length() == 0){
             JOptionPane.showMessageDialog(null, "Thiếu thông tin tên sách");
             inputCheck = false;

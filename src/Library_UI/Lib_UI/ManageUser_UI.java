@@ -30,17 +30,18 @@ public class ManageUser_UI {
     private JPanel inFo;
     private JTable jt;
     private DefaultTableModel defaultTableModel;
-    private UserManager userManager= new UserManager();
-    private JComboBox cb = new JComboBox(userManager.userGender());
+    private UserManager userManager;
+    private BookManager bookManager;
+    private JComboBox cb;
     private Check check = new Check();
 
-    public void createTableExample(){
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(2020, 10, 10);
-        userManager.addUser(userManager.createUser("Quang", "Male", calendar, "sdfsdf", "dsfsd", "dsfsd", calendar, calendar, 1000L));
-        userManager.addUser(userManager.createUser("Phong", "Other", calendar, "sdfsdf", "dsfsd", "dsfsd", calendar, calendar, 1000L));
-        userManager.addUser(userManager.createUser("Hai", "Female", calendar, "sdfsdf", "dsfsd", "dsfsd", calendar, calendar, 1000L));
-        userManager.addUser(userManager.createUser("Duong", "Male", calendar, "sdfsdf", "dsfsd", "dsfsd", calendar, calendar, 1000L));
+
+    //Constructor
+    public ManageUser_UI(BookManager bookManager, UserManager userManager){
+        this.bookManager = bookManager;
+        this.userManager = userManager;
+        cb = new JComboBox(userManager.userGender());
+        content();
     }
 
     //Table reset
@@ -51,7 +52,7 @@ public class ManageUser_UI {
         userManager.setIsUpdate(false);
     }
 
-    public ManageUser_UI(){
+    public void content(){
         ImageIcon bk_Icon = new ImageIcon("src/Image_Icon/background/_Reader_UI_.png");
         label = new JLabel(bk_Icon);
         label.setSize(1794,956);
@@ -185,7 +186,8 @@ public class ManageUser_UI {
         bt_add.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                new LentBooks_UI();
+                LentBooks_UI lentBooks_ui = new LentBooks_UI(bookManager, userManager);
+                lentBooks_ui.setManagerUserSide(defaultTableModel);
                 main_Frame.setEnabled(false);
             }
 
@@ -296,7 +298,6 @@ public class ManageUser_UI {
         bookFilter.setForeground(Color_me);
 
         //Table
-        createTableExample();
         defaultTableModel = new DefaultTableModel(userManager.listUser(), userManager.userContent());
         jt = new JTable(defaultTableModel){
             public boolean isCellEditable(int row, int column) {
@@ -477,6 +478,6 @@ public class ManageUser_UI {
     }
 
     public static void main(String[] args) {
-        new ManageUser_UI();
+//        new ManageUser_UI();
     }
 }
