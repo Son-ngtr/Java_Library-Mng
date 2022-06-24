@@ -31,19 +31,19 @@ public class ManageStaff_UI {
     private JPanel inFo;
     private JTable jt;
     private DefaultTableModel defaultTableModel;
-    private StaffManager staffManager= new StaffManager();
-    private JComboBox cbCategory = new JComboBox(staffManager.staffCategory());
-    private JComboBox cbGender = new JComboBox(staffManager.staffGender());
-    private JComboBox cbAttendence = new JComboBox(staffManager.staffAttendence());
+    private StaffManager staffManager;
+    private JComboBox cbCategory ;
+    private JComboBox cbGender;
+    private JComboBox cbAttendence;
     private Check check = new Check();
 
-    public void createTableExample(){
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(2020, 10, 10);
-        staffManager.addStaff(staffManager.createStaff("Quang", "Male", calendar, "Sai Dong", "324234234","sdfsdf","Treasurer", 1000L, "None" ));
-        staffManager.addStaff(staffManager.createStaff("Phong", "Female", calendar, "Sai Dong", "324234234","sdfds","Treasurer", 1000L, "None" ));
-        staffManager.addStaff(staffManager.createStaff("Hieu", "Other", calendar, "Sai Dong", "324234234","dsfsdf","Treasurer", 1000L, "None" ));
-        staffManager.addStaff(staffManager.createStaff("Binh", "Male", calendar, "Sai Dong", "324234234","dsfsdf","Treasurer", 1000L, "None"));
+    //Constructor
+    public ManageStaff_UI(StaffManager staffManager){
+        this.staffManager = staffManager;
+        cbCategory = new JComboBox(staffManager.staffCategory());
+        cbGender = new JComboBox(staffManager.staffGender());
+        cbAttendence = new JComboBox(staffManager.staffAttendence());
+        content();
     }
 
     //Table add Combobox and CheckBox
@@ -61,7 +61,7 @@ public class ManageStaff_UI {
         staffManager.setIsUpdate(false);
     }
 
-    public ManageStaff_UI(){
+    public void content(){
         ImageIcon bk_Icon = new ImageIcon("src/Image_Icon/background/_Staff_UI_.png");
         JLabel label = new JLabel(bk_Icon);
         label.setSize(1794,956);
@@ -193,7 +193,9 @@ public class ManageStaff_UI {
         bt_add.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                new AddStaff_UI();
+                AddStaff_UI addStaff_ui = new AddStaff_UI();
+                addStaff_ui.setManagerUser(main_Frame, staffManager, defaultTableModel, jt);
+                main_Frame.setEnabled(false);
             }
 
             @Override
@@ -229,7 +231,7 @@ public class ManageStaff_UI {
             @Override
             public void mouseClicked(MouseEvent e) {
                 if(jt.getSelectedRow() != -1){
-                    staffManager.removeStaff(String.valueOf(jt.getValueAt(jt.getSelectedRow(), 0)));
+                    staffManager.removeStaff(check.codeConvert(String.valueOf(jt.getValueAt(jt.getSelectedRow(), 0)).trim()));
                     tableReset();
                 }
             }
@@ -303,7 +305,6 @@ public class ManageStaff_UI {
         bookFilter.setForeground(Color_me);
 
         //Table
-        createTableExample();
         defaultTableModel = new DefaultTableModel(staffManager.listStaff(), staffManager.staffContent());
         jt = new JTable(defaultTableModel){
             public boolean isCellEditable(int row, int column) {
@@ -364,7 +365,7 @@ public class ManageStaff_UI {
             @Override
             public void tableChanged(TableModelEvent e) {
                 if(!staffManager.getIsUpdate()){
-                    String codeValue = String.valueOf(jt.getValueAt(jt.getSelectedRow(), 0)).trim();
+                    String codeValue = check.codeConvert(String.valueOf(jt.getValueAt(jt.getSelectedRow(), 0)).trim());
                     String newValue = String.valueOf(jt.getValueAt(jt.getSelectedRow(), jt.getSelectedColumn())).trim();
                     switch (jt.getSelectedColumn()){
                         case 1:
@@ -481,6 +482,6 @@ public class ManageStaff_UI {
     }
 
     public static void main(String[] args) {
-        new ManageStaff_UI();
+//        new ManageStaff_UI();
     }
 }

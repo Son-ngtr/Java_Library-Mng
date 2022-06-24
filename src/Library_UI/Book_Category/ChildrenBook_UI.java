@@ -298,7 +298,7 @@ public class ChildrenBook_UI {
             @Override
             public void mouseClicked(MouseEvent e) {
                 if(jt.getSelectedRow() != -1){
-                    bookManager.removeBookChild(String.valueOf(jt.getValueAt(jt.getSelectedRow(), 0)));
+                    bookManager.removeBookChild(check.codeConvert(String.valueOf(jt.getValueAt(jt.getSelectedRow(), 0)).trim()));
                     tableReset();
                 }
             }
@@ -432,7 +432,7 @@ public class ChildrenBook_UI {
             @Override
             public void tableChanged(TableModelEvent e) {
                 if(!bookManager.getIsUpdate()){
-                    String codeValue = String.valueOf(jt.getValueAt(jt.getSelectedRow(), 0)).trim();
+                    String codeValue = check.codeConvert(String.valueOf(jt.getValueAt(jt.getSelectedRow(), 0)).trim());
                     String newValue = String.valueOf(jt.getValueAt(jt.getSelectedRow(), jt.getSelectedColumn())).trim();
                     switch (jt.getSelectedColumn()){
                         case 1:

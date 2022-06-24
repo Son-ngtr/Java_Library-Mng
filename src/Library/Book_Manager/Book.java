@@ -3,7 +3,7 @@ package Library.Book_Manager;
 import java.util.Calendar;
 
 public class Book {
-    private int Code;
+    private int STT;
     private String Name;
     private Calendar DateAdded;
     private Long Price;
@@ -17,8 +17,8 @@ public class Book {
 
     }
 
-    public Book(int code, String name, Calendar dateAdded, Long price, String author, String publisher, String category, int quantity) {
-        Code = code;
+    public Book(int STT, String name, Calendar dateAdded, Long price, String author, String publisher, String category, int quantity) {
+        this.STT = STT;
         Name = name;
         DateAdded = dateAdded;
         Price = price;
@@ -29,12 +29,12 @@ public class Book {
     }
 
     //Getter and Setter
-    public int getCode() {
-        return Code;
+    public int getSTT() {
+        return STT;
     }
 
-    public void setCode(int  code) {
-        Code = code;
+    public void setSTT(int STT) {
+        this.STT = STT;
     }
 
     public String getName() {

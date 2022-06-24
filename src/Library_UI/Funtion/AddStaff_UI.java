@@ -2,6 +2,7 @@ package Library_UI.Funtion;
 
 import Library.Check;
 import Library.Book_Manager.BookManager;
+import Library.Staff_Manager.StaffManager;
 
 import javax.swing.*;
 import java.awt.*;
@@ -22,12 +23,20 @@ public class AddStaff_UI {
     private JTextField txt_1, txt_2, txt_3, txt_4, txt_5, txt_6;
     private JButton logIn;
     private JPanel inFo;
-    private BookManager bookManager;
+    private StaffManager staffManager;
     private DefaultTableModel defaultTableModel;
-    private String job[] = {"Sanitation worker", "Treasurer", "librarian"};
+    private String job[] = {"Sanitation worker", "Treasurer", "Librarian"};
     private JComboBox cb = new JComboBox(job);
     private JTable table;
     private Check check = new Check();
+
+    //Manager Staff Side
+    public void setManagerUser(JFrame frame, StaffManager staffManager, DefaultTableModel defaultTableModel, JTable table){
+        managerBookFrame = frame;
+        this.staffManager = staffManager;
+        this.defaultTableModel = defaultTableModel;
+        this.table = table;
+    }
 
 
     public AddStaff_UI(){
