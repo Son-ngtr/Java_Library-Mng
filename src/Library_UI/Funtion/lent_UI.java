@@ -284,7 +284,7 @@ public class lent_UI {
                             userManager.createUser(
                                     txt_1.getText().trim(),
                                     (String) gd.getItemAt(gd.getSelectedIndex()),
-                                    check.dateReConvert(datePicker_birth.getJFormattedTextField().getText()) ,
+                                    check.dateReConvert(datePicker_birth.getJFormattedTextField().getText()),
                                     txt_3.getText().trim(),
                                     txt_4.getText().trim(),
                                     txt_5.getText().trim(),
