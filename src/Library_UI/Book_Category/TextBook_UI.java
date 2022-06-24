@@ -48,7 +48,6 @@ public class TextBook_UI {
 
     //Table add Combobox and CheckBox
     public void tableAddCombobox(){
-        jt.getColumnModel().getColumn(6).setCellEditor(new DefaultCellEditor(cbBookType));
         jt.getColumnModel().getColumn(8).setCellEditor(new DefaultCellEditor(cbEducation));
         jt.getColumnModel().getColumn(9).setCellEditor(new DefaultCellEditor(cbEducationType));
     }
@@ -258,8 +257,8 @@ public class TextBook_UI {
         bt_add.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                Add_textBook_UI add_textBook_ui = new Add_textBook_UI();
-                add_textBook_ui.setManagerUser(main_Frame, bookManager, defaultTableModel, jt);
+                Add_textBook_UI add_textBook_ui = new Add_textBook_UI(bookManager);
+                add_textBook_ui.setManagerUser(main_Frame, defaultTableModel, jt);
                 main_Frame.setEnabled(false);
             }
 

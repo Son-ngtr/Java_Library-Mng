@@ -26,6 +26,7 @@ public class Addbook_UI {
     private DefaultTableModel defaultTableModel;
     private String bookCategory[] = {"Learning Book", "Noval Book", "Children Book", "Psychological Book"};
     private JComboBox cb = new JComboBox(bookCategory);
+    private JComboBox cb_7, cb_8;
     private JTable table;
     private Check check = new Check();
 
@@ -35,6 +36,15 @@ public class Addbook_UI {
         this.bookManager = bookManager;
         this.defaultTableModel = defaultTableModel;
         this.table = table;
+    }
+
+    //Refresh
+    public void refresh(){
+        txt_1.setText("");
+        txt_2.setText("");
+        txt_3.setText("");
+        txt_4.setText("");
+        txt_6.setText("");
     }
 
     //Table reset
@@ -49,58 +59,34 @@ public class Addbook_UI {
     public boolean checkCommonValue(){
         boolean inputCheck = true;
         if(txt_1.getText().trim().length() == 0){
-            JOptionPane.showMessageDialog(null, "Thiếu thông tin tên sách");
+            JOptionPane.showMessageDialog(null, "Book Name");
             inputCheck = false;
         }else
         {
-            if(txt_2.getText().trim().length() == 0 || !check.mathCheck(check.mathAnalysis(txt_2.getText().trim()))){
-                JOptionPane.showMessageDialog(null, "Thiếu thông tin tên giá hoặc nhập vào sai thông tin");
+            if(txt_2.getText().trim().length() == 0 || !check.isLong(txt_2.getText().trim())){
+                JOptionPane.showMessageDialog(null, "Price");
                 inputCheck = false;
             }  else
             {
                 if(txt_3.getText().trim().length() == 0){
-                    JOptionPane.showMessageDialog(null, "Thiếu thông tin tác giả");
+                    JOptionPane.showMessageDialog(null, "Author");
                     inputCheck = false;
                 }else
                 {
                     if(txt_4.getText().trim().length() == 0){
-                        JOptionPane.showMessageDialog(null, "Thiếu thông tin tên nhà phát hành");
+                        JOptionPane.showMessageDialog(null, "Publisher");
                         inputCheck = false;
                     }else
                     {
-                        if(cb.getItemAt(cb.getSelectedIndex()).equals("")){
-                            JOptionPane.showMessageDialog(null, "Thiếu thông tin loại sách");
+                        if(txt_6.getText().trim().length() == 0 || !check.isInteger(txt_6.getText().trim())){
+                            JOptionPane.showMessageDialog(null, "Quantity");
                             inputCheck = false;
-                        }else
-                        {
-                            if(txt_6.getText().trim().length() == 0 || !check.mathCheck(check.mathAnalysis(txt_6.getText()))){
-                                JOptionPane.showMessageDialog(null, "Thiếu thông tin số lượng sách");
-                                inputCheck = false;
-                            }
                         }
                     }
                 }
             }
         }
         return inputCheck;
-    }
-
-    //Create New Book
-    public void createNewBookChild( String name, Long price, String author, String publisher, int quantity, String type, String recommentForAge){
-        Calendar dateAdded = Calendar.getInstance();
-        bookManager.addBookChild(bookManager.createBookChild(name, dateAdded, price, author, publisher, quantity, type, recommentForAge));
-    }
-    public void createNewBookLearning( String name, Long price, String author, String publisher, int quantity, String education, String education_subjects){
-        Calendar dateAdded = Calendar.getInstance();
-        bookManager.addBookChild(bookManager.createBookChild(name, dateAdded, price, author, publisher, quantity, education, education_subjects));
-    }
-    public void createNewBookNovel(String name, Long price, String author, String publisher, int quantity, String type, String ageLimited){
-        Calendar dateAdded = Calendar.getInstance();
-        bookManager.addBookChild(bookManager.createBookChild(name, dateAdded, price, author, publisher, quantity, type, ageLimited));
-    }
-    public void createNewBookPsychology( String name, Long price, String author, String publisher, int quantity, String type, String recommentForAge){
-        Calendar dateAdded = Calendar.getInstance();
-        bookManager.addBookChild(bookManager.createBookChild(name, dateAdded, price, author, publisher, quantity, type, recommentForAge));
     }
 
     public Addbook_UI(){
@@ -169,14 +155,14 @@ public class Addbook_UI {
 
 
 // flexible button
-        JButton b7 = new JButton();
+        JButton b7 = new JButton("~ education");
         b7.setBounds(po_x, po_y+65*6, width, height);
         b7.setFont(Font_me_3);
         b7.setBorder(BorderFactory.createLineBorder(Color_left));
         b7.setForeground(Color_me);
         b7.setBackground(Color_left);
 
-        JButton b8 = new JButton();
+        JButton b8 = new JButton("~ edu_subject");
         b8.setBounds(po_x, po_y+65*7, width, height);
         b8.setFont(Font_me_3);
         b8.setBorder(BorderFactory.createLineBorder(Color_left));
@@ -230,18 +216,26 @@ public class Addbook_UI {
                 if(cb.getSelectedItem().toString().equals("Children Book")){
                     b7.setText("~ type");
                     b8.setText("~ age_rcm");
+                    cb_7.setModel( new DefaultComboBoxModel<>( bookManager.childType() ) );
+                    cb_8.setModel(new DefaultComboBoxModel<>( bookManager.childRecommentForAge() ) );
                 }
                 else if (cb.getSelectedItem().toString().equals("Learning Book")){
                     b7.setText("~ education");
                     b8.setText("~ edu_subject");
+                    cb_7.setModel( new DefaultComboBoxModel<>( bookManager.learningEducation() ) );
+                    cb_8.setModel( new DefaultComboBoxModel<>( bookManager.learningEducaitionType() ) );
                 }
                 else if (cb.getSelectedItem().toString().equals("Noval Book")){
                     b7.setText("~ type");
                     b8.setText("~ ageLimited");
+                    cb_7.setModel( new DefaultComboBoxModel<>( bookManager.novelType() ) );
+                    cb_8.setModel(new DefaultComboBoxModel<>( bookManager.novelAgeLimited() ) );
                 }
                 else if (cb.getSelectedItem().toString().equals("Psychological Book")){
                     b7.setText("~ type");
                     b8.setText("~ age_rcm");
+                    cb_7.setModel( new DefaultComboBoxModel<>( bookManager.psychologyType() ) );
+                    cb_8.setModel( new DefaultComboBoxModel<>( bookManager.psychologyRecommentForAge() ) );
                 }
             }
         });
@@ -254,19 +248,19 @@ public class Addbook_UI {
         txt_6.setBorder(BorderFactory.createLineBorder(Color_me));
         txt_6.setFont(Font_me_3);
 
-        JTextField txt_7 = new JTextField();
-        txt_7.setBackground(Color_left);
-        txt_7.setBounds(283, po_y+65*6, 337, height);
-        txt_7.setForeground(Color_me);
-        txt_7.setBorder(BorderFactory.createLineBorder(Color_me));
-        txt_7.setFont(Font_me_3);
+        cb_7 = new JComboBox(new String[]{"Classic", "Modern"});
+        cb_7.setBackground(Color_left);
+        cb_7.setBounds(283, po_y+65*6, 337, height);
+        cb_7.setForeground(Color_me);
+        cb_7.setBorder(BorderFactory.createLineBorder(Color_me));
+        cb_7.setFont(Font_me_3);
 
-        JTextField txt_8 = new JTextField();
-        txt_8.setBackground(Color_left);
-        txt_8.setBounds(283, po_y+65*7, 337, height);
-        txt_8.setForeground(Color_me);
-        txt_8.setBorder(BorderFactory.createLineBorder(Color_me));
-        txt_8.setFont(Font_me_3);
+        cb_8 = new JComboBox(new String[]{"Math", "Psychic", "Chemistry", "History", "Literary", "English", "Japanese", "Chinese", "Biological"});
+        cb_8.setBackground(Color_left);
+        cb_8.setBounds(283, po_y+65*7, 337, height);
+        cb_8.setForeground(Color_me);
+        cb_8.setBorder(BorderFactory.createLineBorder(Color_me));
+        cb_8.setFont(Font_me_3);
 
 // create 3 function bt
         bt_save = new JButton("save");
@@ -278,26 +272,68 @@ public class Addbook_UI {
         bt_save.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                boolean inputCheck = true;
-                String type = String.valueOf(cb.getItemAt(cb.getSelectedIndex()));
-                switch (type){
-                    case "Learning Book":
-                    case "Noval Book":
-                    case "Children Book":
-                    case "Psychological Book":
+                if(checkCommonValue()){
+                    Calendar calendar = Calendar.getInstance();
+                    String type = String.valueOf(cb.getItemAt(cb.getSelectedIndex()));
+                    switch (type){
+                        case "Learning Book":
+                            bookManager.addBookLearning(bookManager.createBookLearning(
+                                    txt_1.getText().trim(),
+                                    calendar,
+                                    Long.parseLong(txt_2.getText().trim()) ,
+                                    txt_3.getText().trim(),
+                                    txt_4.getText().trim(),
+                                    Integer.parseInt(txt_6.getText().trim()),
+                                    String.valueOf(cb_7.getItemAt(cb_7.getSelectedIndex())),
+                                    String.valueOf(cb_8.getItemAt(cb_8.getSelectedIndex()))
+                            ));
+                            tableReset();
+                            refresh();
+                            break;
+                        case "Noval Book":
+                            bookManager.addBookNovel(bookManager.createBookNovel(
+                                    txt_1.getText().trim(),
+                                    calendar,
+                                    Long.parseLong(txt_2.getText().trim()) ,
+                                    txt_3.getText().trim(),
+                                    txt_4.getText().trim(),
+                                    Integer.parseInt(txt_6.getText().trim()),
+                                    String.valueOf(cb_7.getItemAt(cb_7.getSelectedIndex())),
+                                    String.valueOf(cb_8.getItemAt(cb_8.getSelectedIndex()))
+                            ));
+                            tableReset();
+                            refresh();
+                            break;
+                        case "Children Book":
+                            bookManager.addBookChild(bookManager.createBookChild(
+                                    txt_1.getText().trim(),
+                                    calendar,
+                                    Long.parseLong(txt_2.getText().trim()) ,
+                                    txt_3.getText().trim(),
+                                    txt_4.getText().trim(),
+                                    Integer.parseInt(txt_6.getText().trim()),
+                                    String.valueOf(cb_7.getItemAt(cb_7.getSelectedIndex())),
+                                    String.valueOf(cb_8.getItemAt(cb_8.getSelectedIndex()))
+                            ));
+                            tableReset();
+                            refresh();
+                            break;
+                        case "Psychological Book":
+                            bookManager.addBookPsychology(bookManager.createBookPsychology(
+                                    txt_1.getText().trim(),
+                                    calendar,
+                                    Long.parseLong(txt_2.getText().trim()) ,
+                                    txt_3.getText().trim(),
+                                    txt_4.getText().trim(),
+                                    Integer.parseInt(txt_6.getText().trim()),
+                                    String.valueOf(cb_7.getItemAt(cb_7.getSelectedIndex())),
+                                    String.valueOf(cb_8.getItemAt(cb_8.getSelectedIndex()))
+                            ));
+                            tableReset();
+                            refresh();
+                            break;
+                    }
                 }
-
-
-//                if (inputCheck){
-//                    createNewBook(txt_1.getText().trim(), Long.parseLong(bookManager.moneyConvert(bookManager.matConvert(bookManager.mathAnalysis(txt_2.getText().trim()))) , txt_3.getText().trim(), txt_4.getText().trim(), type , Integer.parseInt(bookManager.matConvert(bookManager.mathAnalysis(txt_6.getText().trim()))) );
-//                    txt_1.setText("");
-//                    txt_2.setText("");
-//                    txt_3.setText("");
-//                    txt_4.setText("");
-//                    txt_6.setText("");
-//                    tableReset();
-//                    JOptionPane.showMessageDialog(null, "Tạo Sách mới thành công!!!");
-//                }
             }
         });
 
@@ -344,12 +380,7 @@ public class Addbook_UI {
         bt_reset.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                txt_1.setText("");
-                txt_2.setText("");
-                txt_3.setText("");
-                txt_4.setText("");
-                txt_5.setText("");
-                txt_6.setText("");
+                refresh();
             }
         });
 
@@ -369,8 +400,8 @@ public class Addbook_UI {
         label.add(txt_4);
         label.add(cb);
         label.add(txt_6);
-        label.add(txt_7);
-        label.add(txt_8);
+        label.add(cb_7);
+        label.add(cb_8);
 
         label.add(bt_save);
         label.add(bt_exit);

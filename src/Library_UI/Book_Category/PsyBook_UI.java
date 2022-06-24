@@ -25,7 +25,6 @@ public class PsyBook_UI {
     //Constructor
     public PsyBook_UI(BookManager bookManager){
         this.bookManager = bookManager;
-        cbBookType = new JComboBox(bookManager.bookCategory());
         cbPsychologyType = new JComboBox(bookManager.psychologyType());
         cbPsychologyForAge = new JComboBox(bookManager.psychologyRecommentForAge());
         Content();
@@ -40,14 +39,12 @@ public class PsyBook_UI {
     private JTable jt;
     private DefaultTableModel defaultTableModel;
     private BookManager bookManager;
-    private JComboBox cbBookType;
     private JComboBox cbPsychologyType;
     private JComboBox cbPsychologyForAge ;
     private Check check = new Check();
 
     //Table add Combobox and CheckBox
     public void tableAddCombobox(){
-        jt.getColumnModel().getColumn(6).setCellEditor(new DefaultCellEditor(cbBookType));
         jt.getColumnModel().getColumn(8).setCellEditor(new DefaultCellEditor(cbPsychologyType));
         jt.getColumnModel().getColumn(9).setCellEditor(new DefaultCellEditor(cbPsychologyForAge));
     }
@@ -257,8 +254,8 @@ public class PsyBook_UI {
         bt_add.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                Add_psyBook_UI add_psyBook_ui = new Add_psyBook_UI();
-                add_psyBook_ui.setManagerUser(main_Frame, bookManager, defaultTableModel, jt);
+                Add_psyBook_UI add_psyBook_ui = new Add_psyBook_UI(bookManager);
+                add_psyBook_ui.setManagerUser(main_Frame, defaultTableModel, jt);
                 main_Frame.setEnabled(false);
             }
 

@@ -47,7 +47,6 @@ public class ManageBook_UI {
     public void tableReset(){
         bookManager.setIsUpdate(true);
         defaultTableModel.setDataVector(bookManager.listBookAll(), bookManager.bookContent());
-        jt.getColumnModel().getColumn(6).setCellEditor(new DefaultCellEditor(cb));
         bookManager.setIsUpdate(false);
     }
 
