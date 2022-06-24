@@ -38,7 +38,8 @@ public class lent_UI {
     private Check check = new Check();
 
 // get time
-    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+
     LocalDateTime now = LocalDateTime.now();
 
     public lent_UI(){
@@ -289,7 +290,7 @@ public class lent_UI {
             public String valueToString(Object value) throws ParseException {
                 if(value != null){
                 Calendar cal = (Calendar) value;
-                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+                SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd");
                 String strDate = format.format(cal.getTime());
 
 
@@ -315,6 +316,53 @@ public class lent_UI {
         datePicker.getJFormattedTextField().setBorder(BorderFactory.createLineBorder(Color_me));
 
 
+// create date of birth
+// create button
+        JButton b_bir = new JButton("date.birth");
+        b_bir.setBounds(po_x, po_y+65*8, width, height);
+        b_bir.setFont(Font_me_3);
+        b_bir.setBorder(BorderFactory.createLineBorder(Color_me));
+        b_bir.setForeground(Color_me);
+        b_bir.setBackground(Color_left);
+// create txt field
+        JDatePickerImpl datePicker_birth;
+        SqlDateModel model_birth = new SqlDateModel();
+        Properties p_birth = new Properties();
+        p_birth.put("text.day", "Day");
+        p_birth.put("text.month", "Month");
+        p_birth.put("text.year", "Year");
+        JDatePanelImpl panel_birth = new JDatePanelImpl(model_birth, p_birth);
+        datePicker_birth = new JDatePickerImpl(panel_birth, new JFormattedTextField.AbstractFormatter() {
+            @Override
+            public String valueToString(Object value) throws ParseException {
+                if(value != null){
+                    Calendar cal_1 = (Calendar) value;
+                    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+                    String strDate = format.format(cal_1.getTime());
+
+
+                    return strDate;}
+
+                return "";
+            }
+
+            @Override
+            public Object stringToValue(String text) throws ParseException {
+                return "";
+            }
+
+        });
+
+        datePicker_birth.setBounds(283, po_y+65*8, 337, height);
+        datePicker_birth.setBackground(Color_left);
+        datePicker_birth.setForeground(Color_me);
+        datePicker_birth.setFont(Font_me_3);
+        datePicker_birth.getJFormattedTextField().setBackground(Color_left);
+        datePicker_birth.getJFormattedTextField().setFont(Font_me_3);
+        datePicker_birth.getJFormattedTextField().setForeground(Color_me);
+        datePicker_birth.getJFormattedTextField().setBorder(BorderFactory.createLineBorder(Color_me));
+
+
 // add all properties on UI
         label.add(b1);
         label.add(b2);
@@ -338,6 +386,9 @@ public class lent_UI {
         label.add(bt_exit);
         label.add(bt_reset);
         label.add(datePicker);
+
+        label.add(b_bir);
+        label.add(datePicker_birth);
 
         main_Frame = new JFrame("Main_UI");
         main_Frame.add(label);
