@@ -489,7 +489,6 @@ public class lent_UI {
         label.add(bt_reset);
         label.add(datePicker);
 
-
         label.add(b_bir);
         label.add(datePicker_birth);
 

@@ -104,7 +104,7 @@ public class Addbook_UI {
     }
 
     public Addbook_UI(){
-        ImageIcon bk_Icon = new ImageIcon("src/Image_Icon/background/Addbook_UI.png");
+        ImageIcon bk_Icon = new ImageIcon("src/Image_Icon/background/Add_UI.png");
         label = new JLabel(bk_Icon);
         label.setSize(bk_Icon.getIconWidth(), bk_Icon.getIconHeight());
 
@@ -117,54 +117,79 @@ public class Addbook_UI {
         Color Color_ForeG = new Color(13,54,57);
         Color Color_ForeG_2 = new Color(236,131,2);
         Color Color_left = new Color(84, 103, 71);
+
+// width and height of txt
+        int width = 176;
+        int height = 30;
+        int po_x = 59;
+        int po_y = 60;
+
 // create 6 button
         b1 = new JButton("name");
-        b1.setBounds(59, 60, 176, 44);
+        b1.setBounds(po_x, po_y, width, height);
         b1.setFont(Font_me_3);
         b1.setBorder(BorderFactory.createLineBorder(Color_me));
         b1.setForeground(Color_me);
         b1.setBackground(Color_left);
 
         b2 = new JButton("price");
-        b2.setBounds(59, 142, 176, 44);
+        b2.setBounds(po_x, po_y+65, width, height);
         b2.setFont(Font_me_3);
         b2.setBorder(BorderFactory.createLineBorder(Color_me));
         b2.setForeground(Color_me);
         b2.setBackground(Color_left);
 
         b3 = new JButton("author");
-        b3.setBounds(59, 224, 176, 44);
+        b3.setBounds(po_x, po_y+65*2, width, height);
         b3.setFont(Font_me_3);
         b3.setBorder(BorderFactory.createLineBorder(Color_me));
         b3.setForeground(Color_me);
         b3.setBackground(Color_left);
 
         b4 = new JButton("publisher");
-        b4.setBounds(59, 307, 176, 44);
+        b4.setBounds(po_x, po_y+65*3, width, height);
         b4.setFont(Font_me_3);
         b4.setBorder(BorderFactory.createLineBorder(Color_me));
         b4.setForeground(Color_me);
         b4.setBackground(Color_left);
 
         b5 = new JButton("category");
-        b5.setBounds(59, 389, 176, 44);
+        b5.setBounds(po_x, po_y+65*4, width, height);
         b5.setFont(Font_me_3);
         b5.setBorder(BorderFactory.createLineBorder(Color_me));
         b5.setForeground(Color_me);
         b5.setBackground(Color_left);
 
         b6 = new JButton("quantity");
-        b6.setBounds(59, 471, 176, 44);
+        b6.setBounds(po_x, po_y+65*5, width, height);
         b6.setFont(Font_me_3);
         b6.setBorder(BorderFactory.createLineBorder(Color_me));
         b6.setForeground(Color_me);
         b6.setBackground(Color_left);
 
 
+// flexible button
+        JButton b7 = new JButton();
+        b7.setBounds(po_x, po_y+65*6, width, height);
+        b7.setFont(Font_me_3);
+        b7.setBorder(BorderFactory.createLineBorder(Color_left));
+        b7.setForeground(Color_me);
+        b7.setBackground(Color_left);
+
+        JButton b8 = new JButton();
+        b8.setBounds(po_x, po_y+65*7, width, height);
+        b8.setFont(Font_me_3);
+        b8.setBorder(BorderFactory.createLineBorder(Color_left));
+        b8.setForeground(Color_me);
+        b8.setBackground(Color_left);
+
+
+
+
 // create 6 text fields
         txt_1 = new JTextField();
         txt_1.setBackground(Color_left);
-        txt_1.setBounds(283, 60, 337, 44);
+        txt_1.setBounds(283, po_y, 337, height);
         txt_1.setForeground(Color_me);
         txt_1.setBorder(BorderFactory.createLineBorder(Color_me));
         txt_1.setFont(Font_me_3);
@@ -172,7 +197,7 @@ public class Addbook_UI {
 
         txt_2 = new JTextField();
         txt_2.setBackground(Color_left);
-        txt_2.setBounds(283, 142, 337, 44);
+        txt_2.setBounds(283, po_y+65, 337, height);
         txt_2.setForeground(Color_me);
         txt_2.setBorder(BorderFactory.createLineBorder(Color_me));
         txt_2.setFont(Font_me_3);
@@ -180,7 +205,7 @@ public class Addbook_UI {
 
         txt_3 = new JTextField();
         txt_3.setBackground(Color_left);
-        txt_3.setBounds(283, 224, 337, 44);
+        txt_3.setBounds(283, po_y+65*2, 337, height);
         txt_3.setForeground(Color_me);
         txt_3.setBorder(BorderFactory.createLineBorder(Color_me));
         txt_3.setFont(Font_me_3);
@@ -188,25 +213,60 @@ public class Addbook_UI {
 
         txt_4 = new JTextField();
         txt_4.setBackground(Color_left);
-        txt_4.setBounds(283, 307, 337, 44);
+        txt_4.setBounds(283, po_y+65*3, 337, height);
         txt_4.setForeground(Color_me);
         txt_4.setBorder(BorderFactory.createLineBorder(Color_me));
         txt_4.setFont(Font_me_3);
 
 
         cb.setBackground(Color_left);
-        cb.setBounds(283, 389, 337, 44);
+        cb.setBounds(283, po_y+65*4, 337, height);
         cb.setForeground(Color_me);
         cb.setBorder(BorderFactory.createLineBorder(Color_me));
         cb.setFont(Font_me_3);
+        cb.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(cb.getSelectedItem().toString().equals("Children Book")){
+                    b7.setText("~ type");
+                    b8.setText("~ age_rcm");
+                }
+                else if (cb.getSelectedItem().toString().equals("Learning Book")){
+                    b7.setText("~ education");
+                    b8.setText("~ edu_subject");
+                }
+                else if (cb.getSelectedItem().toString().equals("Noval Book")){
+                    b7.setText("~ type");
+                    b8.setText("~ ageLimited");
+                }
+                else if (cb.getSelectedItem().toString().equals("Psychological Book")){
+                    b7.setText("~ type");
+                    b8.setText("~ age_rcm");
+                }
+            }
+        });
 
 
         txt_6 = new JTextField();
         txt_6.setBackground(Color_left);
-        txt_6.setBounds(283, 471, 337, 44);
+        txt_6.setBounds(283, po_y+65*5, 337, height);
         txt_6.setForeground(Color_me);
         txt_6.setBorder(BorderFactory.createLineBorder(Color_me));
         txt_6.setFont(Font_me_3);
+
+        JTextField txt_7 = new JTextField();
+        txt_7.setBackground(Color_left);
+        txt_7.setBounds(283, po_y+65*6, 337, height);
+        txt_7.setForeground(Color_me);
+        txt_7.setBorder(BorderFactory.createLineBorder(Color_me));
+        txt_7.setFont(Font_me_3);
+
+        JTextField txt_8 = new JTextField();
+        txt_8.setBackground(Color_left);
+        txt_8.setBounds(283, po_y+65*7, 337, height);
+        txt_8.setForeground(Color_me);
+        txt_8.setBorder(BorderFactory.createLineBorder(Color_me));
+        txt_8.setFont(Font_me_3);
 
 // create 3 function bt
         bt_save = new JButton("save");
@@ -214,7 +274,7 @@ public class Addbook_UI {
         bt_save.setBackground(Color_left);
         bt_save.setFont(Font_me_3);
         bt_save.setBorder(BorderFactory.createLineBorder(Color_ForeG));
-        bt_save.setBounds(46, 582, 175, 39);
+        bt_save.setBounds(46, 582+32, 175, 39);
         bt_save.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -246,7 +306,7 @@ public class Addbook_UI {
         bt_exit.setBackground(Color_left);
         bt_exit.setFont(Font_me_3);
         bt_exit.setBorder(BorderFactory.createLineBorder(Color_ForeG));
-        bt_exit.setBounds(255, 582, 175, 39);
+        bt_exit.setBounds(255, 582+32, 175, 39);
         bt_exit.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -280,7 +340,7 @@ public class Addbook_UI {
         bt_reset.setBackground(Color_left);
         bt_reset.setFont(Font_me_3);
         bt_reset.setBorder(BorderFactory.createLineBorder(Color_ForeG));
-        bt_reset.setBounds(464, 582, 176, 39);
+        bt_reset.setBounds(464, 582+32, 176, 39);
         bt_reset.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -300,6 +360,8 @@ public class Addbook_UI {
         label.add(b4);
         label.add(b5);
         label.add(b6);
+        label.add(b7);
+        label.add(b8);
 
         label.add(txt_1);
         label.add(txt_2);
@@ -307,6 +369,8 @@ public class Addbook_UI {
         label.add(txt_4);
         label.add(cb);
         label.add(txt_6);
+        label.add(txt_7);
+        label.add(txt_8);
 
         label.add(bt_save);
         label.add(bt_exit);
