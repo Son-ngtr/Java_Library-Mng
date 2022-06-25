@@ -49,7 +49,6 @@ public class ChildrenBook_UI {
 
     //Table add Combobox and CheckBox
     public void tableAddCombobox(){
-        jt.getColumnModel().getColumn(6).setCellEditor(new DefaultCellEditor(cbBookType));
         jt.getColumnModel().getColumn(8).setCellEditor(new DefaultCellEditor(cbChildType));
         jt.getColumnModel().getColumn(9).setCellEditor(new DefaultCellEditor(cbChildRecommentForAge));
     }
@@ -260,8 +259,8 @@ public class ChildrenBook_UI {
         bt_add.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                Add_childrenBook_UI add_childrenBook_ui = new Add_childrenBook_UI();
-                add_childrenBook_ui.setManagerUser(main_Frame, bookManager, defaultTableModel, jt);
+                Add_childrenBook_UI add_childrenBook_ui = new Add_childrenBook_UI(bookManager);
+                add_childrenBook_ui.setManagerUser(main_Frame, defaultTableModel, jt);
                 main_Frame.setEnabled(false);
             }
 

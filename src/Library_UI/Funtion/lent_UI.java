@@ -76,7 +76,8 @@ public class lent_UI {
     }
 
     //Check Common Value
-    public boolean checkValue(boolean inputCheck){
+    public boolean checkValue(){
+        boolean inputCheck = true;
         if(txt_1.getText().trim().length() == 0){
             JOptionPane.showMessageDialog(null, "Name Reader");
             inputCheck = false;
@@ -113,6 +114,11 @@ public class lent_UI {
                                     if (txt_8.getText().trim().length() == 0 || !check.isLong(txt_8.getText().trim())){
                                         JOptionPane.showMessageDialog(null, "Book Quantity");
                                         inputCheck = false;
+                                    }else {
+                                        if (datePicker_birth.getJFormattedTextField().getText().length() == 0){
+                                            JOptionPane.showMessageDialog(null, "Date Of Birth");
+                                            inputCheck = false;
+                                        }
                                     }
                                 }
                             }
@@ -124,8 +130,8 @@ public class lent_UI {
         return inputCheck;
     }
 
-// get time
-    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+    // get time
+    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
     LocalDateTime now = LocalDateTime.now();
 
     public void content(){
@@ -273,56 +279,55 @@ public class lent_UI {
         bt_save.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                boolean inputCheck = true;
-                checkValue(inputCheck);
-                Long quantityBorrow = Long.valueOf(txt_8.getText().trim());
-                Long quantity = Long.valueOf(String.valueOf(table.getValueAt(table.getSelectedRow(), 6)).trim());
-                Long result = quantity - quantityBorrow;
-                if(inputCheck && result>=0){
-                    //Add User
-                    userManager.addUser(
-                            userManager.createUser(
-                                    txt_1.getText().trim(),
-                                    (String) gd.getItemAt(gd.getSelectedIndex()),
-                                    check.dateReConvert(datePicker_birth.getJFormattedTextField().getText()) ,
-                                    txt_3.getText().trim(),
-                                    txt_4.getText().trim(),
-                                    txt_5.getText().trim(),
-                                    check.dateReConvert(txt_6.getText().trim()),
-                                    check.dateReConvert(datePicker.getJFormattedTextField().getText()) ,
-                                     0L
-                            )
-                    );
-                    if(defaultTableModelUser != null){
-                        tableUserReset();
-                    }
+                if(checkValue()){
+                    Long quantityBorrow = Long.valueOf(txt_8.getText().trim());
+                    Long quantity = Long.valueOf(String.valueOf(table.getValueAt(table.getSelectedRow(), 6)).trim());
+                    Long result = quantity - quantityBorrow;
+                    if(result >= 0){
+                        //Add User
+                        userManager.addUser(
+                                userManager.createUser(
+                                        txt_1.getText().trim(),
+                                        (String) gd.getItemAt(gd.getSelectedIndex()),
+                                        check.dateReConvert(datePicker_birth.getJFormattedTextField().getText()),
+                                        txt_3.getText().trim(),
+                                        txt_4.getText().trim(),
+                                        txt_5.getText().trim(),
+                                        check.dateReConvert(txt_6.getText().trim()),
+                                        check.dateReConvert(datePicker.getJFormattedTextField().getText()) ,
+                                        0L
+                                )
+                        );
+                        if(defaultTableModelUser != null){
+                            tableUserReset();
+                        }
 
-                    //Fix Quantity Of Book
-                    switch (codeLetter){
-                        case "C":
-                            bookManager.editBookChild(codeNumber, 7, String.valueOf(result));
-                            tableBookReset();
-                            break;
-                        case "N":
-                            bookManager.editBookNoval(codeNumber, 7, String.valueOf(result));
-                            tableBookReset();
-                            break;
-                        case "P":
-                            bookManager.editBookPsychology(codeNumber, 7, String.valueOf(result));
-                            tableBookReset();
-                            break;
-                        case "L":
-                            bookManager.editBookLearning(codeNumber, 7, String.valueOf(result));
-                            tableBookReset();
-                            break;
-                    }
+                        //Fix Quantity Of Book
+                        switch (codeLetter){
+                            case "C":
+                                bookManager.editBookChild(codeNumber, 7, String.valueOf(result));
+                                tableBookReset();
+                                break;
+                            case "N":
+                                bookManager.editBookNoval(codeNumber, 7, String.valueOf(result));
+                                tableBookReset();
+                                break;
+                            case "P":
+                                bookManager.editBookPsychology(codeNumber, 7, String.valueOf(result));
+                                tableBookReset();
+                                break;
+                            case "L":
+                                bookManager.editBookLearning(codeNumber, 7, String.valueOf(result));
+                                tableBookReset();
+                                break;
+                        }
 
-                    //Exit Lent UI
-                    lentBookFrame.setEnabled(true);
-                    main_Frame.dispose();
-                }
-                if(result < 0 ){
-                    JOptionPane.showMessageDialog(null, "Số lượng sách mượn quá lớn");
+                        //Exit Lent UI
+                        lentBookFrame.setEnabled(true);
+                        main_Frame.dispose();
+                    }else {
+                        JOptionPane.showMessageDialog(null, "Số lượng sách mượn quá lớn");
+                    }
                 }
             }
         });
@@ -394,10 +399,10 @@ public class lent_UI {
             @Override
             public String valueToString(Object value) throws ParseException {
                 if(value != null){
-                Calendar cal = (Calendar) value;
-                SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd");
-                String strDate = format.format(cal.getTime());
-                return strDate;}
+                    Calendar cal = (Calendar) value;
+                    SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+                    String strDate = format.format(cal.getTime());
+                    return strDate;}
                 return "";
             }
 
@@ -427,7 +432,6 @@ public class lent_UI {
         b_bir.setForeground(Color_me);
         b_bir.setBackground(Color_left);
 // create txt field
-        JDatePickerImpl datePicker_birth;
         SqlDateModel model_birth = new SqlDateModel();
         Properties p_birth = new Properties();
         p_birth.put("text.day", "Day");
@@ -439,11 +443,9 @@ public class lent_UI {
             public String valueToString(Object value) throws ParseException {
                 if(value != null){
                     Calendar cal_1 = (Calendar) value;
-                    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-                    String strDate_1 = format.format(cal_1.getTime());
-
-
-                    return strDate_1;}
+                    SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+                    String strDate = format.format(cal_1.getTime());
+                    return strDate;}
 
                 return "";
             }

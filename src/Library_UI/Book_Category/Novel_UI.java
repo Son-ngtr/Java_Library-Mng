@@ -257,8 +257,8 @@ public class Novel_UI {
         bt_add.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                Add_novel_UI add_novel_ui = new Add_novel_UI();
-                add_novel_ui.setManagerUser(main_Frame, bookManager, defaultTableModel, jt);
+                Add_novel_UI add_novel_ui = new Add_novel_UI(bookManager);
+                add_novel_ui.setManagerUser(main_Frame, defaultTableModel, jt);
                 main_Frame.setEnabled(false);
             }
 
