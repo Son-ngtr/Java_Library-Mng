@@ -440,10 +440,10 @@ public class lent_UI {
                 if(value != null){
                     Calendar cal_1 = (Calendar) value;
                     SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-                    String strDate = format.format(cal_1.getTime());
+                    String strDate_1 = format.format(cal_1.getTime());
 
 
-                    return strDate;}
+                    return strDate_1;}
 
                 return "";
             }
