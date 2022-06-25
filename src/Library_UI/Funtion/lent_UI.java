@@ -427,7 +427,6 @@ public class lent_UI {
         b_bir.setForeground(Color_me);
         b_bir.setBackground(Color_left);
 // create txt field
-        JDatePickerImpl datePicker_birth;
         SqlDateModel model_birth = new SqlDateModel();
         Properties p_birth = new Properties();
         p_birth.put("text.day", "Day");
@@ -439,7 +438,7 @@ public class lent_UI {
             public String valueToString(Object value) throws ParseException {
                 if(value != null){
                     Calendar cal_1 = (Calendar) value;
-                    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+                    SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd");
                     String strDate = format.format(cal_1.getTime());
 
 
