@@ -19,27 +19,92 @@ public class AddStaff_UI {
     private JFrame main_Frame, managerBookFrame;
     private ImageIcon bk_Icon, notepad_Icon, login_Ani, login_ef;
     private JLabel label, notification_Label, login_Icon, logout_Label, exit_Label;
-    private JButton button ,b1, b2, b3, b4, b5, b6, bt_save, bt_exit, bt_reset;
-    private JTextField txt_1, txt_2, txt_3, txt_4, txt_5, txt_6;
+    private JButton button ,b1, b2, b3, b4, b5, b6,b7, bt_save, bt_exit, bt_reset;
+    private JTextField txt_1, txt_3, txt_4, txt_5, txt_6;
     private JButton logIn;
     private JPanel inFo;
     private StaffManager staffManager;
     private DefaultTableModel defaultTableModel;
-    private String job[] = {"Sanitation worker", "Treasurer", "Librarian"};
-    private JComboBox cb = new JComboBox(job);
+    private JComboBox cbCategory, cbGender, cbAttendence, cb_2;
     private JTable table;
     private Check check = new Check();
 
-    //Manager Staff Side
-    public void setManagerUser(JFrame frame, StaffManager staffManager, DefaultTableModel defaultTableModel, JTable table){
-        managerBookFrame = frame;
+    //Constructor
+    public AddStaff_UI(StaffManager staffManager){
         this.staffManager = staffManager;
+        cbCategory = new JComboBox(staffManager.staffCategory());
+        cbGender = new JComboBox(staffManager.staffGender());
+        cbAttendence = new JComboBox(staffManager.staffAttendence());
+        content();
+    }
+
+    //Check Common Value
+    public boolean checkCommonValue(){
+        boolean inputCheck = true;
+        if(txt_1.getText().trim().length() == 0){
+            JOptionPane.showMessageDialog(null, "Name");
+            inputCheck = false;
+        }else
+        {
+            if(false){
+                JOptionPane.showMessageDialog(null, "Gender");
+                inputCheck = false;
+            }  else
+            {
+                if(txt_3.getText().trim().length() == 0){
+                    JOptionPane.showMessageDialog(null, "Date Of Birth");
+                    inputCheck = false;
+                }else
+                {
+                    if(txt_4.getText().trim().length() == 0){
+                        JOptionPane.showMessageDialog(null, "Address");
+                        inputCheck = false;
+                    }else
+                    {
+                        if(txt_5.getText().trim().length() == 0){
+                            JOptionPane.showMessageDialog(null, "Phone Number");
+                            inputCheck = false;
+                        }else {
+                            if (txt_6.getText().trim().length() == 0){
+                                JOptionPane.showMessageDialog(null, "email");
+                                inputCheck = false;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return inputCheck;
+    }
+
+    //Manager Staff Side
+    public void setManagerUser(JFrame frame, DefaultTableModel defaultTableModel, JTable table){
+        managerBookFrame = frame;
         this.defaultTableModel = defaultTableModel;
         this.table = table;
     }
 
+    //refresh
+    public void refresh(){
+        txt_1.setText("");
+        txt_3.setText("");
+        txt_4.setText("");
+        txt_5.setText("");
+        txt_6.setText("");
+    }
 
-    public AddStaff_UI(){
+    //Table Reset
+    public void tableReset(){
+        staffManager.setIsUpdate(true);
+        defaultTableModel.setDataVector(staffManager.listStaff(), staffManager.staffContent());
+        table.getColumnModel().getColumn(7).setCellEditor(new DefaultCellEditor(cbCategory));
+        table.getColumnModel().getColumn(2).setCellEditor(new DefaultCellEditor(cbGender));
+        table.getColumnModel().getColumn(9).setCellEditor(new DefaultCellEditor(cbAttendence));
+        staffManager.setIsUpdate(false);
+    }
+
+
+    public void content(){
         ImageIcon bk_Icon = new ImageIcon("src/Image_Icon/background/Add_UI.png");
         label = new JLabel(bk_Icon);
         label.setSize(bk_Icon.getIconWidth(), bk_Icon.getIconHeight());
@@ -102,7 +167,7 @@ public class AddStaff_UI {
         b6.setForeground(Color_me);
         b6.setBackground(Color_left);
 
-        JButton b7 = new JButton("staff");
+        b7 = new JButton("staff");
         b7.setBounds(po_x, po_y+65*6, width, height);
         b7.setFont(Font_me_3);
         b7.setBorder(BorderFactory.createLineBorder(Color_me));
@@ -127,12 +192,12 @@ public class AddStaff_UI {
         txt_1.setFont(Font_me_3);
 
 
-        txt_2 = new JTextField();
-        txt_2.setBackground(Color_left);
-        txt_2.setBounds(283, po_y+65, 337, height);
-        txt_2.setForeground(Color_me);
-        txt_2.setBorder(BorderFactory.createLineBorder(Color_me));
-        txt_2.setFont(Font_me_3);
+        cb_2 = new JComboBox(staffManager.staffGender());
+        cb_2.setBackground(Color_left);
+        cb_2.setBounds(283, po_y+65, 337, height);
+        cb_2.setForeground(Color_me);
+        cb_2.setBorder(BorderFactory.createLineBorder(Color_me));
+        cb_2.setFont(Font_me_3);
 
 
         txt_3 = new JTextField();
@@ -166,11 +231,11 @@ public class AddStaff_UI {
         txt_6.setBorder(BorderFactory.createLineBorder(Color_me));
         txt_6.setFont(Font_me_3);
 
-        cb.setBackground(Color_left);
-        cb.setBounds(283, po_y+65*6, 337, height);
-        cb.setForeground(Color_me);
-        cb.setBorder(BorderFactory.createLineBorder(Color_me));
-        cb.setFont(Font_me_3);
+        cbCategory.setBackground(Color_left);
+        cbCategory.setBounds(283, po_y+65*6, 337, height);
+        cbCategory.setForeground(Color_me);
+        cbCategory.setBorder(BorderFactory.createLineBorder(Color_me));
+        cbCategory.setFont(Font_me_3);
 
 //        JTextField txt_8 = new JTextField();
 //        txt_8.setBackground(Color_left);
@@ -189,26 +254,21 @@ public class AddStaff_UI {
         bt_save.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                boolean inputCheck = true;
-                String type = String.valueOf(cb.getItemAt(cb.getSelectedIndex()));
-                switch (type){
-                    case "Learning Book":
-                    case "Noval Book":
-                    case "Children Book":
-                    case "Psychological Book":
+                if (checkCommonValue()){
+                    staffManager.addStaff(staffManager.createStaff(
+                            txt_1.getText().trim(),
+                            String.valueOf(cb_2.getItemAt(cb_2.getSelectedIndex())),
+                            check.dateReConvert(txt_3.getText().trim()),
+                            txt_4.getText().trim(),
+                            txt_5.getText().trim(),
+                            txt_6.getText().trim(),
+                            String.valueOf(cbCategory.getItemAt(cbCategory.getSelectedIndex())),
+                            0L,
+                            "None"
+                    ));
+                    tableReset();
+                    refresh();
                 }
-
-
-//                if (inputCheck){
-//                    createNewBook(txt_1.getText().trim(), Long.parseLong(bookManager.moneyConvert(bookManager.matConvert(bookManager.mathAnalysis(txt_2.getText().trim()))) , txt_3.getText().trim(), txt_4.getText().trim(), type , Integer.parseInt(bookManager.matConvert(bookManager.mathAnalysis(txt_6.getText().trim()))) );
-//                    txt_1.setText("");
-//                    txt_2.setText("");
-//                    txt_3.setText("");
-//                    txt_4.setText("");
-//                    txt_6.setText("");
-//                    tableReset();
-//                    JOptionPane.showMessageDialog(null, "Tạo Sách mới thành công!!!");
-//                }
             }
         });
 
@@ -255,12 +315,7 @@ public class AddStaff_UI {
         bt_reset.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                txt_1.setText("");
-                txt_2.setText("");
-                txt_3.setText("");
-                txt_4.setText("");
-                txt_5.setText("");
-                txt_6.setText("");
+                refresh();
             }
         });
 
@@ -278,12 +333,12 @@ public class AddStaff_UI {
 //        label.add(b8);
 
         label.add(txt_1);
-        label.add(txt_2);
+        label.add(cb_2);
         label.add(txt_3);
         label.add(txt_4);
         label.add(txt_5);
         label.add(txt_6);
-        label.add(cb);
+        label.add(cbCategory);
 //        label.add(txt_8);
 
         label.add(bt_save);
@@ -302,6 +357,6 @@ public class AddStaff_UI {
     }
 
     public static void main(String[] args) {
-        new AddStaff_UI();
+//        new AddStaff_UI();
     }
 }

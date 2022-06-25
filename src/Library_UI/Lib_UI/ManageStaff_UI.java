@@ -193,8 +193,8 @@ public class ManageStaff_UI {
         bt_add.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                AddStaff_UI addStaff_ui = new AddStaff_UI();
-                addStaff_ui.setManagerUser(main_Frame, staffManager, defaultTableModel, jt);
+                AddStaff_UI addStaff_ui = new AddStaff_UI(staffManager);
+                addStaff_ui.setManagerUser(main_Frame, defaultTableModel, jt);
                 main_Frame.setEnabled(false);
             }
 
