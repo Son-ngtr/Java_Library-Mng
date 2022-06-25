@@ -3,6 +3,9 @@ package Library_UI.Funtion;
 import Library.Check;
 import Library.Book_Manager.BookManager;
 import Library.Staff_Manager.StaffManager;
+import org.jdatepicker.impl.JDatePanelImpl;
+import org.jdatepicker.impl.JDatePickerImpl;
+import org.jdatepicker.impl.SqlDateModel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -11,7 +14,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Properties;
 import javax.swing.JFrame;
 import javax.swing.table.DefaultTableModel;
 
@@ -27,6 +33,7 @@ public class AddStaff_UI {
     private DefaultTableModel defaultTableModel;
     private JComboBox cbCategory, cbGender, cbAttendence, cb_2;
     private JTable table;
+    private JDatePickerImpl datePicker_staff;
     private Check check = new Check();
 
     //Constructor
@@ -200,12 +207,12 @@ public class AddStaff_UI {
         cb_2.setFont(Font_me_3);
 
 
-        txt_3 = new JTextField();
-        txt_3.setBackground(Color_left);
-        txt_3.setBounds(283, po_y+65*2, 337, height);
-        txt_3.setForeground(Color_me);
-        txt_3.setBorder(BorderFactory.createLineBorder(Color_me));
-        txt_3.setFont(Font_me_3);
+//        txt_3 = new JTextField();
+//        txt_3.setBackground(Color_left);
+//        txt_3.setBounds(283, po_y+65*2, 337, height);
+//        txt_3.setForeground(Color_me);
+//        txt_3.setBorder(BorderFactory.createLineBorder(Color_me));
+//        txt_3.setFont(Font_me_3);
 
 
         txt_4 = new JTextField();
@@ -322,6 +329,42 @@ public class AddStaff_UI {
 // set combo box
 //        cb.setEnabled(false);
 
+
+        // add calendar
+        SqlDateModel model_staff = new SqlDateModel();
+        Properties p_staff = new Properties();
+        p_staff.put("text.day", "Day");
+        p_staff.put("text.month", "Month");
+        p_staff.put("text.year", "Year");
+        JDatePanelImpl panel_staff = new JDatePanelImpl(model_staff, p_staff);
+        datePicker_staff = new JDatePickerImpl(panel_staff, new JFormattedTextField.AbstractFormatter() {
+            @Override
+            public String valueToString(Object value) throws ParseException {
+                if(value != null){
+                    Calendar cal = (Calendar) value;
+                    SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd");
+                    String strDate = format.format(cal.getTime());
+                    return strDate;}
+                return "";
+            }
+
+            @Override
+            public Object stringToValue(String text) throws ParseException {
+                return "";
+            }
+
+        });
+
+        datePicker_staff.setBounds(283, po_y+65*2, 337, height);
+        datePicker_staff.setBackground(Color_left);
+        datePicker_staff.setForeground(Color_me);
+        datePicker_staff.setFont(Font_me_3);
+        datePicker_staff.getJFormattedTextField().setBackground(Color_left);
+        datePicker_staff.getJFormattedTextField().setFont(Font_me_3);
+        datePicker_staff.getJFormattedTextField().setForeground(Color_me);
+        datePicker_staff.getJFormattedTextField().setBorder(BorderFactory.createLineBorder(Color_me));
+
+
 // add all properties on UI
         label.add(b1);
         label.add(b2);
@@ -334,12 +377,13 @@ public class AddStaff_UI {
 
         label.add(txt_1);
         label.add(cb_2);
-        label.add(txt_3);
+//        label.add(txt_3);
         label.add(txt_4);
         label.add(txt_5);
         label.add(txt_6);
         label.add(cbCategory);
 //        label.add(txt_8);
+        label.add(datePicker_staff);
 
         label.add(bt_save);
         label.add(bt_exit);
