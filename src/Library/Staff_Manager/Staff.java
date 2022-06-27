@@ -1,5 +1,7 @@
 package Library.Staff_Manager;
 
+import Library.LentBook_Manager.LentBookManager;
+
 import java.util.Calendar;
 
 public class Staff {

@@ -3,6 +3,7 @@ package Library_UI.Funtion;
 import Library.Check;
 import Library.Book_Manager.BookManager;
 import Library.Staff_Manager.StaffManager;
+import Library.User_Manager.UserManager;
 import Library_UI.Lib_UI.LentBooks_UI;
 import Library_UI.Lib_UI.Lobby_UI;
 import org.jdatepicker.impl.JDatePanelImpl;
@@ -31,9 +32,28 @@ public class User_In4_UI {
     private JButton button ,b1, b2, b3, b4, b5, b6,b7, bt_lent, bt_delete, bt_info;
     private JTextField txt_1, txt_3, txt_4, txt_5, txt_6;
     private JDatePickerImpl datePicker_staff;
+    private DefaultTableModel defaultTableModel;
+    private JTable table;
+    private UserManager userManager;
+    private BookManager bookManager;
+    private String code;
 
     //Constructor
-    public User_In4_UI() {
+    public User_In4_UI(BookManager bookManager, UserManager userManager, String code){
+        this.bookManager = bookManager;
+        this.userManager = userManager;
+        this.code = code;
+        content();
+    }
+
+    //Manager User Side
+    public void setManagerUser(JFrame frame, DefaultTableModel defaultTableModel, JTable table){
+        managerBookFrame = frame;
+        this.defaultTableModel = defaultTableModel;
+        this.table = table;
+    }
+
+    public void content() {
 
         ImageIcon bk_Icon = new ImageIcon("src/Image_Icon/background/UserIn4_UI.png");
         label = new JLabel(bk_Icon);
@@ -86,8 +106,8 @@ public class User_In4_UI {
         logout_Label.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
+                managerBookFrame.setEnabled(true);
                 main_Frame.dispose();
-                new Lobby_UI();
             }
 
             @Override
@@ -319,6 +339,6 @@ public class User_In4_UI {
     }
 
     public static void main(String[] args) {
-        new User_In4_UI();
+//        new User_In4_UI();
     }
 }

@@ -1,5 +1,7 @@
 package Library.User_Manager;
 
+import Library.LentBook_Manager.LentBookManager;
+
 import java.util.Calendar;
 
 public class User {
@@ -12,6 +14,7 @@ public class User {
    private String email;
    private int totalBooks;
    private Long moneyFine;
+   private LentBookManager lentBookManager = new LentBookManager();
 
    //Constructor
    public User(int id, String name, String gender, Calendar dateOfBirth, String address, String phoneNumber, String email, int totalBooks, Long moneyFine) {
@@ -97,6 +100,14 @@ public class User {
 
     public void setMoneyFine(Long moneyFine) {
         this.moneyFine = moneyFine;
+    }
+
+    public LentBookManager getLentBookManager() {
+        return lentBookManager;
+    }
+
+    public void setLentBookManager(LentBookManager lentBookManager) {
+        this.lentBookManager = lentBookManager;
     }
 
     //Date convert

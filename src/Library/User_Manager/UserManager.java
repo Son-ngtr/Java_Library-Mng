@@ -1,6 +1,7 @@
 package Library.User_Manager;
 
 import Library.Check;
+import Library.LentBook_Manager.LentBookManager;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -106,5 +107,11 @@ public class UserManager {
                 }
             }
         }
+    }
+
+    //LentBook List
+    public LentBookManager lentBookManager(String userCode){
+        int intUserCode = Integer.parseInt(userCode);
+        return users.get(intUserCode - 1).getLentBookManager();
     }
 }

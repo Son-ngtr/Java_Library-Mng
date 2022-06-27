@@ -3,6 +3,8 @@ package Library_UI.Funtion;
 import Library.Check;
 import Library.Book_Manager.BookManager;
 import Library.Staff_Manager.StaffManager;
+import Library.User_Manager.User;
+import Library.User_Manager.UserManager;
 import org.jdatepicker.impl.JDatePanelImpl;
 import org.jdatepicker.impl.JDatePickerImpl;
 import org.jdatepicker.impl.SqlDateModel;
@@ -22,14 +24,63 @@ import javax.swing.JFrame;
 import javax.swing.table.DefaultTableModel;
 
 public class AddUser_UI {
+    private Check check = new Check();
     private JFrame main_Frame, managerBookFrame;
     private ImageIcon bk_Icon, notepad_Icon, login_Ani, login_ef;
     private JLabel label, notification_Label, login_Icon, logout_Label, exit_Label;
     private JButton button ,b1, b2, b3, b4, b5, b6,b7, bt_save, bt_exit, bt_reset;
     private JTextField txt_1, txt_3, txt_4, txt_5, txt_6;
-    private JDatePickerImpl datePicker_staff;
+    private JDatePickerImpl datePicker_user;
     private DefaultTableModel defaultTableModel;
     private JTable table;
+    private UserManager userManager;
+    private JComboBox cb_2;
+
+    //Constructor
+    public AddUser_UI(UserManager userManager){
+        this.userManager = userManager;
+        content();
+    }
+
+    //Check Common Value
+    public boolean checkValue(){
+        boolean inputCheck = true;
+        if(txt_1.getText().trim().length() == 0){
+            JOptionPane.showMessageDialog(null, "Name Reader");
+            inputCheck = false;
+        }else
+        {
+            if(false){
+                JOptionPane.showMessageDialog(null, "gender");
+                inputCheck = false;
+            }  else
+            {
+                if(datePicker_user.getJFormattedTextField().getText().trim().length() == 0){
+                    JOptionPane.showMessageDialog(null, "Date Of Birth");
+                    inputCheck = false;
+                }else
+                {
+                    if(txt_4.getText().trim().length() == 0){
+                        JOptionPane.showMessageDialog(null, "Address");
+                        inputCheck = false;
+                    }else
+                    {
+                        if(txt_5.getText().trim().length() == 0){
+                            JOptionPane.showMessageDialog(null, "Phone Number");
+                            inputCheck = false;
+                        }else
+                        {
+                            if(txt_6.getText().trim().length() == 0){
+                                JOptionPane.showMessageDialog(null, "Email");
+                                inputCheck = false;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return inputCheck;
+    }
 
     //Manager User Side
     public void setManagerUser(JFrame frame, DefaultTableModel defaultTableModel, JTable table){
@@ -38,8 +89,15 @@ public class AddUser_UI {
         this.table = table;
     }
 
-    //Constructor
-    public AddUser_UI() {
+    //Table User Reset
+    public void tableUserReset(){
+        userManager.setIsUpdate(true);
+        defaultTableModel.setDataVector(userManager.listUser(), userManager.userContent());
+        table.getColumnModel().getColumn(2).setCellEditor(new DefaultCellEditor(new JComboBox(userManager.userGender())));
+        userManager.setIsUpdate(false);
+    }
+
+    public void content() {
 
             ImageIcon bk_Icon = new ImageIcon("src/Image_Icon/background/Add_UI.png");
             label = new JLabel(bk_Icon);
@@ -155,7 +213,7 @@ public class AddUser_UI {
 
 
 
-            JTextField cb_2 = new JTextField();
+            cb_2 = new JComboBox(userManager.userGender());
             cb_2.setBackground(Color_left);
             cb_2.setBounds(283, po_y + 65, 337, height);
             cb_2.setForeground(Color_me);
@@ -210,7 +268,20 @@ public class AddUser_UI {
             bt_save.addMouseListener(new MouseListener() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
-
+                    User user = userManager.createUser(
+                            txt_1.getText().trim(),
+                            (String)cb_2.getItemAt(cb_2.getSelectedIndex()),
+                            check.dateReConvert(datePicker_user.getJFormattedTextField().getText()),
+                            txt_4.getText().trim(),
+                            txt_5.getText().trim(),
+                            txt_6.getText().trim(),
+                            0,
+                            0L
+                    );
+                    userManager.addUser(
+                            user
+                    );
+                    tableUserReset();
                 }
 
                 @Override
@@ -321,12 +392,12 @@ public class AddUser_UI {
             p_staff.put("text.month", "Month");
             p_staff.put("text.year", "Year");
             JDatePanelImpl panel_staff = new JDatePanelImpl(model_staff, p_staff);
-            datePicker_staff = new JDatePickerImpl(panel_staff, new JFormattedTextField.AbstractFormatter() {
+            datePicker_user = new JDatePickerImpl(panel_staff, new JFormattedTextField.AbstractFormatter() {
                 @Override
                 public String valueToString(Object value) throws ParseException {
                     if (value != null) {
                         Calendar cal = (Calendar) value;
-                        SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd");
+                        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
                         String strDate = format.format(cal.getTime());
                         return strDate;
                     }
@@ -340,14 +411,14 @@ public class AddUser_UI {
 
             });
 
-            datePicker_staff.setBounds(283, po_y + 65 * 2, 337, height);
-            datePicker_staff.setBackground(Color_left);
-            datePicker_staff.setForeground(Color_me);
-            datePicker_staff.setFont(Font_me_3);
-            datePicker_staff.getJFormattedTextField().setBackground(Color_left);
-            datePicker_staff.getJFormattedTextField().setFont(Font_me_3);
-            datePicker_staff.getJFormattedTextField().setForeground(Color_me);
-            datePicker_staff.getJFormattedTextField().setBorder(BorderFactory.createLineBorder(Color_me));
+            datePicker_user.setBounds(283, po_y + 65 * 2, 337, height);
+            datePicker_user.setBackground(Color_left);
+            datePicker_user.setForeground(Color_me);
+            datePicker_user.setFont(Font_me_3);
+            datePicker_user.getJFormattedTextField().setBackground(Color_left);
+            datePicker_user.getJFormattedTextField().setFont(Font_me_3);
+            datePicker_user.getJFormattedTextField().setForeground(Color_me);
+            datePicker_user.getJFormattedTextField().setBorder(BorderFactory.createLineBorder(Color_me));
 
 
 // add all properties on UI
@@ -365,7 +436,7 @@ public class AddUser_UI {
             label.add(txt_4);
             label.add(txt_5);
             label.add(txt_6);
-            label.add(datePicker_staff);
+            label.add(datePicker_user);
             label.add(txt_7);
             label.add(txt_8);
 
@@ -385,6 +456,6 @@ public class AddUser_UI {
     }
 
     public static void main(String[] args) {
-        new AddUser_UI();
+//        new AddUser_UI();
     }
 }

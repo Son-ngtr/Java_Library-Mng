@@ -6,6 +6,7 @@ import Library.Staff_Manager.StaffManager;
 import Library.User_Manager.UserManager;
 import Library_UI.Funtion.AddUser_UI;
 import Library_UI.Funtion.Addbook_UI;
+import Library_UI.Funtion.User_In4_UI;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
@@ -187,7 +188,7 @@ public class ManageUser_UI {
         bt_add.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                AddUser_UI addUser_ui = new AddUser_UI();
+                AddUser_UI addUser_ui = new AddUser_UI(userManager);
                 addUser_ui.setManagerUser(main_Frame, defaultTableModel, jt);
                 main_Frame.setEnabled(false);
             }
@@ -262,7 +263,13 @@ public class ManageUser_UI {
         bt_search.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-
+                if(jt.getSelectedRow() != -1){
+                    User_In4_UI user_in4_ui = new User_In4_UI( bookManager, userManager,check.codeConvert(String.valueOf(jt.getValueAt(jt.getSelectedRow(), 0)).trim()));
+                    user_in4_ui.setManagerUser(main_Frame, defaultTableModel, jt);
+                    main_Frame.setEnabled(false);
+                }else {
+                    JOptionPane.showMessageDialog(null, "Chose an user form the table");
+                }
             }
 
             @Override
