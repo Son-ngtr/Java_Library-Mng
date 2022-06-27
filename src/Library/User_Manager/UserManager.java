@@ -23,7 +23,7 @@ public class UserManager {
 
     //User Header
     public String[] userContent(){
-        return new String[]{"ID", "Name", "Gender", "Date Of Birth", "Address", "Phone Number", "Email", "EXP.Date", "REGIS.Date", "Fine Money"};
+        return new String[]{"ID", "Name", "Gender", "Date Of Birth", "Address", "Phone Number", "Email", "Total Books", "Fine Money"};
     }
 
     //User Gender
@@ -32,9 +32,9 @@ public class UserManager {
     }
 
     //Create a User
-    public User createUser(String name, String gender, Calendar dateOfBirth, String address, String phoneNumber, String email, Calendar expDate, Calendar regisDate, Long moneyFine){
+    public User createUser(String name, String gender, Calendar dateOfBirth, String address, String phoneNumber, String email,int totalBooks, Long moneyFine){
         codeCount++;
-        return new User(codeCount, name, gender, dateOfBirth, address, phoneNumber, email , expDate, regisDate, moneyFine);
+        return new User(codeCount, name, gender, dateOfBirth, address, phoneNumber, email ,totalBooks, moneyFine);
     }
 
     //Add User
@@ -49,10 +49,10 @@ public class UserManager {
 
     //User List
     public String[][] listUser(){
-        String[][] mainObj = new String[totalUser()][10];
+        String[][] mainObj = new String[totalUser()][userContent().length];
         int count = 0;
         for (User user : users){
-            for (int i=0; i<10; i++){
+            for (int i=0; i<userContent().length; i++){
                 switch (i) {
                     case 0 -> mainObj[count][i] = "HU" + String.valueOf(user.getId());
                     case 1 -> mainObj[count][i] = user.getName();
@@ -61,9 +61,8 @@ public class UserManager {
                     case 4 -> mainObj[count][i] = user.getAddress();
                     case 5 -> mainObj[count][i] = user.getPhoneNumber();
                     case 6 -> mainObj[count][i] = user.getEmail();
-                    case 7 -> mainObj[count][i] = user.dateConvert(user.getExpDate());
-                    case 8 -> mainObj[count][i] = user.dateConvert(user.getRegisDate());
-                    case 9 -> mainObj[count][i] = user.moneyConvert();
+                    case 7 -> mainObj[count][i] = String.valueOf(user.getTotalBooks());
+                    case 8 -> mainObj[count][i] = user.moneyConvert();
                     default -> {
                     }
                 }
@@ -100,9 +99,8 @@ public class UserManager {
                     case 4 -> user.setAddress(value);
                     case 5 -> user.setPhoneNumber(value);
                     case 6 -> user.setEmail(value);
-                    case 7 -> user.setExpDate(user.dateReConvert(value));
-                    case 8 -> user.setRegisDate(user.dateReConvert(value));
-                    case 9 -> user.setMoneyFine(Long.parseLong(value));
+                    case 7 -> user.setTotalBooks(Integer.parseInt(value));
+                    case 8 -> user.setMoneyFine(Long.parseLong(value));
                     default -> {
                     }
                 }

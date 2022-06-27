@@ -51,10 +51,10 @@ public class Lobby_UI {
     public void addUserExample(){
         Calendar calendar = Calendar.getInstance();
         calendar.set(2020, 10, 10);
-        userManager.addUser(userManager.createUser("Quang", "Male", calendar, "sdfsdf", "dsfsd", "dsfsd", calendar, calendar, 1000L));
-        userManager.addUser(userManager.createUser("Phong", "Other", calendar, "sdfsdf", "dsfsd", "dsfsd", calendar, calendar, 1000L));
-        userManager.addUser(userManager.createUser("Hai", "Female", calendar, "sdfsdf", "dsfsd", "dsfsd", calendar, calendar, 1000L));
-        userManager.addUser(userManager.createUser("Duong", "Male", calendar, "sdfsdf", "dsfsd", "dsfsd", calendar, calendar, 1000L));
+        userManager.addUser(userManager.createUser("Quang", "Male", calendar, "sdfsdf", "dsfsd", "dsfsd", 0, 1000L));
+        userManager.addUser(userManager.createUser("Phong", "Other", calendar, "sdfsdf", "dsfsd", "dsfsd", 0, 1000L));
+        userManager.addUser(userManager.createUser("Hai", "Female", calendar, "sdfsdf", "dsfsd", "dsfsd", 0, 1000L));
+        userManager.addUser(userManager.createUser("Duong", "Male", calendar, "sdfsdf", "dsfsd", "dsfsd", 0, 1000L));
     }
 
     public void addStaffExample(){

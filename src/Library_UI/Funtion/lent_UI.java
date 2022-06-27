@@ -2,6 +2,7 @@ package Library_UI.Funtion;
 
 import Library.Book_Manager.BookManager;
 import Library.Check;
+import Library.User_Manager.User;
 import Library.User_Manager.UserManager;
 import Library_UI.Lib_UI.ManageUser_UI;
 import org.jdatepicker.impl.JDatePanelImpl;
@@ -280,27 +281,32 @@ public class lent_UI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if(checkValue()){
-                    Long quantityBorrow = Long.valueOf(txt_8.getText().trim());
-                    Long quantity = Long.valueOf(String.valueOf(table.getValueAt(table.getSelectedRow(), 6)).trim());
-                    Long result = quantity - quantityBorrow;
+                    int quantityBorrow = Integer.parseInt(txt_8.getText().trim());
+                    int quantity = Integer.parseInt(String.valueOf(table.getValueAt(table.getSelectedRow(), 6)).trim());
+                    int result = quantity - quantityBorrow;
                     if(result >= 0){
                         //Add User
-                        userManager.addUser(
-                                userManager.createUser(
-                                        txt_1.getText().trim(),
-                                        (String) gd.getItemAt(gd.getSelectedIndex()),
-                                        check.dateReConvert(datePicker_birth.getJFormattedTextField().getText()),
-                                        txt_3.getText().trim(),
-                                        txt_4.getText().trim(),
-                                        txt_5.getText().trim(),
-                                        check.dateReConvert(txt_6.getText().trim()),
-                                        check.dateReConvert(datePicker.getJFormattedTextField().getText()) ,
-                                        0L
-                                )
+                        User user = userManager.createUser(
+                                txt_1.getText().trim(),
+                                (String) gd.getItemAt(gd.getSelectedIndex()),
+                                check.dateReConvert(datePicker_birth.getJFormattedTextField().getText()),
+                                txt_3.getText().trim(),
+                                txt_4.getText().trim(),
+                                txt_5.getText().trim(),
+                                0,
+                                0L
                         );
+                        userManager.addUser(
+                                user
+                        );
+                        //Fix total Books of user
+                        userManager.editUser(String.valueOf(user.getId()) , 7, String.valueOf(user.getTotalBooks() + quantityBorrow));
+
+                        //Reset User Table
                         if(defaultTableModelUser != null){
                             tableUserReset();
                         }
+
 
                         //Fix Quantity Of Book
                         switch (codeLetter){
@@ -325,6 +331,14 @@ public class lent_UI {
                         //Exit Lent UI
                         lentBookFrame.setEnabled(true);
                         main_Frame.dispose();
+
+                        //Continue or not
+                        if (JOptionPane.showConfirmDialog(null, "Continue Adding ?", "Lent Books",
+                                JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+
+                        } else {
+
+                        }
                     }else {
                         JOptionPane.showMessageDialog(null, "Số lượng sách mượn quá lớn");
                     }

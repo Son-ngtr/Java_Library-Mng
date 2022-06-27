@@ -10,12 +10,11 @@ public class User {
    private String address;
    private String phoneNumber;
    private String email;
-   private Calendar expDate;
-   private Calendar regisDate;
+   private int totalBooks;
    private Long moneyFine;
 
    //Constructor
-   public User(int id, String name, String gender, Calendar dateOfBirth, String address, String phoneNumber, String email, Calendar expDate, Calendar regisDate, Long moneyFine) {
+   public User(int id, String name, String gender, Calendar dateOfBirth, String address, String phoneNumber, String email, int totalBooks, Long moneyFine) {
         this.id = id;
         this.name = name;
         this.gender = gender;
@@ -23,8 +22,7 @@ public class User {
         this.address = address;
         this.phoneNumber = phoneNumber;
         this.email = email;
-        this.expDate = expDate;
-        this.regisDate = regisDate;
+        this.totalBooks = totalBooks;
         this.moneyFine = moneyFine;
    }
 
@@ -85,20 +83,12 @@ public class User {
         this.email = email;
     }
 
-    public Calendar getExpDate() {
-        return expDate;
+    public int getTotalBooks() {
+        return totalBooks;
     }
 
-    public void setExpDate(Calendar expDate) {
-        this.expDate = expDate;
-    }
-
-    public Calendar getRegisDate() {
-        return regisDate;
-    }
-
-    public void setRegisDate(Calendar regisDate) {
-        this.regisDate = regisDate;
+    public void setTotalBooks(int totalBooks) {
+        this.totalBooks = totalBooks;
     }
 
     public Long getMoneyFine() {
