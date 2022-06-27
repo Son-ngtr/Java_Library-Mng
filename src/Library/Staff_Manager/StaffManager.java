@@ -59,10 +59,10 @@ public class StaffManager {
 
     //Staff List
     public String[][] listStaff(){
-        String[][] mainObj = new String[totalStaff()][10];
+        String[][] mainObj = new String[totalStaff()][staffContent().length];
         int count = 0;
         for (Staff staff : staffs){
-            for (int i=0; i<10; i++){
+            for (int i=0; i<staffContent().length; i++){
                 switch (i){
                     case 0:
                         mainObj[count][i] = "HS" + String.valueOf(staff.getId());
@@ -104,16 +104,17 @@ public class StaffManager {
 
     //Staff Delete
     public void removeStaff(String code){
-        boolean codeReduce = false;
-        for (int i=0; i<staffs.size(); i++){
-            if(Integer.toString(staffs.get(i).getId()).equalsIgnoreCase(code.trim()) && !codeReduce){
-                staffs.remove(staffs.get(i));
-                codeReduce = true;
+        int intCode = Integer.parseInt(code);
+        if(intCode <= codeCount ){
+            if(Integer.toString(staffs.get(intCode-1).getId()).equalsIgnoreCase(code.trim())){
+                staffs.remove(intCode - 1);
                 codeCount--;
+
+                for (int i=intCode-1;i<staffs.size(); i++ ){
+                    staffs.get(i).setId(staffs.get(i).getId() - 1);
+                }
             }
-            if (codeReduce && i!=staffs.size()){
-                staffs.get(i).setId(staffs.get(i).getId() - 1);
-            }
+
         }
     }
 

@@ -58,7 +58,7 @@ public class AddStaff_UI {
                 inputCheck = false;
             }  else
             {
-                if(txt_3.getText().trim().length() == 0){
+                if(datePicker_staff.getJFormattedTextField().getText().length() == 0){
                     JOptionPane.showMessageDialog(null, "Date Of Birth");
                     inputCheck = false;
                 }else
@@ -94,7 +94,6 @@ public class AddStaff_UI {
     //refresh
     public void refresh(){
         txt_1.setText("");
-        txt_3.setText("");
         txt_4.setText("");
         txt_5.setText("");
         txt_6.setText("");
@@ -265,7 +264,7 @@ public class AddStaff_UI {
                     staffManager.addStaff(staffManager.createStaff(
                             txt_1.getText().trim(),
                             String.valueOf(cb_2.getItemAt(cb_2.getSelectedIndex())),
-                            check.dateReConvert(txt_3.getText().trim()),
+                            check.dateReConvert(datePicker_staff.getJFormattedTextField().getText()),
                             txt_4.getText().trim(),
                             txt_5.getText().trim(),
                             txt_6.getText().trim(),
@@ -342,7 +341,7 @@ public class AddStaff_UI {
             public String valueToString(Object value) throws ParseException {
                 if(value != null){
                     Calendar cal = (Calendar) value;
-                    SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd");
+                    SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
                     String strDate = format.format(cal.getTime());
                     return strDate;}
                 return "";

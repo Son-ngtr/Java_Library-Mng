@@ -75,16 +75,17 @@ public class UserManager {
 
     //User Delete
     public void removeUser(String code){
-        boolean codeReduce = false;
-        for (int i=0; i<users.size(); i++){
-            if(Integer.toString(users.get(i).getId()).equalsIgnoreCase(code.trim()) && !codeReduce){
-                users.remove(users.get(i));
-                codeReduce = true;
+        int intCode = Integer.parseInt(code);
+        if(intCode <= codeCount ){
+            if(Integer.toString(users.get(intCode-1).getId()).equalsIgnoreCase(code.trim())){
+                users.remove(intCode - 1);
                 codeCount--;
+
+                for (int i=intCode-1;i<users.size(); i++ ){
+                    users.get(i).setId(users.get(i).getId() - 1);
+                }
             }
-            if (codeReduce && i!=users.size()){
-                users.get(i).setId(users.get(i).getId() - 1);
-            }
+
         }
     }
 
