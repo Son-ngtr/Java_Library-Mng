@@ -4,6 +4,7 @@ import Library.Book_Manager.BookManager;
 import Library.Check;
 import Library.Staff_Manager.StaffManager;
 import Library.User_Manager.UserManager;
+import Library_UI.Funtion.AddUser_UI;
 import Library_UI.Funtion.Addbook_UI;
 
 import javax.swing.*;
@@ -186,8 +187,8 @@ public class ManageUser_UI {
         bt_add.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                LentBooks_UI lentBooks_ui = new LentBooks_UI(bookManager, userManager);
-                lentBooks_ui.setManagerUserSide(main_Frame,defaultTableModel);
+                AddUser_UI addUser_ui = new AddUser_UI();
+                addUser_ui.setManagerUser(main_Frame, defaultTableModel, jt);
                 main_Frame.setEnabled(false);
             }
 
