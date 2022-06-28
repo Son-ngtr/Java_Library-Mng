@@ -8,11 +8,20 @@ import javax.swing.table.JTableHeader;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.sql.Connection;
 
 public class DayHis_UI {
     private JFrame main_Frame;
     private JLabel label, notification_Label, logout_Label,exit_Label;
-    public DayHis_UI(){
+    private Connection connection;
+
+    //Constructor
+    public DayHis_UI(Connection connection){
+        this.connection = connection;
+        content();
+    }
+
+    public void content(){
         ImageIcon bk_Icon = new ImageIcon("src/Image_Icon/background/Day_His.png");
         label = new JLabel(bk_Icon);
         label.setSize(1794,956);
@@ -66,7 +75,7 @@ public class DayHis_UI {
             @Override
             public void mouseClicked(MouseEvent e) {
                 main_Frame.dispose();
-                new Lobby_UI();
+                new Lobby_UI(connection);
             }
 
             @Override
@@ -159,7 +168,7 @@ public class DayHis_UI {
         right_Label.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                new DayHis_Op_UI();
+                new DayHis_Op_UI(connection);
                 main_Frame.dispose();
             }
 
@@ -244,6 +253,6 @@ public class DayHis_UI {
 
 
     public static void main(String[] args) {
-        new DayHis_UI();
+//        new DayHis_UI();
     }
 }

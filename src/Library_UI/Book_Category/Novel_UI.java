@@ -18,11 +18,15 @@ import javax.swing.table.TableRowSorter;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.sql.Connection;
 import java.util.Calendar;
 
 public class Novel_UI {
+    private Connection connection;
+
     //Constructor
-    public Novel_UI(BookManager bookManager){
+    public Novel_UI(BookManager bookManager, Connection connection){
+        this.connection = connection;
         this.bookManager = bookManager;
         cbBookType = new JComboBox(bookManager.bookCategory());
         cbNovelType = new JComboBox(bookManager.novelType());
@@ -101,7 +105,7 @@ public class Novel_UI {
             @Override
             public void mouseClicked(MouseEvent e) {
                 main_Frame.dispose();
-                new Lobby_UI();
+                new Lobby_UI(connection);
             }
 
             @Override
@@ -163,7 +167,7 @@ public class Novel_UI {
         left_Label.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                TextBook_UI textBook_ui = new TextBook_UI(bookManager);
+                TextBook_UI textBook_ui = new TextBook_UI(bookManager, connection);
                 main_Frame.dispose();
             }
 
@@ -195,7 +199,7 @@ public class Novel_UI {
         right_Label.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                PsyBook_UI psyBook_ui = new PsyBook_UI(bookManager);
+                PsyBook_UI psyBook_ui = new PsyBook_UI(bookManager, connection);
                 main_Frame.dispose();
             }
 

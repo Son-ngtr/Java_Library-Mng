@@ -1,10 +1,15 @@
 package Library_UI.Lib_UI;
 
+import Database.AccountData;
+import Database.LibraryManager;
+
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
-import java.awt.image.ImagingOpException;
-import java.util.Scanner;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.sql.Connection;
 
 public class Login_UI {
     private JFrame main_Frame;
@@ -15,6 +20,7 @@ public class Login_UI {
     private JButton logIn;
     private JPanel inFo;
     private JPasswordField txtPassword;
+    private Connection conn;
 
     public Login_UI(){
 
@@ -22,11 +28,6 @@ public class Login_UI {
         JLabel label = new JLabel(bk_Icon);
         label.setSize(935,499);
 
-
-//        ImageIcon notepad_Icon = new ImageIcon("src/image/notepad_Gif.gif");
-//        notepad_Label = new JLabel(notepad_Icon);
-//        notepad_Label.setSize(80,80);
-//        notepad_Label.setBounds(715,205+10,80,80);
 
         Font Font_me = new Font("MV Boli", Font.PLAIN, 12);
         Font Font_login = new Font("MV Boli", Font.PLAIN, 16);
@@ -82,26 +83,20 @@ public class Login_UI {
 
 
 //------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-        Scanner sc = new Scanner(String.valueOf(KeyEvent.VK_E));
-
 
         logIn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (txtName.getText().equals("admin") && txtPassword.getText().equals("password")){
-//                    JOptionPane.showMessageDialog(null, "Log in completed");
-                    new Lobby_UI();
-                    main_Frame.dispose();
+                String usename = txtName.getText();
+                String password = String.valueOf(txtPassword.getPassword());
+                AccountData accountData = new AccountData(usename, password);
+                conn = LibraryManager.getConnect(accountData);
+                if(conn !=null){
+                    new Lobby_UI(conn);
                 }
-                else JOptionPane.showMessageDialog(null,"Log in uncompleted");
             }
         });
 
-//        ImageIcon login_Ani = new ImageIcon("src/image/login_Ani.gif");
-//        login_Icon = new JLabel(login_Ani);
-//        login_Icon.setSize(25,25);
-//        login_Icon.setBackground(Color_me);
-//        login_Icon.setBounds(415,320+10,25,25);
 
         txt_info = new JTextField("LIBRARY MANAGEMENT",362);
         txt_info.setBackground(new Color(84, 103, 71));
@@ -204,10 +199,8 @@ public class Login_UI {
         label.add(txtPassword);
         label.add(txt_name);
         label.add(txt_pass);
-//        label.add(login_Icon);
         label.add(logIn);
         label.add(txt_info);
-//        label.add(notepad_Label);
         label.add(txt_Group);
 
         main_Frame = new JFrame("Main_UI");
@@ -232,4 +225,3 @@ public class Login_UI {
         new Login_UI();
     }
 }
-

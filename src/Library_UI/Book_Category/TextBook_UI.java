@@ -19,11 +19,14 @@ import javax.swing.table.TableRowSorter;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.sql.Connection;
 import java.util.Calendar;
 
 public class TextBook_UI {
+    private Connection connection;
     //Constructor
-    public TextBook_UI(BookManager bookManager){
+    public TextBook_UI(BookManager bookManager, Connection connection){
+        this.connection = connection;
         this.bookManager = bookManager;
         cbBookType = new JComboBox(bookManager.bookCategory());
         cbEducation = new JComboBox(bookManager.learningEducation());
@@ -102,7 +105,7 @@ public class TextBook_UI {
             @Override
             public void mouseClicked(MouseEvent e) {
                 main_Frame.dispose();
-                new Lobby_UI();
+                new Lobby_UI(connection);
             }
 
             @Override
@@ -164,7 +167,7 @@ public class TextBook_UI {
         left_Label.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                ChildrenBook_UI childrenBook_ui = new ChildrenBook_UI(bookManager);
+                ChildrenBook_UI childrenBook_ui = new ChildrenBook_UI(bookManager, connection);
                 main_Frame.dispose();
             }
 
@@ -196,7 +199,7 @@ public class TextBook_UI {
         right_Label.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                Novel_UI novel_ui = new Novel_UI(bookManager);
+                Novel_UI novel_ui = new Novel_UI(bookManager, connection);
                 main_Frame.dispose();
             }
 

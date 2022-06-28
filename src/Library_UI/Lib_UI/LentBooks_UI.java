@@ -14,6 +14,7 @@ import javax.swing.table.TableRowSorter;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.sql.Connection;
 
 public class LentBooks_UI {
 
@@ -24,9 +25,11 @@ public class LentBooks_UI {
     private JTable jt;
     private UserManager userManager;
     private String[] tableContent;
+    private Connection connection;
 
     //Constructor
-    public LentBooks_UI(BookManager bookManager, UserManager userManager){
+    public LentBooks_UI(BookManager bookManager, UserManager userManager, Connection connection){
+        this.connection = connection;
         this.bookManager = bookManager;
         this.userManager = userManager;
         tableContent = bookManager.bookBorrowContent();
@@ -99,7 +102,7 @@ public class LentBooks_UI {
                     managerUserFrame.setEnabled(true);
                     main_Frame.dispose();
                 }else {
-                    new Lobby_UI();
+                    new Lobby_UI(connection);
                     main_Frame.dispose();
                 }
 

@@ -3,12 +3,19 @@ package Library.User_Manager;
 import Library.Check;
 import Library.LentBook_Manager.LentBookManager;
 
+import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.Calendar;
 
 public class UserManager {
     private boolean isUpdate = false;
     private int codeCount = 0;
+    private Connection conn;
+
+    //Constructor
+    public UserManager(Connection conn){
+        this.conn = conn;
+    }
 
     //Getter and Setter
     public boolean getIsUpdate() {

@@ -20,11 +20,14 @@ import javax.swing.table.TableRowSorter;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.sql.Connection;
 import java.util.Calendar;
 
 public class ManageBook_UI {
+    private Connection connection;
     //Constructor
-    public ManageBook_UI(BookManager bookManager){
+    public ManageBook_UI(BookManager bookManager, Connection connection){
+        this.connection = connection;
         this.bookManager = bookManager;
         cb = new JComboBox(bookManager.bookCategory());
         Content();
@@ -48,6 +51,24 @@ public class ManageBook_UI {
         bookManager.setIsUpdate(true);
         defaultTableModel.setDataVector(bookManager.listBookAll(), bookManager.bookContent());
         bookManager.setIsUpdate(false);
+    }
+
+    //Edit Book
+    public void editBook(String bookCategory , String codeValue, int col, String value){
+        switch (bookCategory){
+            case "Learning Book":
+                bookManager.editBookLearning(codeValue, col, value);
+                break;
+            case "Noval Book":
+                bookManager.editBookNoval(codeValue, col, value);
+                break;
+            case "Children Book":
+                bookManager.editBookChild(codeValue, col, value);
+                break;
+            case "Psychological Book":
+                bookManager.editBookPsychology(codeValue, col, value);
+                break;
+        }
     }
 
     public void Content(){
@@ -92,7 +113,7 @@ public class ManageBook_UI {
             @Override
             public void mouseClicked(MouseEvent e) {
                 main_Frame.dispose();
-                new Lobby_UI();
+                new Lobby_UI(connection);
             }
 
             @Override
@@ -155,7 +176,7 @@ public class ManageBook_UI {
             @Override
             public void mouseClicked(MouseEvent e) {
                 JOptionPane.showMessageDialog(null, "none page front");
-                PsyBook_UI psyBook_ui = new PsyBook_UI(bookManager);
+                PsyBook_UI psyBook_ui = new PsyBook_UI(bookManager, connection);
                 main_Frame.dispose();
             }
 
@@ -187,7 +208,7 @@ public class ManageBook_UI {
         right_Label.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                ChildrenBook_UI childrenBook_ui = new ChildrenBook_UI(bookManager);
+                ChildrenBook_UI childrenBook_ui = new ChildrenBook_UI(bookManager, connection);
                 main_Frame.dispose();
             }
 
@@ -420,13 +441,14 @@ public class ManageBook_UI {
             @Override
             public void tableChanged(TableModelEvent e) {
                 if(!bookManager.getIsUpdate()){
+                    String bookCategory = String.valueOf(jt.getValueAt(jt.getSelectedRow(), 6)).trim();
                     String codeValue = String.valueOf(jt.getValueAt(jt.getSelectedRow(), 0)).trim();
                     String newValue = String.valueOf(jt.getValueAt(jt.getSelectedRow(), jt.getSelectedColumn())).trim();
                     switch (jt.getSelectedColumn()){
                         case 1:
                             if(!bookManager.getIsUpdate()){
                                 if(newValue.trim().length() > 0){
-                                    bookManager.editBook(codeValue, jt.getSelectedColumn(), newValue);
+                                    editBook(bookCategory, codeValue, jt.getSelectedColumn(), newValue);
                                 }else {
                                     JOptionPane.showMessageDialog(null, "Tên phải được đưa vào ở dạng chuỗi và có nhiều hơn 1 kí tự");
                                     tableReset();
@@ -436,7 +458,7 @@ public class ManageBook_UI {
                         case 2:
                             if(!bookManager.getIsUpdate()){
                                 if(newValue.trim().length() > 0 && check.isDateOrNot(newValue)){
-                                    bookManager.editBook(codeValue, jt.getSelectedColumn(), newValue);
+                                    editBook(bookCategory ,codeValue, jt.getSelectedColumn(), newValue);
                                 }else {
                                     JOptionPane.showMessageDialog(null, "Thông tin phải được nhập dưới dạng d/m/y và tồn tại thời điểm nhập");
                                     tableReset();
@@ -446,7 +468,7 @@ public class ManageBook_UI {
                         case 3:
                             if(!bookManager.getIsUpdate()){
                                 if(newValue.trim().length() > 0 && check.mathCheck(check.mathAnalysis(newValue))){
-                                    bookManager.editBook(codeValue, jt.getSelectedColumn(), check.moneyConvert(check.matConvert(check.mathAnalysis(newValue))) );
+                                    editBook(bookCategory,codeValue, jt.getSelectedColumn(), check.moneyConvert(check.matConvert(check.mathAnalysis(newValue))) );
                                     tableReset();
                                 }else {
                                     JOptionPane.showMessageDialog(null, "Số lượng sách phải được nhập dưới dạng number(int)");
@@ -457,7 +479,7 @@ public class ManageBook_UI {
                         case 4:
                             if(!bookManager.getIsUpdate()){
                                 if(newValue.trim().length() > 0 ){
-                                    bookManager.editBook(codeValue, jt.getSelectedColumn(), newValue);
+                                    editBook(bookCategory, codeValue, jt.getSelectedColumn(), newValue);
                                 }else {
                                     JOptionPane.showMessageDialog(null, "Tên tác giả phải được đưa vào ở dạng chuỗi và có nhiều hơn 1 kí tự");
                                     tableReset();
@@ -467,7 +489,7 @@ public class ManageBook_UI {
                         case 5:
                             if(!bookManager.getIsUpdate()){
                                 if(newValue.trim().length() > 0 ){
-                                    bookManager.editBook(codeValue, jt.getSelectedColumn(), newValue);
+                                    editBook(bookCategory,codeValue, jt.getSelectedColumn(), newValue);
                                 }else {
                                     JOptionPane.showMessageDialog(null, "Tên phải được đưa vào ở dạng chuỗi và có nhiều hơn 1 kí tự");
                                     tableReset();
@@ -477,14 +499,14 @@ public class ManageBook_UI {
                         case 6:
                             if(!bookManager.getIsUpdate()){
                                 if(newValue.trim().length() > 0 ){
-                                    bookManager.editBook(codeValue, jt.getSelectedColumn(), newValue);
+                                    editBook(bookCategory, codeValue, jt.getSelectedColumn(), newValue);
                                 }
                             }
                             break;
                         case 7:
                             if(!bookManager.getIsUpdate()){
                                 if(newValue.trim().length() > 0 && check.mathCheck(check.mathAnalysis(newValue))){
-                                    bookManager.editBook(codeValue, jt.getSelectedColumn(), check.matConvert(check.mathAnalysis(newValue)));
+                                    editBook(bookCategory, codeValue, jt.getSelectedColumn(), check.matConvert(check.mathAnalysis(newValue)));
                                     tableReset();
                                 }else {
                                     JOptionPane.showMessageDialog(null, "Số lượng sách phải được nhập dưới dạng number(int)");

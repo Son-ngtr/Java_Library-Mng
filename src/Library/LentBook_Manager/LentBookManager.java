@@ -13,7 +13,7 @@ public class LentBookManager {
 
     //LentBook Header
     public String[] lentBookContent(){
-        return new String[]{"STT", "Name Book", "Quantity", "LentMoney/day" ,"Remain Time"};
+        return new String[]{"STT", "Name Book", "Quantity", "LentMoney/Day" ,"Remain Time"};
     }
 
     //Create lentBook
@@ -49,7 +49,7 @@ public class LentBookManager {
                         mainObj[count][i] = Integer.toString(lentBook.getNumberOfBook());
                         break;
                     case 3:
-                        mainObj[count][i] = Long.toString(lentBook.getLentMoney());
+                        mainObj[count][i] = lentBook.moneyConvert();
                         break;
                     case 4:
                         mainObj[count][i] = "";

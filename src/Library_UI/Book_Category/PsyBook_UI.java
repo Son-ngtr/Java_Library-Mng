@@ -19,11 +19,14 @@ import javax.swing.table.TableRowSorter;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.sql.Connection;
 import java.util.Calendar;
 
 public class PsyBook_UI {
+    private Connection connection;
     //Constructor
-    public PsyBook_UI(BookManager bookManager){
+    public PsyBook_UI(BookManager bookManager, Connection connection){
+        this.connection = connection;
         this.bookManager = bookManager;
         cbPsychologyType = new JComboBox(bookManager.psychologyType());
         cbPsychologyForAge = new JComboBox(bookManager.psychologyRecommentForAge());
@@ -99,7 +102,7 @@ public class PsyBook_UI {
             @Override
             public void mouseClicked(MouseEvent e) {
                 main_Frame.dispose();
-                new Lobby_UI();
+                new Lobby_UI(connection);
             }
 
             @Override
@@ -161,7 +164,7 @@ public class PsyBook_UI {
         left_Label.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                new Novel_UI(bookManager);
+                new Novel_UI(bookManager, connection);
                 main_Frame.dispose();
             }
 

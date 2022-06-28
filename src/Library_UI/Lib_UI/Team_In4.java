@@ -3,11 +3,20 @@ package Library_UI.Lib_UI;
 import javax.swing.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.sql.Connection;
 
 public class Team_In4 {
     private JFrame main_Frame;
     private JLabel label, notification_Label, logout_Label, exit_Label;
-    public Team_In4(){
+    private Connection connection;
+
+    //Constructor
+    public Team_In4(Connection connection){
+        this.connection = connection;
+        content();
+    }
+
+    public void content(){
         ImageIcon bk_Icon = new ImageIcon("src/Image_Icon/background/Team_In4.png");
         label = new JLabel(bk_Icon);
         int w,h;
@@ -52,7 +61,7 @@ public class Team_In4 {
             @Override
             public void mouseClicked(MouseEvent e) {
                 main_Frame.dispose();
-                new Lobby_UI();
+                new Lobby_UI(connection);
             }
 
             @Override
@@ -122,6 +131,6 @@ public class Team_In4 {
     }
 
     public static void main(String[] args) {
-        new Team_In4();
+//        new Team_In4();
     }
 }

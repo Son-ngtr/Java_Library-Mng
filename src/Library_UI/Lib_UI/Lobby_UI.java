@@ -12,6 +12,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.sql.Connection;
 import java.util.Calendar;
 import javax.swing.JFrame;
 
@@ -24,54 +25,24 @@ public class Lobby_UI {
     private JTextField txt_Group, txt_Reader, txt_NoBook, txt_NoBookBorrowed;
     private JButton logIn;
     private JPanel inFo;
-    private BookManager bookManager = new BookManager();
-    private UserManager userManager = new UserManager();
-    private StaffManager staffManager = new StaffManager();
+    private Connection conn;
+    private BookManager bookManager ;
+    private UserManager userManager ;
+    private StaffManager staffManager;
 
-    public void addBookExample(){
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(2020, 10, 10);
-        bookManager.addBookChild(bookManager.createBookChild("Quang", calendar, 1000L, "Son", "Dfsd", 10, "Classic", "6->10"));
-        bookManager.addBookChild(bookManager.createBookChild("Phong", calendar, 1000L, "Son", "Dfsd", 10, "Classic", "6->10"));
-        bookManager.addBookChild(bookManager.createBookChild("Toan", calendar, 1000L, "Son", "Dfsd", 10, "Classic", "6->10"));
-        calendar.set(2020, 11, 20);
-        bookManager.addBookLearning(bookManager.createBookLearning("Shark", calendar, 1000L, "Sn", "Dfsdf", 10, "High School", "Math"));
-        bookManager.addBookLearning(bookManager.createBookLearning("Meme", calendar, 1000L, "Sn", "Dfsdf", 10, "High School", "Math"));
-        bookManager.addBookLearning(bookManager.createBookLearning("Leesin", calendar, 1000L, "Sn", "Dfsdf", 10, "High School", "Math"));
-        calendar.set(2020, 1, 9);
-        bookManager.addBookPsychology(bookManager.createBookPsychology("Babe", calendar, 1000L, "Sn", "Dfsdf", 10, "Criminal", "11->16"));
-        bookManager.addBookPsychology(bookManager.createBookPsychology("Babe shark", calendar, 1000L, "Sn", "Dfsdf", 10, "Criminal", "11->16"));
-        bookManager.addBookPsychology(bookManager.createBookPsychology("Babe Sister", calendar, 1000L, "Sn", "Dfsdf", 10, "Criminal", "11->16"));
-        calendar.set(2020, 4, 1);
-        bookManager.addBookNovel(bookManager.createBookNovel("Duong", calendar, 1000L, "Sn", "Dfsdf", 10, "Science Fictiong", "11->16"));
-        bookManager.addBookNovel(bookManager.createBookNovel("Duoc", calendar, 1000L, "Sn", "Dfsdf", 10, "Science Fictiong", "11->16"));
-        bookManager.addBookNovel(bookManager.createBookNovel("Dung", calendar, 1000L, "Sn", "Dfsdf", 10, "Science Fictiong", "11->16"));
-    }
-
-    public void addUserExample(){
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(2020, 10, 10);
-        userManager.addUser(userManager.createUser("Quang", "Male", calendar, "sdfsdf", "dsfsd", "dsfsd", 0, 1000L));
-        userManager.addUser(userManager.createUser("Phong", "Other", calendar, "sdfsdf", "dsfsd", "dsfsd", 0, 1000L));
-        userManager.addUser(userManager.createUser("Hai", "Female", calendar, "sdfsdf", "dsfsd", "dsfsd", 0, 1000L));
-        userManager.addUser(userManager.createUser("Duong", "Male", calendar, "sdfsdf", "dsfsd", "dsfsd", 0, 1000L));
-    }
-
-    public void addStaffExample(){
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(2020, 10, 10);
-        staffManager.addStaff(staffManager.createStaff("Quang", "Male", calendar, "Sai Dong", "324234234","sdfsdf","Treasurer", 1000L, "None" ));
-        staffManager.addStaff(staffManager.createStaff("Phong", "Female", calendar, "Sai Dong", "324234234","sdfds","Treasurer", 1000L, "None" ));
-        staffManager.addStaff(staffManager.createStaff("Hieu", "Other", calendar, "Sai Dong", "324234234","dsfsdf","Treasurer", 1000L, "None" ));
-        staffManager.addStaff(staffManager.createStaff("Binh", "Male", calendar, "Sai Dong", "324234234","dsfsdf","Treasurer", 1000L, "None"));
+    //Constructor
+    public Lobby_UI(Connection conn){
+        this.conn = conn;
+        bookManager = new BookManager(conn);
+        userManager = new UserManager(conn);
+        staffManager = new StaffManager(conn);
+        content();
     }
 
 
-    public Lobby_UI(){
-        //Example
-        addBookExample();
-        addUserExample();
-        addStaffExample();
+    public void content(){
+        //Dowload Book From My SQL
+        bookManager.dowloadAllBook();
 
         ImageIcon bk_Icon = new ImageIcon("src/Image_Icon/background/lobby_1.png");
         label = new JLabel(bk_Icon);
@@ -187,17 +158,11 @@ public class Lobby_UI {
         b1.setBorder(BorderFactory.createLineBorder(Color_me));
         b1.setForeground(Color_ForeG);
         b1.setBackground(Color_me);
-        b1.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-//                new ManageBook_UI();
-            }
-        });
         b1.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 main_Frame.dispose();
-                ManageBook_UI manageBook_ui = new ManageBook_UI(bookManager);
+                ManageBook_UI manageBook_ui = new ManageBook_UI(bookManager, conn);
             }
 
             @Override
@@ -232,7 +197,7 @@ public class Lobby_UI {
         b2.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                new ManageUser_UI(bookManager, userManager);
+                new ManageUser_UI(bookManager, userManager, conn);
                 main_Frame.dispose();
             }
 
@@ -268,7 +233,7 @@ public class Lobby_UI {
         b3.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                new ManageStaff_UI(staffManager);
+                new ManageStaff_UI(staffManager, conn);
                 main_Frame.dispose();
             }
 
@@ -304,7 +269,7 @@ public class Lobby_UI {
         b4.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                new LentBooks_UI(bookManager, userManager);
+                new LentBooks_UI(bookManager, userManager, conn);
                 main_Frame.dispose();
             }
 
@@ -340,7 +305,7 @@ public class Lobby_UI {
         b5.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                new DayHis_UI();
+                new DayHis_UI(conn);
                 main_Frame.dispose();
             }
 
@@ -376,7 +341,7 @@ public class Lobby_UI {
         b6.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                new Team_In4();
+                new Team_In4(conn);
                 main_Frame.dispose();
             }
 
@@ -468,7 +433,7 @@ public class Lobby_UI {
     }
 
     public static void main(String[] args) {
-        new Lobby_UI();
+//        new Lobby_UI();
     }
 }
 

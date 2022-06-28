@@ -20,6 +20,7 @@ import javax.swing.table.TableRowSorter;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.sql.Connection;
 import java.util.Calendar;
 
 public class ManageUser_UI {
@@ -36,10 +37,12 @@ public class ManageUser_UI {
     private BookManager bookManager;
     private JComboBox cb;
     private Check check = new Check();
+    private Connection connection;
 
 
     //Constructor
-    public ManageUser_UI(BookManager bookManager, UserManager userManager){
+    public ManageUser_UI(BookManager bookManager, UserManager userManager, Connection connection){
+        this.connection = connection;
         this.bookManager = bookManager;
         this.userManager = userManager;
         cb = new JComboBox(userManager.userGender());
@@ -96,7 +99,7 @@ public class ManageUser_UI {
             @Override
             public void mouseClicked(MouseEvent e) {
                 main_Frame.dispose();
-                new Lobby_UI();
+                new Lobby_UI(connection);
             }
 
             @Override

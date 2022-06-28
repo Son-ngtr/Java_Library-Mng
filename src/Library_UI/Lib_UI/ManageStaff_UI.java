@@ -19,6 +19,7 @@ import javax.swing.table.TableRowSorter;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.sql.Connection;
 import java.util.Calendar;
 
 public class ManageStaff_UI {
@@ -36,9 +37,11 @@ public class ManageStaff_UI {
     private JComboBox cbGender;
     private JComboBox cbAttendence;
     private Check check = new Check();
+    private Connection connection;
 
     //Constructor
-    public ManageStaff_UI(StaffManager staffManager){
+    public ManageStaff_UI(StaffManager staffManager, Connection connection){
+        this.connection = connection;
         this.staffManager = staffManager;
         cbCategory = new JComboBox(staffManager.staffCategory());
         cbGender = new JComboBox(staffManager.staffGender());
@@ -103,7 +106,7 @@ public class ManageStaff_UI {
             @Override
             public void mouseClicked(MouseEvent e) {
                 main_Frame.dispose();
-                new Lobby_UI();
+                new Lobby_UI(connection);
             }
 
             @Override

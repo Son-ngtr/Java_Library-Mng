@@ -25,7 +25,6 @@ public class Book_Novel extends Book{
     }
 
     public void novalSetType(String type) {
-        System.out.println("dfsdfsd");
         this.type = type;
     }
 
