@@ -4,12 +4,12 @@ import java.sql.*;
 import java.util.Vector;
 
 public class User_Database {
-    public boolean checkUser(Connection connection, String Name) throws SQLException {
+    public boolean checkUser(Connection connection, int ID) throws SQLException {
         // Kết nối database
 
 
         // Kiểm tra sinh viên có trong database hay chưa
-        String sql = "Select * from user where Name = '" + Name + "'";
+        String sql = "Select * from user where ID = '" + ID + "'";
         Statement stm1 = connection.createStatement();
         ResultSet rs = stm1.executeQuery(sql);
 
@@ -41,9 +41,8 @@ public class User_Database {
             String Address = rs.getString(5);
             String PhoneNumber = rs.getString(6);
             String Email = rs.getString(7);
-            String ExpDate = rs.getString(8);
-            String RegisDate = rs.getString(9);
-            int MoneyFine = rs.getInt(10);
+            int TotalBook = rs.getInt(8);
+            int TotalFee = rs.getInt(9);
 
 
             // Ghi vào vector
@@ -55,9 +54,9 @@ public class User_Database {
             temp.add(Address);
             temp.add(PhoneNumber);
             temp.add(Email);
-            temp.add(ExpDate);
-            temp.add(RegisDate);
-            temp.add(MoneyFine);
+            temp.add(TotalBook);
+            temp.add(TotalFee);
+
 
 
 
@@ -67,8 +66,8 @@ public class User_Database {
         return data;
     }
 
-    public int updateUser(Connection connection, int ID, String Name, String DateOfBirth, String Address, String PhoneNumber, String Gender, String RegisDate,
-                          String Email, int MoneyFine, String ExpDate)
+    public int updateUser(Connection connection, int ID, String Name, String DateOfBirth, String Address, String PhoneNumber, String Gender, int TotalBook,
+                          String Email, int TotalFee)
             throws ClassNotFoundException, SQLException {
         int updateStatus = 0;
         // Kết nối database
@@ -77,8 +76,8 @@ public class User_Database {
 
         // Tạo câu lệnh SQL
         String sql = "UPDATE User set ID='" + ID + "',Name='" + Name + "',Gender='" + Gender + "',DateOfBirth='"
-                + DateOfBirth + "',Address='" + Address + "',PhoneNumber='" + PhoneNumber + "',Email='" + Email + "',ExpDate='" + ExpDate +
-                "',RegisDate='" + RegisDate + "',MoneyFine='" + MoneyFine + "' WHERE Name='" + Name + "'";
+                + DateOfBirth + "',Address='" + Address + "',PhoneNumber='" + PhoneNumber + "',Email='" + Email + "',TotalBook='" + TotalBook +
+                "',TotalFee='" + TotalFee + "' WHERE ID='" + ID + "'";
         Statement stm1 = connection.createStatement();
         updateStatus = stm1.executeUpdate(sql);
         connection.close();
@@ -86,14 +85,14 @@ public class User_Database {
     }
 
     public void addNewUser(Connection connection, int ID, String Name, String Gender, String DateOfBirth, String Address, String PhoneNumber, String Email,
-                           String ExpDate, String RegisDate, int MoneyFine )
+                           int TotalBook, int TotalFee )
             throws ClassNotFoundException, SQLException {
         // Kết nối database
 //        AccountData accountData = new AccountData("root", "");
 //        connection = getConnect(accountData);
 
         // Tạo câu lệnh SQL (Cách 2: sử dụng PreparedStatement)
-        String sql = "INSERT INTO user(ID,Name,Gender,DateOfBirth,Address,PhoneNumber,Email,ExpDate,RegisDate,MoneyFine) VALUES(?,?,?,?,?,?,?,?,?,?)";
+        String sql = "INSERT INTO user(ID,Name,Gender,DateOfBirth,Address,PhoneNumber,Email,ExpDate,RegisDate,MoneyFine) VALUES(?,?,?,?,?,?,?,?,?)";
         PreparedStatement stmt = connection.prepareStatement(sql);
         stmt.setInt(1, ID);
         stmt.setString(2, Name);
@@ -102,9 +101,8 @@ public class User_Database {
         stmt.setString(5, Address);
         stmt.setString(6, PhoneNumber);
         stmt.setString(7, Email);
-        stmt.setString(8, ExpDate);
-        stmt.setString(9, RegisDate);
-        stmt.setInt(10, MoneyFine);
+        stmt.setInt(8, TotalBook);
+        stmt.setInt(9, TotalFee);
 
 
 
@@ -115,7 +113,7 @@ public class User_Database {
         connection.close();
     }
 
-    public int deleteUser(Connection connection, String Name) throws SQLException, ClassNotFoundException {
+    public int deleteUser(Connection connection, int ID) throws SQLException, ClassNotFoundException {
         int deleteStatus = 0;
 
         // Kết nối database
@@ -123,7 +121,7 @@ public class User_Database {
 //        connection = getConnect(accountData);
 
         // Xóa sinh viên
-        String sql = "DELETE FROM user WHERE Name='" + Name + "'";
+        String sql = "DELETE FROM user WHERE ID='" + ID + "'";
         Statement stm1 = connection.createStatement();
         deleteStatus = stm1.executeUpdate(sql);
 

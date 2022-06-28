@@ -4,12 +4,12 @@ import java.sql.*;
 import java.util.Vector;
 
 public class Staff_Database {
-    public boolean checkStaff(Connection connection, String Name) throws SQLException {
+    public boolean checkStaff(Connection connection, int ID) throws SQLException {
         // Kết nối database
 
 
         // Kiểm tra sinh viên có trong database hay chưa
-        String sql = "Select * from staff where Name = '" + Name + "'";
+        String sql = "Select * from staff where ID = '" + ID + "'";
         Statement stm1 = connection.createStatement();
         ResultSet rs = stm1.executeQuery(sql);
 
@@ -78,7 +78,7 @@ public class Staff_Database {
         // Tạo câu lệnh SQL
         String sql = "UPDATE staff set ID='" + ID + "',Name='" + Name + "',Gender='" + Gender + "',DateOfBirth='"
                 + DateOfBirth + "',Address='" + Address + "',PhoneNumber='" + PhoneNumber + "',Email='" + Email + "',Staff='" + Staff +
-                "',Salary='" + Salary + "',Attendance='" + Attendance + "' WHERE Name='" + Name + "'";
+                "',Salary='" + Salary + "',Attendance='" + Attendance + "' WHERE ID='" + ID + "'";
         Statement stm1 = connection.createStatement();
         updateStatus = stm1.executeUpdate(sql);
         connection.close();
@@ -115,7 +115,7 @@ public class Staff_Database {
         connection.close();
     }
 
-    public int deleteStaff(Connection connection, String Name) throws SQLException, ClassNotFoundException {
+    public int deleteStaff(Connection connection, int ID) throws SQLException, ClassNotFoundException {
         int deleteStatus = 0;
 
         // Kết nối database
@@ -123,7 +123,7 @@ public class Staff_Database {
 //        connection = getConnect(accountData);
 
         // Xóa sinh viên
-        String sql = "DELETE FROM staff WHERE Name='" + Name + "'";
+        String sql = "DELETE FROM staff WHERE ID='" + ID + "'";
         Statement stm1 = connection.createStatement();
         deleteStatus = stm1.executeUpdate(sql);
 

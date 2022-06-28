@@ -91,13 +91,25 @@ public class Login_UI {
         logIn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String usename = txtName.getText();
-                String password = String.valueOf(txtPassword.getPassword());
-                AccountData accountData = new AccountData(usename, password);
-                Connection conn = LibraryManager.getConnect(accountData);
-                if(conn !=null){
-                    new Lobby_UI(conn);
+                try{
+                    String usename = txtName.getText();
+                    String password = String.valueOf(txtPassword.getPassword());
+                    AccountData accountData = new AccountData(usename, password);
+                    Connection conn = LibraryManager.getConnect(accountData);
+                    if(conn !=null){
+                        new Lobby_UI(conn);
+                    }
+
+                }catch (Exception e1){
+                    JOptionPane.showMessageDialog(null, "Wrong Password or Account");
                 }
+//                String usename = txtName.getText();
+//                String password = String.valueOf(txtPassword.getPassword());
+//                AccountData accountData = new AccountData(usename, password);
+//                Connection conn = LibraryManager.getConnect(accountData);
+//                if(conn !=null){
+//                    new Lobby_UI(conn);
+//                }
 //                else JOptionPane.showMessageDialog(null,"Log in uncompleted");
             }
         });

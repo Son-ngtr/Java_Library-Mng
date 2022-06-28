@@ -5,10 +5,10 @@ import java.util.Vector;
 
 public class ChildrenBook  extends LibraryManager{
 
-    public boolean checkChildrenBook(Connection connection, String Name) throws SQLException {
+    public boolean checkChildrenBook(Connection connection, int TypeCode) throws SQLException {
         // Kết nối database
         // Kiểm tra sinh viên có trong database hay chưa
-        String sql = "Select * from childrenbook where Name = '" + Name + "'";
+        String sql = "Select * from childrenbook where TypeCode = '" + TypeCode + "'";
         Statement stm1 = connection.createStatement();
         ResultSet rs = stm1.executeQuery(sql);
 
@@ -76,7 +76,7 @@ public class ChildrenBook  extends LibraryManager{
         String sql = "UPDATE childrenbook set Code='" + Code + "',Name='" + Name + "',DateAdded='" + DateAdded + "',Price='"
                 + Price + "',Author='" + Author + "',Publisher='" + Publisher + "',Category='" + Category + "',Quantity='" + Quantity +
                 "',TypeCode='" + TypeCode + "',Type='" + Type + "',RecommentForAge='" + RecommentForAge +
-                "' WHERE Name='" + Name + "'";
+                "' WHERE TypeCode='" + TypeCode + "'";
         Statement stm1 = connection.createStatement();
         updateStatus = stm1.executeUpdate(sql);
         connection.close();
@@ -113,7 +113,7 @@ public class ChildrenBook  extends LibraryManager{
         connection.close();
     }
 
-    public int deleteChildrenBook(Connection connection, String Name) throws SQLException, ClassNotFoundException {
+    public int deleteChildrenBook(Connection connection, int TypeCode) throws SQLException, ClassNotFoundException {
         int deleteStatus = 0;
 
         // Kết nối database
@@ -121,7 +121,7 @@ public class ChildrenBook  extends LibraryManager{
 //        connection = getConnect(accountData);
 
         // Xóa sinh viên
-        String sql = "DELETE FROM childrenbook WHERE Name='" + Name + "'";
+        String sql = "DELETE FROM childrenbook WHERE TypeCode='" + TypeCode + "'";
         Statement stm1 = connection.createStatement();
         deleteStatus = stm1.executeUpdate(sql);
 
