@@ -1,5 +1,6 @@
 package Library_UI.Lib_UI;
 
+import Database.ConectionDTB;
 import Library.Book_Manager.BookManager;
 import Library.Check;
 import Library.Staff_Manager.StaffManager;
@@ -37,12 +38,12 @@ public class ManageUser_UI {
     private BookManager bookManager;
     private JComboBox cb;
     private Check check = new Check();
-    private Connection connection;
+    private ConectionDTB conectionDTB = new ConectionDTB();
+    private Connection connection = conectionDTB.getConnect();
 
 
     //Constructor
-    public ManageUser_UI(BookManager bookManager, UserManager userManager, Connection connection){
-        this.connection = connection;
+    public ManageUser_UI(BookManager bookManager, UserManager userManager){
         this.bookManager = bookManager;
         this.userManager = userManager;
         cb = new JComboBox(userManager.userGender());
@@ -99,7 +100,7 @@ public class ManageUser_UI {
             @Override
             public void mouseClicked(MouseEvent e) {
                 main_Frame.dispose();
-                new Lobby_UI(connection);
+                new Lobby_UI();
             }
 
             @Override
@@ -267,6 +268,23 @@ public class ManageUser_UI {
             @Override
             public void mouseClicked(MouseEvent e) {
                 if(jt.getSelectedRow() != -1){
+
+                    //User Data
+                    String userName = String.valueOf(jt.getValueAt(jt.getSelectedRow(), 1));
+                    String userGender = String.valueOf(jt.getValueAt(jt.getSelectedRow(), 2));
+                    String userDateOfBirth = String.valueOf(jt.getValueAt(jt.getSelectedRow(), 3));
+                    String userAddress = String.valueOf(jt.getValueAt(jt.getSelectedRow(), 4));
+                    String userPhoneNumber = String.valueOf(jt.getValueAt(jt.getSelectedRow(), 5));
+                    String userEmail = String.valueOf(jt.getValueAt(jt.getSelectedRow(), 6));
+                    bookManager.setUseLentInfo(new String[]{
+                            userName,
+                            userGender,
+                            userDateOfBirth,
+                            userAddress,
+                            userPhoneNumber,
+                            userEmail
+                    });
+
                     User_In4_UI user_in4_ui = new User_In4_UI( bookManager, userManager,check.codeConvert(String.valueOf(jt.getValueAt(jt.getSelectedRow(), 0)).trim()));
                     user_in4_ui.setManagerUser(main_Frame, defaultTableModel, jt);
                     main_Frame.setEnabled(false);

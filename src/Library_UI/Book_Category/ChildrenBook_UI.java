@@ -1,5 +1,6 @@
 package Library_UI.Book_Category;
 
+import Database.ConectionDTB;
 import Library.Book_Manager.BookManager;
 import Library.Check;
 import Library.Staff_Manager.StaffManager;
@@ -24,10 +25,10 @@ import java.sql.Connection;
 import java.util.Calendar;
 
 public class ChildrenBook_UI {
-    private Connection connection;
+    private ConectionDTB conectionDTB = new ConectionDTB();
+    private Connection connection = conectionDTB.getConnect();
     //Constructor
-    public ChildrenBook_UI(BookManager bookManager, Connection connection){
-        this.connection = connection;
+    public ChildrenBook_UI(BookManager bookManager){
         this.bookManager = bookManager;
         cbBookType = new JComboBox(bookManager.bookCategory());
         cbChildType = new JComboBox(bookManager.childType());
@@ -106,7 +107,7 @@ public class ChildrenBook_UI {
             @Override
             public void mouseClicked(MouseEvent e) {
                 main_Frame.dispose();
-                new Lobby_UI(connection);
+                new Lobby_UI();
             }
 
             @Override
@@ -168,7 +169,7 @@ public class ChildrenBook_UI {
         left_Label.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                ManageBook_UI manageBook_ui = new ManageBook_UI(bookManager, connection);
+                ManageBook_UI manageBook_ui = new ManageBook_UI(bookManager);
                 main_Frame.dispose();
             }
 
@@ -200,7 +201,7 @@ public class ChildrenBook_UI {
         right_Label.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                TextBook_UI textBook_ui = new TextBook_UI(bookManager, connection);
+                TextBook_UI textBook_ui = new TextBook_UI(bookManager);
                 main_Frame.dispose();
             }
 

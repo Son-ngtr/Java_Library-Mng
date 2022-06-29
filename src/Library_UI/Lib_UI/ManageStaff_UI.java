@@ -1,5 +1,6 @@
 package Library_UI.Lib_UI;
 
+import Database.ConectionDTB;
 import Library.Book_Manager.BookManager;
 import Library.Check;
 import Library.Staff_Manager.Staff;
@@ -37,11 +38,11 @@ public class ManageStaff_UI {
     private JComboBox cbGender;
     private JComboBox cbAttendence;
     private Check check = new Check();
-    private Connection connection;
+    private ConectionDTB conectionDTB = new ConectionDTB();
+    private Connection connection = conectionDTB.getConnect();
 
     //Constructor
-    public ManageStaff_UI(StaffManager staffManager, Connection connection){
-        this.connection = connection;
+    public ManageStaff_UI(StaffManager staffManager){
         this.staffManager = staffManager;
         cbCategory = new JComboBox(staffManager.staffCategory());
         cbGender = new JComboBox(staffManager.staffGender());
@@ -106,7 +107,7 @@ public class ManageStaff_UI {
             @Override
             public void mouseClicked(MouseEvent e) {
                 main_Frame.dispose();
-                new Lobby_UI(connection);
+                new Lobby_UI();
             }
 
             @Override

@@ -1,5 +1,6 @@
 package Library_UI.Lib_UI;
 
+import Database.ConectionDTB;
 import Library.Book_Manager.BookManager;
 import Library.User_Manager.UserManager;
 import Library_UI.Funtion.lent_UI;
@@ -18,28 +19,29 @@ import java.sql.Connection;
 
 public class LentBooks_UI {
 
-    private JFrame main_Frame, managerUserFrame;
+    private JFrame main_Frame, userInfoFrame;
     private JLabel label, notification_Label, logout_Label,exit_Label;
     private BookManager bookManager;
     private DefaultTableModel defaultTableModel, defaultTableModelUser;
-    private JTable jt;
+    private JTable jt, table;
     private UserManager userManager;
     private String[] tableContent;
-    private Connection connection;
+    private ConectionDTB conectionDTB = new ConectionDTB();
+    private Connection connection = conectionDTB.getConnect();
 
     //Constructor
-    public LentBooks_UI(BookManager bookManager, UserManager userManager, Connection connection){
-        this.connection = connection;
+    public LentBooks_UI(BookManager bookManager, UserManager userManager){
         this.bookManager = bookManager;
         this.userManager = userManager;
         tableContent = bookManager.bookBorrowContent();
         content();
     }
 
-    //ManagerUser Side
-    public void setManagerUserSide(JFrame jFrame, DefaultTableModel defaultTableModel){
-        managerUserFrame = jFrame;
-        defaultTableModelUser = defaultTableModel;
+    //User info Side
+    public void setUserInfoSide(JFrame frame, DefaultTableModel defaultTableModel, JTable table){
+        this.userInfoFrame = frame;
+        this.defaultTableModelUser = defaultTableModel;
+        this.table = table;
     }
 
 
@@ -98,11 +100,11 @@ public class LentBooks_UI {
         logout_Label.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                if(managerUserFrame != null){
-                    managerUserFrame.setEnabled(true);
+                if(userInfoFrame != null){
+                    userInfoFrame.setEnabled(true);
                     main_Frame.dispose();
                 }else {
-                    new Lobby_UI(connection);
+                    new Lobby_UI();
                     main_Frame.dispose();
                 }
 

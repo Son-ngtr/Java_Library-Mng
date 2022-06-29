@@ -42,7 +42,7 @@ public class User_Database {
             String PhoneNumber = rs.getString(6);
             String Email = rs.getString(7);
             int TotalBook = rs.getInt(8);
-            int MoneyFine = rs.getInt(9);
+            int TotalFee= rs.getInt(9);
 
 
             // Ghi vào vector
@@ -55,7 +55,7 @@ public class User_Database {
             temp.add(PhoneNumber);
             temp.add(Email);
             temp.add(TotalBook);
-            temp.add(MoneyFine);
+            temp.add(TotalFee);
 
 
 
@@ -65,27 +65,77 @@ public class User_Database {
         return data;
     }
 
-    public int updateUser(Connection connection, int ID, String Name, String DateOfBirth, String Address, String PhoneNumber, String Gender, int TotalBook,
-                          String Email, int MoneyFine)
+    public int updateUser(Connection connection, int ID, int col, String value)
             throws ClassNotFoundException, SQLException {
         int updateStatus = 0;
+        String sql;
+        Statement stm1;
 
-        // Tạo câu lệnh SQL
-        String sql = "UPDATE User set ID='" + ID + "',Name='" + Name + "',Gender='" + Gender + "',DateOfBirth='"
-                + DateOfBirth + "',Address='" + Address + "',PhoneNumber='" + PhoneNumber + "',Email='" + Email + "',TotalBook='" + TotalBook +
-                 "',MoneyFine='" + MoneyFine + "' WHERE ID='" + ID + "'";
-        Statement stm1 = connection.createStatement();
-        updateStatus = stm1.executeUpdate(sql);
-        
+        switch (col){
+            case 0:
+                sql = "UPDATE user set ID='" + Integer.parseInt(value) + "' WHERE ID='" + ID + "'";
+                stm1 = connection.createStatement();
+                updateStatus = stm1.executeUpdate(sql);
+
+                return updateStatus;
+            case 1:
+                sql = "UPDATE user set Name='" + value +  "' WHERE ID='" + ID + "'";
+                stm1 = connection.createStatement();
+                updateStatus = stm1.executeUpdate(sql);
+
+                return updateStatus;
+            case 2:
+                sql = "UPDATE user set Gender='" + value +  "' WHERE ID='" + ID + "'";
+                stm1 = connection.createStatement();
+                updateStatus = stm1.executeUpdate(sql);
+
+                return updateStatus;
+            case 3:
+                sql = "UPDATE user set DateOfBirth='" + value +  "' WHERE ID='" + ID + "'";
+                stm1 = connection.createStatement();
+                updateStatus = stm1.executeUpdate(sql);
+
+                return updateStatus;
+            case 4:
+                sql = "UPDATE user set Address='" + value +  "' WHERE ID='" + ID + "'";
+                stm1 = connection.createStatement();
+                updateStatus = stm1.executeUpdate(sql);
+
+                return updateStatus;
+            case 5:
+                sql = "UPDATE user set PhoneNumber='" + value +  "' WHERE ID='" + ID + "'";
+                stm1 = connection.createStatement();
+                updateStatus = stm1.executeUpdate(sql);
+
+                return updateStatus;
+            case 6:
+                sql = "UPDATE user set Email='" + value +  "' WHERE ID='" + ID + "'";
+                stm1 = connection.createStatement();
+                updateStatus = stm1.executeUpdate(sql);
+
+                return updateStatus;
+            case 7:
+                sql = "UPDATE user set TotalBook='" + Integer.parseInt(value) +  "' WHERE ID='" + ID + "'";
+                stm1 = connection.createStatement();
+                updateStatus = stm1.executeUpdate(sql);
+
+                return updateStatus;
+            case 8:
+                sql = "UPDATE user set TotalFee='" + Integer.parseInt(value) +  "' WHERE ID='" + ID + "'";
+                stm1 = connection.createStatement();
+                updateStatus = stm1.executeUpdate(sql);
+
+                return updateStatus;
+        }
         return updateStatus;
     }
 
     public void addNewUser(Connection connection, int ID, String Name, String Gender, String DateOfBirth, String Address, String PhoneNumber, String Email
-                           ,int TotalBook ,int MoneyFine )
+                           ,int TotalBook ,int TotalFee )
             throws ClassNotFoundException, SQLException {
 
         // Tạo câu lệnh SQL (Cách 2: sử dụng PreparedStatement)
-        String sql = "INSERT INTO user(ID,Name,Gender,DateOfBirth,Address,PhoneNumber,Email,TotalBook,MoneyFine) VALUES(?,?,?,?,?,?,?,?,?,?)";
+        String sql = "INSERT INTO user(ID,Name,Gender,DateOfBirth,Address,PhoneNumber,Email,TotalBook,TotalFee) VALUES(?,?,?,?,?,?,?,?,?)";
         PreparedStatement stmt = connection.prepareStatement(sql);
         stmt.setInt(1, ID);
         stmt.setString(2, Name);
@@ -95,7 +145,7 @@ public class User_Database {
         stmt.setString(6, PhoneNumber);
         stmt.setString(7, Email);
         stmt.setInt(8, TotalBook);
-        stmt.setInt(9, MoneyFine);
+        stmt.setInt(9, TotalFee);
 
 
 

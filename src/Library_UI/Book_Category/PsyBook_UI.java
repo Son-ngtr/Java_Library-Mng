@@ -1,5 +1,6 @@
 package Library_UI.Book_Category;
 
+import Database.ConectionDTB;
 import Library.Check;
 import Library.Book_Manager.BookManager;
 import Library_UI.Funtion.Add_psyBook_UI;
@@ -23,10 +24,10 @@ import java.sql.Connection;
 import java.util.Calendar;
 
 public class PsyBook_UI {
-    private Connection connection;
+    private ConectionDTB conectionDTB = new ConectionDTB();
+    private Connection connection = conectionDTB.getConnect();
     //Constructor
-    public PsyBook_UI(BookManager bookManager, Connection connection){
-        this.connection = connection;
+    public PsyBook_UI(BookManager bookManager){
         this.bookManager = bookManager;
         cbPsychologyType = new JComboBox(bookManager.psychologyType());
         cbPsychologyForAge = new JComboBox(bookManager.psychologyRecommentForAge());
@@ -102,7 +103,7 @@ public class PsyBook_UI {
             @Override
             public void mouseClicked(MouseEvent e) {
                 main_Frame.dispose();
-                new Lobby_UI(connection);
+                new Lobby_UI();
             }
 
             @Override
@@ -164,7 +165,7 @@ public class PsyBook_UI {
         left_Label.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                new Novel_UI(bookManager, connection);
+                new Novel_UI(bookManager);
                 main_Frame.dispose();
             }
 

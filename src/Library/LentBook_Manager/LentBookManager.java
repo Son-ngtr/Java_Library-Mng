@@ -1,12 +1,21 @@
 package Library.LentBook_Manager;
 
+import Database.LentBook_DataBase;
+import Library.Check;
 import Library.Staff_Manager.Staff;
 
+import java.nio.file.StandardWatchEventKinds;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
 
 public class LentBookManager {
+    private Check check = new Check();
+    LentBook_DataBase lentBook_dataBase = new LentBook_DataBase();
+    private Connection connection;
     private int codeCount = 0;
+
 
     //Lent Book List
     private final ArrayList<LentBook> lentBooks = new ArrayList<>();
@@ -25,6 +34,20 @@ public class LentBookManager {
     //Add Lent Book
     public void addLentBook(LentBook lentBook){
         lentBooks.add(lentBook);
+        try {
+            lentBook_dataBase.addNewLentBook(
+                    connection,
+                    lentBook.getSTT(),
+                    lentBook.getBookName(),
+                    lentBook.getNumberOfBook(),
+                    Integer.parseInt(String.valueOf(lentBook.getLentMoney())),
+                    lentBook.dateConvert()
+            );
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     //Total Lent Book

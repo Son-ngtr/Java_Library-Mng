@@ -1,5 +1,6 @@
 package Library_UI.Lib_UI;
 
+import Database.ConectionDTB;
 import Library_UI.Book_Category.ChildrenBook_UI;
 import Library_UI.Book_Category.PsyBook_UI;
 
@@ -13,11 +14,11 @@ import java.sql.Connection;
 public class DayHis_UI {
     private JFrame main_Frame;
     private JLabel label, notification_Label, logout_Label,exit_Label;
-    private Connection connection;
+    private ConectionDTB conectionDTB = new ConectionDTB();
+    private Connection connection = conectionDTB.getConnect();
 
     //Constructor
-    public DayHis_UI(Connection connection){
-        this.connection = connection;
+    public DayHis_UI(){
         content();
     }
 
@@ -75,7 +76,7 @@ public class DayHis_UI {
             @Override
             public void mouseClicked(MouseEvent e) {
                 main_Frame.dispose();
-                new Lobby_UI(connection);
+                new Lobby_UI();
             }
 
             @Override
@@ -168,7 +169,7 @@ public class DayHis_UI {
         right_Label.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                new DayHis_Op_UI(connection);
+                new DayHis_Op_UI();
                 main_Frame.dispose();
             }
 

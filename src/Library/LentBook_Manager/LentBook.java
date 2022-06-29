@@ -59,6 +59,11 @@ public class LentBook {
         this.endDate = endDate;
     }
 
+    //Date convert
+    public String dateConvert(){
+        return getEndDate().get(Calendar.DATE) + "/" + (getEndDate().get(Calendar.MONTH) + 1) + "/" + getEndDate().get(Calendar.YEAR);
+    }
+
     //DateReConvert
     public void dateReConvert(String dateReConvert){
         Calendar newCalendar = Calendar.getInstance();

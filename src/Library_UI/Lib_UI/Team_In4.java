@@ -1,5 +1,7 @@
 package Library_UI.Lib_UI;
 
+import Database.ConectionDTB;
+
 import javax.swing.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -8,11 +10,11 @@ import java.sql.Connection;
 public class Team_In4 {
     private JFrame main_Frame;
     private JLabel label, notification_Label, logout_Label, exit_Label;
-    private Connection connection;
+    private ConectionDTB conectionDTB = new ConectionDTB();
+    private Connection connection = conectionDTB.getConnect();
 
     //Constructor
-    public Team_In4(Connection connection){
-        this.connection = connection;
+    public Team_In4(){
         content();
     }
 
@@ -61,7 +63,7 @@ public class Team_In4 {
             @Override
             public void mouseClicked(MouseEvent e) {
                 main_Frame.dispose();
-                new Lobby_UI(connection);
+                new Lobby_UI();
             }
 
             @Override

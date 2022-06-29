@@ -215,14 +215,31 @@ public class lent_UI {
 
 
 // create 6 text fields
-        txt_1 = new JTextField();
+        if(bookManager.getUseLentInfo().length != 0){
+            txt_1 = new JTextField(bookManager.getUseLentInfo()[0]);
+            txt_1.setEnabled(false);
+        }else {
+            txt_1 = new JTextField();
+        }
         txt_1.setBackground(Color_left);
         txt_1.setBounds(283, po_y, 337, height);
         txt_1.setForeground(Color_me);
         txt_1.setBorder(BorderFactory.createLineBorder(Color_me));
         txt_1.setFont(Font_me_3);
 
-
+        if(bookManager.getUseLentInfo().length != 0){
+            switch (bookManager.getUseLentInfo()[1]){
+                case "Male":
+                    gd.setSelectedIndex(0);
+                    gd.setEditable(false);
+                case "Female":
+                    gd.setSelectedIndex(1);
+                    gd.setEditable(false);
+                case "Other":
+                    gd.setSelectedIndex(2);
+                    gd.setEditable(false);
+            }
+        }
         gd.setBackground(Color_left);
         gd.setBounds(283, po_y+65, 337, height);
         gd.setForeground(Color_me);
@@ -230,6 +247,12 @@ public class lent_UI {
         gd.setFont(Font_me_3);
 
 
+        if(bookManager.getUseLentInfo().length != 0){
+            txt_3 = new JTextField(bookManager.getUseLentInfo()[3]);
+            txt_3.setEnabled(false);
+        }else {
+            txt_3 = new JTextField();
+        }
         txt_3 = new JTextField();
         txt_3.setBackground(Color_left);
         txt_3.setBounds(283, po_y+65*2, 337, height);
@@ -238,6 +261,12 @@ public class lent_UI {
         txt_3.setFont(Font_me_3);
 
 
+        if(bookManager.getUseLentInfo().length != 0){
+            txt_4 = new JTextField(bookManager.getUseLentInfo()[4]);
+            txt_4.setEnabled(false);
+        }else {
+            txt_4 = new JTextField();
+        }
         txt_4 = new JTextField();
         txt_4.setBackground(Color_left);
         txt_4.setBounds(283, po_y+65*3, 337, height);
@@ -246,6 +275,12 @@ public class lent_UI {
         txt_4.setFont(Font_me_3);
 
 
+        if(bookManager.getUseLentInfo().length != 0){
+            txt_5 = new JTextField(bookManager.getUseLentInfo()[5]);
+            txt_5.setEnabled(false);
+        }else {
+            txt_5 = new JTextField();
+        }
         txt_5 = new JTextField();
         txt_5.setBackground(Color_left);
         txt_5.setBounds(283, po_y+65*4, 337, height);

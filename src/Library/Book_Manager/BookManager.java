@@ -17,12 +17,10 @@ public class BookManager {
     private NovelBook novelBook = new NovelBook();
     private PsychologyBook psychologyBook = new PsychologyBook();
     private LearningBook learningBook = new LearningBook();
-    private Connection conn;
+    private ConectionDTB conectionDTB = new ConectionDTB();
+    private Connection connection = conectionDTB.getConnect();
+    private String[] useLentInfo;
 
-    //Constructor
-    public BookManager(Connection con){
-        this.conn = con;
-    }
 
     private boolean isUpdate = false;
     private int codeCountAll = 0;
@@ -38,6 +36,14 @@ public class BookManager {
 
     public void setIsUpdate(boolean update) {
         isUpdate = update;
+    }
+
+    public String[] getUseLentInfo() {
+        return useLentInfo;
+    }
+
+    public void setUseLentInfo(String[] useLentInfo) {
+        this.useLentInfo = useLentInfo;
     }
 
     //Array List, Book List
@@ -85,7 +91,7 @@ public class BookManager {
         booksNovel.add(book);
         try {
             novelBook.addNewNovelBook(
-                    conn,
+                    connection,
                     book.getSTT(),
                     book.getName(),
                     book.dateConvert(),
@@ -109,7 +115,7 @@ public class BookManager {
         booksChild.add(book);
         try {
             childrenBook.addNewChildrenBook(
-                    conn,
+                    connection,
                     book.getSTT(),
                     book.getName(),
                     book.dateConvert(),
@@ -133,7 +139,7 @@ public class BookManager {
         booksLearning.add(book);
         try {
             learningBook.addNewLearningBook(
-                    conn,
+                    connection,
                     book.getSTT(),
                     book.getName(),
                     book.dateConvert(),
@@ -157,7 +163,7 @@ public class BookManager {
         booksPsychology.add(book);
         try {
             psychologyBook.addNewPsychologyBook(
-                    conn,
+                    connection,
                     book.getSTT(),
                     book.getName(),
                     book.dateConvert(),
@@ -204,7 +210,7 @@ public class BookManager {
     }
 
     //Dowload Book
-    public void dowloadAllBook(){
+    public void downloadAllBook(){
         downLoadBookLearning();
         downLoadBookChild();
         downLoadBookNovel();
@@ -213,7 +219,7 @@ public class BookManager {
     public void downLoadBookLearning(){
         Vector<Vector<Object>> vectors = null;
         try {
-            vectors = learningBook.getAll(conn);
+            vectors = learningBook.getAll(connection);
         } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         }
@@ -240,7 +246,7 @@ public class BookManager {
     public void downLoadBookNovel(){
         Vector<Vector<Object>> vectors = null;
         try {
-            vectors = novelBook.getAll(conn);
+            vectors = novelBook.getAll(connection);
         } catch (SQLException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
@@ -272,7 +278,7 @@ public class BookManager {
     public void downLoadBookChild(){
         Vector<Vector<Object>> vectors = null;
         try {
-            vectors = childrenBook.getAll(conn);
+            vectors = childrenBook.getAll(connection);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -300,7 +306,7 @@ public class BookManager {
     public void downLoadBookPsychology(){
         Vector<Vector<Object>> vectors = null;
         try {
-            vectors = psychologyBook.getAll(conn);
+            vectors = psychologyBook.getAll(connection);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -551,7 +557,7 @@ public class BookManager {
                     switch (category){
                         case "Learning Book" -> {
                             try {
-                                learningBook.updateLearningBook(conn, i+1, 0, String.valueOf(newCode));
+                                learningBook.updateLearningBook(connection, i+1, 0, String.valueOf(newCode));
                             } catch (ClassNotFoundException e) {
                                 e.printStackTrace();
                             } catch (SQLException e) {
@@ -560,7 +566,7 @@ public class BookManager {
                         }
                         case "Noval Book" -> {
                             try {
-                                novelBook.updateNovelBook(conn, i+1, 0, String.valueOf(newCode)) ;
+                                novelBook.updateNovelBook(connection, i+1, 0, String.valueOf(newCode)) ;
                             } catch (ClassNotFoundException e) {
                                 e.printStackTrace();
                             } catch (SQLException e) {
@@ -569,7 +575,7 @@ public class BookManager {
                         }
                         case "Children Book" -> {
                             try {
-                                childrenBook.updateChildrenBook(conn, i+1, 0, String.valueOf(newCode));
+                                childrenBook.updateChildrenBook(connection, i+1, 0, String.valueOf(newCode));
                             } catch (ClassNotFoundException e) {
                                 e.printStackTrace();
                             } catch (SQLException e) {
@@ -578,7 +584,7 @@ public class BookManager {
                         }
                         case "Psychological Book" -> {
                             try {
-                                psychologyBook.updatePsychologyBook(conn, i+1, 0, String.valueOf(newCode));
+                                psychologyBook.updatePsychologyBook(connection, i+1, 0, String.valueOf(newCode));
                             } catch (ClassNotFoundException e) {
                                 e.printStackTrace();
                             } catch (SQLException e) {
@@ -599,7 +605,7 @@ public class BookManager {
 
                 //Delete in Database
                 try {
-                    novelBook.deleteNovelBook(conn, code);
+                    novelBook.deleteNovelBook(connection, code);
                 } catch (SQLException e) {
                     e.printStackTrace();
                 } catch (ClassNotFoundException e) {
@@ -615,7 +621,7 @@ public class BookManager {
 
                     //Update in database
                     try {
-                        novelBook.updateNovelBook(conn,i+2, 8, String.valueOf(newTypeCode));
+                        novelBook.updateNovelBook(connection,i+2, 8, String.valueOf(newTypeCode));
                     } catch (ClassNotFoundException e) {
                         e.printStackTrace();
                     } catch (SQLException e) {
@@ -635,7 +641,7 @@ public class BookManager {
 
                 //Delete in Database
                 try {
-                    childrenBook.deleteChildrenBook(conn, code);
+                    childrenBook.deleteChildrenBook(connection, code);
                 } catch (SQLException e) {
                     e.printStackTrace();
                 } catch (ClassNotFoundException e) {
@@ -650,7 +656,7 @@ public class BookManager {
 
                     //Update in database
                     try {
-                        childrenBook.updateChildrenBook(conn,i+2, 8, String.valueOf(newTypeCode));
+                        childrenBook.updateChildrenBook(connection,i+2, 8, String.valueOf(newTypeCode));
                     } catch (ClassNotFoundException e) {
                         e.printStackTrace();
                     } catch (SQLException e) {
@@ -669,7 +675,7 @@ public class BookManager {
                 booksLearning.remove(intCode - 1);
                 //Delete in Database
                 try {
-                    learningBook.deleteLearningBook(conn, code);
+                    learningBook.deleteLearningBook(connection, code);
                 } catch (SQLException e) {
                     e.printStackTrace();
                 } catch (ClassNotFoundException e) {
@@ -684,7 +690,7 @@ public class BookManager {
 
                     //Update in database
                     try {
-                        learningBook.updateLearningBook(conn,i+2, 8, String.valueOf(newTypeCode));
+                        learningBook.updateLearningBook(connection,i+2, 8, String.valueOf(newTypeCode));
                     } catch (ClassNotFoundException e) {
                         e.printStackTrace();
                     } catch (SQLException e) {
@@ -703,7 +709,7 @@ public class BookManager {
                 booksPsychology.remove(intCode - 1);
                 //Delete in Database
                 try {
-                    psychologyBook.deletePsychologyBook(conn, code);
+                    psychologyBook.deletePsychologyBook(connection, code);
                 } catch (SQLException e) {
                     e.printStackTrace();
                 } catch (ClassNotFoundException e) {
@@ -718,7 +724,7 @@ public class BookManager {
 
                     //Update in database
                     try {
-                        psychologyBook.updatePsychologyBook(conn,i+2, 8, String.valueOf(newTypeCode));
+                        psychologyBook.updatePsychologyBook(connection,i+2, 8, String.valueOf(newTypeCode));
                     } catch (ClassNotFoundException e) {
                         e.printStackTrace();
                     } catch (SQLException e) {
@@ -736,7 +742,7 @@ public class BookManager {
         switch (indentify){
             case 1:
                 try {
-                    childrenBook.updateChildrenBook(conn, Integer.parseInt(code), col, value);
+                    childrenBook.updateChildrenBook(connection, Integer.parseInt(code), col, value);
                 } catch (ClassNotFoundException e) {
                     e.printStackTrace();
                 } catch (SQLException e) {
@@ -745,7 +751,7 @@ public class BookManager {
                 break;
             case 2:
                 try {
-                    psychologyBook.updatePsychologyBook(conn, Integer.parseInt(code), col, value);
+                    psychologyBook.updatePsychologyBook(connection, Integer.parseInt(code), col, value);
                 } catch (ClassNotFoundException e) {
                     e.printStackTrace();
                 } catch (SQLException e) {
@@ -754,7 +760,7 @@ public class BookManager {
                 break;
             case 3:
                 try {
-                    novelBook.updateNovelBook(conn, Integer.parseInt(code), col, value);
+                    novelBook.updateNovelBook(connection, Integer.parseInt(code), col, value);
                 } catch (ClassNotFoundException e) {
                     e.printStackTrace();
                 } catch (SQLException e) {
@@ -763,7 +769,7 @@ public class BookManager {
                 break;
             case 4:
                 try {
-                    learningBook.updateLearningBook(conn, Integer.parseInt(code), col, value);
+                    learningBook.updateLearningBook(connection, Integer.parseInt(code), col, value);
                 } catch (ClassNotFoundException e) {
                     e.printStackTrace();
                 } catch (SQLException e) {

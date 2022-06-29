@@ -1,5 +1,6 @@
 package Library_UI.Funtion;
 
+import Database.ConectionDTB;
 import Library.Check;
 import Library.Book_Manager.BookManager;
 import Library.Staff_Manager.StaffManager;
@@ -17,6 +18,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.sql.Connection;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -214,7 +216,7 @@ public class User_In4_UI {
         bt_lent.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-//                new LentBooks_UI();
+                new LentBooks_UI(bookManager, userManager);
             }
 
             @Override

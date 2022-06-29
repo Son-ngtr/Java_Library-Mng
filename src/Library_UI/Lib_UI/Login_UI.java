@@ -92,8 +92,11 @@ public class Login_UI {
                 AccountData accountData = new AccountData(usename, password);
                 conn = LibraryManager.getConnect(accountData);
                 if(conn !=null){
-                    new Lobby_UI(conn);
+                    new Lobby_UI();
                 }
+
+                //Close Login
+                main_Frame.dispose();
             }
         });
 

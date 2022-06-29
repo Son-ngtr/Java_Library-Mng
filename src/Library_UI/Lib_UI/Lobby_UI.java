@@ -1,6 +1,7 @@
 package Library_UI.Lib_UI;
 
 
+import Database.ConectionDTB;
 import Library.Book_Manager.BookManager;
 import Library.Staff_Manager.StaffManager;
 import Library.User_Manager.UserManager;
@@ -25,24 +26,27 @@ public class Lobby_UI {
     private JTextField txt_Group, txt_Reader, txt_NoBook, txt_NoBookBorrowed;
     private JButton logIn;
     private JPanel inFo;
-    private Connection conn;
+    private ConectionDTB conectionDTB = new ConectionDTB();
+    private Connection connection = conectionDTB.getConnect();
     private BookManager bookManager ;
     private UserManager userManager ;
     private StaffManager staffManager;
 
     //Constructor
-    public Lobby_UI(Connection conn){
-        this.conn = conn;
-        bookManager = new BookManager(conn);
-        userManager = new UserManager(conn);
-        staffManager = new StaffManager(conn);
+    public Lobby_UI(){
+        bookManager = new BookManager();
+        userManager = new UserManager();
+        staffManager = new StaffManager();
         content();
     }
 
 
     public void content(){
-        //Dowload Book From My SQL
-        bookManager.dowloadAllBook();
+        //Dowload From My SQL
+        bookManager.downloadAllBook();
+        userManager.downloadAllUser();
+        staffManager.downloadAllStaff();
+
 
         ImageIcon bk_Icon = new ImageIcon("src/Image_Icon/background/lobby_1.png");
         label = new JLabel(bk_Icon);
@@ -162,7 +166,7 @@ public class Lobby_UI {
             @Override
             public void mouseClicked(MouseEvent e) {
                 main_Frame.dispose();
-                ManageBook_UI manageBook_ui = new ManageBook_UI(bookManager, conn);
+                ManageBook_UI manageBook_ui = new ManageBook_UI(bookManager);
             }
 
             @Override
@@ -197,7 +201,7 @@ public class Lobby_UI {
         b2.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                new ManageUser_UI(bookManager, userManager, conn);
+                new ManageUser_UI(bookManager, userManager);
                 main_Frame.dispose();
             }
 
@@ -233,7 +237,7 @@ public class Lobby_UI {
         b3.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                new ManageStaff_UI(staffManager, conn);
+                new ManageStaff_UI(staffManager);
                 main_Frame.dispose();
             }
 
@@ -269,7 +273,7 @@ public class Lobby_UI {
         b4.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                new LentBooks_UI(bookManager, userManager, conn);
+                new LentBooks_UI(bookManager, userManager);
                 main_Frame.dispose();
             }
 
@@ -305,7 +309,7 @@ public class Lobby_UI {
         b5.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                new DayHis_UI(conn);
+                new DayHis_UI();
                 main_Frame.dispose();
             }
 
@@ -341,7 +345,7 @@ public class Lobby_UI {
         b6.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                new Team_In4(conn);
+                new Team_In4();
                 main_Frame.dispose();
             }
 

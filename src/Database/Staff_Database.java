@@ -67,18 +67,74 @@ public class Staff_Database {
         return data;
     }
 
-    public int updateStaff(Connection connection, int ID, String Name, String DateOfBirth, String Address, String PhoneNumber, String Gender, String Staff,
-                           String Email, int Salary, String Attendance)
+    public int updateStaff(Connection connection, int ID, int col, String value)
             throws ClassNotFoundException, SQLException {
         int updateStatus = 0;
+        String sql;
+        Statement stm1;
 
-        // Tạo câu lệnh SQL
-        String sql = "UPDATE staff set ID='" + ID + "',Name='" + Name + "',Gender='" + Gender + "',DateOfBirth='"
-                + DateOfBirth + "',Address='" + Address + "',PhoneNumber='" + PhoneNumber + "',Email='" + Email + "',Staff='" + Staff +
-                "',Salary='" + Salary + "',Attendance='" + Attendance + "' WHERE ID='" + ID + "'";
-        Statement stm1 = connection.createStatement();
-        updateStatus = stm1.executeUpdate(sql);
-        
+        switch (col){
+            case 0:
+                sql = "UPDATE staff set ID='" + Integer.parseInt(value) + "' WHERE ID='" + ID + "'";
+                stm1 = connection.createStatement();
+                updateStatus = stm1.executeUpdate(sql);
+
+                return updateStatus;
+            case 1:
+                sql = "UPDATE staff set Name='" + value +  "' WHERE ID='" + ID + "'";
+                stm1 = connection.createStatement();
+                updateStatus = stm1.executeUpdate(sql);
+
+                return updateStatus;
+            case 2:
+                sql = "UPDATE staff set Gender='" + value +  "' WHERE ID='" + ID + "'";
+                stm1 = connection.createStatement();
+                updateStatus = stm1.executeUpdate(sql);
+
+                return updateStatus;
+            case 3:
+                sql = "UPDATE staff set DateOfBirth='" + value +  "' WHERE ID='" + ID + "'";
+                stm1 = connection.createStatement();
+                updateStatus = stm1.executeUpdate(sql);
+
+                return updateStatus;
+            case 4:
+                sql = "UPDATE staff set Address='" + value +  "' WHERE ID='" + ID + "'";
+                stm1 = connection.createStatement();
+                updateStatus = stm1.executeUpdate(sql);
+
+                return updateStatus;
+            case 5:
+                sql = "UPDATE staff set PhoneNumber='" + value +  "' WHERE ID='" + ID + "'";
+                stm1 = connection.createStatement();
+                updateStatus = stm1.executeUpdate(sql);
+
+                return updateStatus;
+            case 6:
+                sql = "UPDATE staff set Email='" + value +  "' WHERE ID='" + ID + "'";
+                stm1 = connection.createStatement();
+                updateStatus = stm1.executeUpdate(sql);
+
+                return updateStatus;
+            case 7:
+                sql = "UPDATE staff set Staff='" + value +  "' WHERE ID='" + ID + "'";
+                stm1 = connection.createStatement();
+                updateStatus = stm1.executeUpdate(sql);
+
+                return updateStatus;
+            case 8:
+                sql = "UPDATE staff set Salary='" + Integer.parseInt(value) +  "' WHERE ID='" + ID + "'";
+                stm1 = connection.createStatement();
+                updateStatus = stm1.executeUpdate(sql);
+
+                return updateStatus;
+            case 9:
+                sql = "UPDATE staff set Attendance='" + value +  "' WHERE ID='" + ID + "'";
+                stm1 = connection.createStatement();
+                updateStatus = stm1.executeUpdate(sql);
+
+                return updateStatus;
+        }
         return updateStatus;
     }
 
