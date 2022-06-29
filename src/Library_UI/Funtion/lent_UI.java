@@ -27,7 +27,7 @@ import javax.swing.table.DefaultTableModel;
 
 public class lent_UI {
     private UserManager userManager;
-    private JFrame main_Frame, lentBookFrame;
+    private JFrame main_Frame, lentBookFrame, userFrame;
     private ImageIcon bk_Icon, notepad_Icon, login_Ani, login_ef;
     private JLabel label, notification_Label, login_Icon, logout_Label, exit_Label;
     private JButton button ,b1, b2, b3, b4, b5, b6, bt_save, bt_exit, bt_reset;
@@ -40,11 +40,13 @@ public class lent_UI {
     private JTable table;
     private Check check = new Check();
     private JDatePickerImpl datePicker, datePicker_birth;
+    private String code;
     private String codeNumber;
     private String codeLetter;
 
     //Constructor
     public lent_UI(String code, UserManager userManager ,BookManager bookManager){
+        this.code = code;
         this.userManager = userManager;
         this.bookManager = bookManager;
         codeNumber = check.codeConvert(code);
@@ -53,9 +55,19 @@ public class lent_UI {
         content();
     }
 
+    //Lent_UI Side
+    public void setLentSide(JFrame frameLentBook, JFrame frameUser ,DefaultTableModel defaultTableModelBook, DefaultTableModel defaultTableModelUser, JTable table){
+        lentBookFrame = frameLentBook;
+        this.userFrame = frameUser;
+        this.defaultTableModelBook = defaultTableModelBook;
+        this.defaultTableModelUser = defaultTableModelUser;
+        this.table = table;
+    }
+
     //Lent Books Side
-    public void setLentBooksSide(JFrame frame ,DefaultTableModel defaultTableModelBook, DefaultTableModel defaultTableModelUser, JTable table){
-        lentBookFrame = frame;
+    public void setLentBooksSide(JFrame frameLentBook, JFrame frameUser ,DefaultTableModel defaultTableModelBook, DefaultTableModel defaultTableModelUser, JTable table){
+        lentBookFrame = frameLentBook;
+        this.userFrame = frameUser;
         this.defaultTableModelBook = defaultTableModelBook;
         this.defaultTableModelUser = defaultTableModelUser;
         this.table = table;
@@ -215,8 +227,8 @@ public class lent_UI {
 
 
 // create 6 text fields
-        if(bookManager.getUseLentInfo().length != 0){
-            txt_1 = new JTextField(bookManager.getUseLentInfo()[0]);
+        if(userManager.getUseLentInfo() != null){
+            txt_1 = new JTextField(userManager.getUseLentInfo()[0]);
             txt_1.setEnabled(false);
         }else {
             txt_1 = new JTextField();
@@ -227,17 +239,17 @@ public class lent_UI {
         txt_1.setBorder(BorderFactory.createLineBorder(Color_me));
         txt_1.setFont(Font_me_3);
 
-        if(bookManager.getUseLentInfo().length != 0){
-            switch (bookManager.getUseLentInfo()[1]){
+        if(userManager.getUseLentInfo() != null){
+            switch (userManager.getUseLentInfo()[1]){
                 case "Male":
                     gd.setSelectedIndex(0);
-                    gd.setEditable(false);
+                    gd.setEnabled(false);
                 case "Female":
                     gd.setSelectedIndex(1);
-                    gd.setEditable(false);
+                    gd.setEnabled(false);
                 case "Other":
                     gd.setSelectedIndex(2);
-                    gd.setEditable(false);
+                    gd.setEnabled(false);
             }
         }
         gd.setBackground(Color_left);
@@ -247,8 +259,8 @@ public class lent_UI {
         gd.setFont(Font_me_3);
 
 
-        if(bookManager.getUseLentInfo().length != 0){
-            txt_3 = new JTextField(bookManager.getUseLentInfo()[3]);
+        if(userManager.getUseLentInfo() != null){
+            txt_3 = new JTextField(userManager.getUseLentInfo()[3]);
             txt_3.setEnabled(false);
         }else {
             txt_3 = new JTextField();
@@ -261,8 +273,8 @@ public class lent_UI {
         txt_3.setFont(Font_me_3);
 
 
-        if(bookManager.getUseLentInfo().length != 0){
-            txt_4 = new JTextField(bookManager.getUseLentInfo()[4]);
+        if(userManager.getUseLentInfo() != null){
+            txt_4 = new JTextField(userManager.getUseLentInfo()[4]);
             txt_4.setEnabled(false);
         }else {
             txt_4 = new JTextField();
@@ -275,8 +287,8 @@ public class lent_UI {
         txt_4.setFont(Font_me_3);
 
 
-        if(bookManager.getUseLentInfo().length != 0){
-            txt_5 = new JTextField(bookManager.getUseLentInfo()[5]);
+        if(userManager.getUseLentInfo() != null){
+            txt_5 = new JTextField(userManager.getUseLentInfo()[5]);
             txt_5.setEnabled(false);
         }else {
             txt_5 = new JTextField();
@@ -369,7 +381,23 @@ public class lent_UI {
 
                         //Continue or not
                         if (JOptionPane.showConfirmDialog(null, "Continue Adding ?", "Lent Books",
-                                JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+                                JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION && userFrame == null) {
+                            String userName = txt_1.getText().trim();
+                            String userGender = (String) gd.getItemAt(gd.getSelectedIndex());
+                            String userDateOfBirth = datePicker_birth.getJFormattedTextField().getText();
+                            String userAddress = txt_3.getText().trim();
+                            String userPhoneNumber = txt_4.getText().trim();
+                            String userEmail = txt_5.getText().trim();
+                            userManager.setUseLentInfo(new String[]{
+                                    userName,
+                                    userGender,
+                                    userDateOfBirth,
+                                    userAddress,
+                                    userPhoneNumber,
+                                    userEmail
+                            });
+                            lent_UI lent_ui = new lent_UI(code,userManager, bookManager);
+                            lent_ui.setLentSide(lentBookFrame, userFrame, defaultTableModelBook, defaultTableModelUser, table);
 
                         } else {
 

@@ -238,13 +238,23 @@ public class LentBooks_UI {
         add_bt.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                if(jt.getSelectedRow() != -1){
-                    lent_UI lent_ui = new lent_UI(String.valueOf(jt.getValueAt(jt.getSelectedRow(), 0)).trim(), userManager, bookManager);
-                    lent_ui.setLentBooksSide(main_Frame, defaultTableModel, defaultTableModelUser,jt);
-                    main_Frame.setEnabled(false);
-                }else {
+                try {
+                    if(Integer.parseInt(String.valueOf(jt.getValueAt(jt.getSelectedRow(), 6))) > 0){
+                        if(jt.getSelectedRow() != -1 ){
+                            lent_UI lent_ui = new lent_UI(String.valueOf(jt.getValueAt(jt.getSelectedRow(), 0)).trim(), userManager, bookManager);
+                            lent_ui.setLentBooksSide(main_Frame,userInfoFrame, defaultTableModel, defaultTableModelUser,jt);
+                            main_Frame.setEnabled(false);
+                        }else {
+                            JOptionPane.showMessageDialog(null,"Please chose a book form the list");
+                        }
+                    }else {
+                        JOptionPane.showMessageDialog(null,"Run out of book");
+                    }
+                }catch (Exception e1){
                     JOptionPane.showMessageDialog(null,"Please chose a book form the list");
                 }
+
+
             }
 
             @Override

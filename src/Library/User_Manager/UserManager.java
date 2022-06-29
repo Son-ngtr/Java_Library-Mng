@@ -18,11 +18,11 @@ public class UserManager {
     //DataBase
     private User_Database user_database = new User_Database();
 
-
     private boolean isUpdate = false;
     private int codeCount = 0;
     private ConectionDTB conectionDTB = new ConectionDTB();
     private Connection connection = conectionDTB.getConnect();
+    private String[] useLentInfo;
 
     //Getter and Setter
     public boolean getIsUpdate() {
@@ -31,6 +31,14 @@ public class UserManager {
 
     public void setIsUpdate(boolean update) {
         isUpdate = update;
+    }
+
+    public String[] getUseLentInfo() {
+        return useLentInfo;
+    }
+
+    public void setUseLentInfo(String[] useLentInfo) {
+        this.useLentInfo = useLentInfo;
     }
 
     //Staff List
