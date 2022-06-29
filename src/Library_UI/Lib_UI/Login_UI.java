@@ -92,9 +92,9 @@ public class Login_UI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try{
-                    String usename = txtName.getText();
+                    String username = txtName.getText();
                     String password = String.valueOf(txtPassword.getPassword());
-                    AccountData accountData = new AccountData(usename, password);
+                    AccountData accountData = new AccountData(username, password);
                     Connection conn = LibraryManager.getConnect(accountData);
                     if(conn !=null){
                         new Lobby_UI(conn);

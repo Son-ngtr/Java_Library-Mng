@@ -22,9 +22,9 @@ public class Lobby_UI {
     private JTextField txt_Group, txt_Reader, txt_NoBook, txt_NoBookBorrowed;
     private JButton logIn;
     private JPanel inFo;
-    private Connection conn;
+    private Connection connection;
     public Lobby_UI(Connection conn){
-        this.conn = conn;
+        this.connection = conn;
         ImageIcon bk_Icon = new ImageIcon("src/Image_Icon/background/lobby_1.png");
         label = new JLabel(bk_Icon);
         label.setSize(bk_Icon.getIconWidth(), bk_Icon.getIconHeight());

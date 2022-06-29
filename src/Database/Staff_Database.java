@@ -120,7 +120,7 @@ public class Staff_Database {
 
         // Kết nối database
 //        AccountData accountData = new AccountData("root", "");
-//        connection = getConnect(accountData);
+//        connection = LibraryManager.getConnect(accountData);
 
         // Xóa sinh viên
         String sql = "DELETE FROM staff WHERE ID='" + ID + "'";

@@ -3,7 +3,9 @@ package Database;
 import java.sql.*;
 import java.util.Vector;
 
+
 public class LearningBook {
+
     public boolean checkLearingBook(Connection connection, String Name) throws SQLException, ClassNotFoundException {
         // Kết nối database
 //        AccountData accountData = new AccountData("root", "");
@@ -135,4 +137,5 @@ public class LearningBook {
         return deleteStatus;
     }
 
+    private Connection connection;
 }

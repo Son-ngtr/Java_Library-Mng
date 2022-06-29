@@ -92,7 +92,7 @@ public class User_Database {
 //        connection = getConnect(accountData);
 
         // Tạo câu lệnh SQL (Cách 2: sử dụng PreparedStatement)
-        String sql = "INSERT INTO user(ID,Name,Gender,DateOfBirth,Address,PhoneNumber,Email,ExpDate,RegisDate,MoneyFine) VALUES(?,?,?,?,?,?,?,?,?)";
+        String sql = "INSERT INTO user(ID,Name,Gender,DateOfBirth,Address,PhoneNumber,Email,TotalBook,TotalFee) VALUES(?,?,?,?,?,?,?,?,?)";
         PreparedStatement stmt = connection.prepareStatement(sql);
         stmt.setInt(1, ID);
         stmt.setString(2, Name);
