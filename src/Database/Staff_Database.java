@@ -198,7 +198,7 @@ public class Staff_Database {
             throws ClassNotFoundException, SQLException {
 
         // Tạo câu lệnh SQL (Cách 2: sử dụng PreparedStatement)
-        String sql = "INSERT INTO staff(ID,Name,Gender,DateOfBirth,Address,PhoneNumber,Email,Staff,Salary,Attendance) VALUES(?,?,?,?,?,?,?,?,?,?)";
+        String sql = "INSERT INTO staff(ID,Name,Gender,DateOfBirth,Address,PhoneNumber,Email,Staff,Salary,Attendance,TimeAttendance) VALUES(?,?,?,?,?,?,?,?,?,?,?)";
         PreparedStatement stmt = connection.prepareStatement(sql);
         stmt.setInt(1, ID);
         stmt.setString(2, Name);
@@ -210,6 +210,7 @@ public class Staff_Database {
         stmt.setString(8, Staff);
         stmt.setString(9, Salary);
         stmt.setString(10, Attendance);
+        stmt.setString(11, "0");
 
 
 
