@@ -19,7 +19,7 @@ public class BookManager {
     private LearningBook learningBook = new LearningBook();
     private ConectionDTB conectionDTB = new ConectionDTB();
     private Connection connection = conectionDTB.getConnect();
-    private String[] useLentInfo;
+
 
 
     private boolean isUpdate = false;
@@ -38,13 +38,6 @@ public class BookManager {
         isUpdate = update;
     }
 
-    public String[] getUseLentInfo() {
-        return useLentInfo;
-    }
-
-    public void setUseLentInfo(String[] useLentInfo) {
-        this.useLentInfo = useLentInfo;
-    }
 
     //Array List, Book List
     Book bookNovel = new Book_Novel();

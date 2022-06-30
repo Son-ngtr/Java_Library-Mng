@@ -276,7 +276,7 @@ public class ManageUser_UI {
                     String userAddress = String.valueOf(jt.getValueAt(jt.getSelectedRow(), 4));
                     String userPhoneNumber = String.valueOf(jt.getValueAt(jt.getSelectedRow(), 5));
                     String userEmail = String.valueOf(jt.getValueAt(jt.getSelectedRow(), 6));
-                    bookManager.setUseLentInfo(new String[]{
+                    userManager.setUseLentInfo(new String[]{
                             userName,
                             userGender,
                             userDateOfBirth,
@@ -395,7 +395,7 @@ public class ManageUser_UI {
                                 if(newValue.trim().length() > 0){
                                     userManager.editUser(codeValue, jt.getSelectedColumn(), newValue);
                                 }else {
-                                    JOptionPane.showMessageDialog(null, "Tên phải được đưa vào ở dạng chuỗi và có nhiều hơn 1 kí tự");
+                                    JOptionPane.showMessageDialog(null, "Name");
                                     tableReset();
                                 }
                             }
@@ -412,7 +412,7 @@ public class ManageUser_UI {
                                 if(newValue.trim().length() > 0 && check.isDateOrNot(newValue)){
                                     userManager.editUser(codeValue, jt.getSelectedColumn(), newValue);
                                 }else {
-                                    JOptionPane.showMessageDialog(null, "Thông tin phải được nhập dưới dạng d/m/y và tồn tại thời điểm nhập");
+                                    JOptionPane.showMessageDialog(null, "Date");
                                     tableReset();
                                 }
                             }
@@ -422,7 +422,7 @@ public class ManageUser_UI {
                                 if(newValue.trim().length() > 0 ){
                                     userManager.editUser(codeValue, jt.getSelectedColumn(), newValue);
                                 }else {
-                                    JOptionPane.showMessageDialog(null, "Địa chỉ");
+                                    JOptionPane.showMessageDialog(null, "Address");
                                     tableReset();
                                 }
                             }
@@ -432,7 +432,7 @@ public class ManageUser_UI {
                                 if(newValue.trim().length() > 0 ){
                                     userManager.editUser(codeValue, jt.getSelectedColumn(), newValue);
                                 }else {
-                                    JOptionPane.showMessageDialog(null, "SDT");
+                                    JOptionPane.showMessageDialog(null, "PhoneNumber");
                                     tableReset();
                                 }
                             }
@@ -449,25 +449,15 @@ public class ManageUser_UI {
                             break;
                         case 7:
                             if(!userManager.getIsUpdate()){
-                                if(newValue.trim().length() > 0 && check.isDateOrNot(newValue)){
+                                if(newValue.trim().length() > 0 && check.isLong(newValue)){
                                     userManager.editUser(codeValue, jt.getSelectedColumn(), newValue);
                                 }else {
-                                    JOptionPane.showMessageDialog(null, "Thông tin phải được nhập dưới dạng d/m/y và tồn tại thời điểm nhập");
+                                    JOptionPane.showMessageDialog(null, "Gmail");
                                     tableReset();
                                 }
                             }
                             break;
                         case 8:
-                            if(!userManager.getIsUpdate()){
-                                if(newValue.trim().length() > 0 && check.isDateOrNot(newValue)){
-                                    userManager.editUser(codeValue, jt.getSelectedColumn(), newValue);
-                                }else {
-                                    JOptionPane.showMessageDialog(null, "Thông tin phải được nhập dưới dạng d/m/y và tồn tại thời điểm nhập");
-                                    tableReset();
-                                }
-                            }
-                            break;
-                        case 9:
                             if(!userManager.getIsUpdate()){
                                 if(newValue.trim().length() > 0 && check.mathCheck(check.mathAnalysis(newValue))){
                                     userManager.editUser(codeValue, jt.getSelectedColumn(), check.moneyConvert(check.matConvert(check.mathAnalysis(newValue))) );
