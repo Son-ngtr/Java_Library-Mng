@@ -41,6 +41,7 @@ public class lent_UI {
     private Check check = new Check();
     private JDatePickerImpl datePicker, datePicker_birth;
     private String code;
+    private int ID;
     private String codeNumber;
     private String codeLetter;
 
@@ -56,12 +57,13 @@ public class lent_UI {
     }
 
     //Lent_UI Side
-    public void setLentSide(JFrame frameLentBook, JFrame frameUser ,DefaultTableModel defaultTableModelBook, DefaultTableModel defaultTableModelUser, JTable table){
+    public void setLentSide(JFrame frameLentBook, JFrame frameUser ,DefaultTableModel defaultTableModelBook, DefaultTableModel defaultTableModelUser, JTable table, int ID){
         lentBookFrame = frameLentBook;
         this.userFrame = frameUser;
         this.defaultTableModelBook = defaultTableModelBook;
         this.defaultTableModelUser = defaultTableModelUser;
         this.table = table;
+        this.ID = ID;
     }
 
     //Lent Books Side
@@ -228,7 +230,7 @@ public class lent_UI {
 
 // create 6 text fields
         if(userManager.getUseLentInfo() != null){
-            txt_1 = new JTextField(userManager.getUseLentInfo()[0]);
+            txt_1 = new JTextField(userManager.getUseLentInfo()[1]);
             txt_1.setEnabled(false);
         }else {
             txt_1 = new JTextField();
@@ -240,7 +242,7 @@ public class lent_UI {
         txt_1.setFont(Font_me_3);
 
         if(userManager.getUseLentInfo() != null){
-            switch (userManager.getUseLentInfo()[1]){
+            switch (userManager.getUseLentInfo()[2]){
                 case "Male":
                     gd.setSelectedIndex(0);
                     gd.setEnabled(false);
@@ -260,12 +262,11 @@ public class lent_UI {
 
 
         if(userManager.getUseLentInfo() != null){
-            txt_3 = new JTextField(userManager.getUseLentInfo()[3]);
+            txt_3 = new JTextField(userManager.getUseLentInfo()[4]);
             txt_3.setEnabled(false);
         }else {
             txt_3 = new JTextField();
         }
-        txt_3 = new JTextField();
         txt_3.setBackground(Color_left);
         txt_3.setBounds(283, po_y+65*2, 337, height);
         txt_3.setForeground(Color_me);
@@ -274,12 +275,11 @@ public class lent_UI {
 
 
         if(userManager.getUseLentInfo() != null){
-            txt_4 = new JTextField(userManager.getUseLentInfo()[4]);
+            txt_4 = new JTextField(userManager.getUseLentInfo()[5]);
             txt_4.setEnabled(false);
         }else {
             txt_4 = new JTextField();
         }
-        txt_4 = new JTextField();
         txt_4.setBackground(Color_left);
         txt_4.setBounds(283, po_y+65*3, 337, height);
         txt_4.setForeground(Color_me);
@@ -288,12 +288,11 @@ public class lent_UI {
 
 
         if(userManager.getUseLentInfo() != null){
-            txt_5 = new JTextField(userManager.getUseLentInfo()[5]);
+            txt_5 = new JTextField(userManager.getUseLentInfo()[6]);
             txt_5.setEnabled(false);
         }else {
             txt_5 = new JTextField();
         }
-        txt_5 = new JTextField();
         txt_5.setBackground(Color_left);
         txt_5.setBounds(283, po_y+65*4, 337, height);
         txt_5.setForeground(Color_me);
@@ -332,20 +331,26 @@ public class lent_UI {
                     int quantity = Integer.parseInt(String.valueOf(table.getValueAt(table.getSelectedRow(), 6)).trim());
                     int result = quantity - quantityBorrow;
                     if(result >= 0){
-                        //Add User
-                        User user = userManager.createUser(
-                                txt_1.getText().trim(),
-                                (String) gd.getItemAt(gd.getSelectedIndex()),
-                                check.dateReConvert(datePicker_birth.getJFormattedTextField().getText()),
-                                txt_3.getText().trim(),
-                                txt_4.getText().trim(),
-                                txt_5.getText().trim(),
-                                0,
-                                0L
-                        );
-                        userManager.addUser(
-                                user
-                        );
+                        User user;
+                        if(userManager.getUseLentInfo() == null){
+                            //Add User
+                            user = userManager.createUser(
+                                    txt_1.getText().trim(),
+                                    (String) gd.getItemAt(gd.getSelectedIndex()),
+                                    check.dateReConvert(datePicker_birth.getJFormattedTextField().getText()),
+                                    txt_3.getText().trim(),
+                                    txt_4.getText().trim(),
+                                    txt_5.getText().trim(),
+                                    0,
+                                    0L
+                            );
+                            userManager.addUser(
+                                    user
+                            );
+                        }else {
+                            user = userManager.getUser(ID);
+                        }
+
                         //Fix total Books of user
                         userManager.editUser(String.valueOf(user.getId()) , 7, String.valueOf(user.getTotalBooks() + quantityBorrow));
 
@@ -354,24 +359,32 @@ public class lent_UI {
                             tableUserReset();
                         }
 
-
                         //Fix Quantity Of Book
+                        int row;
                         switch (codeLetter){
                             case "C":
                                 bookManager.editBookChild(codeNumber, 7, String.valueOf(result));
+                                row = table.getSelectedRow();
                                 tableBookReset();
+                                table.setRowSelectionInterval(row, row);
                                 break;
                             case "N":
                                 bookManager.editBookNoval(codeNumber, 7, String.valueOf(result));
+                                row = table.getSelectedRow();
                                 tableBookReset();
+                                table.setRowSelectionInterval(row, row);
                                 break;
                             case "P":
                                 bookManager.editBookPsychology(codeNumber, 7, String.valueOf(result));
+                                row = table.getSelectedRow();
                                 tableBookReset();
+                                table.setRowSelectionInterval(row, row);
                                 break;
                             case "L":
                                 bookManager.editBookLearning(codeNumber, 7, String.valueOf(result));
+                                row = table.getSelectedRow();
                                 tableBookReset();
+                                table.setRowSelectionInterval(row, row);
                                 break;
                         }
 
@@ -382,25 +395,30 @@ public class lent_UI {
                         //Continue or not
                         if (JOptionPane.showConfirmDialog(null, "Continue Adding ?", "Lent Books",
                                 JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION && userFrame == null) {
-                            String userName = txt_1.getText().trim();
-                            String userGender = (String) gd.getItemAt(gd.getSelectedIndex());
-                            String userDateOfBirth = datePicker_birth.getJFormattedTextField().getText();
-                            String userAddress = txt_3.getText().trim();
-                            String userPhoneNumber = txt_4.getText().trim();
-                            String userEmail = txt_5.getText().trim();
-                            userManager.setUseLentInfo(new String[]{
-                                    userName,
-                                    userGender,
-                                    userDateOfBirth,
-                                    userAddress,
-                                    userPhoneNumber,
-                                    userEmail
-                            });
+                            if(userManager.getUseLentInfo() == null){
+                                String userID = Integer.toString(ID);
+                                String userName = txt_1.getText().trim();
+                                String userGender = (String) gd.getItemAt(gd.getSelectedIndex());
+                                String userDateOfBirth = datePicker_birth.getJFormattedTextField().getText();
+                                String userAddress = txt_3.getText().trim();
+                                String userPhoneNumber = txt_4.getText().trim();
+                                String userEmail = txt_5.getText().trim();
+                                userManager.setUseLentInfo(new String[]{
+                                        userID,
+                                        userName,
+                                        userGender,
+                                        userDateOfBirth,
+                                        userAddress,
+                                        userPhoneNumber,
+                                        userEmail
+                                });
+                            }
                             lent_UI lent_ui = new lent_UI(code,userManager, bookManager);
-                            lent_ui.setLentSide(lentBookFrame, userFrame, defaultTableModelBook, defaultTableModelUser, table);
+                            lent_ui.setLentSide(lentBookFrame, userFrame, defaultTableModelBook, defaultTableModelUser, table, user.getId());
 
                         } else {
-
+                            ID = null;
+                            userManager.setUseLentInfo(null);
                         }
                     }else {
                         JOptionPane.showMessageDialog(null, "Số lượng sách mượn quá lớn");
@@ -418,6 +436,8 @@ public class lent_UI {
         bt_exit.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
+                ID = null;
+                userManager.setUseLentInfo(null);
                 lentBookFrame.setEnabled(true);
                 main_Frame.dispose();
             }
@@ -487,7 +507,6 @@ public class lent_UI {
             public Object stringToValue(String text) throws ParseException {
                 return "";
             }
-
         });
 
         datePicker.setBounds(283, po_y+65*6, 337, height);

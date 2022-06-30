@@ -42,7 +42,7 @@ public class User_Database {
             String PhoneNumber = rs.getString(6);
             String Email = rs.getString(7);
             int TotalBook = rs.getInt(8);
-            int TotalFee= rs.getInt(9);
+            String TotalFee= rs.getString(9);
 
 
             // Ghi vào vector
@@ -121,7 +121,7 @@ public class User_Database {
 
                 return updateStatus;
             case 8:
-                sql = "UPDATE user set TotalFee='" + Integer.parseInt(value) +  "' WHERE ID='" + ID + "'";
+                sql = "UPDATE user set TotalFee='" + value +  "' WHERE ID='" + ID + "'";
                 stm1 = connection.createStatement();
                 updateStatus = stm1.executeUpdate(sql);
 
@@ -131,7 +131,7 @@ public class User_Database {
     }
 
     public void addNewUser(Connection connection, int ID, String Name, String Gender, String DateOfBirth, String Address, String PhoneNumber, String Email
-                           ,int TotalBook ,int TotalFee )
+                           ,int TotalBook ,String TotalFee )
             throws ClassNotFoundException, SQLException {
 
         // Tạo câu lệnh SQL (Cách 2: sử dụng PreparedStatement)
@@ -145,7 +145,7 @@ public class User_Database {
         stmt.setString(6, PhoneNumber);
         stmt.setString(7, Email);
         stmt.setInt(8, TotalBook);
-        stmt.setInt(9, TotalFee);
+        stmt.setString(9, TotalFee);
 
 
 

@@ -32,7 +32,7 @@ public class LentBook_DataBase {
             int Code = rs.getInt(1);
             String BookName = rs.getString(2);
             int NumberOfBook = rs.getInt(3);
-            int LentMoney = rs.getInt(4);
+            String LentMoney = rs.getString(4);
             String EndDate = rs.getString(5);
 
             // Ghi vào vector
@@ -75,7 +75,7 @@ public class LentBook_DataBase {
 
                 return updateStatus;
             case 3:
-                sql = "UPDATE lentbook set LentMoney='" + Integer.parseInt(value) +  "' WHERE STT='" + Code + "'";
+                sql = "UPDATE lentbook set LentMoney='" + value +  "' WHERE STT='" + Code + "'";
                 stm1 = connection.createStatement();
                 updateStatus = stm1.executeUpdate(sql);
 
@@ -89,7 +89,7 @@ public class LentBook_DataBase {
         return updateStatus;
     }
 
-    public void addNewLentBook(Connection connection, int STT, String BookName, int NumberOfBook, int LentMoney, String endDate)
+    public void addNewLentBook(Connection connection, int STT, String BookName, int NumberOfBook, String LentMoney, String endDate)
             throws ClassNotFoundException, SQLException {
 
         // Tạo câu lệnh SQL (Cách 2: sử dụng PreparedStatement)
@@ -98,7 +98,7 @@ public class LentBook_DataBase {
         stmt.setInt(1, STT);
         stmt.setString(2, BookName);
         stmt.setInt(3, NumberOfBook);
-        stmt.setInt(4, LentMoney);
+        stmt.setString(4, LentMoney);
         stmt.setString(5, endDate);
 
 

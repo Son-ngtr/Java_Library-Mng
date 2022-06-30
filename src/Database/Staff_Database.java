@@ -42,7 +42,7 @@ public class Staff_Database {
             String PhoneNumber = rs.getString(6);
             String Email = rs.getString(7);
             String Staff = rs.getString(8);
-            int Salary = rs.getInt(9);
+            String Salary = rs.getString(9);
             String Attendance = rs.getString(10);
 
 
@@ -123,7 +123,7 @@ public class Staff_Database {
 
                 return updateStatus;
             case 8:
-                sql = "UPDATE staff set Salary='" + Integer.parseInt(value) +  "' WHERE ID='" + ID + "'";
+                sql = "UPDATE staff set Salary='" + value +  "' WHERE ID='" + ID + "'";
                 stm1 = connection.createStatement();
                 updateStatus = stm1.executeUpdate(sql);
 
@@ -139,7 +139,7 @@ public class Staff_Database {
     }
 
     public void addNewStaff(Connection connection, int ID, String Name, String Gender, String DateOfBirth, String Address, String PhoneNumber, String Email,
-                            String Staff, int Salary, String Attendance )
+                            String Staff, String Salary, String Attendance )
             throws ClassNotFoundException, SQLException {
 
         // Tạo câu lệnh SQL (Cách 2: sử dụng PreparedStatement)
@@ -153,7 +153,7 @@ public class Staff_Database {
         stmt.setString(6, PhoneNumber);
         stmt.setString(7, Email);
         stmt.setString(8, Staff);
-        stmt.setInt(9, Salary);
+        stmt.setString(9, Salary);
         stmt.setString(10, Attendance);
 
 

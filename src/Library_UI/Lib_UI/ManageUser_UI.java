@@ -270,6 +270,7 @@ public class ManageUser_UI {
                 if(jt.getSelectedRow() != -1){
 
                     //User Data
+                    String useID = String.valueOf(jt.getValueAt(jt.getSelectedRow(), 0));
                     String userName = String.valueOf(jt.getValueAt(jt.getSelectedRow(), 1));
                     String userGender = String.valueOf(jt.getValueAt(jt.getSelectedRow(), 2));
                     String userDateOfBirth = String.valueOf(jt.getValueAt(jt.getSelectedRow(), 3));
@@ -277,6 +278,7 @@ public class ManageUser_UI {
                     String userPhoneNumber = String.valueOf(jt.getValueAt(jt.getSelectedRow(), 5));
                     String userEmail = String.valueOf(jt.getValueAt(jt.getSelectedRow(), 6));
                     userManager.setUseLentInfo(new String[]{
+                            useID,
                             userName,
                             userGender,
                             userDateOfBirth,

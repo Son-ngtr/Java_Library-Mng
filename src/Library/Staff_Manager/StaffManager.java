@@ -73,7 +73,7 @@ public class StaffManager {
                     staff.getPhoneNumber(),
                     staff.getEmail(),
                     staff.getStaff(),
-                    Integer.parseInt(String.valueOf(staff.getSalary())),
+                    String.valueOf(staff.getSalary()),
                     staff.getAttendace()
             );
         } catch (ClassNotFoundException e) {

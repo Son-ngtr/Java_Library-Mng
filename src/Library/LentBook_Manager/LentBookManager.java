@@ -40,7 +40,7 @@ public class LentBookManager {
                     lentBook.getSTT(),
                     lentBook.getBookName(),
                     lentBook.getNumberOfBook(),
-                    Integer.parseInt(String.valueOf(lentBook.getLentMoney())),
+                    String.valueOf(lentBook.getLentMoney()),
                     lentBook.dateConvert()
             );
         } catch (ClassNotFoundException e) {
