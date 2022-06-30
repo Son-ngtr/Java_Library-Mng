@@ -1,9 +1,14 @@
 package Database;
 
+import Library.Check;
+
 import java.sql.*;
+import java.util.Calendar;
 import java.util.Vector;
 
 public class Staff_Database {
+    Check check = new Check();
+
     public boolean checkStaff(Connection connection, String ID) throws SQLException {
         // Kết nối database
 
@@ -44,6 +49,7 @@ public class Staff_Database {
             String Staff = rs.getString(8);
             String Salary = rs.getString(9);
             String Attendance = rs.getString(10);
+            String TimeAttendance = rs.getString(11);
 
 
             // Ghi vào vector
@@ -58,13 +64,61 @@ public class Staff_Database {
             temp.add(Staff);
             temp.add(Salary);
             temp.add(Attendance);
-
-
+            temp.add(TimeAttendance);
 
             // Thêm dữ liệu vào data vector chính
             data.add(temp);
         }
         return data;
+    }
+
+    public int updateTimeAttendance(Connection connection , int ID, String value) throws ClassNotFoundException, SQLException{
+        Calendar time = Calendar.getInstance();
+        String timeConvert = check.dateConvert(time);
+        int updateStatus = 0;
+        String sql;
+        Statement stm1;
+
+        switch (value){
+            case "None":
+                sql = "UPDATE staff set TimeAttendance='" + "0" +  "' WHERE ID='" + ID + "'";
+                stm1 = connection.createStatement();
+                updateStatus = stm1.executeUpdate(sql);
+
+                return updateStatus;
+            case "Attendance":
+                sql = "UPDATE staff set TimeAttendance='" + timeConvert +  "' WHERE ID='" + ID + "'";
+                stm1 = connection.createStatement();
+                updateStatus = stm1.executeUpdate(sql);
+
+                return updateStatus;
+            case "Absent":
+                sql = "UPDATE staff set TimeAttendance='" + timeConvert +  "' WHERE ID='" + ID + "'";
+                stm1 = connection.createStatement();
+                updateStatus = stm1.executeUpdate(sql);
+
+                return updateStatus;
+            case "Late":
+                sql = "UPDATE staff set TimeAttendance='" + timeConvert +  "' WHERE ID='" + ID + "'";
+                stm1 = connection.createStatement();
+                updateStatus = stm1.executeUpdate(sql);
+
+                return updateStatus;
+            case "Leave of Absence Letter":
+                sql = "UPDATE staff set TimeAttendance='" + "0" +  "' WHERE ID='" + ID + "'";
+                stm1 = connection.createStatement();
+                updateStatus = stm1.executeUpdate(sql);
+
+                return updateStatus;
+            case "Quit":
+                sql = "UPDATE staff set TimeAttendance='" + "0" +  "' WHERE ID='" + ID + "'";
+                stm1 = connection.createStatement();
+                updateStatus = stm1.executeUpdate(sql);
+
+                return updateStatus;
+        }
+
+        return updateStatus;
     }
 
     public int updateStaff(Connection connection, int ID, int col, String value)
@@ -132,6 +186,7 @@ public class Staff_Database {
                 sql = "UPDATE staff set Attendance='" + value +  "' WHERE ID='" + ID + "'";
                 stm1 = connection.createStatement();
                 updateStatus = stm1.executeUpdate(sql);
+                updateTimeAttendance(connection, ID, value);
 
                 return updateStatus;
         }

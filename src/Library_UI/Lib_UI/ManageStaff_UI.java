@@ -40,6 +40,7 @@ public class ManageStaff_UI {
     private Check check = new Check();
     private ConectionDTB conectionDTB = new ConectionDTB();
     private Connection connection = conectionDTB.getConnect();
+    private Calendar currentTime = Calendar.getInstance();
 
     //Constructor
     public ManageStaff_UI(StaffManager staffManager){

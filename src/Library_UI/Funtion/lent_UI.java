@@ -534,24 +534,40 @@ public class lent_UI {
         p_birth.put("text.month", "Month");
         p_birth.put("text.year", "Year");
         JDatePanelImpl panel_birth = new JDatePanelImpl(model_birth, p_birth);
-        datePicker_birth = new JDatePickerImpl(panel_birth, new JFormattedTextField.AbstractFormatter() {
-            @Override
-            public String valueToString(Object value) throws ParseException {
-                if(value != null){
-                    Calendar cal_1 = (Calendar) value;
-                    SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
-                    String strDate = format.format(cal_1.getTime());
-                    return strDate;}
+        if(userManager.getUseLentInfo() != null){
+            datePicker_birth = new JDatePickerImpl(panel_birth, new JFormattedTextField.AbstractFormatter() {
+                @Override
+                public Object stringToValue(String text) throws ParseException {
+                    return "";
+                }
 
-                return "";
-            }
+                @Override
+                public String valueToString(Object value) throws ParseException {
+                    return userManager.getUseLentInfo()[3];
+                }
+            });
+            datePicker_birth.setEnabled(false);
+        }else {
+            datePicker_birth = new JDatePickerImpl(panel_birth, new JFormattedTextField.AbstractFormatter() {
+                @Override
+                public String valueToString(Object value) throws ParseException {
+                    if(value != null){
+                        Calendar cal_1 = (Calendar) value;
+                        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+                        String strDate = format.format(cal_1.getTime());
+                        return strDate;}
 
-            @Override
-            public Object stringToValue(String text) throws ParseException {
-                return "";
-            }
+                    return "";
+                }
 
-        });
+                @Override
+                public Object stringToValue(String text) throws ParseException {
+                    return "";
+                }
+
+            });
+        }
+
 
         datePicker_birth.setBounds(283, po_y+65*8, 337, height);
         datePicker_birth.setBackground(Color_left);
