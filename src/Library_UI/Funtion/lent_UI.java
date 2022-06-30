@@ -417,7 +417,7 @@ public class lent_UI {
                             lent_ui.setLentSide(lentBookFrame, userFrame, defaultTableModelBook, defaultTableModelUser, table, user.getId());
 
                         } else {
-                            ID = null;
+                            ID = 0;
                             userManager.setUseLentInfo(null);
                         }
                     }else {
@@ -436,7 +436,7 @@ public class lent_UI {
         bt_exit.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                ID = null;
+                ID = 0;
                 userManager.setUseLentInfo(null);
                 lentBookFrame.setEnabled(true);
                 main_Frame.dispose();
