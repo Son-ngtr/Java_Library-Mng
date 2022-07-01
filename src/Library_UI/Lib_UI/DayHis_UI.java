@@ -1,11 +1,18 @@
 package Library_UI.Lib_UI;
 
 import Database.ConectionDTB;
+import Library.HIstory_Manager.HistoryManager;
+import Library.HIstory_Manager.HistoryReceive_Manager;
 import Library_UI.Book_Category.ChildrenBook_UI;
 import Library_UI.Book_Category.PsyBook_UI;
 
 import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -16,9 +23,15 @@ public class DayHis_UI {
     private JLabel label, notification_Label, logout_Label,exit_Label;
     private ConectionDTB conectionDTB = new ConectionDTB();
     private Connection connection = conectionDTB.getConnect();
+    private HistoryManager historyManager;
+    private JTable jt;
+    private DefaultTableModel defaultTableModel;
+    private HistoryReceive_Manager historyReceive_manager;
 
     //Constructor
-    public DayHis_UI(){
+    public DayHis_UI(HistoryManager historyManager, HistoryReceive_Manager historyReceive_manager){
+        this.historyReceive_manager = historyReceive_manager;
+        this.historyManager = historyManager;
         content();
     }
 
@@ -138,7 +151,8 @@ public class DayHis_UI {
         left_Label.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                JOptionPane.showMessageDialog(null, "None page front");
+                new DayHis_Op_UI(historyManager, historyReceive_manager);
+                main_Frame.dispose();
             }
 
             @Override
@@ -169,7 +183,7 @@ public class DayHis_UI {
         right_Label.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                new DayHis_Op_UI();
+                new DayHis_Op_UI(historyManager, historyReceive_manager);
                 main_Frame.dispose();
             }
 
@@ -201,6 +215,7 @@ public class DayHis_UI {
         head.setForeground(Color_me);
 
 // create table
+        //Search Field
         JTextField bookFilter = new JTextField("  ",20);
         bookFilter.setBounds(160, 85+40+40, 1475, 35);
         bookFilter.setFont(Font_Table);
@@ -209,11 +224,18 @@ public class DayHis_UI {
         bookFilter.setForeground(Color_me);
 
 
-        String[][] tableData = {{"Nguyen Ochida", "loi the co dai", "2022/6/22 16:41:36", "3"}};
-
-        String[] tableColumn = {"name.reader", "book", "date.Regis", "quantity"};
-
-        JTable jt = new JTable(tableData, tableColumn);
+        //Table
+        defaultTableModel = new DefaultTableModel(historyManager.listHistory(), historyManager.historyContent());
+        jt = new JTable(defaultTableModel){
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+        jt.getTableHeader().setReorderingAllowed(false);
+        jt.setFont(Font_Table);
+        jt.setGridColor(Color_ForeG);
+        jt.setBackground(Color_me);
+        jt.setForeground(Color_ForeG);
 
         JScrollPane Jsc = new JScrollPane(jt);
         jt.setFont(Font_Table);
@@ -228,6 +250,36 @@ public class DayHis_UI {
         Jsc.setBounds(160, 160+40, 1475, 600);
         Jsc.setForeground(Color_me);
         Jsc.setFont(Font_Table);
+
+        //Table Search
+        TableRowSorter<TableModel> rowSorter = new TableRowSorter<>(jt.getModel());
+        jt.setRowSorter(rowSorter);
+        bookFilter.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                String text = bookFilter.getText().trim();
+                if(text.length() == 0){
+                    rowSorter.setRowFilter(null);
+                }else {
+                    rowSorter.setRowFilter(RowFilter.regexFilter("(?i)" + text));
+                }
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                String text = bookFilter.getText().trim();
+                if(text.length() == 0){
+                    rowSorter.setRowFilter(null);
+                }else {
+                    rowSorter.setRowFilter(RowFilter.regexFilter("(?i)" + text));
+                }
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+
+            }
+        });
 
         label.add(head);
         label.add(notification_Label);

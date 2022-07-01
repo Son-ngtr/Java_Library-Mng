@@ -3,6 +3,7 @@ package Library_UI.Lib_UI;
 import Database.ConectionDTB;
 import Library.Book_Manager.BookManager;
 import Library.Check;
+import Library.HIstory_Manager.HistoryManager;
 import Library.Staff_Manager.StaffManager;
 import Library.User_Manager.UserManager;
 import Library_UI.Funtion.AddUser_UI;
@@ -40,12 +41,14 @@ public class ManageUser_UI {
     private Check check = new Check();
     private ConectionDTB conectionDTB = new ConectionDTB();
     private Connection connection = conectionDTB.getConnect();
+    private HistoryManager historyManager;
 
 
     //Constructor
-    public ManageUser_UI(BookManager bookManager, UserManager userManager){
+    public ManageUser_UI(BookManager bookManager, UserManager userManager, HistoryManager historyManager){
         this.bookManager = bookManager;
         this.userManager = userManager;
+        this.historyManager = historyManager;
         cb = new JComboBox(userManager.userGender());
         content();
     }
@@ -287,7 +290,7 @@ public class ManageUser_UI {
                             userEmail
                     });
 
-                    User_In4_UI user_in4_ui = new User_In4_UI( bookManager, userManager,check.codeConvert(String.valueOf(jt.getValueAt(jt.getSelectedRow(), 0)).trim()));
+                    User_In4_UI user_in4_ui = new User_In4_UI( bookManager, userManager,check.codeConvert(String.valueOf(jt.getValueAt(jt.getSelectedRow(), 0)).trim()), historyManager);
                     user_in4_ui.setManagerUser(main_Frame, defaultTableModel, jt);
                     main_Frame.setEnabled(false);
                 }else {

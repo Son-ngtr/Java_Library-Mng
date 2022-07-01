@@ -3,6 +3,8 @@ package Library_UI.Lib_UI;
 
 import Database.ConectionDTB;
 import Library.Book_Manager.BookManager;
+import Library.HIstory_Manager.HistoryManager;
+import Library.HIstory_Manager.HistoryReceive_Manager;
 import Library.Staff_Manager.StaffManager;
 import Library.User_Manager.UserManager;
 
@@ -31,12 +33,16 @@ public class Lobby_UI {
     private BookManager bookManager ;
     private UserManager userManager ;
     private StaffManager staffManager;
+    private HistoryManager historyManager;
+    private HistoryReceive_Manager historyReceive_manager;
 
     //Constructor
     public Lobby_UI(){
         bookManager = new BookManager();
         userManager = new UserManager();
         staffManager = new StaffManager();
+        historyManager = new HistoryManager();
+        historyReceive_manager = new HistoryReceive_Manager();
         content();
     }
 
@@ -46,6 +52,7 @@ public class Lobby_UI {
         bookManager.downloadAllBook();
         userManager.downloadAllUser();
         staffManager.downloadAllStaff();
+        historyManager.downLoadHistory();
 
 
         ImageIcon bk_Icon = new ImageIcon("src/Image_Icon/background/lobby_1.png");
@@ -201,7 +208,7 @@ public class Lobby_UI {
         b2.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                new ManageUser_UI(bookManager, userManager);
+                new ManageUser_UI(bookManager, userManager, historyManager);
                 main_Frame.dispose();
             }
 
@@ -273,7 +280,7 @@ public class Lobby_UI {
         b4.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                new LentBooks_UI(bookManager, userManager);
+                new LentBooks_UI(bookManager, userManager,historyManager);
                 main_Frame.dispose();
             }
 
@@ -309,7 +316,7 @@ public class Lobby_UI {
         b5.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                new DayHis_UI();
+                new DayHis_UI(historyManager, historyReceive_manager);
                 main_Frame.dispose();
             }
 

@@ -2,6 +2,7 @@ package Library_UI.Funtion;
 
 import Library.Book_Manager.BookManager;
 import Library.Check;
+import Library.HIstory_Manager.HistoryManager;
 import Library.User_Manager.User;
 import Library.User_Manager.UserManager;
 import Library_UI.Lib_UI.ManageUser_UI;
@@ -27,6 +28,7 @@ import javax.swing.table.DefaultTableModel;
 
 public class lent_UI {
     private UserManager userManager;
+    private Calendar calendar = Calendar.getInstance();
     private JFrame main_Frame, lentBookFrame, userFrame;
     private ImageIcon bk_Icon, notepad_Icon, login_Ani, login_ef;
     private JLabel label, notification_Label, login_Icon, logout_Label, exit_Label;
@@ -44,12 +46,14 @@ public class lent_UI {
     private int ID;
     private String codeNumber;
     private String codeLetter;
+    private HistoryManager historyManager;
 
     //Constructor
-    public lent_UI(String code, UserManager userManager ,BookManager bookManager){
+    public lent_UI(String code, UserManager userManager ,BookManager bookManager, HistoryManager historyManager){
         this.code = code;
         this.userManager = userManager;
         this.bookManager = bookManager;
+        this.historyManager = historyManager;
         codeNumber = check.codeConvert(code);
         codeLetter = check.codeLetter(code);
         gd = new JComboBox(userManager.userGender());
@@ -359,6 +363,17 @@ public class lent_UI {
                             tableUserReset();
                         }
 
+                        //Add History
+                        historyManager.addHistory(historyManager.createHistory(
+                                txt_1.getText().trim(),
+                                txt_4.getText().trim(),
+                                check.dateReConvert(txt_6.getText()) ,
+                                check.dateReConvert(datePicker.getJFormattedTextField().getText()),
+                                String.valueOf(table.getValueAt(table.getSelectedRow(), 1)),
+                                String.valueOf(table.getValueAt(table.getSelectedRow(), 5)),
+                                quantityBorrow
+                        ));
+
                         //Fix Quantity Of Book
                         int row;
                         switch (codeLetter){
@@ -413,7 +428,7 @@ public class lent_UI {
                                         userEmail
                                 });
                             }
-                            lent_UI lent_ui = new lent_UI(code,userManager, bookManager);
+                            lent_UI lent_ui = new lent_UI(code,userManager, bookManager, historyManager);
                             lent_ui.setLentSide(lentBookFrame, userFrame, defaultTableModelBook, defaultTableModelUser, table, user.getId());
 
                         } else {

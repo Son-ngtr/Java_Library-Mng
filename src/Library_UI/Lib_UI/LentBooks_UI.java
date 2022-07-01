@@ -2,6 +2,7 @@ package Library_UI.Lib_UI;
 
 import Database.ConectionDTB;
 import Library.Book_Manager.BookManager;
+import Library.HIstory_Manager.HistoryManager;
 import Library.User_Manager.UserManager;
 import Library_UI.Funtion.lent_UI;
 
@@ -28,11 +29,13 @@ public class LentBooks_UI {
     private String[] tableContent;
     private ConectionDTB conectionDTB = new ConectionDTB();
     private Connection connection = conectionDTB.getConnect();
+    private HistoryManager historyManager;
 
     //Constructor
-    public LentBooks_UI(BookManager bookManager, UserManager userManager){
+    public LentBooks_UI(BookManager bookManager, UserManager userManager, HistoryManager historyManager){
         this.bookManager = bookManager;
         this.userManager = userManager;
+        this.historyManager = historyManager;
         tableContent = bookManager.bookBorrowContent();
         content();
     }
@@ -241,7 +244,7 @@ public class LentBooks_UI {
                 try {
                     if(Integer.parseInt(String.valueOf(jt.getValueAt(jt.getSelectedRow(), 6))) > 0){
                         if(jt.getSelectedRow() != -1 ){
-                            lent_UI lent_ui = new lent_UI(String.valueOf(jt.getValueAt(jt.getSelectedRow(), 0)).trim(), userManager, bookManager);
+                            lent_UI lent_ui = new lent_UI(String.valueOf(jt.getValueAt(jt.getSelectedRow(), 0)).trim(), userManager, bookManager,  historyManager);
                             lent_ui.setLentBooksSide(main_Frame,userInfoFrame, defaultTableModel, defaultTableModelUser,jt);
                             main_Frame.setEnabled(false);
                         }else {

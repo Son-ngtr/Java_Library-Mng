@@ -3,6 +3,7 @@ package Library_UI.Funtion;
 import Database.ConectionDTB;
 import Library.Check;
 import Library.Book_Manager.BookManager;
+import Library.HIstory_Manager.HistoryManager;
 import Library.Staff_Manager.StaffManager;
 import Library.User_Manager.UserManager;
 import Library_UI.Lib_UI.LentBooks_UI;
@@ -39,11 +40,13 @@ public class User_In4_UI {
     private UserManager userManager;
     private BookManager bookManager;
     private String code;
+    private HistoryManager historyManager;
 
     //Constructor
-    public User_In4_UI(BookManager bookManager, UserManager userManager, String code){
+    public User_In4_UI(BookManager bookManager, UserManager userManager, String code, HistoryManager historyManager){
         this.bookManager = bookManager;
         this.userManager = userManager;
+        this.historyManager = historyManager;
         this.code = code;
         content();
     }
@@ -216,7 +219,7 @@ public class User_In4_UI {
         bt_lent.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                new LentBooks_UI(bookManager, userManager);
+                new LentBooks_UI(bookManager, userManager,historyManager);
             }
 
             @Override
