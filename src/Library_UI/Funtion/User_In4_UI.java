@@ -29,33 +29,31 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 
 public class User_In4_UI {
-    private JFrame main_Frame, managerBookFrame;
+    private JFrame main_Frame, userFrame;
     private ImageIcon bk_Icon, notepad_Icon, login_Ani, login_ef;
     private JLabel label, notification_Label, login_Icon, logout_Label, exit_Label;
     private JButton button ,b1, b2, b3, b4, b5, b6,b7, bt_lent, bt_delete, bt_info;
     private JTextField txt_1, txt_3, txt_4, txt_5, txt_6;
     private JDatePickerImpl datePicker_staff;
-    private DefaultTableModel defaultTableModel;
-    private JTable table;
+    private DefaultTableModel defaultTableModelUser;
+    private JTable tableUser;
     private UserManager userManager;
     private BookManager bookManager;
-    private String code;
     private HistoryManager historyManager;
 
     //Constructor
-    public User_In4_UI(BookManager bookManager, UserManager userManager, String code, HistoryManager historyManager){
+    public User_In4_UI(BookManager bookManager, UserManager userManager, HistoryManager historyManager){
         this.bookManager = bookManager;
         this.userManager = userManager;
         this.historyManager = historyManager;
-        this.code = code;
         content();
     }
 
     //Manager User Side
-    public void setManagerUser(JFrame frame, DefaultTableModel defaultTableModel, JTable table){
-        managerBookFrame = frame;
-        this.defaultTableModel = defaultTableModel;
-        this.table = table;
+    public void setManagerUserSide(JFrame frame, DefaultTableModel defaultTableModelUser, JTable tableUser){
+        userFrame = frame;
+        this.defaultTableModelUser = defaultTableModelUser;
+        this.tableUser = tableUser;
     }
 
     public void content() {
@@ -111,7 +109,7 @@ public class User_In4_UI {
         logout_Label.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                managerBookFrame.setEnabled(true);
+                userFrame.setEnabled(true);
                 main_Frame.dispose();
             }
 
@@ -175,7 +173,7 @@ public class User_In4_UI {
 
 
 // create 6 text fields
-        txt_1 = new JTextField("name chosen reader");
+        txt_1 = new JTextField(userManager.getUseLentInfo()[1]);
         txt_1.setBackground(Color_1);
         txt_1.setBounds(277, 52, 470, 40);
         txt_1.setForeground(Color_2);
@@ -219,7 +217,9 @@ public class User_In4_UI {
         bt_lent.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                new LentBooks_UI(bookManager, userManager,historyManager);
+                LentBooks_UI lentBooks_ui = new LentBooks_UI(bookManager, userManager,historyManager);
+                lentBooks_ui.setUserI4InfoSide(userFrame, defaultTableModelUser, tableUser);
+                main_Frame.dispose();
             }
 
             @Override

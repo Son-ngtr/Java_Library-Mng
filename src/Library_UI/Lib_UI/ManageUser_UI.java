@@ -271,9 +271,8 @@ public class ManageUser_UI {
             @Override
             public void mouseClicked(MouseEvent e) {
                 if(jt.getSelectedRow() != -1){
-
                     //User Data
-                    String useID = String.valueOf(jt.getValueAt(jt.getSelectedRow(), 0));
+                    String useID = check.codeConvert(String.valueOf(jt.getValueAt(jt.getSelectedRow(), 0)));
                     String userName = String.valueOf(jt.getValueAt(jt.getSelectedRow(), 1));
                     String userGender = String.valueOf(jt.getValueAt(jt.getSelectedRow(), 2));
                     String userDateOfBirth = String.valueOf(jt.getValueAt(jt.getSelectedRow(), 3));
@@ -290,8 +289,8 @@ public class ManageUser_UI {
                             userEmail
                     });
 
-                    User_In4_UI user_in4_ui = new User_In4_UI( bookManager, userManager,check.codeConvert(String.valueOf(jt.getValueAt(jt.getSelectedRow(), 0)).trim()), historyManager);
-                    user_in4_ui.setManagerUser(main_Frame, defaultTableModel, jt);
+                    User_In4_UI user_in4_ui = new User_In4_UI( bookManager, userManager, historyManager);
+                    user_in4_ui.setManagerUserSide(main_Frame, defaultTableModel, jt);
                     main_Frame.setEnabled(false);
                 }else {
                     JOptionPane.showMessageDialog(null, "Chose an user form the table");

@@ -4,6 +4,7 @@ import Database.ConectionDTB;
 import Library.Book_Manager.BookManager;
 import Library.HIstory_Manager.HistoryManager;
 import Library.User_Manager.UserManager;
+import Library_UI.Funtion.User_In4_UI;
 import Library_UI.Funtion.lent_UI;
 
 import javax.swing.*;
@@ -24,7 +25,7 @@ public class LentBooks_UI {
     private JLabel label, notification_Label, logout_Label,exit_Label;
     private BookManager bookManager;
     private DefaultTableModel defaultTableModel, defaultTableModelUser;
-    private JTable jt, table;
+    private JTable jt, tableUser;
     private UserManager userManager;
     private String[] tableContent;
     private ConectionDTB conectionDTB = new ConectionDTB();
@@ -41,10 +42,10 @@ public class LentBooks_UI {
     }
 
     //User info Side
-    public void setUserInfoSide(JFrame frame, DefaultTableModel defaultTableModel, JTable table){
+    public void setUserI4InfoSide(JFrame frame, DefaultTableModel defaultTableModelUser, JTable tableUser){
         this.userInfoFrame = frame;
-        this.defaultTableModelUser = defaultTableModel;
-        this.table = table;
+        this.defaultTableModelUser = defaultTableModelUser;
+        this.tableUser = tableUser;
     }
 
 
@@ -104,7 +105,8 @@ public class LentBooks_UI {
             @Override
             public void mouseClicked(MouseEvent e) {
                 if(userInfoFrame != null){
-                    userInfoFrame.setEnabled(true);
+                    User_In4_UI user_in4_ui = new User_In4_UI(bookManager, userManager, historyManager);
+                    user_in4_ui.setManagerUserSide(userInfoFrame,defaultTableModel, tableUser);
                     main_Frame.dispose();
                 }else {
                     new Lobby_UI();
@@ -245,7 +247,7 @@ public class LentBooks_UI {
                     if(Integer.parseInt(String.valueOf(jt.getValueAt(jt.getSelectedRow(), 6))) > 0){
                         if(jt.getSelectedRow() != -1 ){
                             lent_UI lent_ui = new lent_UI(String.valueOf(jt.getValueAt(jt.getSelectedRow(), 0)).trim(), userManager, bookManager,  historyManager);
-                            lent_ui.setLentBooksSide(main_Frame,userInfoFrame, defaultTableModel, defaultTableModelUser,jt);
+                            lent_ui.setLentBooksSide(main_Frame,userInfoFrame, defaultTableModel, defaultTableModelUser,tableUser,jt);
                             main_Frame.setEnabled(false);
                         }else {
                             JOptionPane.showMessageDialog(null,"Please chose a book form the list");
