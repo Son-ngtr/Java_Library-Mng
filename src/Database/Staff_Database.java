@@ -189,8 +189,9 @@ public class Staff_Database {
                 updateTimeAttendance(connection, ID, value);
 
                 return updateStatus;
+            default:
+                return updateStatus;
         }
-        return updateStatus;
     }
 
     public void addNewStaff(Connection connection, int ID, String Name, String Gender, String DateOfBirth, String Address, String PhoneNumber, String Email,

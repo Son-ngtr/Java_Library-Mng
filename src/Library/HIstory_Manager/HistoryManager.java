@@ -97,32 +97,32 @@ public class HistoryManager {
     public String[][] listHistory(){
         String[][] mainObj = new String[totalHistory()][historyContent().length];
         int count = 0;
-        for (History history : histories){
-            for (int i=0; i<historyContent().length; i++){
-                switch (i){
+        for (int i=histories.size()-1; i>=0; i--){
+            for (int j=0; j<historyContent().length; j++){
+                switch (j){
                     case 0:
-                        mainObj[count][i] = "HL" + String.valueOf(history.getID());
+                        mainObj[count][j] = "HL" + String.valueOf(histories.get(i).getID());
                         break;
                     case 1:
-                        mainObj[count][i] = history.getName();
+                        mainObj[count][j] = histories.get(i).getName();
                         break;
                     case 2:
-                        mainObj[count][i] = history.getPhoneNumber();
+                        mainObj[count][j] = histories.get(i).getPhoneNumber();
                         break;
                     case 3:
-                        mainObj[count][i] = history.dateConvert(history.getRegisDate());
+                        mainObj[count][j] = histories.get(i).dateConvert(histories.get(i).getRegisDate());
                         break;
                     case 4:
-                        mainObj[count][i] = history.dateConvert(history.getExpDate());
+                        mainObj[count][j] = histories.get(i).dateConvert(histories.get(i).getExpDate());
                         break;
                     case 5:
-                        mainObj[count][i] = history.getBookName();
+                        mainObj[count][j] = histories.get(i).getBookName();
                         break;
                     case 6:
-                        mainObj[count][i] = history.getBookType();
+                        mainObj[count][j] = histories.get(i).getBookType();
                         break;
                     case 7:
-                        mainObj[count][i] = Integer.toString(history.getQuantity()) ;
+                        mainObj[count][j] = Integer.toString(histories.get(i).getQuantity()) ;
                         break;
                     default:
                         break;

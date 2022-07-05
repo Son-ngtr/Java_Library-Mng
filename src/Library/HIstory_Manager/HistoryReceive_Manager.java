@@ -98,35 +98,35 @@ public class HistoryReceive_Manager {
     public String[][] listHistoryReceive(){
         String[][] mainObj = new String[totalHistory()][historyReceiveContent().length];
         int count = 0;
-        for (HistoryReceive historyReceive : historyReceives){
-            for (int i=0; i<historyReceiveContent().length; i++){
-                switch (i){
+        for (int i=historyReceives.size()-1; i>=0; i--){
+            for (int j=0; i<historyReceiveContent().length; j++){
+                switch (j){
                     case 0:
-                        mainObj[count][i] = "HL" + String.valueOf(historyReceive.getID());
+                        mainObj[count][j] = "HL" + String.valueOf(historyReceives.get(i).getID());
                         break;
                     case 1:
-                        mainObj[count][i] = historyReceive.getName();
+                        mainObj[count][j] = historyReceives.get(i).getName();
                         break;
                     case 2:
-                        mainObj[count][i] = historyReceive.getPhoneNumber();
+                        mainObj[count][j] = historyReceives.get(i).getPhoneNumber();
                         break;
                     case 3:
-                        mainObj[count][i] = historyReceive.dateConvert(historyReceive.getRegisDate());
+                        mainObj[count][j] = historyReceives.get(i).dateConvert(historyReceives.get(i).getRegisDate());
                         break;
                     case 4:
-                        mainObj[count][i] = historyReceive.dateConvert(historyReceive.getExpDate());
+                        mainObj[count][j] = historyReceives.get(i).dateConvert(historyReceives.get(i).getExpDate());
                         break;
                     case 5:
-                        mainObj[count][i] = historyReceive.getBookName();
+                        mainObj[count][j] = historyReceives.get(i).getBookName();
                         break;
                     case 6:
-                        mainObj[count][i] = historyReceive.getBookType();
+                        mainObj[count][j] = historyReceives.get(i).getBookType();
                         break;
                     case 7:
-                        mainObj[count][i] = Integer.toString(historyReceive.getQuantity()) ;
+                        mainObj[count][j] = Integer.toString(historyReceives.get(i).getQuantity()) ;
                         break;
                     case 8:
-                        mainObj[count][i] = historyReceive.dateConvert(historyReceive.getReturnDate());
+                        mainObj[count][j] = historyReceives.get(i).dateConvert(historyReceives.get(i).getReturnDate());
                         break;
                     default:
                         break;

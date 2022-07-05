@@ -3,11 +3,8 @@ package Library.Staff_Manager;
 import Database.ConectionDTB;
 import Database.Staff_Database;
 import Library.Check;
-import Library.LentBook_Manager.LentBookManager;
-
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Vector;
@@ -54,7 +51,7 @@ public class StaffManager {
     }
 
     public Long[] staffSalaryLate(){
-        return new Long[]{30000L, 50000L, 700000L};
+        return new Long[]{30000L, 50000L, 70000L};
     }
 
     //Staff Gender
@@ -102,6 +99,73 @@ public class StaffManager {
         return codeCount;
     }
 
+    //Salary Payment
+    public void salaryPayment(){
+        Vector<Vector<Object>> vectors = null;
+        try {
+            vectors = staff_database.getAll(connection);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+
+        for (Vector<Object> vector : vectors){
+            if(!String.valueOf(vector.get(10)).equalsIgnoreCase("0")){
+                Calendar currentTime = Calendar.getInstance();
+                Calendar time = check.dateReConvert(String.valueOf(vector.get(10)));
+                int timeDate = time.get(Calendar.DATE);
+                int currentTimeDate = currentTime.get(Calendar.DATE);
+                if(currentTimeDate > timeDate){
+                    editStaff(String.valueOf(vector.get(0)) , 9, "None");
+                    switch (String.valueOf(vector.get(7))){
+                        case "Sanitation worker":
+                            switch (String.valueOf(vector.get(9))){
+                                case "Attendance":
+                                    editStaff(String.valueOf(vector.get(0)) , 8, String.valueOf(Long.parseLong(String.valueOf(vector.get(8))) + staffSalary()[0]));
+                                    break;
+                                case "Late":
+                                    editStaff(String.valueOf(vector.get(0)) , 8, String.valueOf(Long.parseLong(String.valueOf(vector.get(8))) + staffSalaryLate()[0]));
+                                    break;
+                                case "Absent":
+                                    editStaff(String.valueOf(vector.get(0)) , 8, String.valueOf(Long.parseLong(String.valueOf(vector.get(8))) - staffSalary()[0]));
+                                    break;
+                            }
+                            break;
+                        case "Treasurer":
+                            switch (String.valueOf(vector.get(9))){
+                                case "Attendance":
+                                    editStaff(String.valueOf(vector.get(0)) , 8, String.valueOf(Long.parseLong(String.valueOf(vector.get(8))) + staffSalary()[1]));
+                                    break;
+                                case "Late":
+                                    editStaff(String.valueOf(vector.get(0)) , 8, String.valueOf(Long.parseLong(String.valueOf(vector.get(8))) + staffSalaryLate()[1]));
+                                    break;
+                                case "Absent":
+                                    editStaff(String.valueOf(vector.get(0)) , 8, String.valueOf(Long.parseLong(String.valueOf(vector.get(8))) - staffSalary()[1]));
+                                    break;
+                            }
+                            break;
+                        case "Librarian":
+                            switch (String.valueOf(vector.get(9))){
+                                case "Attendance":
+                                    editStaff(String.valueOf(vector.get(0)) , 8, String.valueOf(Long.parseLong(String.valueOf(vector.get(8))) + staffSalary()[2]));
+                                    break;
+                                case "Late":
+                                    editStaff(String.valueOf(vector.get(0)) , 8, String.valueOf(Long.parseLong(String.valueOf(vector.get(8))) + staffSalaryLate()[2]));
+                                    break;
+                                case "Absent":
+                                    editStaff(String.valueOf(vector.get(0)) , 8, String.valueOf(Long.parseLong(String.valueOf(vector.get(8))) - staffSalary()[2]));
+                                    break;
+                            }
+                            break;
+                    }
+
+                }
+            }else {
+                editStaff(String.valueOf(codeCount) , 9, "None");
+            }
+        }
+    }
+
     //Download Staff
     public void downloadAllStaff(){
         Vector<Vector<Object>> vectors = null;
@@ -125,64 +189,8 @@ public class StaffManager {
                     String.valueOf(vector.get(9))
             );
             staffs.add(staff);
-
-
-
-            if(!String.valueOf(vector.get(10)).equalsIgnoreCase("0") && String.valueOf(vector.get(10)) != null){
-                Calendar currentTime = Calendar.getInstance();
-                Calendar time = check.dateReConvert(String.valueOf(vector.get(10)));
-                int timeDate = time.get(Calendar.DATE);
-                int currentTimeDate = currentTime.get(Calendar.DATE);
-                if(currentTimeDate > timeDate){
-                    editStaff(String.valueOf(codeCount) , 9, "None");
-                    switch (String.valueOf(vector.get(7))){
-                        case "Sanitation worker":
-                            switch (String.valueOf(vector.get(9))){
-                                case "Attendance":
-                                    editStaff(String.valueOf(codeCount) , 8, String.valueOf(Long.parseLong(String.valueOf(vector.get(8))) + staffSalary()[0]));
-                                    break;
-                                case "Late":
-                                    editStaff(String.valueOf(codeCount) , 8, String.valueOf(Long.parseLong(String.valueOf(vector.get(8))) + staffSalaryLate()[0]));
-                                    break;
-                                case "Absent":
-                                    System.out.println("dfsdfs");
-                                    editStaff(String.valueOf(codeCount) , 8, String.valueOf(Long.parseLong(String.valueOf(vector.get(8))) - staffSalary()[0]));
-                                    break;
-                            }
-                            break;
-                        case "Treasurer":
-                            switch (String.valueOf(vector.get(9))){
-                                case "Attendance":
-                                    editStaff(String.valueOf(codeCount) , 8, String.valueOf(Long.parseLong(String.valueOf(vector.get(8))) + staffSalary()[1]));
-                                    break;
-                                case "Late":
-                                    editStaff(String.valueOf(codeCount) , 8, String.valueOf(Long.parseLong(String.valueOf(vector.get(8))) + staffSalaryLate()[1]));
-                                    break;
-                                case "Absent":
-                                    editStaff(String.valueOf(codeCount) , 8, String.valueOf(Long.parseLong(String.valueOf(vector.get(8))) - staffSalary()[1]));
-                                    break;
-                            }
-                            break;
-                        case "Librarian":
-                            switch (String.valueOf(vector.get(9))){
-                                case "Attendance":
-                                    editStaff(String.valueOf(codeCount) , 8, String.valueOf(Long.parseLong(String.valueOf(vector.get(8))) + staffSalary()[2]));
-                                    break;
-                                case "Late":
-                                    editStaff(String.valueOf(codeCount) , 8, String.valueOf(Long.parseLong(String.valueOf(vector.get(8))) + staffSalaryLate()[2]));
-                                    break;
-                                case "Absent":
-                                    editStaff(String.valueOf(codeCount) , 8, String.valueOf(Long.parseLong(String.valueOf(vector.get(8))) - staffSalary()[2]));
-                                    break;
-                            }
-                            break;
-                    }
-
-                }
-            }else {
-                editStaff(String.valueOf(codeCount) , 9, "None");
-            }
         }
+        salaryPayment();
     }
 
     //Staff List
