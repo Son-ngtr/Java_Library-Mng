@@ -302,6 +302,9 @@ public class lent_UI {
 
 
         txt_6 = new JTextField(dtf.format(now));
+
+        txt_6.getText().toString();
+
         txt_6.setBackground(Color_left);
         txt_6.setBounds(283, po_y+65*5, 337, height);
         txt_6.setForeground(Color_me);
