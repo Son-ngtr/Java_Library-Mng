@@ -3,11 +3,8 @@ package Library.Staff_Manager;
 import Database.ConectionDTB;
 import Database.Staff_Database;
 import Library.Check;
-import Library.LentBook_Manager.LentBookManager;
-
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Vector;
@@ -33,6 +30,11 @@ public class StaffManager {
     //Staff List
     private final ArrayList<Staff> staffs = new ArrayList<>();
 
+    //Get Staff
+    private Staff getStaff(int ID){
+        return staffs.get(ID -1 );
+    }
+
     //Staff Header
     public String[] staffContent(){
         return new String[]{"ID", "Name", "Gender", "Date Of Birth", "Address", "Phone Number", "Email", "Position", "Salary", "Attendance"};
@@ -41,6 +43,15 @@ public class StaffManager {
     //Staff Category
     public String[] staffCategory(){
         return new String[]{"Sanitation worker", "Treasurer", "Librarian"};
+    }
+
+    //Staff Salary Per Day
+    public Long[] staffSalary(){
+        return new Long[]{50000L, 70000L, 100000L};
+    }
+
+    public Long[] staffSalaryLate(){
+        return new Long[]{30000L, 50000L, 70000L};
     }
 
     //Staff Gender
@@ -73,7 +84,7 @@ public class StaffManager {
                     staff.getPhoneNumber(),
                     staff.getEmail(),
                     staff.getStaff(),
-                    Integer.parseInt(String.valueOf(staff.getSalary())),
+                    String.valueOf(staff.getSalary()),
                     staff.getAttendace()
             );
         } catch (ClassNotFoundException e) {
@@ -86,6 +97,73 @@ public class StaffManager {
     //Total Staff
     public int totalStaff(){
         return codeCount;
+    }
+
+    //Salary Payment
+    public void salaryPayment(){
+        Vector<Vector<Object>> vectors = null;
+        try {
+            vectors = staff_database.getAll(connection);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+
+        for (Vector<Object> vector : vectors){
+            if(!String.valueOf(vector.get(10)).equalsIgnoreCase("0")){
+                Calendar currentTime = Calendar.getInstance();
+                Calendar time = check.dateReConvert(String.valueOf(vector.get(10)));
+                int timeDate = time.get(Calendar.DATE);
+                int currentTimeDate = currentTime.get(Calendar.DATE);
+                if(currentTimeDate > timeDate){
+                    editStaff(String.valueOf(vector.get(0)) , 9, "None");
+                    switch (String.valueOf(vector.get(7))){
+                        case "Sanitation worker":
+                            switch (String.valueOf(vector.get(9))){
+                                case "Attendance":
+                                    editStaff(String.valueOf(vector.get(0)) , 8, String.valueOf(Long.parseLong(String.valueOf(vector.get(8))) + staffSalary()[0]));
+                                    break;
+                                case "Late":
+                                    editStaff(String.valueOf(vector.get(0)) , 8, String.valueOf(Long.parseLong(String.valueOf(vector.get(8))) + staffSalaryLate()[0]));
+                                    break;
+                                case "Absent":
+                                    editStaff(String.valueOf(vector.get(0)) , 8, String.valueOf(Long.parseLong(String.valueOf(vector.get(8))) - staffSalary()[0]));
+                                    break;
+                            }
+                            break;
+                        case "Treasurer":
+                            switch (String.valueOf(vector.get(9))){
+                                case "Attendance":
+                                    editStaff(String.valueOf(vector.get(0)) , 8, String.valueOf(Long.parseLong(String.valueOf(vector.get(8))) + staffSalary()[1]));
+                                    break;
+                                case "Late":
+                                    editStaff(String.valueOf(vector.get(0)) , 8, String.valueOf(Long.parseLong(String.valueOf(vector.get(8))) + staffSalaryLate()[1]));
+                                    break;
+                                case "Absent":
+                                    editStaff(String.valueOf(vector.get(0)) , 8, String.valueOf(Long.parseLong(String.valueOf(vector.get(8))) - staffSalary()[1]));
+                                    break;
+                            }
+                            break;
+                        case "Librarian":
+                            switch (String.valueOf(vector.get(9))){
+                                case "Attendance":
+                                    editStaff(String.valueOf(vector.get(0)) , 8, String.valueOf(Long.parseLong(String.valueOf(vector.get(8))) + staffSalary()[2]));
+                                    break;
+                                case "Late":
+                                    editStaff(String.valueOf(vector.get(0)) , 8, String.valueOf(Long.parseLong(String.valueOf(vector.get(8))) + staffSalaryLate()[2]));
+                                    break;
+                                case "Absent":
+                                    editStaff(String.valueOf(vector.get(0)) , 8, String.valueOf(Long.parseLong(String.valueOf(vector.get(8))) - staffSalary()[2]));
+                                    break;
+                            }
+                            break;
+                    }
+
+                }
+            }else {
+                editStaff(String.valueOf(codeCount) , 9, "None");
+            }
+        }
     }
 
     //Download Staff
@@ -112,6 +190,7 @@ public class StaffManager {
             );
             staffs.add(staff);
         }
+        salaryPayment();
     }
 
     //Staff List
@@ -237,6 +316,9 @@ public class StaffManager {
                         editDatabase(code, col, value);
                     }
                     case 8 -> {
+                        if(Long.parseLong(value) < 0){
+                            value = "0";
+                        }
                         staff.setSalary(Long.parseLong(value));
                         editDatabase(code, col, value);
                     }

@@ -41,6 +41,11 @@ public class UserManager {
         this.useLentInfo = useLentInfo;
     }
 
+    //Get User
+    public User getUser(int ID){
+        return users.get(ID-1);
+    }
+
     //Staff List
     private final ArrayList<User> users = new ArrayList<>();
 
@@ -74,7 +79,7 @@ public class UserManager {
                     user.getPhoneNumber(),
                     user.getEmail(),
                     user.getTotalBooks(),
-                    Integer.parseInt(String.valueOf(user.getMoneyFine()))
+                    String.valueOf(user.getMoneyFine())
             );
         } catch (ClassNotFoundException e) {
             e.printStackTrace();

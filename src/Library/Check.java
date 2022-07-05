@@ -171,4 +171,9 @@ public class Check {
         newCalendar.set(year, month - 1 , date);
         return newCalendar;
     }
+
+    //Date convert
+    public String dateConvert(Calendar date){
+        return date.get(Calendar.DATE) + "/" + (date.get(Calendar.MONTH) + 1) + "/" + date.get(Calendar.YEAR);
+    }
 }

@@ -2,7 +2,7 @@ package Library.HIstory_Manager;
 
 import java.util.Calendar;
 
-public class History {
+public class HistoryReceive {
     private int ID;
     private String name;
     private String phoneNumber;
@@ -11,8 +11,10 @@ public class History {
     private String bookName;
     private String bookType;
     private int quantity;
+    private Calendar returnDate;
 
-    public History(int ID, String name, String phoneNumber, Calendar regisDate, Calendar expDate, String bookName,String bookType ,int quantity) {
+    //Constructor
+    public HistoryReceive(int ID, String name, String phoneNumber, Calendar regisDate, Calendar expDate, String bookName, String bookType, int quantity, Calendar returnDate) {
         this.ID = ID;
         this.name = name;
         this.phoneNumber = phoneNumber;
@@ -21,6 +23,7 @@ public class History {
         this.bookName = bookName;
         this.bookType = bookType;
         this.quantity = quantity;
+        this.returnDate = returnDate;
     }
 
     //Date convert
@@ -42,6 +45,9 @@ public class History {
                 break;
             case 2:
                 setExpDate(newCalendar);
+                break;
+            case 3:
+                setReturnDate(newCalendar);
                 break;
         }
     }
@@ -109,5 +115,13 @@ public class History {
 
     public void setQuantity(int quantity) {
         this.quantity = quantity;
+    }
+
+    public Calendar getReturnDate() {
+        return returnDate;
+    }
+
+    public void setReturnDate(Calendar returnDate) {
+        this.returnDate = returnDate;
     }
 }

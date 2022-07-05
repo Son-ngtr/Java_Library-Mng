@@ -1,9 +1,14 @@
 package Database;
 
+import Library.Check;
+
 import java.sql.*;
+import java.util.Calendar;
 import java.util.Vector;
 
 public class Staff_Database {
+    Check check = new Check();
+
     public boolean checkStaff(Connection connection, String ID) throws SQLException {
         // Kết nối database
 
@@ -42,8 +47,9 @@ public class Staff_Database {
             String PhoneNumber = rs.getString(6);
             String Email = rs.getString(7);
             String Staff = rs.getString(8);
-            int Salary = rs.getInt(9);
+            String Salary = rs.getString(9);
             String Attendance = rs.getString(10);
+            String TimeAttendance = rs.getString(11);
 
 
             // Ghi vào vector
@@ -58,13 +64,61 @@ public class Staff_Database {
             temp.add(Staff);
             temp.add(Salary);
             temp.add(Attendance);
-
-
+            temp.add(TimeAttendance);
 
             // Thêm dữ liệu vào data vector chính
             data.add(temp);
         }
         return data;
+    }
+
+    public int updateTimeAttendance(Connection connection , int ID, String value) throws ClassNotFoundException, SQLException{
+        Calendar time = Calendar.getInstance();
+        String timeConvert = check.dateConvert(time);
+        int updateStatus = 0;
+        String sql;
+        Statement stm1;
+
+        switch (value){
+            case "None":
+                sql = "UPDATE staff set TimeAttendance='" + "0" +  "' WHERE ID='" + ID + "'";
+                stm1 = connection.createStatement();
+                updateStatus = stm1.executeUpdate(sql);
+
+                return updateStatus;
+            case "Attendance":
+                sql = "UPDATE staff set TimeAttendance='" + timeConvert +  "' WHERE ID='" + ID + "'";
+                stm1 = connection.createStatement();
+                updateStatus = stm1.executeUpdate(sql);
+
+                return updateStatus;
+            case "Absent":
+                sql = "UPDATE staff set TimeAttendance='" + timeConvert +  "' WHERE ID='" + ID + "'";
+                stm1 = connection.createStatement();
+                updateStatus = stm1.executeUpdate(sql);
+
+                return updateStatus;
+            case "Late":
+                sql = "UPDATE staff set TimeAttendance='" + timeConvert +  "' WHERE ID='" + ID + "'";
+                stm1 = connection.createStatement();
+                updateStatus = stm1.executeUpdate(sql);
+
+                return updateStatus;
+            case "Leave of Absence Letter":
+                sql = "UPDATE staff set TimeAttendance='" + "0" +  "' WHERE ID='" + ID + "'";
+                stm1 = connection.createStatement();
+                updateStatus = stm1.executeUpdate(sql);
+
+                return updateStatus;
+            case "Quit":
+                sql = "UPDATE staff set TimeAttendance='" + "0" +  "' WHERE ID='" + ID + "'";
+                stm1 = connection.createStatement();
+                updateStatus = stm1.executeUpdate(sql);
+
+                return updateStatus;
+        }
+
+        return updateStatus;
     }
 
     public int updateStaff(Connection connection, int ID, int col, String value)
@@ -123,7 +177,7 @@ public class Staff_Database {
 
                 return updateStatus;
             case 8:
-                sql = "UPDATE staff set Salary='" + Integer.parseInt(value) +  "' WHERE ID='" + ID + "'";
+                sql = "UPDATE staff set Salary='" + value +  "' WHERE ID='" + ID + "'";
                 stm1 = connection.createStatement();
                 updateStatus = stm1.executeUpdate(sql);
 
@@ -132,18 +186,20 @@ public class Staff_Database {
                 sql = "UPDATE staff set Attendance='" + value +  "' WHERE ID='" + ID + "'";
                 stm1 = connection.createStatement();
                 updateStatus = stm1.executeUpdate(sql);
+                updateTimeAttendance(connection, ID, value);
 
                 return updateStatus;
+            default:
+                return updateStatus;
         }
-        return updateStatus;
     }
 
     public void addNewStaff(Connection connection, int ID, String Name, String Gender, String DateOfBirth, String Address, String PhoneNumber, String Email,
-                            String Staff, int Salary, String Attendance )
+                            String Staff, String Salary, String Attendance )
             throws ClassNotFoundException, SQLException {
 
         // Tạo câu lệnh SQL (Cách 2: sử dụng PreparedStatement)
-        String sql = "INSERT INTO staff(ID,Name,Gender,DateOfBirth,Address,PhoneNumber,Email,Staff,Salary,Attendance) VALUES(?,?,?,?,?,?,?,?,?,?)";
+        String sql = "INSERT INTO staff(ID,Name,Gender,DateOfBirth,Address,PhoneNumber,Email,Staff,Salary,Attendance,TimeAttendance) VALUES(?,?,?,?,?,?,?,?,?,?,?)";
         PreparedStatement stmt = connection.prepareStatement(sql);
         stmt.setInt(1, ID);
         stmt.setString(2, Name);
@@ -153,8 +209,9 @@ public class Staff_Database {
         stmt.setString(6, PhoneNumber);
         stmt.setString(7, Email);
         stmt.setString(8, Staff);
-        stmt.setInt(9, Salary);
+        stmt.setString(9, Salary);
         stmt.setString(10, Attendance);
+        stmt.setString(11, "0");
 
 
 

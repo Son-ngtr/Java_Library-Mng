@@ -34,7 +34,7 @@ public class PsychologyBook {
             int Code = rs.getInt(1);
             String Name = rs.getString(2);
             String DateAdded = rs.getString(3);
-            int Price = rs.getInt(4);
+            String Price = rs.getString(4);
             String Author = rs.getString(5);
             String Publisher = rs.getString(6);
             String Category = rs.getString(7);
@@ -90,7 +90,7 @@ public class PsychologyBook {
                 
                 return updateStatus;
             case 3:
-                sql = "UPDATE psychologybook set Price='" + Integer.parseInt(value) +  "' WHERE TypeCode='" + TypeCode + "'";
+                sql = "UPDATE psychologybook set Price='" + value +  "' WHERE TypeCode='" + TypeCode + "'";
                 stm1 = connection.createStatement();
                 updateStatus = stm1.executeUpdate(sql);
                 
@@ -141,7 +141,7 @@ public class PsychologyBook {
         return updateStatus;
     }
 
-    public void addNewPsychologyBook(Connection connection, int Code, String Name, String DateAdded, int Price, String Author, String Publisher, String Category,
+    public void addNewPsychologyBook(Connection connection, int Code, String Name, String DateAdded, String Price, String Author, String Publisher, String Category,
                                      int Quantity, int TypeCode, String Type, String RecommentForAge)
             throws ClassNotFoundException, SQLException {
 
@@ -151,7 +151,7 @@ public class PsychologyBook {
         stmt.setInt(1, Code);
         stmt.setString(2, Name);
         stmt.setString(3, DateAdded);
-        stmt.setInt(4, Price);
+        stmt.setString(4, Price);
         stmt.setString(5, Author);
         stmt.setString(6, Publisher);
         stmt.setString(7, Category);

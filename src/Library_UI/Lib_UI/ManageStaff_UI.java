@@ -1,12 +1,10 @@
 package Library_UI.Lib_UI;
 
 import Database.ConectionDTB;
-import Library.Book_Manager.BookManager;
 import Library.Check;
-import Library.Staff_Manager.Staff;
+import Library.Staff_Manager.CountDown;
 import Library.Staff_Manager.StaffManager;
 import Library_UI.Funtion.AddStaff_UI;
-import Library_UI.Funtion.Addbook_UI;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
@@ -37,9 +35,11 @@ public class ManageStaff_UI {
     private JComboBox cbCategory ;
     private JComboBox cbGender;
     private JComboBox cbAttendence;
+    private CountDown countDown;
     private Check check = new Check();
     private ConectionDTB conectionDTB = new ConectionDTB();
     private Connection connection = conectionDTB.getConnect();
+    private Calendar currentTime = Calendar.getInstance();
 
     //Constructor
     public ManageStaff_UI(StaffManager staffManager){
@@ -106,6 +106,7 @@ public class ManageStaff_UI {
         logout_Label.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
+                countDown.stopRun();
                 main_Frame.dispose();
                 new Lobby_UI();
             }
@@ -322,6 +323,7 @@ public class ManageStaff_UI {
         jt.setGridColor(Color_ForeG);
         jt.setBackground(Color_me);
         jt.setForeground(Color_ForeG);
+        countDown = new CountDown(jt, staffManager, defaultTableModel);
 
         JTableHeader jth = jt.getTableHeader();
         jth.setBackground(Color_ForeG);

@@ -1,58 +1,50 @@
 package Library_UI.Funtion;
 
-import Database.ConectionDTB;
-import Library.Check;
 import Library.Book_Manager.BookManager;
-import Library.Staff_Manager.StaffManager;
+import Library.Staff_Manager.CountDown;
+import Library.HIstory_Manager.HistoryManager;
 import Library.User_Manager.UserManager;
 import Library_UI.Lib_UI.LentBooks_UI;
-import Library_UI.Lib_UI.Lobby_UI;
-import org.jdatepicker.impl.JDatePanelImpl;
 import org.jdatepicker.impl.JDatePickerImpl;
-import org.jdatepicker.impl.SqlDateModel;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.Color;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.sql.Connection;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Properties;
 import javax.swing.JFrame;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 
 public class User_In4_UI {
-    private JFrame main_Frame, managerBookFrame;
+    private JFrame main_Frame, userFrame;
     private ImageIcon bk_Icon, notepad_Icon, login_Ani, login_ef;
     private JLabel label, notification_Label, login_Icon, logout_Label, exit_Label;
     private JButton button ,b1, b2, b3, b4, b5, b6,b7, bt_lent, bt_delete, bt_info;
     private JTextField txt_1, txt_3, txt_4, txt_5, txt_6;
     private JDatePickerImpl datePicker_staff;
-    private DefaultTableModel defaultTableModel;
-    private JTable table;
+    private DefaultTableModel defaultTableModelUser;
+    private JTable tableUser;
     private UserManager userManager;
     private BookManager bookManager;
-    private String code;
+    private HistoryManager historyManager;
+    private Calendar calendar = Calendar.getInstance()  ;
+    private CountDown countDown;
 
     //Constructor
-    public User_In4_UI(BookManager bookManager, UserManager userManager, String code){
+    public User_In4_UI(BookManager bookManager, UserManager userManager, HistoryManager historyManager){
         this.bookManager = bookManager;
         this.userManager = userManager;
-        this.code = code;
+        this.historyManager = historyManager;
         content();
     }
 
     //Manager User Side
-    public void setManagerUser(JFrame frame, DefaultTableModel defaultTableModel, JTable table){
-        managerBookFrame = frame;
-        this.defaultTableModel = defaultTableModel;
-        this.table = table;
+    public void setManagerUserSide(JFrame frame, DefaultTableModel defaultTableModelUser, JTable tableUser){
+        userFrame = frame;
+        this.defaultTableModelUser = defaultTableModelUser;
+        this.tableUser = tableUser;
     }
 
     public void content() {
@@ -108,7 +100,7 @@ public class User_In4_UI {
         logout_Label.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                managerBookFrame.setEnabled(true);
+                userFrame.setEnabled(true);
                 main_Frame.dispose();
             }
 
@@ -172,7 +164,7 @@ public class User_In4_UI {
 
 
 // create 6 text fields
-        txt_1 = new JTextField("name chosen reader");
+        txt_1 = new JTextField(userManager.getUseLentInfo()[1]);
         txt_1.setBackground(Color_1);
         txt_1.setBounds(277, 52, 470, 40);
         txt_1.setForeground(Color_2);
@@ -185,14 +177,28 @@ public class User_In4_UI {
 
 //create table
         String[][] tableData = {{"hasagi", "3", "29000", "26"}};
-
         String[] tableColumn = {"name.book", "no", "money", "remain time <day>"};
 
-        JTable jt = new JTable(tableData, tableColumn);
+        DefaultTableModel defaultTableModel = new DefaultTableModel(tableData, tableColumn);
+
+        JTable jt = new JTable(defaultTableModel);
         jt.setBackground(Color_1);
         jt.setForeground(Color_2);
         jt.setFont(Font_me_4);
         jt.setGridColor(Color_3);
+
+//        //Test CountDown
+//        Calendar c = Calendar.getInstance();
+//        c.add(Calendar.DAY_OF_MONTH, 1);
+//        c.set(Calendar.HOUR_OF_DAY, 0);
+//        c.set(Calendar.MINUTE, 0);
+//        c.set(Calendar.SECOND, 0);
+//        c.set(Calendar.MILLISECOND, 0);
+//        long howMany = (c.getTimeInMillis())/1000;
+//        Long dif = howMany - calendar.getTimeInMillis()/1000;
+//        CountDown countDown = new CountDown(jt, 0, 3,  dif );
+//        countDown.run();
+
 
         JTableHeader jth = jt.getTableHeader();
         jth.setForeground(Color_3);
@@ -216,7 +222,9 @@ public class User_In4_UI {
         bt_lent.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                new LentBooks_UI(bookManager, userManager);
+                LentBooks_UI lentBooks_ui = new LentBooks_UI(bookManager, userManager,historyManager);
+                lentBooks_ui.setUserI4InfoSide(userFrame, defaultTableModelUser, tableUser);
+                main_Frame.dispose();
             }
 
             @Override

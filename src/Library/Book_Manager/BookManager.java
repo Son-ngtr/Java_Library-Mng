@@ -88,7 +88,7 @@ public class BookManager {
                     book.getSTT(),
                     book.getName(),
                     book.dateConvert(),
-                    Integer.parseInt(String.valueOf(book.getPrice())),
+                    String.valueOf(book.getPrice()),
                     book.getAuthor(),
                     book.getPublisher(),
                     book.getCategory(),
@@ -112,7 +112,7 @@ public class BookManager {
                     book.getSTT(),
                     book.getName(),
                     book.dateConvert(),
-                    Integer.parseInt(String.valueOf(book.getPrice())),
+                    String.valueOf(book.getPrice()),
                     book.getAuthor(),
                     book.getPublisher(),
                     book.getCategory(),
@@ -136,7 +136,7 @@ public class BookManager {
                     book.getSTT(),
                     book.getName(),
                     book.dateConvert(),
-                    Integer.parseInt(String.valueOf(book.getPrice())),
+                    String.valueOf(book.getPrice()),
                     book.getAuthor(),
                     book.getPublisher(),
                     book.getCategory(),
@@ -160,7 +160,7 @@ public class BookManager {
                     book.getSTT(),
                     book.getName(),
                     book.dateConvert(),
-                    Integer.parseInt(String.valueOf(book.getPrice())),
+                    String.valueOf(book.getPrice()),
                     book.getAuthor(),
                     book.getPublisher(),
                     book.getCategory(),
@@ -249,9 +249,6 @@ public class BookManager {
         for (Vector<Object> vector : vectors){
             codeCountAll++;
             codeCountNovel++;
-            for (int i=0; i<11; i++){
-                System.out.println(String.valueOf(vector.get(i)));
-            }
             Book_Novel bookNovel = new Book_Novel(
                     codeCountAll,
                     String.valueOf(vector.get(1)),
