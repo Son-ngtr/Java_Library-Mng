@@ -97,6 +97,14 @@ public class AddUser_UI {
         userManager.setIsUpdate(false);
     }
 
+    //Refresh
+    public void refresh(){
+        txt_1.setText("");
+        txt_4.setText("");
+        txt_5.setText("");
+        txt_6.setText("");
+    }
+
     public void content() {
 
             ImageIcon bk_Icon = new ImageIcon("src/Image_Icon/background/Add_UI.png");
@@ -282,6 +290,7 @@ public class AddUser_UI {
                             user
                     );
                     tableUserReset();
+                    refresh();
                 }
 
                 @Override
@@ -352,7 +361,7 @@ public class AddUser_UI {
             bt_reset.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-
+                    refresh();
                 }
             });
             bt_reset.addMouseListener(new MouseListener() {

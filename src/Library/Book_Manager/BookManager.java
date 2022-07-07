@@ -2,6 +2,7 @@ package Library.Book_Manager;
 
 import Database.*;
 import Library.Check;
+import Library.LentBook_Manager.LentBook;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -898,6 +899,17 @@ public class BookManager {
                 }
             }
         }
+    }
+
+    //Get Book By Seri
+    public Book getBookBySeri(String seri){
+        Book bookU = null;
+        for (Book book : books){
+            if(book.getSerialNumber().equals(seri)){
+                return book;
+            }
+        }
+        return bookU;
     }
 
     //Book Child Methods

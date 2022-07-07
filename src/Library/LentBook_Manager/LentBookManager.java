@@ -12,6 +12,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Vector;
+import java.util.function.BiPredicate;
 
 public class LentBookManager {
     private Check check = new Check();
@@ -35,9 +36,10 @@ public class LentBookManager {
     //Lent Book List
     private final ArrayList<LentBook> lentBooks = new ArrayList<>();
 
+
     //LentBook Header
     public String[] lentBookContent(){
-        return new String[]{"STT", "Name Book", "Quantity", "LentMoney/Day" ,"Remain Time"};
+        return new String[]{"STT", "Name Book", "Quantity", "LentMoney/Day" ,"Remain Time", "Serial Number"};
     }
 
     //Create lentBook
