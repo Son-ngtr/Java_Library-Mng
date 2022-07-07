@@ -35,6 +35,9 @@ public class ChildrenBook_UI {
         cbChildRecommentForAge = new JComboBox(bookManager.childRecommentForAge());
         Content();
     }
+    public ChildrenBook_UI(){
+
+    }
 
     private JFrame main_Frame;
     private ImageIcon bk_Icon;
@@ -553,6 +556,6 @@ public class ChildrenBook_UI {
     }
 
     public static void main(String[] args) {
-
+        new ChildrenBook_UI();
     }
 }
