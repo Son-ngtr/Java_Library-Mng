@@ -57,7 +57,6 @@ public class CountDown {
             timerTask = new TimerTask() {
                 @Override
                 public void run() {
-                    System.out.println(currentTime);
                     currentTime--;
                     if(currentTime == -1){
                         staffManager.salaryPayment();

@@ -12,8 +12,8 @@ public class Book_Novel extends Book{
 
     }
 
-    public Book_Novel(int code, String name, Calendar dateAdded, Long price, String author, String publisher, int quantity,int typeCode, String type, String ageLimited) {
-        super(code, name, dateAdded, price, author, publisher, "Noval Book", quantity);
+    public Book_Novel(int code, String name, Calendar dateAdded, Long price, String author, String publisher, int quantity,int typeCode, String serialNumber,String type, String ageLimited) {
+        super(code, name, dateAdded, price, author, publisher, "Noval Book", quantity, serialNumber);
         this.typeCode = typeCode;
         this.type = type;
         this.ageLimited = ageLimited;

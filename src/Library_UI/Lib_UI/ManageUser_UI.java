@@ -4,6 +4,7 @@ import Database.ConectionDTB;
 import Library.Book_Manager.BookManager;
 import Library.Check;
 import Library.HIstory_Manager.HistoryManager;
+import Library.LentBook_Manager.LentBookManager;
 import Library.Staff_Manager.StaffManager;
 import Library.User_Manager.UserManager;
 import Library_UI.Funtion.AddUser_UI;
@@ -467,7 +468,7 @@ public class ManageUser_UI {
                                     userManager.editUser(codeValue, jt.getSelectedColumn(), check.moneyConvert(check.matConvert(check.mathAnalysis(newValue))) );
                                     tableReset();
                                 }else {
-                                    JOptionPane.showMessageDialog(null, "Số lượng sách phải được nhập dưới dạng number(int)");
+                                    JOptionPane.showMessageDialog(null, "Fine Money");
                                     tableReset();
                                 }
                             }

@@ -10,7 +10,7 @@ import java.util.Calendar;
 import java.util.Vector;
 
 public class BookManager {
-    Check check = new Check();
+
 
     //DataBase
     private ChildrenBook childrenBook = new ChildrenBook();
@@ -20,8 +20,7 @@ public class BookManager {
     private ConectionDTB conectionDTB = new ConectionDTB();
     private Connection connection = conectionDTB.getConnect();
 
-
-
+    Check check = new Check();
     private boolean isUpdate = false;
     private int codeCountAll = 0;
     private int codeCountNovel = 0;
@@ -56,25 +55,25 @@ public class BookManager {
     }
 
     //Tạo ra một cuốn sách
-    public Book createBookNovel(String name, Calendar dateAdded, Long price, String author, String publisher, int quantity, String type, String ageLimited){
+    public Book createBookNovel(String name, Calendar dateAdded, Long price, String author, String publisher, int quantity,String serialNumber ,String type, String ageLimited){
         codeCountAll++;
         codeCountNovel++;
-        return new Book_Novel(codeCountAll, name, dateAdded, price, author, publisher, quantity, codeCountNovel, type, ageLimited);
+        return new Book_Novel(codeCountAll, name, dateAdded, price, author, publisher, quantity, codeCountNovel,serialNumber, type, ageLimited);
     }
-    public Book createBookChild( String name, Calendar dateAdded, Long price, String author, String publisher, int quantity, String type, String recommentForAge){
+    public Book createBookChild( String name, Calendar dateAdded, Long price, String author, String publisher, int quantity, String serialNumber ,String type, String recommentForAge){
         codeCountAll++;
         codeCountChild++;
-        return new Book_Child(codeCountAll, name, dateAdded, price, author, publisher, quantity, codeCountChild, type, recommentForAge);
+        return new Book_Child(codeCountAll, name, dateAdded, price, author, publisher, quantity,codeCountChild,serialNumber, type, recommentForAge);
     }
-    public Book createBookLearning( String name, Calendar dateAdded, Long price, String author, String publisher, int quantity, String education, String education_subjects){
+    public Book createBookLearning( String name, Calendar dateAdded, Long price, String author, String publisher, int quantity, String serialNumber ,String education, String education_subjects){
         codeCountAll++;
         codeCountLearning++;
-        return new Book_Learning(codeCountAll, name, dateAdded, price, author, publisher, quantity, codeCountLearning, education, education_subjects);
+        return new Book_Learning(codeCountAll, name, dateAdded, price, author, publisher, quantity, codeCountLearning,serialNumber, education, education_subjects);
     }
-    public Book createBookPsychology( String name, Calendar dateAdded, Long price, String author, String publisher, int quantity, String type, String recommentForAge){
+    public Book createBookPsychology( String name, Calendar dateAdded, Long price, String author, String publisher, int quantity, String serialNumber ,String type, String recommentForAge){
         codeCountAll++;
         codeCountPsychology++;
-        return new Book_Psychology(codeCountAll, name, dateAdded, price, author, publisher, quantity, codeCountPsychology, type, recommentForAge);
+        return new Book_Psychology(codeCountAll, name, dateAdded, price, author, publisher, quantity, codeCountPsychology,serialNumber, type, recommentForAge);
     }
 
 
@@ -94,6 +93,7 @@ public class BookManager {
                     book.getCategory(),
                     book.getQuantity(),
                     book.novelCode(),
+                    book.getSerialNumber(),
                     book.novelGetType(),
                     book.novalGetAgeLimited()
                     );
@@ -118,6 +118,7 @@ public class BookManager {
                     book.getCategory(),
                     book.getQuantity(),
                     book.childCode(),
+                    book.getSerialNumber(),
                     book.childGetType(),
                     book.childGetRecommentForAge()
             );
@@ -142,6 +143,7 @@ public class BookManager {
                     book.getCategory(),
                     book.getQuantity(),
                     book.learningCode(),
+                    book.getSerialNumber(),
                     book.learningGetEducation(),
                     book.learningGetEducation_subjects()
             );
@@ -166,6 +168,7 @@ public class BookManager {
                     book.getCategory(),
                     book.getQuantity(),
                     book.psychologyCode(),
+                    book.getSerialNumber(),
                     book.psychologyGetType(),
                     book.psychologyGetRecommentForAge()
             );
@@ -230,7 +233,8 @@ public class BookManager {
                     Integer.parseInt(String.valueOf(vector.get(7))),
                     codeCountLearning,
                     String.valueOf(vector.get(9)),
-                    String.valueOf(vector.get(10))
+                    String.valueOf(vector.get(10)),
+                    String.valueOf(vector.get(11))
             );
             books.add(bookLearning);
             booksLearning.add(bookLearning);
@@ -259,7 +263,8 @@ public class BookManager {
                     Integer.parseInt(String.valueOf(vector.get(7))),
                     codeCountNovel,
                     String.valueOf(vector.get(9)),
-                    String.valueOf(vector.get(10))
+                    String.valueOf(vector.get(10)),
+                    String.valueOf(vector.get(11))
             );
             books.add(bookNovel);
             booksNovel.add(bookNovel);
@@ -286,7 +291,8 @@ public class BookManager {
                     Integer.parseInt(String.valueOf(vector.get(7))),
                     codeCountChild,
                     String.valueOf(vector.get(9)),
-                    String.valueOf(vector.get(10))
+                    String.valueOf(vector.get(10)),
+                    String.valueOf(vector.get(11))
             );
             books.add(bookChild);
             booksChild.add(bookChild);
@@ -314,7 +320,8 @@ public class BookManager {
                     Integer.parseInt(String.valueOf(vector.get(7))),
                     codeCountPsychology,
                     String.valueOf(vector.get(9)),
-                    String.valueOf(vector.get(10))
+                    String.valueOf(vector.get(10)),
+                    String.valueOf(vector.get(11))
             );
             books.add(bookPsychology);
             booksPsychology.add(bookPsychology);
@@ -323,10 +330,10 @@ public class BookManager {
 
     //List Book
     public String[][] listBookBorrow(){
-        String[][] mainObj = new String[totalBookDifferent()][7];
+        String[][] mainObj = new String[totalBookDifferent()][bookBorrowContent().length];
         int count = 0;
         for (Book book : books){
-            for (int i=0; i<8; i++){
+            for (int i=0; i<bookBorrowContent().length; i++){
                 switch (i) {
                     case 0 ->{
                         String s;
@@ -346,6 +353,7 @@ public class BookManager {
                     case 4 -> mainObj[count][i] = book.getPublisher();
                     case 5 -> mainObj[count][i] = book.getCategory();
                     case 6 -> mainObj[count][i] = String.valueOf(book.getQuantity());
+                    case 7 -> mainObj[count][i] = book.getSerialNumber();
                     default -> {
                     }
                 }
@@ -354,11 +362,13 @@ public class BookManager {
         }
         return mainObj;
     }
+
+    //List Book All
     public String[][] listBookAll(){
-        String[][] mainObj = new String[totalBookDifferent()][8];
+        String[][] mainObj = new String[totalBookDifferent()][bookContent().length];
         int count = 0;
         for (Book book : books){
-            for (int i=0; i<8; i++){
+            for (int i=0; i<bookContent().length; i++){
                 switch (i) {
                     case 0 -> mainObj[count][i] = String.valueOf(book.getSTT());
                     case 1 -> mainObj[count][i] = book.getName();
@@ -368,6 +378,7 @@ public class BookManager {
                     case 5 -> mainObj[count][i] = book.getPublisher();
                     case 6 -> mainObj[count][i] = book.getCategory();
                     case 7 -> mainObj[count][i] = String.valueOf(book.getQuantity());
+                    case 8 -> mainObj[count][i] = book.getSerialNumber();
                     default -> {
                     }
                 }
@@ -379,10 +390,10 @@ public class BookManager {
 
     //List Book Novel
     public String[][] listBookNovel(){
-        String[][] mainObj = new String[totalBookDifferentNoval()][10];
+        String[][] mainObj = new String[totalBookDifferentNoval()][bookContentNoval().length];
         int count = 0;
         for (Book bookNovel : booksNovel){
-            for (int i=0; i<10; i++){
+            for (int i=0; i<bookContentNoval().length; i++){
                 switch (i) {
                     case 0 -> {
                         String code = "N" + String.valueOf(bookNovel.novelCode());
@@ -397,6 +408,7 @@ public class BookManager {
                     case 7 -> mainObj[count][i] = String.valueOf(bookNovel.getQuantity());
                     case 8 -> mainObj[count][i] = bookNovel.novelGetType();
                     case 9 -> mainObj[count][i] = bookNovel.novalGetAgeLimited();
+                    case 10 -> mainObj[count][i] = bookNovel.getSerialNumber();
                 }
             }
             count++;
@@ -406,10 +418,10 @@ public class BookManager {
 
     //List Book Child
     public String[][] listBookChild(){
-        String[][] mainObj = new String[totalBookDifferentChild()][10];
+        String[][] mainObj = new String[totalBookDifferentChild()][bookContentChildren().length];
         int count = 0;
         for (Book bookChild : booksChild){
-            for (int i=0; i<10; i++){
+            for (int i=0; i<bookContentChildren().length; i++){
                 switch (i) {
                     case 0 -> {
                         String code = "C" + String.valueOf(bookChild.childCode());
@@ -424,6 +436,7 @@ public class BookManager {
                     case 7 -> mainObj[count][i] = String.valueOf(bookChild.getQuantity());
                     case 8 -> mainObj[count][i] = bookChild.childGetType();
                     case 9 -> mainObj[count][i] = bookChild.childGetRecommentForAge();
+                    case 10 -> mainObj[count][i] = bookChild.getSerialNumber();
                 }
             }
             count++;
@@ -433,10 +446,10 @@ public class BookManager {
 
     //List Book Learning
     public String[][] listBookLearning(){
-        String[][] mainObj = new String[totalBookDifferentLearning()][10];
+        String[][] mainObj = new String[totalBookDifferentLearning()][bookContentLearning().length];
         int count = 0;
         for (Book bookLearning: booksLearning){
-            for (int i=0; i<10; i++){
+            for (int i=0; i<bookContentLearning().length; i++){
                 switch (i) {
                     case 0 -> {
                         String code = "L" + String.valueOf(bookLearning.learningCode());
@@ -451,6 +464,7 @@ public class BookManager {
                     case 7 -> mainObj[count][i] = String.valueOf(bookLearning.getQuantity());
                     case 8 -> mainObj[count][i] = bookLearning.learningGetEducation();
                     case 9 -> mainObj[count][i] = bookLearning.learningGetEducation_subjects();
+                    case 10 -> mainObj[count][i] = bookLearning.getSerialNumber();
                 }
             }
             count++;
@@ -460,10 +474,10 @@ public class BookManager {
 
     //List Book Psychology
     public String[][] listBookPsychology(){
-        String[][] mainObj = new String[totalBookDifferentPsychology()][10];
+        String[][] mainObj = new String[totalBookDifferentPsychology()][bookContentPsychology().length];
         int count = 0;
         for (Book bookPsychology : booksPsychology){
-            for (int i=0; i<10; i++){
+            for (int i=0; i<bookContentPsychology().length; i++){
                 switch (i) {
                     case 0 -> {
                         String code = "P" + String.valueOf(bookPsychology.psychologyCode());
@@ -478,6 +492,7 @@ public class BookManager {
                     case 7 -> mainObj[count][i] = String.valueOf(bookPsychology.getQuantity());
                     case 8 -> mainObj[count][i] = bookPsychology.psychologyGetType();
                     case 9 -> mainObj[count][i] = bookPsychology.psychologyGetRecommentForAge();
+                    case 10 -> mainObj[count][i] = bookPsychology.getSerialNumber();
                 }
             }
             count++;
@@ -490,32 +505,32 @@ public class BookManager {
 
     public String[] bookBorrowContent(){
         return new String[]{
-                "code", "name", "price", "author", "publisher", "category", "quantity"
+                "code", "name", "price", "author", "publisher", "category", "quantity", "Serial Number"
         };
     }
     public String[] bookContent(){
         return new String[]{
-              "Number", "Name", "Date Added", "Price", "Author", "Publisher", "Category", "Quantity"
+              "Number", "Name", "Date Added", "Price", "Author", "Publisher", "Category", "Quantity", "Serial Number"
         };
     }
     public String[] bookContentChildren(){
         return new String[]{
-                "Code", "Name", "Date Added", "Price", "Author", "Publisher", "Category", "Quantity", "Type", "Age Recomment"
+                "Code", "Name", "Date Added", "Price", "Author", "Publisher", "Category", "Quantity", "Type", "Age Recomment", "Serial Number"
         };
     }
     public String[] bookContentNoval(){
         return new String[]{
-                "Code", "Name", "Date Added", "Price", "Author", "Publisher", "Category", "Quantity" , "Type", "Age Recomment"
+                "Code", "Name", "Date Added", "Price", "Author", "Publisher", "Category", "Quantity" , "Type", "Age Recomment", "Serial Number"
         };
     }
     public String[] bookContentLearning(){
         return new String[]{
-                "Code", "Name", "Date Added", "Price", "Author", "Publisher", "Category", "Quantity", "Education", "Subjects"
+                "Code", "Name", "Date Added", "Price", "Author", "Publisher", "Category", "Quantity", "Education", "Subjects", "Serial Number"
         };
     }
     public String[] bookContentPsychology(){
         return new String[]{
-                "Code", "Name", "Date Added", "Price", "Author", "Publisher", "Category", "Quantity","Type", "Age Recomment"
+                "Code", "Name", "Date Added", "Price", "Author", "Publisher", "Category", "Quantity","Type", "Age Recomment", "Serial Number"
         };
     }
 
@@ -798,6 +813,10 @@ public class BookManager {
             }
             case 7 -> {
                 book.setQuantity(Integer.parseInt(value));
+                editDataBase(indentify, code, col, value);
+            }
+            case 10 -> {
+                book.setSerialNumber(value);
                 editDataBase(indentify, code, col, value);
             }
         }

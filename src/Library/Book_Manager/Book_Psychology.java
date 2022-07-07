@@ -9,8 +9,8 @@ public class Book_Psychology extends Book{
 
     //Constructor
     public Book_Psychology(){}
-    public Book_Psychology(int code, String name, Calendar dateAdded, Long price, String author, String publisher, int quantity,int typeCode, String type, String recommentForAge) {
-        super(code, name, dateAdded, price, author, publisher, "Psychological Book", quantity);
+    public Book_Psychology(int code, String name, Calendar dateAdded, Long price, String author, String publisher, int quantity,int typeCode,String serialNumber ,String type, String recommentForAge) {
+        super(code, name, dateAdded, price, author, publisher, "Psychological Book", quantity, serialNumber);
         this.typeCode = typeCode;
         this.type = type;
         this.recommentForAge = recommentForAge;

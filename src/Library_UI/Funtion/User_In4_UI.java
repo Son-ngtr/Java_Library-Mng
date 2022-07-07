@@ -1,6 +1,9 @@
 package Library_UI.Funtion;
 
+import Database.LentBook_DataBase;
 import Library.Book_Manager.BookManager;
+import Library.Check;
+import Library.LentBook_Manager.LentBookManager;
 import Library.Staff_Manager.CountDown;
 import Library.HIstory_Manager.HistoryManager;
 import Library.User_Manager.UserManager;
@@ -18,26 +21,43 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 
 public class User_In4_UI {
+    private Check check = new Check();
     private JFrame main_Frame, userFrame;
     private ImageIcon bk_Icon, notepad_Icon, login_Ani, login_ef;
     private JLabel label, notification_Label, login_Icon, logout_Label, exit_Label;
     private JButton button ,b1, b2, b3, b4, b5, b6,b7, bt_lent, bt_delete, bt_info;
     private JTextField txt_1, txt_3, txt_4, txt_5, txt_6;
     private JDatePickerImpl datePicker_staff;
-    private DefaultTableModel defaultTableModelUser;
-    private JTable tableUser;
+    private DefaultTableModel defaultTableModelUser,defaultTableModel;
+    private JTable tableUser, jt;
     private UserManager userManager;
     private BookManager bookManager;
     private HistoryManager historyManager;
     private Calendar calendar = Calendar.getInstance()  ;
     private CountDown countDown;
+    private String UserId;
+    private LentBookManager lentBookManager;
+    private Calendar today = Calendar.getInstance();
 
     //Constructor
     public User_In4_UI(BookManager bookManager, UserManager userManager, HistoryManager historyManager){
         this.bookManager = bookManager;
         this.userManager = userManager;
         this.historyManager = historyManager;
+        this.UserId = userManager.getUseLentInfo()[0];
+        lentBookManager = userManager.getLentBookManager(userManager.getUseLentInfo()[0]);
         content();
+    }
+
+    //Table Reset
+    public void tableReset(){
+        defaultTableModel.setDataVector(lentBookManager.listLentBook(), lentBookManager.lentBookContent());
+    }
+    public void tableUserReset(){
+        userManager.setIsUpdate(true);
+        defaultTableModelUser.setDataVector(userManager.listUser(), userManager.userContent());
+        tableUser.getColumnModel().getColumn(2).setCellEditor(new DefaultCellEditor(new JComboBox(userManager.userGender())));
+        userManager.setIsUpdate(false);
     }
 
     //Manager User Side
@@ -176,28 +196,19 @@ public class User_In4_UI {
 
 
 //create table
-        String[][] tableData = {{"hasagi", "3", "29000", "26"}};
-        String[] tableColumn = {"name.book", "no", "money", "remain time <day>"};
 
-        DefaultTableModel defaultTableModel = new DefaultTableModel(tableData, tableColumn);
+        defaultTableModel = new DefaultTableModel(lentBookManager.listLentBook(), lentBookManager.lentBookContent());
 
-        JTable jt = new JTable(defaultTableModel);
+        jt = new JTable(defaultTableModel) {
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+        jt.getTableHeader().setReorderingAllowed(false);
         jt.setBackground(Color_1);
         jt.setForeground(Color_2);
         jt.setFont(Font_me_4);
         jt.setGridColor(Color_3);
-
-//        //Test CountDown
-//        Calendar c = Calendar.getInstance();
-//        c.add(Calendar.DAY_OF_MONTH, 1);
-//        c.set(Calendar.HOUR_OF_DAY, 0);
-//        c.set(Calendar.MINUTE, 0);
-//        c.set(Calendar.SECOND, 0);
-//        c.set(Calendar.MILLISECOND, 0);
-//        long howMany = (c.getTimeInMillis())/1000;
-//        Long dif = howMany - calendar.getTimeInMillis()/1000;
-//        CountDown countDown = new CountDown(jt, 0, 3,  dif );
-//        countDown.run();
 
 
         JTableHeader jth = jt.getTableHeader();
@@ -259,7 +270,26 @@ public class User_In4_UI {
         bt_delete.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
+                lentBookManager.removeLentBook(String.valueOf(jt.getValueAt(jt.getSelectedRow(), 0)));
 
+                //Fix total Books of user
+                userManager.editUser(
+                        UserId ,
+                        7,
+                        String.valueOf(userManager.getUser(Integer.parseInt(UserId)).getTotalBooks() - Integer.parseInt(String.valueOf(jt.getValueAt(jt.getSelectedRow(), 2))))
+                );
+                //Fix Fine Money of user
+                Long dayTillEnd = Long.valueOf(check.dateReConvert(String.valueOf(jt.getValueAt(jt.getSelectedRow(), 4))).get(Calendar.DATE) - today.get(Calendar.DATE));
+                Long lentMoneyMinus = dayTillEnd * Long.valueOf(String.valueOf(jt.getValueAt(jt.getSelectedRow(), 2))) * Long.valueOf(check.moneyConvert(String.valueOf(jt.getValueAt(jt.getSelectedRow(), 3)))) / 10;
+                userManager.editUser(
+                        UserId,
+                        8,
+                        String.valueOf(userManager.getUser(Integer.parseInt(UserId)).getMoneyFine() - lentMoneyMinus)
+                );
+                //Receive Book Back To Book Category
+
+                tableReset();
+                tableUserReset();
             }
 
             @Override

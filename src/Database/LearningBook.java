@@ -39,8 +39,9 @@ public class LearningBook {
             String Category = rs.getString(7);
             int Quantity = rs.getInt(8);
             int TypeCode = rs.getInt(9);
-            String Education = rs.getString(10);
-            String EducationSubjects = rs.getString(11);
+            String SerialNumber = rs.getString(10);
+            String Education = rs.getString(11);
+            String EducationSubjects = rs.getString(12);
 
             // Ghi vào vector
             Vector<Object> temp = new Vector<>();
@@ -53,6 +54,7 @@ public class LearningBook {
             temp.add(Category);
             temp.add(Quantity);
             temp.add(TypeCode);
+            temp.add(SerialNumber);
             temp.add(Education);
             temp.add(EducationSubjects);
 
@@ -126,12 +128,18 @@ public class LearningBook {
                 
                 return updateStatus;
             case 9:
+                sql = "UPDATE learningbook set SerialNumber='" + value +  "' WHERE TypeCode='" + TypeCode + "'";
+                stm1 = connection.createStatement();
+                updateStatus = stm1.executeUpdate(sql);
+
+                return updateStatus;
+            case 10:
                 sql = "UPDATE learningbook set Education='" + value +  "' WHERE TypeCode='" + TypeCode + "'";
                 stm1 = connection.createStatement();
                 updateStatus = stm1.executeUpdate(sql);
                 
                 return updateStatus;
-            case 10:
+            case 11:
                 sql = "UPDATE learningbook set EducationSubjects='" + value +  "' WHERE TypeCode='" + TypeCode + "'";
                 stm1 = connection.createStatement();
                 updateStatus = stm1.executeUpdate(sql);
@@ -142,11 +150,11 @@ public class LearningBook {
     }
 
     public void addNewLearningBook(Connection connection, int Code, String Name, String DateAdded, String Price, String Author, String Publisher, String Category,
-                                   int Quantity, int TypeCode, String Education, String EducationSubjects)
+                                   int Quantity, int TypeCode,String SerialNumber ,String Education, String EducationSubjects)
             throws ClassNotFoundException, SQLException {
 
         // Tạo câu lệnh SQL (Cách 2: sử dụng PreparedStatement)
-        String sql = "INSERT INTO learningbook(Code,Name,DateAdded,Price,Author,Publisher,Category,Quantity,TypeCode,Education,EducationSubjects) VALUES(?,?,?,?,?,?,?,?,?,?,?)";
+        String sql = "INSERT INTO learningbook(Code,Name,DateAdded,Price,Author,Publisher,Category,Quantity,TypeCode,SerialNumber,Education,EducationSubjects) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)";
         PreparedStatement stmt = connection.prepareStatement(sql);
         stmt.setInt(1, Code);
         stmt.setString(2, Name);
@@ -157,8 +165,9 @@ public class LearningBook {
         stmt.setString(7, Category);
         stmt.setInt(8, Quantity);
         stmt.setInt(9, TypeCode);
-        stmt.setString(10, Education);
-        stmt.setString(11, EducationSubjects);
+        stmt.setString(10, SerialNumber);
+        stmt.setString(11, Education);
+        stmt.setString(12, EducationSubjects);
 
 
         // Thực hiện lệnh SQL

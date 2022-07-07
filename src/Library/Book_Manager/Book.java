@@ -11,13 +11,14 @@ public class Book {
     private String Publisher;
     private String category;
     private int Quantity;
+    private String SerialNumber;
 
     //Constructor
     public Book(){
 
     }
 
-    public Book(int STT, String name, Calendar dateAdded, Long price, String author, String publisher, String category, int quantity) {
+    public Book(int STT, String name, Calendar dateAdded, Long price, String author, String publisher, String category, int quantity, String serialNumber) {
         this.STT = STT;
         Name = name;
         DateAdded = dateAdded;
@@ -26,6 +27,7 @@ public class Book {
         Publisher = publisher;
         this.category = category;
         Quantity = quantity;
+        SerialNumber = serialNumber;
     }
 
     //Getter and Setter
@@ -91,6 +93,14 @@ public class Book {
 
     public void setQuantity(int quantity) {
         Quantity = quantity;
+    }
+
+    public String getSerialNumber() {
+        return SerialNumber;
+    }
+
+    public void setSerialNumber(String serialNumber) {
+        SerialNumber = serialNumber;
     }
 
     //Date convert
