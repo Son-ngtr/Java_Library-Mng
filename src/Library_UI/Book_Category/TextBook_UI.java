@@ -52,8 +52,8 @@ public class TextBook_UI {
 
     //Table add Combobox and CheckBox
     public void tableAddCombobox(){
-        jt.getColumnModel().getColumn(8).setCellEditor(new DefaultCellEditor(cbEducation));
-        jt.getColumnModel().getColumn(9).setCellEditor(new DefaultCellEditor(cbEducationType));
+        jt.getColumnModel().getColumn(9).setCellEditor(new DefaultCellEditor(cbEducation));
+        jt.getColumnModel().getColumn(10).setCellEditor(new DefaultCellEditor(cbEducationType));
     }
 
     //Table reset
@@ -376,7 +376,7 @@ public class TextBook_UI {
         defaultTableModel = new DefaultTableModel(bookManager.listBookLearning(), bookManager.bookContentLearning());
         jt = new JTable(defaultTableModel){
             public boolean isCellEditable(int row, int column) {
-                if (column == 0 || column == 6) return false;
+                if (column == 0 || column == 6 || column == 8) return false;
                 return true;
             }
         };

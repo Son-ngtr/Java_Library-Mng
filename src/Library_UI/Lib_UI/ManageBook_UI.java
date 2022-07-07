@@ -386,7 +386,7 @@ public class ManageBook_UI {
         defaultTableModel = new DefaultTableModel(bookManager.listBookAll(), bookManager.bookContent());
         jt = new JTable(defaultTableModel) {
             public boolean isCellEditable(int row, int column) {
-                if (column == 0 || column == 6) return false;
+                if (column == 0 || column == 6 || column == 8) return false;
                 return true;
             }
         };

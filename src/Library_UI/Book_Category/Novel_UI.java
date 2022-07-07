@@ -29,7 +29,6 @@ public class Novel_UI {
     //Constructor
     public Novel_UI(BookManager bookManager){
         this.bookManager = bookManager;
-        cbBookType = new JComboBox(bookManager.bookCategory());
         cbNovelType = new JComboBox(bookManager.novelType());
         cbNovelRecommentForAge = new JComboBox(bookManager.novelAgeLimited());
         Content();
@@ -44,16 +43,14 @@ public class Novel_UI {
     private JTable jt;
     private DefaultTableModel defaultTableModel;
     private BookManager bookManager;
-    private JComboBox cbBookType ;
     private JComboBox cbNovelType ;
     private JComboBox cbNovelRecommentForAge;
     private Check check = new Check();
 
     //Table add Combobox and CheckBox
     public void tableAddCombobox(){
-        jt.getColumnModel().getColumn(6).setCellEditor(new DefaultCellEditor(cbBookType));
-        jt.getColumnModel().getColumn(8).setCellEditor(new DefaultCellEditor(cbNovelType));
-        jt.getColumnModel().getColumn(9).setCellEditor(new DefaultCellEditor(cbNovelRecommentForAge));
+        jt.getColumnModel().getColumn(9).setCellEditor(new DefaultCellEditor(cbNovelType));
+        jt.getColumnModel().getColumn(10).setCellEditor(new DefaultCellEditor(cbNovelRecommentForAge));
     }
 
     //Table reset
@@ -377,7 +374,7 @@ public class Novel_UI {
         defaultTableModel = new DefaultTableModel(bookManager.listBookNovel(), bookManager.bookContentNoval());
         jt = new JTable(defaultTableModel){
             public boolean isCellEditable(int row, int column) {
-                if (column == 0 || column == 6) return false;
+                if (column == 0 || column == 6 || column == 8) return false;
                 return true;
             }
         };

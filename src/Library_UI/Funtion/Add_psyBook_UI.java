@@ -19,7 +19,7 @@ public class Add_psyBook_UI {
     private ImageIcon bk_Icon, notepad_Icon, login_Ani, login_ef;
     private JLabel label, notification_Label, login_Icon, logout_Label, exit_Label;
     private JButton button ,b1, b2, b3, b4, b5, b6, bt_save, bt_exit, bt_reset;
-    private JTextField txt_1, txt_2, txt_3, txt_4, txt_5, txt_6;
+    private JTextField txt_1, txt_2, txt_3, txt_4, txt_5, txt_6, txt_9;
     private JButton logIn;
     private JPanel inFo;
     private BookManager bookManager;
@@ -52,14 +52,15 @@ public class Add_psyBook_UI {
         txt_3.setText("");
         txt_4.setText("");
         txt_6.setText("");
+        txt_9.setText("");
     }
 
     //Table reset
     public void tableReset(){
         bookManager.setIsUpdate(true);
         defaultTableModel.setDataVector(bookManager.listBookPsychology(), bookManager.bookContentPsychology());
-        table.getColumnModel().getColumn(8).setCellEditor(new DefaultCellEditor(cbPsychologyType));
-        table.getColumnModel().getColumn(9).setCellEditor(new DefaultCellEditor(cbPsychologyForAge));
+        table.getColumnModel().getColumn(9).setCellEditor(new DefaultCellEditor(cbPsychologyType));
+        table.getColumnModel().getColumn(10).setCellEditor(new DefaultCellEditor(cbPsychologyForAge));
         bookManager.setIsUpdate(false);
     }
 
@@ -89,6 +90,11 @@ public class Add_psyBook_UI {
                         if(txt_6.getText().trim().length() == 0 || !check.isInteger(txt_6.getText().trim())){
                             JOptionPane.showMessageDialog(null, "Quantity");
                             inputCheck = false;
+                        }else {
+                            if(txt_9.getText().trim().length() == 0){
+                                JOptionPane.showMessageDialog(null, "Serial Number");
+                                inputCheck = false;
+                            }
                         }
                     }
                 }
@@ -117,7 +123,7 @@ public class Add_psyBook_UI {
         int width = 176;
         int height = 30;
         int po_x = 59;
-        int po_y = 60;
+        int po_y = 39;
 // create 6 button
         b1 = new JButton("name");
         b1.setBounds(po_x, po_y, width, height);
@@ -175,7 +181,12 @@ public class Add_psyBook_UI {
         b8.setForeground(Color_me);
         b8.setBackground(Color_left);
 
-
+        JButton b9 = new JButton("Serial No");
+        b9.setBounds(po_x, po_y+65*8, width, height);
+        b9.setFont(Font_me_3);
+        b9.setBorder(BorderFactory.createLineBorder(Color_me));
+        b9.setForeground(Color_me);
+        b9.setBackground(Color_left);
 
 // create 6 text fields
         txt_1 = new JTextField();
@@ -238,6 +249,13 @@ public class Add_psyBook_UI {
         cb_8.setBorder(BorderFactory.createLineBorder(Color_me));
         cb_8.setFont(Font_me_3);
 
+        txt_9 = new JTextField();
+        txt_9.setBackground(Color_left);
+        txt_9.setBounds(283, po_y+65*8, 337, height);
+        txt_9.setForeground(Color_me);
+        txt_9.setBorder(BorderFactory.createLineBorder(Color_me));
+        txt_9.setFont(Font_me_3);
+
 // create 3 function bt
         bt_save = new JButton("save");
         bt_save.setForeground(Color_ForeG);
@@ -257,6 +275,7 @@ public class Add_psyBook_UI {
                             txt_3.getText().trim(),
                             txt_4.getText().trim(),
                             Integer.parseInt(txt_6.getText().trim()),
+                            txt_9.getText().trim(),
                             String.valueOf(cb_7.getItemAt(cb_7.getSelectedIndex())),
                             String.valueOf(cb_8.getItemAt(cb_8.getSelectedIndex()))
                     ));
@@ -324,6 +343,7 @@ public class Add_psyBook_UI {
         label.add(b6);
         label.add(b7);
         label.add(b8);
+        label.add(b9);
 
         label.add(txt_1);
         label.add(txt_2);
@@ -333,6 +353,7 @@ public class Add_psyBook_UI {
         label.add(txt_6);
         label.add(cb_7);
         label.add(cb_8);
+        label.add(txt_9);
 
         label.add(bt_save);
         label.add(bt_exit);

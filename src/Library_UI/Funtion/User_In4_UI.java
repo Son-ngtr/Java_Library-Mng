@@ -61,8 +61,8 @@ public class User_In4_UI {
     }
 
     //Manager User Side
-    public void setManagerUserSide(JFrame frame, DefaultTableModel defaultTableModelUser, JTable tableUser){
-        userFrame = frame;
+    public void setManagerUserSide(JFrame frameUser, DefaultTableModel defaultTableModelUser, JTable tableUser){
+        userFrame = frameUser;
         this.defaultTableModelUser = defaultTableModelUser;
         this.tableUser = tableUser;
     }
@@ -286,8 +286,8 @@ public class User_In4_UI {
                         8,
                         String.valueOf(userManager.getUser(Integer.parseInt(UserId)).getMoneyFine() - lentMoneyMinus)
                 );
-                //Receive Book Back To Book Category
 
+                //Receive Book Back To Book Category
                 tableReset();
                 tableUserReset();
             }

@@ -53,8 +53,8 @@ public class ChildrenBook_UI {
 
     //Table add Combobox and CheckBox
     public void tableAddCombobox(){
-        jt.getColumnModel().getColumn(8).setCellEditor(new DefaultCellEditor(cbChildType));
-        jt.getColumnModel().getColumn(9).setCellEditor(new DefaultCellEditor(cbChildRecommentForAge));
+        jt.getColumnModel().getColumn(9).setCellEditor(new DefaultCellEditor(cbChildType));
+        jt.getColumnModel().getColumn(10).setCellEditor(new DefaultCellEditor(cbChildRecommentForAge));
     }
 
     //Table reset
@@ -378,7 +378,7 @@ public class ChildrenBook_UI {
         defaultTableModel = new DefaultTableModel(bookManager.listBookChild(), bookManager.bookContentChildren());
         jt = new JTable(defaultTableModel){
             public boolean isCellEditable(int row, int column) {
-                if (column == 0 || column == 6) return false;
+                if (column == 0 || column == 6 || column == 8) return false;
                 return true;
             }
         };

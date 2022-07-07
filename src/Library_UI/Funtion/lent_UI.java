@@ -141,20 +141,15 @@ public class lent_UI {
         return inputCheck;
     }
 
-    //Add Lent Book To DTB
+    //Add Lent Book
     public void lentBookDTB(User user, int quantityBorrow){
         lentBookManager = userManager.getLentBookManager(String.valueOf(user.getId()));
         lentBookManager.addLentBook(lentBookManager.createLentBook(
                 String.valueOf(tableBook.getValueAt(tableBook.getSelectedRow(), 1)),
                 quantityBorrow,
-                Long.parseLong(
-                        check.moneyConvert(
-                                check.matConvert(
-                                        check.mathAnalysis(String.valueOf(tableBook.getValueAt(tableBook.getSelectedRow(), 2)))
-                                )
-                        )
-                ),
-                check.dateReConvert(datePicker.getJFormattedTextField().getText())
+                fineMoneyCalc(quantityBorrow),
+                check.dateReConvert(datePicker.getJFormattedTextField().getText()),
+                String.valueOf(tableBook.getValueAt(tableBook.getSelectedRow(), 7))
         ));
     }
 
@@ -208,10 +203,16 @@ public class lent_UI {
         userManager.editUser(String.valueOf(user.getId()) , 7, String.valueOf(user.getTotalBooks() + quantityBorrow));
     }
 
-    //Fix Fine Money Of User
-    public void fixFineMoney(User user,int quantityBorrow){
+    //Fine Mony Calc
+    public Long fineMoneyCalc(int quantityBorrow){
         Long dayTillEnd = Long.valueOf(check.dateReConvert(datePicker.getJFormattedTextField().getText()).get(Calendar.DATE) - check.dateReConvert(txt_6.getText()).get(Calendar.DATE));
         Long lentMoneyPlus = dayTillEnd * Long.valueOf(quantityBorrow) * Long.valueOf(check.moneyConvert(String.valueOf(tableBook.getValueAt(tableBook.getSelectedRow(), 2)))) / 10;
+        return lentMoneyPlus;
+    }
+
+    //Fix Fine Money Of User
+    public void fixFineMoney(User user,int quantityBorrow){
+        Long lentMoneyPlus = fineMoneyCalc(quantityBorrow);
         userManager.editUser(
                 String.valueOf(user.getId()),
                 8,

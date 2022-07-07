@@ -49,8 +49,8 @@ public class PsyBook_UI {
 
     //Table add Combobox and CheckBox
     public void tableAddCombobox(){
-        jt.getColumnModel().getColumn(8).setCellEditor(new DefaultCellEditor(cbPsychologyType));
-        jt.getColumnModel().getColumn(9).setCellEditor(new DefaultCellEditor(cbPsychologyForAge));
+        jt.getColumnModel().getColumn(9).setCellEditor(new DefaultCellEditor(cbPsychologyType));
+        jt.getColumnModel().getColumn(10).setCellEditor(new DefaultCellEditor(cbPsychologyForAge));
     }
 
     //Table reset
@@ -374,7 +374,7 @@ public class PsyBook_UI {
         defaultTableModel = new DefaultTableModel(bookManager.listBookPsychology(), bookManager.bookContentPsychology());
         jt = new JTable(defaultTableModel){
             public boolean isCellEditable(int row, int column) {
-                if (column == 0 || column == 6) return false;
+                if (column == 0 || column == 6 || column == 8) return false;
                 return true;
             }
         };

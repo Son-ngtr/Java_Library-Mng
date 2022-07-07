@@ -106,7 +106,7 @@ public class LentBooks_UI {
             public void mouseClicked(MouseEvent e) {
                 if(userInfoFrame != null){
                     User_In4_UI user_in4_ui = new User_In4_UI(bookManager, userManager, historyManager);
-                    user_in4_ui.setManagerUserSide(userInfoFrame,defaultTableModel, tableUser);
+                    user_in4_ui.setManagerUserSide(userInfoFrame,defaultTableModelUser, tableUser);
                     main_Frame.dispose();
                 }else {
                     new Lobby_UI();

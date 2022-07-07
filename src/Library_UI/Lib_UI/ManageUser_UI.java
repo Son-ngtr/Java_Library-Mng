@@ -335,7 +335,7 @@ public class ManageUser_UI {
         defaultTableModel = new DefaultTableModel(userManager.listUser(), userManager.userContent());
         jt = new JTable(defaultTableModel){
             public boolean isCellEditable(int row, int column) {
-                if (column == 0 || column == 7) return false;
+                if (column == 0 || column == 7 || column == 8) return false;
                 return true;
             }
         };

@@ -406,9 +406,10 @@ public class BookManager {
                     case 5 -> mainObj[count][i] = bookNovel.getPublisher();
                     case 6 -> mainObj[count][i] = bookNovel.getCategory();
                     case 7 -> mainObj[count][i] = String.valueOf(bookNovel.getQuantity());
-                    case 8 -> mainObj[count][i] = bookNovel.novelGetType();
-                    case 9 -> mainObj[count][i] = bookNovel.novalGetAgeLimited();
-                    case 10 -> mainObj[count][i] = bookNovel.getSerialNumber();
+                    case 8 -> mainObj[count][i] = bookNovel.getSerialNumber();
+                    case 9 -> mainObj[count][i] = bookNovel.novelGetType();
+                    case 10 -> mainObj[count][i] = bookNovel.novalGetAgeLimited();
+
                 }
             }
             count++;
@@ -434,9 +435,10 @@ public class BookManager {
                     case 5 -> mainObj[count][i] = bookChild.getPublisher();
                     case 6 -> mainObj[count][i] = bookChild.getCategory();
                     case 7 -> mainObj[count][i] = String.valueOf(bookChild.getQuantity());
-                    case 8 -> mainObj[count][i] = bookChild.childGetType();
-                    case 9 -> mainObj[count][i] = bookChild.childGetRecommentForAge();
-                    case 10 -> mainObj[count][i] = bookChild.getSerialNumber();
+                    case 8 -> mainObj[count][i] = bookChild.getSerialNumber();
+                    case 9 -> mainObj[count][i] = bookChild.childGetType();
+                    case 10 -> mainObj[count][i] = bookChild.childGetRecommentForAge();
+
                 }
             }
             count++;
@@ -462,9 +464,10 @@ public class BookManager {
                     case 5 -> mainObj[count][i] = bookLearning.getPublisher();
                     case 6 -> mainObj[count][i] = bookLearning.getCategory();
                     case 7 -> mainObj[count][i] = String.valueOf(bookLearning.getQuantity());
-                    case 8 -> mainObj[count][i] = bookLearning.learningGetEducation();
-                    case 9 -> mainObj[count][i] = bookLearning.learningGetEducation_subjects();
-                    case 10 -> mainObj[count][i] = bookLearning.getSerialNumber();
+                    case 8 -> mainObj[count][i] = bookLearning.getSerialNumber();
+                    case 9 -> mainObj[count][i] = bookLearning.learningGetEducation();
+                    case 10 -> mainObj[count][i] = bookLearning.learningGetEducation_subjects();
+
                 }
             }
             count++;
@@ -490,9 +493,10 @@ public class BookManager {
                     case 5 -> mainObj[count][i] = bookPsychology.getPublisher();
                     case 6 -> mainObj[count][i] = bookPsychology.getCategory();
                     case 7 -> mainObj[count][i] = String.valueOf(bookPsychology.getQuantity());
-                    case 8 -> mainObj[count][i] = bookPsychology.psychologyGetType();
-                    case 9 -> mainObj[count][i] = bookPsychology.psychologyGetRecommentForAge();
-                    case 10 -> mainObj[count][i] = bookPsychology.getSerialNumber();
+                    case 8 -> mainObj[count][i] = bookPsychology.getSerialNumber();
+                    case 9 -> mainObj[count][i] = bookPsychology.psychologyGetType();
+                    case 10 -> mainObj[count][i] = bookPsychology.psychologyGetRecommentForAge();
+
                 }
             }
             count++;
@@ -515,22 +519,22 @@ public class BookManager {
     }
     public String[] bookContentChildren(){
         return new String[]{
-                "Code", "Name", "Date Added", "Price", "Author", "Publisher", "Category", "Quantity", "Type", "Age Recomment", "Serial Number"
+                "Code", "Name", "Date Added", "Price", "Author", "Publisher", "Category", "Quantity", "Serial Number","Type", "Age Recomment"
         };
     }
     public String[] bookContentNoval(){
         return new String[]{
-                "Code", "Name", "Date Added", "Price", "Author", "Publisher", "Category", "Quantity" , "Type", "Age Recomment", "Serial Number"
+                "Code", "Name", "Date Added", "Price", "Author", "Publisher", "Category", "Quantity" ,"Serial Number", "Type", "Age Recomment"
         };
     }
     public String[] bookContentLearning(){
         return new String[]{
-                "Code", "Name", "Date Added", "Price", "Author", "Publisher", "Category", "Quantity", "Education", "Subjects", "Serial Number"
+                "Code", "Name", "Date Added", "Price", "Author", "Publisher", "Category", "Quantity","Serial Number", "Education", "Subjects"
         };
     }
     public String[] bookContentPsychology(){
         return new String[]{
-                "Code", "Name", "Date Added", "Price", "Author", "Publisher", "Category", "Quantity","Type", "Age Recomment", "Serial Number"
+                "Code", "Name", "Date Added", "Price", "Author", "Publisher", "Category", "Quantity","Serial Number","Type", "Age Recomment"
         };
     }
 
@@ -559,10 +563,13 @@ public class BookManager {
                 for (int i=intCode-1;i<books.size(); i++ ){
                     int newCode = books.get(i).getSTT() - 1;
                     books.get(i).setSTT(newCode);
+                    category = books.get(i).getCategory().trim();
+                    int typeCode;
                     switch (category){
                         case "Learning Book" -> {
+                            typeCode = books.get(i).learningCode();
                             try {
-                                learningBook.updateLearningBook(connection, i+1, 0, String.valueOf(newCode));
+                                learningBook.updateLearningBook(connection, typeCode, 0, String.valueOf(newCode));
                             } catch (ClassNotFoundException e) {
                                 e.printStackTrace();
                             } catch (SQLException e) {
@@ -570,8 +577,9 @@ public class BookManager {
                             }
                         }
                         case "Noval Book" -> {
+                            typeCode = books.get(i).novelCode();
                             try {
-                                novelBook.updateNovelBook(connection, i+1, 0, String.valueOf(newCode)) ;
+                                novelBook.updateNovelBook(connection, typeCode, 0, String.valueOf(newCode)) ;
                             } catch (ClassNotFoundException e) {
                                 e.printStackTrace();
                             } catch (SQLException e) {
@@ -579,8 +587,9 @@ public class BookManager {
                             }
                         }
                         case "Children Book" -> {
+                            typeCode = books.get(i).childCode();
                             try {
-                                childrenBook.updateChildrenBook(connection, i+1, 0, String.valueOf(newCode));
+                                childrenBook.updateChildrenBook(connection, typeCode, 0, String.valueOf(newCode));
                             } catch (ClassNotFoundException e) {
                                 e.printStackTrace();
                             } catch (SQLException e) {
@@ -588,8 +597,9 @@ public class BookManager {
                             }
                         }
                         case "Psychological Book" -> {
+                            typeCode = books.get(i).psychologyCode();
                             try {
-                                psychologyBook.updatePsychologyBook(connection, i+1, 0, String.valueOf(newCode));
+                                psychologyBook.updatePsychologyBook(connection, typeCode, 0, String.valueOf(newCode));
                             } catch (ClassNotFoundException e) {
                                 e.printStackTrace();
                             } catch (SQLException e) {
@@ -815,9 +825,9 @@ public class BookManager {
                 book.setQuantity(Integer.parseInt(value));
                 editDataBase(indentify, code, col, value);
             }
-            case 10 -> {
+            case 8 -> {
                 book.setSerialNumber(value);
-                editDataBase(indentify, code, col, value);
+                editDataBase(indentify, code, col+1, value);
             }
         }
     }
@@ -826,13 +836,13 @@ public class BookManager {
             if(Integer.toString(bookChild.childCode()).equalsIgnoreCase(code.trim())){
                 editCommonValue(1, code,col, bookChild, value);
                 switch (col) {
-                    case 8 -> {
-                        bookChild.childSetType(value);
-                        editDataBase(1, code, col +1, value);
-                    }
                     case 9 -> {
+                        bookChild.childSetType(value);
+                        editDataBase(1, code, col+1, value);
+                    }
+                    case 10 -> {
                         bookChild.childSetRecommentForAge(value);
-                        editDataBase(1, code, col +1, value);
+                        editDataBase(1, code, col+1, value);
                     }
                 }
             }
@@ -843,11 +853,11 @@ public class BookManager {
             if(Integer.toString(bookPsychology.psychologyCode()).equalsIgnoreCase(code.trim())){
                 editCommonValue(2, code,col, bookPsychology, value);
                 switch (col) {
-                    case 8 -> {
+                    case 9 -> {
                         bookPsychology.psychologySetType(value);
                         editDataBase(2, code, col+1, value);
                     }
-                    case 9 -> {
+                    case 10 -> {
                         bookPsychology.psychologySetRecommentForAge(value);
                         editDataBase(2, code, col+1, value);
                     }
@@ -860,11 +870,11 @@ public class BookManager {
             if(Integer.toString(bookNoval.novelCode()).equalsIgnoreCase(code.trim())){
                 editCommonValue(3, code,col, bookNoval, value);
                 switch (col) {
-                    case 8 -> {
+                    case 9 -> {
                         bookNoval.novalSetType(value);
                         editDataBase(3, code, col+1, value);
                     }
-                    case 9 -> {
+                    case 10 -> {
                         bookNoval.novelSetAgeLimited(value);
                         editDataBase(3, code, col+1, value);
                     }
@@ -877,11 +887,11 @@ public class BookManager {
             if(Integer.toString(bookLearning.learningCode()).equalsIgnoreCase(code.trim())){
                 editCommonValue(4, code,col, bookLearning, value);
                 switch (col) {
-                    case 8 -> {
+                    case 9 -> {
                         bookLearning.learningSetEducation(value);
                         editDataBase(4, code, col+1, value);
                     }
-                    case 9 -> {
+                    case 10 -> {
                         bookLearning.learningSetEducation_subjects(value);
                         editDataBase(4, code, col+1, value);
                     }

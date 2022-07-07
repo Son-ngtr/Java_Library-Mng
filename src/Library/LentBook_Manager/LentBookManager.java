@@ -117,6 +117,9 @@ public class LentBookManager {
                     case 4:
                         mainObj[count][i] = lentBook.dateConvert();
                         break;
+                    case 5:
+                        mainObj[count][i] = lentBook.getSerialNumber();
+                        break;
                     default:
                         break;
                 }
