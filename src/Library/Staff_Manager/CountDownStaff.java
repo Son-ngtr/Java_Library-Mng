@@ -10,7 +10,7 @@ import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class CountDown {
+public class CountDownStaff {
 
     private Long currentTime;
     private Timer timer;
@@ -42,7 +42,7 @@ public class CountDown {
     }
 
     //Constructor
-    public CountDown(JTable table, StaffManager staffManager, DefaultTableModel defaultTableModel){
+    public CountDownStaff(JTable table, StaffManager staffManager, DefaultTableModel defaultTableModel){
         this.currentTime = timeTillMidnight();
         this.staffManager = staffManager;
         this.defaultTableModel = defaultTableModel;
@@ -69,7 +69,6 @@ public class CountDown {
         }catch (Exception e){
             System.out.println("Error");
         }
-
     }
 
     public void stopRun(){

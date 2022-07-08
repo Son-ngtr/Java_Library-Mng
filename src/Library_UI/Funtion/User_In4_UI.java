@@ -1,11 +1,10 @@
 package Library_UI.Funtion;
 
-import Database.LentBook_DataBase;
 import Library.Book_Manager.Book;
 import Library.Book_Manager.BookManager;
 import Library.Check;
 import Library.LentBook_Manager.LentBookManager;
-import Library.Staff_Manager.CountDown;
+import Library.Staff_Manager.CountDownStaff;
 import Library.HIstory_Manager.HistoryManager;
 import Library.User_Manager.UserManager;
 import Library_UI.Lib_UI.LentBooks_UI;
@@ -35,7 +34,7 @@ public class User_In4_UI {
     private BookManager bookManager;
     private HistoryManager historyManager;
     private Calendar calendar = Calendar.getInstance()  ;
-    private CountDown countDown;
+    private CountDownStaff countDown;
     private String UserId;
     private LentBookManager lentBookManager;
     private Calendar today = Calendar.getInstance();
@@ -90,7 +89,7 @@ public class User_In4_UI {
 
     //Fix Fine Money of user
     public void fixFineMoneyOfUser(){
-        Long dayTillEnd = Long.valueOf(check.dateReConvert(String.valueOf(jt.getValueAt(jt.getSelectedRow(), lentBookManager.lentBookContentIndex("Remain Time")))).get(Calendar.DATE) - today.get(Calendar.DATE));
+        Long dayTillEnd = Long.valueOf(check.dateReConvert(String.valueOf(jt.getValueAt(jt.getSelectedRow(), lentBookManager.lentBookContentIndex("End Date")))).get(Calendar.DATE) - today.get(Calendar.DATE));
         Long lentMoneyMinus = dayTillEnd * Long.valueOf(String.valueOf(jt.getValueAt(jt.getSelectedRow(), lentBookManager.lentBookContentIndex("Quantity")))) * Long.valueOf(check.moneyConvert(String.valueOf(jt.getValueAt(jt.getSelectedRow(), lentBookManager.lentBookContentIndex("LentMoney"))))) / 10;
         userManager.editUser(
                 UserId,
@@ -170,6 +169,7 @@ public class User_In4_UI {
         logout_Label.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
+                userManager.stopCountDown();
                 userFrame.setEnabled(true);
                 main_Frame.dispose();
             }
@@ -254,6 +254,7 @@ public class User_In4_UI {
                 return false;
             }
         };
+        userManager.startCountDown(lentBookManager, jt, userManager, defaultTableModel);
         jt.getTableHeader().setReorderingAllowed(false);
         jt.setBackground(Color_1);
         jt.setForeground(Color_2);
@@ -283,6 +284,7 @@ public class User_In4_UI {
         bt_lent.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
+                userManager.stopCountDown();
                 LentBooks_UI lentBooks_ui = new LentBooks_UI(bookManager, userManager,historyManager);
                 lentBooks_ui.setUserI4InfoSide(userFrame, defaultTableModelUser, tableUser);
                 main_Frame.dispose();

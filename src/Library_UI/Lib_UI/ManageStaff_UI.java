@@ -2,7 +2,7 @@ package Library_UI.Lib_UI;
 
 import Database.ConectionDTB;
 import Library.Check;
-import Library.Staff_Manager.CountDown;
+import Library.Staff_Manager.CountDownStaff;
 import Library.Staff_Manager.StaffManager;
 import Library_UI.Funtion.AddStaff_UI;
 
@@ -35,7 +35,7 @@ public class ManageStaff_UI {
     private JComboBox cbCategory ;
     private JComboBox cbGender;
     private JComboBox cbAttendence;
-    private CountDown countDown;
+    private CountDownStaff countDown;
     private Check check = new Check();
     private ConectionDTB conectionDTB = new ConectionDTB();
     private Connection connection = conectionDTB.getConnect();
@@ -323,7 +323,7 @@ public class ManageStaff_UI {
         jt.setGridColor(Color_ForeG);
         jt.setBackground(Color_me);
         jt.setForeground(Color_ForeG);
-        countDown = new CountDown(jt, staffManager, defaultTableModel);
+        countDown = new CountDownStaff(jt, staffManager, defaultTableModel);
 
         JTableHeader jth = jt.getTableHeader();
         jth.setBackground(Color_ForeG);

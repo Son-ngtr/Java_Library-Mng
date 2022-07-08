@@ -9,15 +9,17 @@ public class LentBook {
     private Long lentMoney;
     private Calendar endDate;
     private String SerialNumber;
+    private Long timeLate;
 
     //Constructor
-    public LentBook(int STT, String bookName, int numberOfBook, Long lentMoney, Calendar endDate, String SerialNumber) {
+    public LentBook(int STT, String bookName, int numberOfBook, Long lentMoney, Calendar endDate, String SerialNumber,Long timeLate ) {
         this.STT = STT;
         this.bookName = bookName;
         this.numberOfBook = numberOfBook;
         this.lentMoney = lentMoney;
         this.endDate = endDate;
         this.SerialNumber = SerialNumber;
+        this.timeLate = timeLate;
     }
 
     //Getter and Setter
@@ -67,6 +69,14 @@ public class LentBook {
 
     public void setSerialNumber(String serialNumber) {
         SerialNumber = serialNumber;
+    }
+
+    public Long getTimeLate() {
+        return timeLate;
+    }
+
+    public void setTimeLate(Long timeLate) {
+        this.timeLate = timeLate;
     }
 
     //Date convert

@@ -4,8 +4,11 @@ import Database.ConectionDTB;
 import Database.UserBook_info;
 import Database.User_Database;
 import Library.Check;
+import Library.LentBook_Manager.CountDownBook;
 import Library.LentBook_Manager.LentBookManager;
 
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -289,6 +292,20 @@ public class UserManager {
                     }
                 }
             }
+        }
+    }
+
+    //Start Count Down
+    public void startCountDown(LentBookManager lentBookManager, JTable tableBook, UserManager userManager, DefaultTableModel defaultTableModelBook){
+        for (LentBookManager lentBookList : lentBookManagers){
+            lentBookList.startCountDown(lentBookManager, tableBook, userManager, defaultTableModelBook);
+        }
+    }
+
+    //Stop Run
+    public void stopCountDown(){
+        for (LentBookManager lentBooklist : lentBookManagers){
+            lentBooklist.stopRun();
         }
     }
 }

@@ -50,6 +50,7 @@ public class LentBook_DataBase {
             String LentMoney = rs.getString(4);
             String EndDate = rs.getString(5);
             String SerialNumber = rs.getString(6);
+            String TimeLate = rs.getString(7);
 
             // Ghi vào vector
             Vector<Object> temp = new Vector<>();
@@ -59,6 +60,7 @@ public class LentBook_DataBase {
             temp.add(LentMoney);
             temp.add(EndDate);
             temp.add(SerialNumber);
+            temp.add(TimeLate);
 
             // Thêm dữ liệu vào data vector chính
             data.add(temp);
@@ -107,15 +109,20 @@ public class LentBook_DataBase {
                 stm1 = connection.createStatement();
                 updateStatus = stm1.executeUpdate(sql);
                 return updateStatus;
+            case 6:
+                sql = "UPDATE lentbook"+ currentID +" set TimeLate='" + value +  "' WHERE STT='" + Code + "'";
+                stm1 = connection.createStatement();
+                updateStatus = stm1.executeUpdate(sql);
+                return updateStatus;
         }
         return updateStatus;
     }
 
-    public void addNewLentBook(Connection connection, int STT, String BookName, int NumberOfBook, String LentMoney, String endDate, String SerialNumber)
+    public void addNewLentBook(Connection connection, int STT, String BookName, int NumberOfBook, String LentMoney, String endDate, String SerialNumber, String TimeLate)
             throws ClassNotFoundException, SQLException {
 
         // Tạo câu lệnh SQL (Cách 2: sử dụng PreparedStatement)
-        String sql = "INSERT INTO lentbook"+ currentID +"(STT,BookName,NumberOfBook,LentMoney,endDate,SerialNumber) VALUES(?,?,?,?,?,?)";
+        String sql = "INSERT INTO lentbook"+ currentID +"(STT,BookName,NumberOfBook,LentMoney,endDate,SerialNumber,TimeLate) VALUES(?,?,?,?,?,?,?)";
         PreparedStatement stmt = connection.prepareStatement(sql);
         stmt.setInt(1, STT);
         stmt.setString(2, BookName);
@@ -123,6 +130,7 @@ public class LentBook_DataBase {
         stmt.setString(4, LentMoney);
         stmt.setString(5, endDate);
         stmt.setString(6, SerialNumber);
+        stmt.setString(7, TimeLate);
 
 
         // Thực hiện lệnh SQL
