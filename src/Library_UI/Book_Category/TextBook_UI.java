@@ -52,7 +52,7 @@ public class TextBook_UI {
 
     //Table add Combobox and CheckBox
     public void tableAddCombobox(){
-        jt.getColumnModel().getColumn(bookManager.bookContentLearningIndex("Educaiton")).setCellEditor(new DefaultCellEditor(cbEducation));
+        jt.getColumnModel().getColumn(bookManager.bookContentLearningIndex("Education")).setCellEditor(new DefaultCellEditor(cbEducation));
         jt.getColumnModel().getColumn(bookManager.bookContentLearningIndex("Subjects")).setCellEditor(new DefaultCellEditor(cbEducationType));
     }
 

@@ -250,6 +250,7 @@ public class BookManager {
 
         //List Book Add To UI
         for (Book book : listBookAll){
+            addSeri(book.getSerialNumber());
             String category = book.getCategory();
             switch (category){
                 case "Learning Book":
