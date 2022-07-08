@@ -39,7 +39,25 @@ public class LentBookManager {
 
     //LentBook Header
     public String[] lentBookContent(){
-        return new String[]{"STT", "Name Book", "Quantity", "LentMoney/Day" ,"Remain Time", "Serial Number"};
+        return new String[]{"STT", "Name Book", "Quantity", "LentMoney" ,"Remain Time", "Serial Number"};
+    }
+    public int lentBookContentIndex(String s){
+        switch (s){
+            case "STT":
+                return 0;
+            case "Name Book":
+                return 1;
+            case "Quantity":
+                return 2;
+            case "LentMoney":
+                return 3;
+            case "Remain Time":
+                return 4;
+            case "Serial Number":
+                return 5;
+
+        }
+        return 100;
     }
 
     //Create lentBook

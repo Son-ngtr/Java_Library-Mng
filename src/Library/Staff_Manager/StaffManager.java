@@ -39,6 +39,32 @@ public class StaffManager {
     public String[] staffContent(){
         return new String[]{"ID", "Name", "Gender", "Date Of Birth", "Address", "Phone Number", "Email", "Position", "Salary", "Attendance"};
     }
+    public int staffContentIndex(String s){
+        switch (s){
+            case "ID":
+                return 0;
+            case "Name":
+                return 1;
+            case "Gender":
+                return 2;
+            case "Date Of Birth":
+                return 3;
+            case "Address":
+                return 4;
+            case "Phone Number":
+                return 5;
+            case "Email":
+                return 6;
+            case "Position":
+                return 7;
+            case "Salary":
+                return 8;
+            case "Attendance":
+                return 9;
+
+        }
+        return 100;
+    }
 
     //Staff Category
     public String[] staffCategory(){

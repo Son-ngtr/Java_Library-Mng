@@ -35,6 +35,30 @@ public class HistoryReceive_Manager {
     public String[] historyReceiveContent(){
         return new String[]{"ID", "Name", "Phone Number","RegisDate", "ExpDate", "Book Name", "Book Type","Quantity","Return Day"};
     }
+    public int historyReceiveContentIndex(String s){
+        switch (s){
+            case "ID":
+                return 0;
+            case "Name":
+                return 1;
+            case "Phone Number":
+                return 2;
+            case "RegisDate":
+                return 3;
+            case "ExpDate":
+                return 4;
+            case "Book Name":
+                return 5;
+            case "Book Type":
+                return 6;
+            case "Quantity":
+                return 7;
+            case "Return Day":
+                return 8;
+        }
+
+        return 100;
+    }
 
     //Create History Receive
     public HistoryReceive createHistory(String name, String phoneNumber, Calendar regisDate, Calendar expDate, String bookName, String bookType, int quantity, Calendar returnDate){

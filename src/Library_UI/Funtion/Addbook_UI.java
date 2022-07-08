@@ -85,6 +85,11 @@ public class Addbook_UI {
                             if (txt_9.getText().trim().length() == 0){
                                 JOptionPane.showMessageDialog(null, "Serial Number");
                                 inputCheck = false;
+                            }else {
+                                if(!bookManager.seriCheck(txt_9.getText().trim())){
+                                    JOptionPane.showMessageDialog(null, "Serial Number Exist");
+                                    inputCheck = false;
+                                }
                             }
                         }
                     }

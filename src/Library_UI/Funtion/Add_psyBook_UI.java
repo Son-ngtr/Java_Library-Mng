@@ -59,8 +59,8 @@ public class Add_psyBook_UI {
     public void tableReset(){
         bookManager.setIsUpdate(true);
         defaultTableModel.setDataVector(bookManager.listBookPsychology(), bookManager.bookContentPsychology());
-        table.getColumnModel().getColumn(9).setCellEditor(new DefaultCellEditor(cbPsychologyType));
-        table.getColumnModel().getColumn(10).setCellEditor(new DefaultCellEditor(cbPsychologyForAge));
+        table.getColumnModel().getColumn(bookManager.bookContentPsychologyIndex("Type")).setCellEditor(new DefaultCellEditor(cbPsychologyType));
+        table.getColumnModel().getColumn(bookManager.bookContentPsychologyIndex("Age Recomment")).setCellEditor(new DefaultCellEditor(cbPsychologyForAge));
         bookManager.setIsUpdate(false);
     }
 
@@ -94,6 +94,11 @@ public class Add_psyBook_UI {
                             if(txt_9.getText().trim().length() == 0){
                                 JOptionPane.showMessageDialog(null, "Serial Number");
                                 inputCheck = false;
+                            }else {
+                                if(!bookManager.seriCheck(txt_9.getText().trim())){
+                                    JOptionPane.showMessageDialog(null, "Serial Number Exist");
+                                    inputCheck = false;
+                                }
                             }
                         }
                     }

@@ -49,8 +49,8 @@ public class Novel_UI {
 
     //Table add Combobox and CheckBox
     public void tableAddCombobox(){
-        jt.getColumnModel().getColumn(9).setCellEditor(new DefaultCellEditor(cbNovelType));
-        jt.getColumnModel().getColumn(10).setCellEditor(new DefaultCellEditor(cbNovelRecommentForAge));
+        jt.getColumnModel().getColumn(bookManager.bookContentNovelIndex("Type")).setCellEditor(new DefaultCellEditor(cbNovelType));
+        jt.getColumnModel().getColumn(bookManager.bookContentNovelIndex("Age Recomment")).setCellEditor(new DefaultCellEditor(cbNovelRecommentForAge));
     }
 
     //Table reset
@@ -297,7 +297,7 @@ public class Novel_UI {
             @Override
             public void mouseClicked(MouseEvent e) {
                 if(jt.getSelectedRow() != -1){
-                    bookManager.removeBookNoval(check.codeConvert(String.valueOf(jt.getValueAt(jt.getSelectedRow(), 0)).trim()));
+                    bookManager.removeBookNoval(check.codeConvert(String.valueOf(jt.getValueAt(jt.getSelectedRow(), bookManager.bookContentNovelIndex("Code"))).trim()));
                     tableReset();
                 }
             }
@@ -374,7 +374,7 @@ public class Novel_UI {
         defaultTableModel = new DefaultTableModel(bookManager.listBookNovel(), bookManager.bookContentNoval());
         jt = new JTable(defaultTableModel){
             public boolean isCellEditable(int row, int column) {
-                if (column == 0 || column == 6 || column == 8) return false;
+                if (column == bookManager.bookContentNovelIndex("Code") || column == bookManager.bookContentNovelIndex("Category") || column == bookManager.bookContentNovelIndex("Serial Number")) return false;
                 return true;
             }
         };
@@ -431,7 +431,7 @@ public class Novel_UI {
             @Override
             public void tableChanged(TableModelEvent e) {
                 if(!bookManager.getIsUpdate()){
-                    String codeValue = check.codeConvert(String.valueOf(jt.getValueAt(jt.getSelectedRow(), 0)).trim());
+                    String codeValue = check.codeConvert(String.valueOf(jt.getValueAt(jt.getSelectedRow(), bookManager.bookContentNovelIndex("Code"))).trim());
                     String newValue = String.valueOf(jt.getValueAt(jt.getSelectedRow(), jt.getSelectedColumn())).trim();
                     switch (jt.getSelectedColumn()){
                         case 1:
@@ -439,7 +439,7 @@ public class Novel_UI {
                                 if(newValue.trim().length() > 0){
                                     bookManager.editBookNoval(codeValue, jt.getSelectedColumn(), newValue);
                                 }else {
-                                    JOptionPane.showMessageDialog(null, "Tên phải được đưa vào ở dạng chuỗi và có nhiều hơn 1 kí tự");
+                                    JOptionPane.showMessageDialog(null, "Name");
                                     tableReset();
                                 }
                             }
@@ -450,7 +450,7 @@ public class Novel_UI {
                                     bookManager.editBookNoval(codeValue, jt.getSelectedColumn(), newValue);
                                     tableReset();
                                 }else {
-                                    JOptionPane.showMessageDialog(null, "Thông tin phải được nhập dưới dạng d/m/y và tồn tại thời điểm nhập");
+                                    JOptionPane.showMessageDialog(null, "Date");
                                     tableReset();
                                 }
                             }
@@ -461,7 +461,7 @@ public class Novel_UI {
                                     bookManager.editBookNoval(codeValue, jt.getSelectedColumn(), check.moneyConvert(check.matConvert(check.mathAnalysis(newValue))) );
                                     tableReset();
                                 }else {
-                                    JOptionPane.showMessageDialog(null, "Số lượng sách phải được nhập dưới dạng number(int)");
+                                    JOptionPane.showMessageDialog(null, "Price");
                                     tableReset();
                                 }
                             }
@@ -471,7 +471,7 @@ public class Novel_UI {
                                 if(newValue.trim().length() > 0 ){
                                     bookManager.editBookNoval(codeValue, jt.getSelectedColumn(), newValue);
                                 }else {
-                                    JOptionPane.showMessageDialog(null, "Tác Giả");
+                                    JOptionPane.showMessageDialog(null, "Author");
                                     tableReset();
                                 }
                             }
@@ -481,7 +481,7 @@ public class Novel_UI {
                                 if(newValue.trim().length() > 0 ){
                                     bookManager.editBookNoval(codeValue, jt.getSelectedColumn(), newValue);
                                 }else {
-                                    JOptionPane.showMessageDialog(null, "Phone Number");
+                                    JOptionPane.showMessageDialog(null, "Publisher");
                                     tableReset();
                                 }
                             }
@@ -499,7 +499,7 @@ public class Novel_UI {
                                     bookManager.editBookNoval(codeValue, jt.getSelectedColumn(), check.matConvert(check.mathAnalysis(newValue)));
                                     tableReset();
                                 }else {
-                                    JOptionPane.showMessageDialog(null, "Số lượng sách phải được nhập dưới dạng number(int)");
+                                    JOptionPane.showMessageDialog(null, "Quantity");
                                     tableReset();
                                 }
                             }
@@ -512,6 +512,13 @@ public class Novel_UI {
                             }
                             break;
                         case 9:
+                            if(!bookManager.getIsUpdate()){
+                                if(newValue.trim().length() > 0 ){
+                                    bookManager.editBookNoval(codeValue, jt.getSelectedColumn(), newValue);
+                                }
+                            }
+                            break;
+                        case 10:
                             if(!bookManager.getIsUpdate()){
                                 if(newValue.trim().length() > 0 ){
                                     bookManager.editBookNoval(codeValue, jt.getSelectedColumn(), newValue);

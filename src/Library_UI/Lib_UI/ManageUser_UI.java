@@ -58,7 +58,7 @@ public class ManageUser_UI {
     public void tableReset(){
         userManager.setIsUpdate(true);
         defaultTableModel.setDataVector(userManager.listUser(), userManager.userContent());
-        jt.getColumnModel().getColumn(2).setCellEditor(new DefaultCellEditor(cb));
+        jt.getColumnModel().getColumn(userManager.userContentIndex("Gender")).setCellEditor(new DefaultCellEditor(cb));
         userManager.setIsUpdate(false);
     }
 
@@ -234,7 +234,7 @@ public class ManageUser_UI {
             @Override
             public void mouseClicked(MouseEvent e) {
                 if(jt.getSelectedRow() != -1){
-                    userManager.removeUser(check.codeConvert(String.valueOf(jt.getValueAt(jt.getSelectedRow(), 0)).trim()));
+                    userManager.removeUser(check.codeConvert(String.valueOf(jt.getValueAt(jt.getSelectedRow(), userManager.userContentIndex("ID"))).trim()));
                     tableReset();
                 }
             }
@@ -273,13 +273,13 @@ public class ManageUser_UI {
             public void mouseClicked(MouseEvent e) {
                 if(jt.getSelectedRow() != -1){
                     //User Data
-                    String useID = check.codeConvert(String.valueOf(jt.getValueAt(jt.getSelectedRow(), 0)));
-                    String userName = String.valueOf(jt.getValueAt(jt.getSelectedRow(), 1));
-                    String userGender = String.valueOf(jt.getValueAt(jt.getSelectedRow(), 2));
-                    String userDateOfBirth = String.valueOf(jt.getValueAt(jt.getSelectedRow(), 3));
-                    String userAddress = String.valueOf(jt.getValueAt(jt.getSelectedRow(), 4));
-                    String userPhoneNumber = String.valueOf(jt.getValueAt(jt.getSelectedRow(), 5));
-                    String userEmail = String.valueOf(jt.getValueAt(jt.getSelectedRow(), 6));
+                    String useID = check.codeConvert(String.valueOf(jt.getValueAt(jt.getSelectedRow(), userManager.userContentIndex("ID"))));
+                    String userName = String.valueOf(jt.getValueAt(jt.getSelectedRow(), userManager.userContentIndex("Name")));
+                    String userGender = String.valueOf(jt.getValueAt(jt.getSelectedRow(), userManager.userContentIndex("Gender")));
+                    String userDateOfBirth = String.valueOf(jt.getValueAt(jt.getSelectedRow(), userManager.userContentIndex("Date Of Birth")));
+                    String userAddress = String.valueOf(jt.getValueAt(jt.getSelectedRow(), userManager.userContentIndex("Address")));
+                    String userPhoneNumber = String.valueOf(jt.getValueAt(jt.getSelectedRow(), userManager.userContentIndex("Phone Number")));
+                    String userEmail = String.valueOf(jt.getValueAt(jt.getSelectedRow(), userManager.userContentIndex("Email")));
                     userManager.setUseLentInfo(new String[]{
                             useID,
                             userName,
@@ -335,7 +335,7 @@ public class ManageUser_UI {
         defaultTableModel = new DefaultTableModel(userManager.listUser(), userManager.userContent());
         jt = new JTable(defaultTableModel){
             public boolean isCellEditable(int row, int column) {
-                if (column == 0 || column == 7 || column == 8) return false;
+                if (column == userManager.userContentIndex("ID") || column == userManager.userContentIndex("Total Books") || column == userManager.userContentIndex("Fine Money")) return false;
                 return true;
             }
         };
@@ -392,7 +392,7 @@ public class ManageUser_UI {
             @Override
             public void tableChanged(TableModelEvent e) {
                 if(!userManager.getIsUpdate()){
-                    String codeValue = check.codeConvert(String.valueOf(jt.getValueAt(jt.getSelectedRow(), 0)).trim());
+                    String codeValue = check.codeConvert(String.valueOf(jt.getValueAt(jt.getSelectedRow(), userManager.userContentIndex("ID"))).trim());
                     String newValue = String.valueOf(jt.getValueAt(jt.getSelectedRow(), jt.getSelectedColumn())).trim();
                     switch (jt.getSelectedColumn()){
                         case 1:
@@ -457,7 +457,7 @@ public class ManageUser_UI {
                                 if(newValue.trim().length() > 0 && check.isLong(newValue)){
                                     userManager.editUser(codeValue, jt.getSelectedColumn(), newValue);
                                 }else {
-                                    JOptionPane.showMessageDialog(null, "Gmail");
+                                    JOptionPane.showMessageDialog(null, "Total Books");
                                     tableReset();
                                 }
                             }

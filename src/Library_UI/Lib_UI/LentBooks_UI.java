@@ -244,9 +244,9 @@ public class LentBooks_UI {
             @Override
             public void mouseClicked(MouseEvent e) {
                 try {
-                    if(Integer.parseInt(String.valueOf(jt.getValueAt(jt.getSelectedRow(), 6))) > 0){
+                    if(Integer.parseInt(String.valueOf(jt.getValueAt(jt.getSelectedRow(), bookManager.bookBorrowContentIndex("Quantity")))) > 0){
                         if(jt.getSelectedRow() != -1 ){
-                            lent_UI lent_ui = new lent_UI(String.valueOf(jt.getValueAt(jt.getSelectedRow(), 0)).trim(), userManager, bookManager,  historyManager);
+                            lent_UI lent_ui = new lent_UI(String.valueOf(jt.getValueAt(jt.getSelectedRow(), bookManager.bookBorrowContentIndex("Code"))).trim(), userManager, bookManager,  historyManager);
                             lent_ui.setLentBooksSide(main_Frame,userInfoFrame, defaultTableModel, defaultTableModelUser,tableUser,jt);
                             main_Frame.setEnabled(false);
                         }else {

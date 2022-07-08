@@ -35,6 +35,27 @@ public class HistoryManager {
     public String[] historyContent(){
         return new String[]{"ID", "Name", "Phone Number","RegisDate", "ExpDate", "Book Name", "Book Type","Quantity"};
     }
+    public int historyContentIndex(String s){
+        switch (s){
+            case "ID":
+                return 0;
+            case "Name":
+                return 1;
+            case "Phone Number":
+                return 2;
+            case "RegisDate":
+                return 3;
+            case "ExpDate":
+                return 4;
+            case "Book Name":
+                return 5;
+            case "Book Type":
+                return 6;
+            case "Quantity":
+                return 7;
+        }
+        return 100;
+    }
 
     //Create History
     public History createHistory(String name, String phoneNumber, Calendar regisDate, Calendar expDate, String bookName,String bookType, int quantity){

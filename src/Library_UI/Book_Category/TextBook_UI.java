@@ -52,8 +52,8 @@ public class TextBook_UI {
 
     //Table add Combobox and CheckBox
     public void tableAddCombobox(){
-        jt.getColumnModel().getColumn(9).setCellEditor(new DefaultCellEditor(cbEducation));
-        jt.getColumnModel().getColumn(10).setCellEditor(new DefaultCellEditor(cbEducationType));
+        jt.getColumnModel().getColumn(bookManager.bookContentLearningIndex("Educaiton")).setCellEditor(new DefaultCellEditor(cbEducation));
+        jt.getColumnModel().getColumn(bookManager.bookContentLearningIndex("Subjects")).setCellEditor(new DefaultCellEditor(cbEducationType));
     }
 
     //Table reset
@@ -299,7 +299,7 @@ public class TextBook_UI {
             @Override
             public void mouseClicked(MouseEvent e) {
                 if(jt.getSelectedRow() != -1){
-                    bookManager.removeBookLearning(check.codeConvert(String.valueOf(jt.getValueAt(jt.getSelectedRow(), 0)).trim()));
+                    bookManager.removeBookLearning(check.codeConvert(String.valueOf(jt.getValueAt(jt.getSelectedRow(), bookManager.bookContentLearningIndex("Code"))).trim()));
                     tableReset();
                 }
             }
@@ -376,7 +376,7 @@ public class TextBook_UI {
         defaultTableModel = new DefaultTableModel(bookManager.listBookLearning(), bookManager.bookContentLearning());
         jt = new JTable(defaultTableModel){
             public boolean isCellEditable(int row, int column) {
-                if (column == 0 || column == 6 || column == 8) return false;
+                if (column == bookManager.bookContentLearningIndex("Code") || column == bookManager.bookContentLearningIndex("Category") || column == bookManager.bookContentLearningIndex("Serial Number")) return false;
                 return true;
             }
         };
@@ -433,7 +433,7 @@ public class TextBook_UI {
             @Override
             public void tableChanged(TableModelEvent e) {
                 if(!bookManager.getIsUpdate()){
-                    String codeValue = check.codeConvert(String.valueOf(jt.getValueAt(jt.getSelectedRow(), 0)).trim());
+                    String codeValue = check.codeConvert(String.valueOf(jt.getValueAt(jt.getSelectedRow(), bookManager.bookContentLearningIndex("Code"))).trim());
                     String newValue = String.valueOf(jt.getValueAt(jt.getSelectedRow(), jt.getSelectedColumn())).trim();
                     switch (jt.getSelectedColumn()){
                         case 1:
@@ -441,7 +441,7 @@ public class TextBook_UI {
                                 if(newValue.trim().length() > 0){
                                     bookManager.editBookLearning(codeValue, jt.getSelectedColumn(), newValue);
                                 }else {
-                                    JOptionPane.showMessageDialog(null, "Tên phải được đưa vào ở dạng chuỗi và có nhiều hơn 1 kí tự");
+                                    JOptionPane.showMessageDialog(null, "Name");
                                     tableReset();
                                 }
                             }
@@ -452,7 +452,7 @@ public class TextBook_UI {
                                     bookManager.editBookLearning(codeValue, jt.getSelectedColumn(), newValue);
                                     tableReset();
                                 }else {
-                                    JOptionPane.showMessageDialog(null, "Thông tin phải được nhập dưới dạng d/m/y và tồn tại thời điểm nhập");
+                                    JOptionPane.showMessageDialog(null, "Date");
                                     tableReset();
                                 }
                             }
@@ -463,7 +463,7 @@ public class TextBook_UI {
                                     bookManager.editBookLearning(codeValue, jt.getSelectedColumn(), check.moneyConvert(check.matConvert(check.mathAnalysis(newValue))));
                                     tableReset();
                                 }else {
-                                    JOptionPane.showMessageDialog(null, "Số lượng sách phải được nhập dưới dạng number(int)");
+                                    JOptionPane.showMessageDialog(null, "Price");
                                     tableReset();
                                 }
                             }
@@ -473,7 +473,7 @@ public class TextBook_UI {
                                 if(newValue.trim().length() > 0 ){
                                     bookManager.editBookLearning(codeValue, jt.getSelectedColumn(), newValue);
                                 }else {
-                                    JOptionPane.showMessageDialog(null, "Tác Giả");
+                                    JOptionPane.showMessageDialog(null, "Author");
                                     tableReset();
                                 }
                             }
@@ -483,7 +483,7 @@ public class TextBook_UI {
                                 if(newValue.trim().length() > 0 ){
                                     bookManager.editBookLearning(codeValue, jt.getSelectedColumn(), newValue);
                                 }else {
-                                    JOptionPane.showMessageDialog(null, "Phone Number");
+                                    JOptionPane.showMessageDialog(null, "Publisher");
                                     tableReset();
                                 }
                             }
@@ -501,7 +501,7 @@ public class TextBook_UI {
                                     bookManager.editBookLearning(codeValue, jt.getSelectedColumn(), check.matConvert(check.mathAnalysis(newValue)));
                                     tableReset();
                                 }else {
-                                    JOptionPane.showMessageDialog(null, "Số lượng sách phải được nhập dưới dạng number(int)");
+                                    JOptionPane.showMessageDialog(null, "Quantity");
                                     tableReset();
                                 }
                             }
@@ -514,6 +514,13 @@ public class TextBook_UI {
                             }
                             break;
                         case 9:
+                            if(!bookManager.getIsUpdate()){
+                                if(newValue.trim().length() > 0 ){
+                                    bookManager.editBookLearning(codeValue, jt.getSelectedColumn(), newValue);
+                                }
+                            }
+                            break;
+                        case 10:
                             if(!bookManager.getIsUpdate()){
                                 if(newValue.trim().length() > 0 ){
                                     bookManager.editBookLearning(codeValue, jt.getSelectedColumn(), newValue);

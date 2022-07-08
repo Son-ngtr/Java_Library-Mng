@@ -60,8 +60,8 @@ public class Add_textBook_UI {
     public void tableReset(){
         bookManager.setIsUpdate(true);
         defaultTableModel.setDataVector(bookManager.listBookLearning(), bookManager.bookContentLearning());
-        table.getColumnModel().getColumn(9).setCellEditor(new DefaultCellEditor(cbEducation));
-        table.getColumnModel().getColumn(10).setCellEditor(new DefaultCellEditor(cbEducationType));
+        table.getColumnModel().getColumn(bookManager.bookContentLearningIndex("Education")).setCellEditor(new DefaultCellEditor(cbEducation));
+        table.getColumnModel().getColumn(bookManager.bookContentLearningIndex("Subjects")).setCellEditor(new DefaultCellEditor(cbEducationType));
         bookManager.setIsUpdate(false);
     }
 
@@ -95,6 +95,11 @@ public class Add_textBook_UI {
                             if(txt_9.getText().trim().length() == 0){
                                 JOptionPane.showMessageDialog(null, "Serial Number");
                                 inputCheck = false;
+                            }else {
+                                if(!bookManager.seriCheck(txt_9.getText().trim())){
+                                    JOptionPane.showMessageDialog(null, "Serial Number Exist");
+                                    inputCheck = false;
+                                }
                             }
                         }
                     }

@@ -56,19 +56,19 @@ public class User_In4_UI {
         String category = book.getCategory();
         switch (category){
             case "Learning Book":
-                bookManager.editBookLearning(String.valueOf(book.learningCode()), 7, String.valueOf(book.getQuantity() + numberOfBook));
+                bookManager.editBookLearning(String.valueOf(book.learningCode()), bookManager.bookContentLearningIndex("Quantity"), String.valueOf(book.getQuantity() + numberOfBook));
                 JOptionPane.showMessageDialog(null, "Books had been returned to " + serialNumber);
                 break;
             case "Noval Book":
-                bookManager.editBookNoval(String.valueOf(book.novelCode()), 7, String.valueOf(book.getQuantity() + numberOfBook));
+                bookManager.editBookNoval(String.valueOf(book.novelCode()), bookManager.bookContentNovelIndex("Quantity"), String.valueOf(book.getQuantity() + numberOfBook));
                 JOptionPane.showMessageDialog(null, "Books had been returned to " + serialNumber);
                 break;
             case "Children Book":
-                bookManager.editBookChild(String.valueOf(book.childCode()), 7, String.valueOf(book.getQuantity() + numberOfBook));
+                bookManager.editBookChild(String.valueOf(book.childCode()), bookManager.bookContentChildrenIndex("Quantity"), String.valueOf(book.getQuantity() + numberOfBook));
                 JOptionPane.showMessageDialog(null, "Books had been returned to " + serialNumber);
                 break;
             case "Psychological Book":
-                bookManager.editBookPsychology(String.valueOf(book.psychologyCode()), 7, String.valueOf(book.getQuantity() + numberOfBook));
+                bookManager.editBookPsychology(String.valueOf(book.psychologyCode()), bookManager.bookContentPsychologyIndex("Quantity"), String.valueOf(book.getQuantity() + numberOfBook));
                 JOptionPane.showMessageDialog(null, "Books had been returned to " + serialNumber);
                 break;
         }
@@ -76,25 +76,25 @@ public class User_In4_UI {
 
     //Remove Lent Book
     public void removeLentBook(){
-        lentBookManager.removeLentBook(String.valueOf(jt.getValueAt(jt.getSelectedRow(), 0)));
+        lentBookManager.removeLentBook(String.valueOf(jt.getValueAt(jt.getSelectedRow(), lentBookManager.lentBookContentIndex("STT"))));
     }
 
     //Fix total Books of user
     public void fixTotalBookOfUser(){
         userManager.editUser(
                 UserId ,
-                7,
-                String.valueOf(userManager.getUser(Integer.parseInt(UserId)).getTotalBooks() - Integer.parseInt(String.valueOf(jt.getValueAt(jt.getSelectedRow(), 2))))
+                userManager.userContentIndex("Total Books"),
+                String.valueOf(userManager.getUser(Integer.parseInt(UserId)).getTotalBooks() - Integer.parseInt(String.valueOf(jt.getValueAt(jt.getSelectedRow(), lentBookManager.lentBookContentIndex("Quantity")))))
         );
     }
 
     //Fix Fine Money of user
     public void fixFineMoneyOfUser(){
-        Long dayTillEnd = Long.valueOf(check.dateReConvert(String.valueOf(jt.getValueAt(jt.getSelectedRow(), 4))).get(Calendar.DATE) - today.get(Calendar.DATE));
-        Long lentMoneyMinus = dayTillEnd * Long.valueOf(String.valueOf(jt.getValueAt(jt.getSelectedRow(), 2))) * Long.valueOf(check.moneyConvert(String.valueOf(jt.getValueAt(jt.getSelectedRow(), 3)))) / 10;
+        Long dayTillEnd = Long.valueOf(check.dateReConvert(String.valueOf(jt.getValueAt(jt.getSelectedRow(), lentBookManager.lentBookContentIndex("Remain Time")))).get(Calendar.DATE) - today.get(Calendar.DATE));
+        Long lentMoneyMinus = dayTillEnd * Long.valueOf(String.valueOf(jt.getValueAt(jt.getSelectedRow(), lentBookManager.lentBookContentIndex("Quantity")))) * Long.valueOf(check.moneyConvert(String.valueOf(jt.getValueAt(jt.getSelectedRow(), lentBookManager.lentBookContentIndex("LentMoney"))))) / 10;
         userManager.editUser(
                 UserId,
-                8,
+                userManager.userContentIndex("Fine Money"),
                 String.valueOf(userManager.getUser(Integer.parseInt(UserId)).getMoneyFine() - lentMoneyMinus)
         );
     }
@@ -106,7 +106,7 @@ public class User_In4_UI {
     public void tableUserReset(){
         userManager.setIsUpdate(true);
         defaultTableModelUser.setDataVector(userManager.listUser(), userManager.userContent());
-        tableUser.getColumnModel().getColumn(2).setCellEditor(new DefaultCellEditor(new JComboBox(userManager.userGender())));
+        tableUser.getColumnModel().getColumn(userManager.userContentIndex("Gender")).setCellEditor(new DefaultCellEditor(new JComboBox(userManager.userGender())));
         userManager.setIsUpdate(false);
     }
 
@@ -320,11 +320,11 @@ public class User_In4_UI {
         bt_delete.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                String serialNumber = String.valueOf(jt.getValueAt(jt.getSelectedRow(), 5));
+                String serialNumber = String.valueOf(jt.getValueAt(jt.getSelectedRow(), lentBookManager.lentBookContentIndex("Serial Number")));
                 Book book = bookManager.getBookBySeri(serialNumber);
                 if(book != null){
                     //Fix Quantity Of Book
-                    int numberOfBook = Integer.valueOf((String)(jt.getValueAt(jt.getSelectedRow(), 2)));
+                    int numberOfBook = Integer.valueOf((String)(jt.getValueAt(jt.getSelectedRow(), lentBookManager.lentBookContentIndex("Quantity"))));
                     fixQuantityOfBook(book, serialNumber, numberOfBook);
 
                     //Remove Lent Book

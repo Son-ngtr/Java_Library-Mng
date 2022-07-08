@@ -93,7 +93,7 @@ public class AddUser_UI {
     public void tableUserReset(){
         userManager.setIsUpdate(true);
         defaultTableModel.setDataVector(userManager.listUser(), userManager.userContent());
-        table.getColumnModel().getColumn(2).setCellEditor(new DefaultCellEditor(new JComboBox(userManager.userGender())));
+        table.getColumnModel().getColumn(userManager.userContentIndex("Gender")).setCellEditor(new DefaultCellEditor(new JComboBox(userManager.userGender())));
         userManager.setIsUpdate(false);
     }
 

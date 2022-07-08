@@ -50,8 +50,8 @@ public class Add_childrenBook_UI {
     public void tableReset(){
         bookManager.setIsUpdate(true);
         defaultTableModel.setDataVector(bookManager.listBookChild(), bookManager.bookContentChildren());
-        table.getColumnModel().getColumn(9).setCellEditor(new DefaultCellEditor(cbChildType));
-        table.getColumnModel().getColumn(10).setCellEditor(new DefaultCellEditor(cbChildRecommentForAge));
+        table.getColumnModel().getColumn(bookManager.bookContentChildrenIndex("Type")).setCellEditor(new DefaultCellEditor(cbChildType));
+        table.getColumnModel().getColumn(bookManager.bookContentChildrenIndex("Age Recomment")).setCellEditor(new DefaultCellEditor(cbChildRecommentForAge));
         bookManager.setIsUpdate(false);
     }
 
@@ -95,6 +95,11 @@ public class Add_childrenBook_UI {
                             if(txt_9.getText().trim().length() == 0){
                                 JOptionPane.showMessageDialog(null, "Serial Number");
                                 inputCheck = false;
+                            }else {
+                                if(!bookManager.seriCheck(txt_9.getText().trim())){
+                                    JOptionPane.showMessageDialog(null, "Serial Number Exist");
+                                    inputCheck = false;
+                                }
                             }
                         }
                     }

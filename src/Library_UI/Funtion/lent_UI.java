@@ -82,7 +82,7 @@ public class lent_UI {
     public void tableUserReset(){
         userManager.setIsUpdate(true);
         defaultTableModelUser.setDataVector(userManager.listUser(), userManager.userContent());
-        tableUser.getColumnModel().getColumn(2).setCellEditor(new DefaultCellEditor(new JComboBox(userManager.userGender())));
+        tableUser.getColumnModel().getColumn(userManager.userContentIndex("Gender")).setCellEditor(new DefaultCellEditor(new JComboBox(userManager.userGender())));
         userManager.setIsUpdate(false);
     }
 
@@ -145,11 +145,11 @@ public class lent_UI {
     public void lentBookDTB(User user, int quantityBorrow){
         lentBookManager = userManager.getLentBookManager(String.valueOf(user.getId()));
         lentBookManager.addLentBook(lentBookManager.createLentBook(
-                String.valueOf(tableBook.getValueAt(tableBook.getSelectedRow(), 1)),
+                String.valueOf(tableBook.getValueAt(tableBook.getSelectedRow(), bookManager.bookBorrowContentIndex("Name"))),
                 quantityBorrow,
                 fineMoneyCalc(quantityBorrow),
                 check.dateReConvert(datePicker.getJFormattedTextField().getText()),
-                String.valueOf(tableBook.getValueAt(tableBook.getSelectedRow(), 7))
+                String.valueOf(tableBook.getValueAt(tableBook.getSelectedRow(), bookManager.bookBorrowContentIndex("Serial Number")))
         ));
     }
 
@@ -160,8 +160,8 @@ public class lent_UI {
                 txt_4.getText().trim(),
                 check.dateReConvert(txt_6.getText()) ,
                 check.dateReConvert(datePicker.getJFormattedTextField().getText()),
-                String.valueOf(tableBook.getValueAt(tableBook.getSelectedRow(), 1)),
-                String.valueOf(tableBook.getValueAt(tableBook.getSelectedRow(), 5)),
+                String.valueOf(tableBook.getValueAt(tableBook.getSelectedRow(), bookManager.bookBorrowContentIndex("Name"))),
+                String.valueOf(tableBook.getValueAt(tableBook.getSelectedRow(), bookManager.bookBorrowContentIndex("Category"))),
                 quantityBorrow
         ));
     }
@@ -180,19 +180,19 @@ public class lent_UI {
     public void fixQuantityOfBook(int result){
         switch (codeLetter){
             case "C":
-                bookManager.editBookChild(codeNumber, 7, String.valueOf(result));
+                bookManager.editBookChild(codeNumber, bookManager.bookContentChildrenIndex("Quantity"), String.valueOf(result));
                 tableBookReset();
                 break;
             case "N":
-                bookManager.editBookNoval(codeNumber, 7, String.valueOf(result));
+                bookManager.editBookNoval(codeNumber, bookManager.bookContentNovelIndex("Quantity"), String.valueOf(result));
                 tableBookReset();
                 break;
             case "P":
-                bookManager.editBookPsychology(codeNumber, 7, String.valueOf(result));
+                bookManager.editBookPsychology(codeNumber, bookManager.bookContentPsychologyIndex("Quantity"), String.valueOf(result));
                 tableBookReset();
                 break;
             case "L":
-                bookManager.editBookLearning(codeNumber, 7, String.valueOf(result));
+                bookManager.editBookLearning(codeNumber, bookManager.bookContentLearningIndex("Quantity"), String.valueOf(result));
                 tableBookReset();
                 break;
         }
@@ -200,13 +200,13 @@ public class lent_UI {
 
     //Fix total book of User
     public void fixtotalBook(User user, int quantityBorrow){
-        userManager.editUser(String.valueOf(user.getId()) , 7, String.valueOf(user.getTotalBooks() + quantityBorrow));
+        userManager.editUser(String.valueOf(user.getId()) , userManager.userContentIndex("Total Books"), String.valueOf(user.getTotalBooks() + quantityBorrow));
     }
 
     //Fine Mony Calc
     public Long fineMoneyCalc(int quantityBorrow){
         Long dayTillEnd = Long.valueOf(check.dateReConvert(datePicker.getJFormattedTextField().getText()).get(Calendar.DATE) - check.dateReConvert(txt_6.getText()).get(Calendar.DATE));
-        Long lentMoneyPlus = dayTillEnd * Long.valueOf(quantityBorrow) * Long.valueOf(check.moneyConvert(String.valueOf(tableBook.getValueAt(tableBook.getSelectedRow(), 2)))) / 10;
+        Long lentMoneyPlus = dayTillEnd * Long.valueOf(quantityBorrow) * Long.valueOf(check.moneyConvert(String.valueOf(tableBook.getValueAt(tableBook.getSelectedRow(), bookManager.bookBorrowContentIndex("Price"))))) / 10;
         return lentMoneyPlus;
     }
 
@@ -215,7 +215,7 @@ public class lent_UI {
         Long lentMoneyPlus = fineMoneyCalc(quantityBorrow);
         userManager.editUser(
                 String.valueOf(user.getId()),
-                8,
+                userManager.userContentIndex("Fine Money"),
                 String.valueOf(user.getMoneyFine() + lentMoneyPlus)
         );
     }
@@ -408,7 +408,7 @@ public class lent_UI {
             public void actionPerformed(ActionEvent e) {
                 if(checkValue()){
                     int quantityBorrow = Integer.parseInt(txt_8.getText().trim());
-                    int quantity = Integer.parseInt(String.valueOf(tableBook.getValueAt(tableBook.getSelectedRow(), 6)).trim());
+                    int quantity = Integer.parseInt(String.valueOf(tableBook.getValueAt(tableBook.getSelectedRow(), bookManager.bookBorrowContentIndex("Quantity"))).trim());
                     int result = quantity - quantityBorrow;
                     if(result >= 0){
                         User user;
