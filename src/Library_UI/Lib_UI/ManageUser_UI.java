@@ -234,8 +234,14 @@ public class ManageUser_UI {
             @Override
             public void mouseClicked(MouseEvent e) {
                 if(jt.getSelectedRow() != -1){
-                    userManager.removeUser(check.codeConvert(String.valueOf(jt.getValueAt(jt.getSelectedRow(), userManager.userContentIndex("ID"))).trim()));
-                    tableReset();
+                    if(userManager.getLentBookManager(check.codeConvert(String.valueOf(jt.getValueAt(jt.getSelectedRow(), userManager.userContentIndex("ID")))) ).totalLentBook() == 0 ){
+                        userManager.removeUser(check.codeConvert(String.valueOf(jt.getValueAt(jt.getSelectedRow(), userManager.userContentIndex("ID"))).trim()));
+                        tableReset();
+                    }else {
+                        JOptionPane.showMessageDialog(null, "Please Return All The Book Before Delete User");
+                    }
+                }else {
+                    JOptionPane.showMessageDialog(null, "Please Chose A User Form The Table");
                 }
             }
 
