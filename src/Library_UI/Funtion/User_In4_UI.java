@@ -187,6 +187,7 @@ public class User_In4_UI {
         logout_Label.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
+                userManager.setUseLentInfo(null);
                 userManager.stopCountDown(UserId);
                 userFrame.setEnabled(true);
                 main_Frame.dispose();
