@@ -5,6 +5,7 @@ import Library.Book_Manager.BookManager;
 import Library.HIstory_Manager.HistoryManager;
 import Library.HIstory_Manager.HistoryReceive_Manager;
 import Library.Staff_Manager.StaffManager;
+import Library.Table_Manager.TableManager;
 import Library.User_Manager.UserManager;
 
 import javax.swing.*;
@@ -30,6 +31,7 @@ public class Lobby_UI {
     private StaffManager staffManager;
     private HistoryManager historyManager;
     private HistoryReceive_Manager historyReceive_manager;
+    private TableManager tableManager;
 
     //Constructor
     public Lobby_UI(Connection connection){
@@ -39,6 +41,7 @@ public class Lobby_UI {
         staffManager = new StaffManager(connection);
         historyManager = new HistoryManager(connection);
         historyReceive_manager = new HistoryReceive_Manager(connection);
+        tableManager = new TableManager(connection);
         content();
     }
 
@@ -49,6 +52,7 @@ public class Lobby_UI {
         staffManager.downloadAllStaff();
         historyManager.downLoadHistory();
         historyReceive_manager.downloadHistoryReceive();
+        tableManager.downloadTable();
     }
 
     public void content(){
@@ -362,8 +366,8 @@ public class Lobby_UI {
         b6.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                Team_In4 team_in4 = new Team_In4();
-                team_in4.setLobbySide(main_Frame);
+                Table_UI table_ui = new Table_UI(tableManager);
+                table_ui.setLobbySide(main_Frame);
                 main_Frame.setEnabled(false);
             }
 
