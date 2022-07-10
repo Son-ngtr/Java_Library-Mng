@@ -93,7 +93,7 @@ public class TableManager {
     //Add Table
     public void addTable(Table table){
         tables.add(table);
-        currentUseTable.add(codeCount);
+        currentUseTable.add(table.getTable());
         try {
             table_dataBase.addNewTable(
                     connection,
@@ -128,7 +128,7 @@ public class TableManager {
                     Integer.parseInt(String.valueOf(vector.get(4)))
             );
             tables.add(table);
-            currentUseTable.add(codeCount);
+            currentUseTable.add(Integer.parseInt(String.valueOf(vector.get(2))));
         }
     }
 

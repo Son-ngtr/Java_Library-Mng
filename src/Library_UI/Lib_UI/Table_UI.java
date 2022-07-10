@@ -189,6 +189,8 @@ public class Table_UI {
                         }else {
                             if (JOptionPane.showConfirmDialog(null, "Chose table " + finalI +". Are you sure ?",  "Table",
                                     JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+
+                                //Set Color
                                 table_LB[finalI].setIcon(table_full_Icon);
                                 table_Name[finalI].setForeground(Color_me);
 
@@ -218,7 +220,13 @@ public class Table_UI {
                     }
                 });
             }else {
-                table_LB[i].setIcon(table_Icon);
+                if(tableManager.checkUsedTable(i+1)){
+                    table_LB[i].setIcon(table_full_Icon);
+                    table_Name[i].setForeground(Color_me);
+                }else {
+                    table_LB[i].setIcon(table_Icon);
+                    table_Name[i].setForeground(Color_ForeG);
+                }
             }
 
             //Add To Label
@@ -255,11 +263,17 @@ public class Table_UI {
                     @Override
                     public void mouseClicked(MouseEvent e) {
                         if(table_LB[finalI].getIcon().equals(table_full_Icon)){
-                            table_LB[finalI].setIcon(table_Icon);
-                            table_Name[finalI].setForeground(Color_ForeG);
+                            JOptionPane.showMessageDialog(null,"Table " + finalI + " Is Full");
                         }else {
-                            table_LB[finalI].setIcon(table_full_Icon);
-                            table_Name[finalI].setForeground(Color_me);
+                            if (JOptionPane.showConfirmDialog(null, "Chose table " + finalI +". Are you sure ?",  "Table",
+                                    JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+
+                                //Set Color
+                                table_LB[finalI].setIcon(table_full_Icon);
+                                table_Name[finalI].setForeground(Color_me);
+
+                                //Input Value
+                            }
                         }
                     }
 
@@ -284,7 +298,13 @@ public class Table_UI {
                     }
                 });
             }else {
-                table_LB[i].setIcon(table_Icon);
+                if(tableManager.checkUsedTable(i+1)){
+                    table_LB[i].setIcon(table_full_Icon);
+                    table_Name[i].setForeground(Color_me);
+                }else {
+                    table_LB[i].setIcon(table_Icon);
+                    table_Name[i].setForeground(Color_ForeG);
+                }
             }
 
             label.add(table_Name[i]);
@@ -320,11 +340,17 @@ public class Table_UI {
                     @Override
                     public void mouseClicked(MouseEvent e) {
                         if(table_LB[finalI].getIcon().equals(table_full_Icon)){
-                            table_LB[finalI].setIcon(table_Icon);
-                            table_Name[finalI].setForeground(Color_ForeG);
+                            JOptionPane.showMessageDialog(null,"Table " + finalI + " Is Full");
                         }else {
-                            table_LB[finalI].setIcon(table_full_Icon);
-                            table_Name[finalI].setForeground(Color_me);
+                            if (JOptionPane.showConfirmDialog(null, "Chose table " + finalI +". Are you sure ?",  "Table",
+                                    JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+
+                                //Set Color
+                                table_LB[finalI].setIcon(table_full_Icon);
+                                table_Name[finalI].setForeground(Color_me);
+
+                                //Input Value
+                            }
                         }
                     }
 
@@ -349,7 +375,14 @@ public class Table_UI {
                     }
                 });
             }else {
-                table_LB[i].setIcon(table_Icon);
+                if(tableManager.checkUsedTable(i+1)){
+                    System.out.println(i);
+                    table_LB[i].setIcon(table_full_Icon);
+                    table_Name[i].setForeground(Color_me);
+                }else {
+                    table_LB[i].setIcon(table_Icon);
+                    table_Name[i].setForeground(Color_ForeG);
+                }
             }
 
             label.add(table_Name[i]);
@@ -385,11 +418,17 @@ public class Table_UI {
                     @Override
                     public void mouseClicked(MouseEvent e) {
                         if(table_LB[finalI].getIcon().equals(table_full_Icon)){
-                            table_LB[finalI].setIcon(table_Icon);
-                            table_Name[finalI].setForeground(Color_ForeG);
+                            JOptionPane.showMessageDialog(null,"Table " + finalI + " Is Full");
                         }else {
-                            table_LB[finalI].setIcon(table_full_Icon);
-                            table_Name[finalI].setForeground(Color_me);
+                            if (JOptionPane.showConfirmDialog(null, "Chose table " + finalI +". Are you sure ?",  "Table",
+                                    JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+
+                                //Set Color
+                                table_LB[finalI].setIcon(table_full_Icon);
+                                table_Name[finalI].setForeground(Color_me);
+
+                                //Input Value
+                            }
                         }
                     }
 
@@ -414,7 +453,13 @@ public class Table_UI {
                     }
                 });
             }else {
-                table_LB[i].setIcon(table_Icon);
+                if(tableManager.checkUsedTable(i+1)){
+                    table_LB[i].setIcon(table_full_Icon);
+                    table_Name[i].setForeground(Color_me);
+                }else {
+                    table_LB[i].setIcon(table_Icon);
+                    table_Name[i].setForeground(Color_ForeG);
+                }
             }
 
             label.add(table_Name[i]);
