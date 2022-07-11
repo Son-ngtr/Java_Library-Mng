@@ -29,6 +29,7 @@ public class LentBooks_UI {
     private String[] tableContent;
     private HistoryManager historyManager;
     private HistoryReceive_Manager historyReceive_manager;
+    private JButton op_here, op_home;
 
     //Set Lobby Side
     public void setLobbySide(JFrame jFrameLobby){
@@ -291,6 +292,91 @@ public class LentBooks_UI {
 
 
 
+
+        JTextField info = new JTextField();
+        info.setBounds(1500, 85, 135, 35);
+        info.setFont(Font_Table);
+        info.setBackground(Color_ForeG);
+        info.setBorder(BorderFactory.createLineBorder(Color_me));
+        info.setForeground(Color_me);
+        info.setEditable(false);
+
+
+        op_home = new JButton("home");
+        op_home.setBounds(102,816-100,55,55);
+        op_home.setFont(Font_left);
+        op_home.setBorder(BorderFactory.createLineBorder(Color_me));
+        op_home.setForeground(Color_ForeG);
+        op_home.setBackground(Color_me);
+        op_home.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                info.setText("BRING TO HOME");
+                op_home.setBackground(Color_ForeG);
+                op_home.setForeground(Color_me);
+                op_here.setBackground(Color_me);
+                op_here.setForeground(Color_ForeG);
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+
+            }
+        });
+
+        op_here = new JButton("here");
+        op_here.setBounds(102,816-200,55,55);
+        op_here.setFont(Font_left);
+        op_here.setBorder(BorderFactory.createLineBorder(Color_me));
+        op_here.setForeground(Color_ForeG);
+        op_here.setBackground(Color_me);
+        op_here.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                info.setText("READ RIGHT HERE");
+                op_here.setBackground(Color_ForeG);
+                op_here.setForeground(Color_me);
+                op_home.setBackground(Color_me);
+                op_home.setForeground(Color_ForeG);
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+
+            }
+        });
+
+
 // add to frame
         label.add(Jsc);
         label.add(bookFilter);
@@ -298,6 +384,10 @@ public class LentBooks_UI {
         label.add(notification_Label);
         label.add(logout_Label);
         label.add(exit_Label);
+
+        label.add(op_here);
+        label.add(op_home);
+        label.add(info);
 
         main_Frame = new JFrame("_LentBooks_UI_");
         main_Frame.add(label);
