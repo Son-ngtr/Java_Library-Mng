@@ -4,10 +4,10 @@ import Library.Book_Manager.Book;
 import Library.Book_Manager.BookManager;
 import Library.Check;
 import Library.HIstory_Manager.HistoryReceive_Manager;
+import Library.Human.User_Manager.UserManager;
 import Library.LentBook_Manager.LentBookManager;
-import Library.Staff_Manager.CountDownStaff;
 import Library.HIstory_Manager.HistoryManager;
-import Library.User_Manager.UserManager;
+import Library.Table_Manager.TableManager;
 import Library_UI.Lib_UI.LentBooks_UI;
 import org.jdatepicker.impl.JDatePickerImpl;
 
@@ -36,17 +36,18 @@ public class User_In4_UI {
     private HistoryManager historyManager;
     private HistoryReceive_Manager historyReceive_manager;
     private Calendar calendar = Calendar.getInstance()  ;
-    private CountDownStaff countDown;
     private String UserId;
     private LentBookManager lentBookManager;
+    private TableManager tableManager;
     private Calendar today = Calendar.getInstance();
 
     //Constructor
-    public User_In4_UI(BookManager bookManager, UserManager userManager, HistoryManager historyManager, HistoryReceive_Manager historyReceive_manager){
+    public User_In4_UI(BookManager bookManager, UserManager userManager, HistoryManager historyManager, HistoryReceive_Manager historyReceive_manager, TableManager tableManager){
         this.bookManager = bookManager;
         this.userManager = userManager;
         this.historyManager = historyManager;
         this.historyReceive_manager = historyReceive_manager;
+        this.tableManager = tableManager;
         this.UserId = userManager.getUseLentInfo()[0];
         lentBookManager = userManager.getLentBookManager(userManager.getUseLentInfo()[0]);
         content();
@@ -304,7 +305,7 @@ public class User_In4_UI {
             @Override
             public void mouseClicked(MouseEvent e) {
                 userManager.stopCountDown(UserId);
-                LentBooks_UI lentBooks_ui = new LentBooks_UI(bookManager, userManager,historyManager, historyReceive_manager);
+                LentBooks_UI lentBooks_ui = new LentBooks_UI(bookManager, userManager,historyManager, historyReceive_manager, tableManager);
                 lentBooks_ui.setUserI4InfoSide(userFrame, defaultTableModelUser, tableUser);
                 main_Frame.dispose();
             }

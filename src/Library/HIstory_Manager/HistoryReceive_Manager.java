@@ -61,7 +61,7 @@ public class HistoryReceive_Manager {
     //Create History Receive
     public HistoryReceive createHistory(String name, String phoneNumber, Calendar expDate, String bookName ,int quantity, Calendar returnDate){
         codeCount++;
-        return new HistoryReceive(codeCount, name, phoneNumber,  expDate, bookName, quantity, returnDate);
+        return new HistoryReceive(codeCount, name, phoneNumber,  expDate, bookName,quantity, returnDate);
     }
 
     //Add History Receive

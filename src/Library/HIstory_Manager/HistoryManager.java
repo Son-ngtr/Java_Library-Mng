@@ -31,11 +31,11 @@ public class HistoryManager {
     }
 
     //History list
-    ArrayList<History> histories = new ArrayList<>();
+    ArrayList<HistoryLent> histories = new ArrayList<>();
 
     //History Header
     public String[] historyContent(){
-        return new String[]{"ID", "Name", "Phone Number","RegisDate", "ExpDate", "Book Name", "Book Type","Quantity"};
+        return new String[]{"ID", "Name", "Phone Number","RegisDate", "ExpDate", "Book Name","Quantity"};
     }
     public int historyContentIndex(String s){
         switch (s){
@@ -51,34 +51,31 @@ public class HistoryManager {
                 return 4;
             case "Book Name":
                 return 5;
-            case "Book Type":
-                return 6;
             case "Quantity":
-                return 7;
+                return 6;
         }
         return 100;
     }
 
     //Create History
-    public History createHistory(String name, String phoneNumber, Calendar regisDate, Calendar expDate, String bookName,String bookType, int quantity){
+    public HistoryLent createHistory(String name, String phoneNumber, Calendar regisDate, Calendar expDate, String bookName, int quantity){
         codeCount++;
-        return new History(codeCount, name, phoneNumber, regisDate, expDate, bookName,bookType, quantity);
+        return new HistoryLent(codeCount, name, phoneNumber, regisDate, expDate, bookName, quantity);
     }
 
     //Add History
-    public void addHistory(History history){
-        histories.add(history);
+    public void addHistory(HistoryLent historyLent){
+        histories.add(historyLent);
         try {
             history_dataBase.addNewHistory(
                     connection,
-                    history.getID(),
-                    history.getName(),
-                    history.getPhoneNumber(),
-                    history.dateConvert(history.getRegisDate()),
-                    history.dateConvert(history.getExpDate()),
-                    history.getBookName(),
-                    history.getBookType(),
-                    history.getQuantity()
+                    historyLent.getID(),
+                    historyLent.getName(),
+                    historyLent.getPhoneNumber(),
+                    historyLent.dateConvert(historyLent.getRegisDate()),
+                    historyLent.dateConvert(historyLent.getExpDate()),
+                    historyLent.getBookName(),
+                    historyLent.getQuantity()
             );
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
@@ -102,17 +99,16 @@ public class HistoryManager {
         }
         for (Vector<Object> vector : vectors){
             codeCount++;
-            History history = new History(
+            HistoryLent historyLent = new HistoryLent(
                     codeCount,
                     String.valueOf(vector.get(1)),
                     String.valueOf(vector.get(2)),
                     check.dateReConvert(String.valueOf(vector.get(3))),
                     check.dateReConvert(String.valueOf(vector.get(4))),
                     String.valueOf(vector.get(5)),
-                    String.valueOf(vector.get(6)),
-                    Integer.parseInt(String.valueOf(vector.get(7)))
+                    Integer.parseInt(String.valueOf(vector.get(6)))
             );
-            histories.add(history);
+            histories.add(historyLent);
         }
     }
 
@@ -142,9 +138,6 @@ public class HistoryManager {
                         mainObj[count][j] = histories.get(i).getBookName();
                         break;
                     case 6:
-                        mainObj[count][j] = histories.get(i).getBookType();
-                        break;
-                    case 7:
                         mainObj[count][j] = Integer.toString(histories.get(i).getQuantity()) ;
                         break;
                     default:

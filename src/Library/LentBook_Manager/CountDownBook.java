@@ -1,8 +1,7 @@
 package Library.LentBook_Manager;
 
 import Library.Check;
-import Library.Staff_Manager.StaffManager;
-import Library.User_Manager.UserManager;
+import Library.Human.User_Manager.UserManager;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;

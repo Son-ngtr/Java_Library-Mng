@@ -1,8 +1,9 @@
-package Library.User_Manager;
+package Library.Human.User_Manager;
 
 import Database.UserBook_info;
 import Database.User_Database;
 import Library.Check;
+import Library.Human.User_Manager.User;
 import Library.LentBook_Manager.LentBookManager;
 
 import javax.swing.*;
@@ -59,6 +60,15 @@ public class UserManager {
 
     //Lent Book List
     private final ArrayList<LentBookManager> lentBookManagers = new ArrayList<>();
+
+    //Total Book Borrow
+    public int totalBookBorrow(){
+        int sum=0;
+        for (LentBookManager lentBookManager : lentBookManagers){
+            sum+=lentBookManager.numberOfBook();
+        }
+        return sum;
+    }
 
     //User Header
     public String[] userContent(){

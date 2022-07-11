@@ -1,7 +1,5 @@
-package Library.Staff_Manager;
+package Library.Human.Staff_Manager;
 
-import Library.Staff_Manager.StaffManager;
-import Library.User_Manager.UserManager;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;

@@ -2,7 +2,7 @@ package Library.LentBook_Manager;
 
 import Database.LentBook_DataBase;
 import Library.Check;
-import Library.User_Manager.UserManager;
+import Library.Human.User_Manager.UserManager;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -101,6 +101,15 @@ public class LentBookManager {
     //Total Lent Book
     public int totalLentBook(){
         return lentBooks.size();
+    }
+
+    //Number Of Book
+    public int numberOfBook(){
+        int sum = 0;
+        for (LentBook lentBook : lentBooks){
+            sum+=lentBook.getNumberOfBook();
+        }
+        return sum;
     }
 
     //Download LentBook

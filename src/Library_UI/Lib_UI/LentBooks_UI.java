@@ -3,7 +3,8 @@ package Library_UI.Lib_UI;
 import Library.Book_Manager.BookManager;
 import Library.HIstory_Manager.HistoryManager;
 import Library.HIstory_Manager.HistoryReceive_Manager;
-import Library.User_Manager.UserManager;
+import Library.Human.User_Manager.UserManager;
+import Library.Table_Manager.TableManager;
 import Library_UI.Funtion.User_In4_UI;
 import Library_UI.Funtion.lent_UI;
 
@@ -26,9 +27,9 @@ public class LentBooks_UI {
     private DefaultTableModel defaultTableModel, defaultTableModelUser;
     private JTable jt, tableUser;
     private UserManager userManager;
-    private String[] tableContent;
     private HistoryManager historyManager;
     private HistoryReceive_Manager historyReceive_manager;
+    private TableManager tableManager;
 
     //Set Lobby Side
     public void setLobbySide(JFrame jFrameLobby){
@@ -36,12 +37,12 @@ public class LentBooks_UI {
     }
 
     //Constructor
-    public LentBooks_UI(BookManager bookManager, UserManager userManager, HistoryManager historyManager, HistoryReceive_Manager historyReceive_manager){
+    public LentBooks_UI(BookManager bookManager, UserManager userManager, HistoryManager historyManager, HistoryReceive_Manager historyReceive_manager, TableManager tableManager){
         this.bookManager = bookManager;
         this.userManager = userManager;
         this.historyManager = historyManager;
         this.historyReceive_manager = historyReceive_manager;
-        tableContent = bookManager.bookBorrowContent();
+        this.tableManager = tableManager;
         content();
     }
 
@@ -109,7 +110,7 @@ public class LentBooks_UI {
             @Override
             public void mouseClicked(MouseEvent e) {
                 if(userInfoFrame != null){
-                    User_In4_UI user_in4_ui = new User_In4_UI(bookManager, userManager, historyManager,historyReceive_manager );
+                    User_In4_UI user_in4_ui = new User_In4_UI(bookManager, userManager, historyManager,historyReceive_manager ,tableManager);
                     user_in4_ui.setManagerUserSide(userInfoFrame,defaultTableModelUser, tableUser);
                     main_Frame.dispose();
                 }else {
@@ -183,7 +184,7 @@ public class LentBooks_UI {
 
 
         //Table
-        defaultTableModel = new DefaultTableModel(bookManager.listBookBorrow(), tableContent);
+        defaultTableModel = new DefaultTableModel(bookManager.listBookBorrow(),bookManager.bookBorrowContent());
         jt = new JTable(defaultTableModel){
             public boolean isCellEditable(int row, int column) {
                 return false;

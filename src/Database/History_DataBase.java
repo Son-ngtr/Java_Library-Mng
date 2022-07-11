@@ -40,8 +40,7 @@ public class History_DataBase {
             String RegisDate = rs.getString(4);
             String ExpDate = rs.getString(5);
             String BookName = rs.getString(6);
-            String BookType = rs.getString(7);
-            int Quantity = rs.getInt(8);
+            int Quantity = rs.getInt(7);
 
 
             // Ghi vào vector
@@ -52,7 +51,6 @@ public class History_DataBase {
             temp.add(RegisDate);
             temp.add(ExpDate);
             temp.add(BookName);
-            temp.add(BookType);
             temp.add(Quantity);
 
             // Thêm dữ liệu vào data vector chính
@@ -61,12 +59,12 @@ public class History_DataBase {
         return data;
     }
 
-    public void addNewHistory(Connection connection, int ID, String Name, String PhoneNumber, String RegisDate, String ExpDate, String BookName, String BookType
+    public void addNewHistory(Connection connection, int ID, String Name, String PhoneNumber, String RegisDate, String ExpDate, String BookName
             ,int Quantity)
             throws ClassNotFoundException, SQLException {
 
         // Tạo câu lệnh SQL (Cách 2: sử dụng PreparedStatement)
-        String sql = "INSERT INTO history(ID,Name,PhoneNumber,RegisDate,ExpDate,BookName,BookType,Quantity) VALUES(?,?,?,?,?,?,?,?)";
+        String sql = "INSERT INTO history(ID,Name,PhoneNumber,RegisDate,ExpDate,BookName,Quantity) VALUES(?,?,?,?,?,?,?)";
         PreparedStatement stmt = connection.prepareStatement(sql);
         stmt.setInt(1, ID);
         stmt.setString(2, Name);
@@ -74,8 +72,7 @@ public class History_DataBase {
         stmt.setString(4, RegisDate);
         stmt.setString(5, ExpDate);
         stmt.setString(6, BookName);
-        stmt.setString(7, BookType);
-        stmt.setInt(8, Quantity);
+        stmt.setInt(7, Quantity);
 
 
 

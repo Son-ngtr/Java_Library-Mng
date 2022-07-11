@@ -1,7 +1,9 @@
-package Library.Staff_Manager;
+package Library.Human.Staff_Manager;
 
 import Database.Staff_Database;
 import Library.Check;
+import Library.Human.Staff_Manager.Staff;
+
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
