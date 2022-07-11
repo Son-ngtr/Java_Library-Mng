@@ -65,9 +65,16 @@ public class lent_table_UI {
         int width = 176;
         int height = 30;
         int po_x = 59;
-        int po_y = 60;
+        int po_y = 60+80;
 // create 6 button
-        b1 = new JButton("name reader");
+        JButton b0 = new JButton("book name");
+        b0.setBounds(po_x, po_y-80, width, height);
+        b0.setFont(Font_me_3);
+        b0.setBorder(BorderFactory.createLineBorder(Color_me));
+        b0.setForeground(Color_me);
+        b0.setBackground(Color_left);
+
+        b1 = new JButton("reader name");
         b1.setBounds(po_x, po_y, width, height);
         b1.setFont(Font_me_3);
         b1.setBorder(BorderFactory.createLineBorder(Color_me));
@@ -81,37 +88,45 @@ public class lent_table_UI {
         b2.setForeground(Color_me);
         b2.setBackground(Color_left);
 
-        b4 = new JButton("phone.No");
-        b4.setBounds(po_x, po_y+80*2, width, height);
+        b3 = new JButton("phone.No");
+        b3.setBounds(po_x, po_y+80*2, width, height);
+        b3.setFont(Font_me_3);
+        b3.setBorder(BorderFactory.createLineBorder(Color_me));
+        b3.setForeground(Color_me);
+        b3.setBackground(Color_left);
+
+        b4 = new JButton("regis.Date");
+        b4.setBounds(po_x, po_y+80*3, width, height);
         b4.setFont(Font_me_3);
         b4.setBorder(BorderFactory.createLineBorder(Color_me));
         b4.setForeground(Color_me);
         b4.setBackground(Color_left);
 
-        b6 = new JButton("regis.Date");
-        b6.setBounds(po_x, po_y+80*3, width, height);
+        JButton b5 = new JButton("regis.Exp");
+        b5.setBounds(po_x, po_y+80*4, width, height);
+        b5.setFont(Font_me_3);
+        b5.setBorder(BorderFactory.createLineBorder(Color_me));
+        b5.setForeground(Color_me);
+        b5.setBackground(Color_left);
+
+        JButton b6 = new JButton("quantity.Books");
+        b6.setBounds(po_x, po_y+80*5, width, height);
         b6.setFont(Font_me_3);
         b6.setBorder(BorderFactory.createLineBorder(Color_me));
         b6.setForeground(Color_me);
         b6.setBackground(Color_left);
 
-        JButton b7 = new JButton("regis.Exp");
-        b7.setBounds(po_x, po_y+80*4, width, height);
-        b7.setFont(Font_me_3);
-        b7.setBorder(BorderFactory.createLineBorder(Color_me));
-        b7.setForeground(Color_me);
-        b7.setBackground(Color_left);
-
-        JButton b8 = new JButton("quantity.Books");
-        b8.setBounds(po_x, po_y+80*5, width, height);
-        b8.setFont(Font_me_3);
-        b8.setBorder(BorderFactory.createLineBorder(Color_me));
-        b8.setForeground(Color_me);
-        b8.setBackground(Color_left);
-
 
 
 // create 6 text fields
+        JTextField txt_0 = new JTextField("???");
+        txt_0.setBackground(Color_left);
+        txt_0.setBounds(283, po_y-80, 337, height);
+        txt_0.setForeground(Color_me);
+        txt_0.setBorder(BorderFactory.createLineBorder(Color_me));
+        txt_0.setFont(Font_me_3);
+        txt_0.setEditable(false);
+
         txt_1 = new JTextField();
         txt_1.setBackground(Color_left);
         txt_1.setBounds(283, po_y, 337, height);
@@ -125,38 +140,38 @@ public class lent_table_UI {
         gd.setBorder(BorderFactory.createLineBorder(Color_me));
         gd.setFont(Font_me_3);
 
-        txt_4 = new JTextField();
+        txt_3 = new JTextField();
+        txt_3.setBackground(Color_left);
+        txt_3.setBounds(283, po_y+80*2, 337, height);
+        txt_3.setForeground(Color_me);
+        txt_3.setBorder(BorderFactory.createLineBorder(Color_me));
+        txt_3.setFont(Font_me_3);
+
+        txt_4 = new JTextField(dtf.format(now));
+        txt_4.getText().toString();
         txt_4.setBackground(Color_left);
-        txt_4.setBounds(283, po_y+80*2, 337, height);
+        txt_4.setBounds(283, po_y+80*3, 337, height);
         txt_4.setForeground(Color_me);
         txt_4.setBorder(BorderFactory.createLineBorder(Color_me));
         txt_4.setFont(Font_me_3);
+        txt_4.setEditable(false);
 
-        txt_6 = new JTextField(dtf.format(now));
-        txt_6.getText().toString();
+        JTextField txt_5 = new JTextField(dtf.format(now));
+        txt_5.getText().toString();
+        txt_5.setBackground(Color_left);
+        txt_5.setBounds(283, po_y+80*4, 337, height);
+        txt_5.setForeground(Color_me);
+        txt_5.setBorder(BorderFactory.createLineBorder(Color_me));
+        txt_5.setFont(Font_me_3);
+        txt_5.setEditable(false);
+
+
+        txt_6 = new JTextField();
         txt_6.setBackground(Color_left);
-        txt_6.setBounds(283, po_y+80*3, 337, height);
+        txt_6.setBounds(283, po_y+80*5, 337, height);
         txt_6.setForeground(Color_me);
         txt_6.setBorder(BorderFactory.createLineBorder(Color_me));
         txt_6.setFont(Font_me_3);
-        txt_6.setEditable(false);
-
-        JTextField txt_7 = new JTextField(dtf.format(now));
-        txt_7.getText().toString();
-        txt_7.setBackground(Color_left);
-        txt_7.setBounds(283, po_y+80*4, 337, height);
-        txt_7.setForeground(Color_me);
-        txt_7.setBorder(BorderFactory.createLineBorder(Color_me));
-        txt_7.setFont(Font_me_3);
-        txt_7.setEditable(false);
-
-
-        txt_8 = new JTextField();
-        txt_8.setBackground(Color_left);
-        txt_8.setBounds(283, po_y+80*5, 337, height);
-        txt_8.setForeground(Color_me);
-        txt_8.setBorder(BorderFactory.createLineBorder(Color_me));
-        txt_8.setFont(Font_me_3);
 
 // create 3 function bt
         bt_save = new JButton("save");
@@ -184,19 +199,21 @@ public class lent_table_UI {
 
 
 // add all properties on UI
+        label.add(b0);
         label.add(b1);
         label.add(b2);
+        label.add(b3);
         label.add(b4);
+        label.add(b5);
         label.add(b6);
-        label.add(b7);
-        label.add(b8);
 
+        label.add(txt_0);
         label.add(txt_1);
         label.add(gd);
+        label.add(txt_3);
         label.add(txt_4);
+        label.add(txt_5);
         label.add(txt_6);
-        label.add(txt_7);
-        label.add(txt_8);
 
         label.add(bt_save);
         label.add(bt_exit);
