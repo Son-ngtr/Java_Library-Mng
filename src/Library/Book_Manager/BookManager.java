@@ -18,8 +18,7 @@ public class BookManager {
     private NovelBook novelBook = new NovelBook();
     private PsychologyBook psychologyBook = new PsychologyBook();
     private LearningBook learningBook = new LearningBook();
-    private ConectionDTB conectionDTB = new ConectionDTB();
-    private Connection connection = conectionDTB.getConnect();
+    private Connection connection;
 
     Check check = new Check();
     private boolean isUpdate = false;
@@ -28,6 +27,11 @@ public class BookManager {
     private int codeCountChild = 0;
     private int codeCountLearning = 0;
     private int codeCountPsychology = 0;
+
+    //Constructor
+    public BookManager(Connection connection){
+        this.connection = connection;
+    }
 
     //Getter and Setter
     public boolean getIsUpdate() {

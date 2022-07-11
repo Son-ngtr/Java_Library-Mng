@@ -1,8 +1,6 @@
 package Library.HIstory_Manager;
 
-import Database.ConectionDTB;
 import Database.HistoryReceive_DataBase;
-import Database.History_DataBase;
 import Library.Check;
 
 import java.sql.Connection;
@@ -13,11 +11,15 @@ import java.util.Vector;
 
 public class HistoryReceive_Manager {
     private Check check = new Check();
-    private ConectionDTB conectionDTB = new ConectionDTB();
-    private Connection connection = conectionDTB.getConnect();
+    private Connection connection;
     private HistoryReceive_DataBase historyReceive_dataBase = new HistoryReceive_DataBase();
     private boolean isUpdate = false;
     private int codeCount = 0;
+
+    //Constructor
+    public HistoryReceive_Manager(Connection connection){
+        this.connection = connection;
+    }
 
     //Getter and Setter
     public boolean isUpdate() {
@@ -33,7 +35,7 @@ public class HistoryReceive_Manager {
 
     //History Header
     public String[] historyReceiveContent(){
-        return new String[]{"ID", "Name", "Phone Number","RegisDate", "ExpDate", "Book Name", "Book Type","Quantity","Return Day"};
+        return new String[]{"ID", "Name", "Phone Number", "ExpDate", "Book Name", "Quantity","Return Day"};
     }
     public int historyReceiveContentIndex(String s){
         switch (s){
@@ -43,27 +45,23 @@ public class HistoryReceive_Manager {
                 return 1;
             case "Phone Number":
                 return 2;
-            case "RegisDate":
-                return 3;
             case "ExpDate":
-                return 4;
+                return 3;
             case "Book Name":
-                return 5;
-            case "Book Type":
-                return 6;
+                return 4;
             case "Quantity":
-                return 7;
+                return 5;
             case "Return Day":
-                return 8;
+                return 6;
         }
 
         return 100;
     }
 
     //Create History Receive
-    public HistoryReceive createHistory(String name, String phoneNumber, Calendar regisDate, Calendar expDate, String bookName, String bookType, int quantity, Calendar returnDate){
+    public HistoryReceive createHistory(String name, String phoneNumber, Calendar expDate, String bookName ,int quantity, Calendar returnDate){
         codeCount++;
-        return new HistoryReceive(codeCount, name, phoneNumber, regisDate, expDate, bookName,bookType, quantity, returnDate);
+        return new HistoryReceive(codeCount, name, phoneNumber,  expDate, bookName, quantity, returnDate);
     }
 
     //Add History Receive
@@ -75,10 +73,8 @@ public class HistoryReceive_Manager {
                     historyReceive.getID(),
                     historyReceive.getName(),
                     historyReceive.getPhoneNumber(),
-                    historyReceive.dateConvert(historyReceive.getRegisDate()),
                     historyReceive.dateConvert(historyReceive.getExpDate()),
                     historyReceive.getBookName(),
-                    historyReceive.getBookType(),
                     historyReceive.getQuantity(),
                     historyReceive.dateConvert(historyReceive.getReturnDate())
             );
@@ -109,21 +105,21 @@ public class HistoryReceive_Manager {
                     String.valueOf(vector.get(1)),
                     String.valueOf(vector.get(2)),
                     check.dateReConvert(String.valueOf(vector.get(3))),
-                    check.dateReConvert(String.valueOf(vector.get(4))),
-                    String.valueOf(vector.get(5)),
-                    String.valueOf(vector.get(6)),
-                    Integer.parseInt(String.valueOf(vector.get(7))),
-                    check.dateReConvert(String.valueOf(vector.get(8)))
+                    String.valueOf(vector.get(4)),
+                    Integer.parseInt(String.valueOf(vector.get(5))),
+                    check.dateReConvert(String.valueOf(vector.get(6)))
             );
+            historyReceives.add(historyReceive);
         }
     }
 
     //History List
     public String[][] listHistoryReceive(){
+
         String[][] mainObj = new String[totalHistory()][historyReceiveContent().length];
         int count = 0;
         for (int i=historyReceives.size()-1; i>=0; i--){
-            for (int j=0; i<historyReceiveContent().length; j++){
+            for (int j=0; j<historyReceiveContent().length; j++){
                 switch (j){
                     case 0:
                         mainObj[count][j] = "HL" + String.valueOf(historyReceives.get(i).getID());
@@ -135,21 +131,15 @@ public class HistoryReceive_Manager {
                         mainObj[count][j] = historyReceives.get(i).getPhoneNumber();
                         break;
                     case 3:
-                        mainObj[count][j] = historyReceives.get(i).dateConvert(historyReceives.get(i).getRegisDate());
-                        break;
-                    case 4:
                         mainObj[count][j] = historyReceives.get(i).dateConvert(historyReceives.get(i).getExpDate());
                         break;
-                    case 5:
+                    case 4:
                         mainObj[count][j] = historyReceives.get(i).getBookName();
                         break;
+                    case 5:
+                        mainObj[count][j] = String.valueOf(historyReceives.get(i).getQuantity());
+                        break;
                     case 6:
-                        mainObj[count][j] = historyReceives.get(i).getBookType();
-                        break;
-                    case 7:
-                        mainObj[count][j] = Integer.toString(historyReceives.get(i).getQuantity()) ;
-                        break;
-                    case 8:
                         mainObj[count][j] = historyReceives.get(i).dateConvert(historyReceives.get(i).getReturnDate());
                         break;
                     default:
@@ -158,6 +148,7 @@ public class HistoryReceive_Manager {
             }
             count++;
         }
+
         return mainObj;
     }
 }

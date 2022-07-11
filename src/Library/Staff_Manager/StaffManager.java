@@ -1,6 +1,5 @@
 package Library.Staff_Manager;
 
-import Database.ConectionDTB;
 import Database.Staff_Database;
 import Library.Check;
 import java.sql.Connection;
@@ -13,9 +12,13 @@ public class StaffManager {
     private Check check = new Check();
     private boolean isUpdate = false;
     private int codeCount = 0;
-    private ConectionDTB conectionDTB = new ConectionDTB();
-    private Connection connection = conectionDTB.getConnect();
+    private Connection connection;
     private Staff_Database staff_database = new Staff_Database();
+
+    //Constructor
+    public StaffManager(Connection connection){
+        this.connection = connection;
+    }
 
 
     //Getter and Setter

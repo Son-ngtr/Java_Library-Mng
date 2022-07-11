@@ -37,12 +37,10 @@ public class HistoryReceive_DataBase {
             int ID = rs.getInt(1);
             String Name = rs.getString(2);
             String PhoneNumber = rs.getString(3);
-            String RegisDate = rs.getString(4);
-            String ExpDate = rs.getString(5);
-            String BookName = rs.getString(6);
-            String BookType = rs.getString(7);
-            int Quantity = rs.getInt(8);
-            String ReturnDate = rs.getString(9);
+            String ExpDate = rs.getString(4);
+            String BookName = rs.getString(5);
+            int Quantity = rs.getInt(6);
+            String ReturnDate = rs.getString(7);
 
 
             // Ghi vào vector
@@ -50,10 +48,8 @@ public class HistoryReceive_DataBase {
             temp.add(ID);
             temp.add(Name);
             temp.add(PhoneNumber);
-            temp.add(RegisDate);
             temp.add(ExpDate);
             temp.add(BookName);
-            temp.add(BookType);
             temp.add(Quantity);
             temp.add(ReturnDate);
 
@@ -63,22 +59,20 @@ public class HistoryReceive_DataBase {
         return data;
     }
 
-    public void addNewHistory(Connection connection, int ID, String Name, String PhoneNumber, String RegisDate, String ExpDate, String BookName, String BookType
+    public void addNewHistory(Connection connection, int ID, String Name, String PhoneNumber, String ExpDate, String BookName
             ,int Quantity, String ReturnDate)
             throws ClassNotFoundException, SQLException {
 
         // Tạo câu lệnh SQL (Cách 2: sử dụng PreparedStatement)
-        String sql = "INSERT INTO historyreceive(ID,Name,PhoneNumber,RegisDate,ExpDate,BookName,BookType,Quantity,ReturnDate) VALUES(?,?,?,?,?,?,?,?,?)";
+        String sql = "INSERT INTO historyreceive(ID,Name,PhoneNumber,ExpDate,BookName,Quantity,ReturnDate) VALUES(?,?,?,?,?,?,?)";
         PreparedStatement stmt = connection.prepareStatement(sql);
         stmt.setInt(1, ID);
         stmt.setString(2, Name);
         stmt.setString(3, PhoneNumber);
-        stmt.setString(4, RegisDate);
-        stmt.setString(5, ExpDate);
-        stmt.setString(6, BookName);
-        stmt.setString(7, BookType);
-        stmt.setInt(8, Quantity);
-        stmt.setString(9, ReturnDate);
+        stmt.setString(4, ExpDate);
+        stmt.setString(5, BookName);
+        stmt.setInt(6, Quantity);
+        stmt.setString(7, ReturnDate);
 
 
 

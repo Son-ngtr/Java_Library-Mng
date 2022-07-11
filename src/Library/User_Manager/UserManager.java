@@ -1,10 +1,8 @@
 package Library.User_Manager;
 
-import Database.ConectionDTB;
 import Database.UserBook_info;
 import Database.User_Database;
 import Library.Check;
-import Library.LentBook_Manager.CountDownBook;
 import Library.LentBook_Manager.LentBookManager;
 
 import javax.swing.*;
@@ -25,9 +23,13 @@ public class UserManager {
     private UserBook_info userBook_info = new UserBook_info();
     private boolean isUpdate = false;
     private int codeCount = 0;
-    private ConectionDTB conectionDTB = new ConectionDTB();
-    private Connection connection = conectionDTB.getConnect();
+    private Connection connection;
     private String[] useLentInfo;
+
+    //Constructor
+    public UserManager(Connection connection){
+        this.connection = connection;
+    }
 
     //Getter and Setter
     public boolean getIsUpdate() {
@@ -99,7 +101,7 @@ public class UserManager {
 
     //Add LentBookManager
     public void addLentBookManager(){
-        lentBookManagers.add(new LentBookManager(String.valueOf(codeCount)));
+        lentBookManagers.add(new LentBookManager(connection, String.valueOf(codeCount)));
     }
 
     //Get LentBook Manager
@@ -296,16 +298,12 @@ public class UserManager {
     }
 
     //Start Count Down
-    public void startCountDown(LentBookManager lentBookManager, JTable tableBook, UserManager userManager, DefaultTableModel defaultTableModelBook){
-        for (LentBookManager lentBookList : lentBookManagers){
-            lentBookList.startCountDown(lentBookManager, tableBook, userManager, defaultTableModelBook);
-        }
+    public void startCountDown(String userID,LentBookManager lentBookManager, JTable tableBook, UserManager userManager, DefaultTableModel defaultTableModelBook){
+        lentBookManagers.get(Integer.parseInt(userID) - 1).startCountDown(lentBookManager, tableBook, userManager, defaultTableModelBook);
     }
 
     //Stop Run
-    public void stopCountDown(){
-        for (LentBookManager lentBooklist : lentBookManagers){
-            lentBooklist.stopRun();
-        }
+    public void stopCountDown(String userID){
+        lentBookManagers.get(Integer.parseInt(userID) - 1).stopRun();
     }
 }

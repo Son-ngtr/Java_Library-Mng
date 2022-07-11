@@ -1,11 +1,8 @@
 package Library_UI.Book_Category;
 
-import Database.ConectionDTB;
 import Library.Check;
 import Library.Book_Manager.BookManager;
 import Library_UI.Funtion.Add_novel_UI;
-import Library_UI.Funtion.Addbook_UI;
-import Library_UI.Lib_UI.Lobby_UI;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
@@ -19,13 +16,8 @@ import javax.swing.table.TableRowSorter;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.sql.Connection;
-import java.util.Calendar;
 
 public class Novel_UI {
-    private ConectionDTB conectionDTB = new ConectionDTB();
-    private Connection connection = conectionDTB.getConnect();
-
     //Constructor
     public Novel_UI(BookManager bookManager){
         this.bookManager = bookManager;
@@ -34,7 +26,7 @@ public class Novel_UI {
         Content();
     }
 
-    private JFrame main_Frame;
+    private JFrame main_Frame, lobbyFrame;
     private ImageIcon bk_Icon;
     private JLabel label, notification_Label, logout_Label, exit_Label;
     private JButton bt_add, bt_remove, bt_search;
@@ -46,6 +38,11 @@ public class Novel_UI {
     private JComboBox cbNovelType ;
     private JComboBox cbNovelRecommentForAge;
     private Check check = new Check();
+
+    //Set Lobby Side
+    public void setLobbySide(JFrame jFrameLobby){
+        lobbyFrame = jFrameLobby;
+    }
 
     //Table add Combobox and CheckBox
     public void tableAddCombobox(){
@@ -102,8 +99,8 @@ public class Novel_UI {
         logout_Label.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
+                lobbyFrame.setEnabled(true);
                 main_Frame.dispose();
-                new Lobby_UI();
             }
 
             @Override
@@ -166,6 +163,7 @@ public class Novel_UI {
             @Override
             public void mouseClicked(MouseEvent e) {
                 TextBook_UI textBook_ui = new TextBook_UI(bookManager);
+                textBook_ui.setLobbySide(lobbyFrame);
                 main_Frame.dispose();
             }
 
@@ -198,6 +196,7 @@ public class Novel_UI {
             @Override
             public void mouseClicked(MouseEvent e) {
                 PsyBook_UI psyBook_ui = new PsyBook_UI(bookManager);
+                psyBook_ui.setLobbySide(lobbyFrame);
                 main_Frame.dispose();
             }
 

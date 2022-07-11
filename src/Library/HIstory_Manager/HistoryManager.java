@@ -1,9 +1,7 @@
 package Library.HIstory_Manager;
 
-import Database.ConectionDTB;
 import Database.History_DataBase;
 import Library.Check;
-import Library.Staff_Manager.Staff;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -13,11 +11,15 @@ import java.util.Vector;
 
 public class HistoryManager {
     private Check check = new Check();
-    private ConectionDTB conectionDTB = new ConectionDTB();
-    private Connection connection = conectionDTB.getConnect();
+    private Connection connection;
     private History_DataBase history_dataBase = new History_DataBase();
     private boolean isUpdate = false;
     private int codeCount = 0;
+
+    //Constructor
+    public HistoryManager(Connection connection){
+        this.connection = connection;
+    }
 
     //Getter and Setter
     public boolean isUpdate() {

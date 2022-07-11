@@ -1,14 +1,11 @@
 package Library_UI.Lib_UI;
 
-import Database.ConectionDTB;
 import Library.Book_Manager.BookManager;
 import Library.Check;
 import Library.HIstory_Manager.HistoryManager;
-import Library.LentBook_Manager.LentBookManager;
-import Library.Staff_Manager.StaffManager;
+import Library.HIstory_Manager.HistoryReceive_Manager;
 import Library.User_Manager.UserManager;
 import Library_UI.Funtion.AddUser_UI;
-import Library_UI.Funtion.Addbook_UI;
 import Library_UI.Funtion.User_In4_UI;
 
 import javax.swing.*;
@@ -23,11 +20,9 @@ import javax.swing.table.TableRowSorter;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.sql.Connection;
-import java.util.Calendar;
 
 public class ManageUser_UI {
-    private JFrame main_Frame;
+    private JFrame main_Frame, lobbyFrame;
     private ImageIcon bk_Icon, notepad_Icon, login_Ani, login_ef;
     private JLabel label, notification_Label, login_Icon, logout_Label, exit_Label,brand;
     private JButton button, bt_add, bt_remove, bt_search;
@@ -40,16 +35,20 @@ public class ManageUser_UI {
     private BookManager bookManager;
     private JComboBox cb;
     private Check check = new Check();
-    private ConectionDTB conectionDTB = new ConectionDTB();
-    private Connection connection = conectionDTB.getConnect();
     private HistoryManager historyManager;
+    private HistoryReceive_Manager historyReceive_manager;
 
+    //Set Lobby Side
+    public void setLobbySide(JFrame jFrameLobby){
+        lobbyFrame = jFrameLobby;
+    }
 
     //Constructor
-    public ManageUser_UI(BookManager bookManager, UserManager userManager, HistoryManager historyManager){
+    public ManageUser_UI(BookManager bookManager, UserManager userManager, HistoryManager historyManager, HistoryReceive_Manager historyReceive_manager){
         this.bookManager = bookManager;
         this.userManager = userManager;
         this.historyManager = historyManager;
+        this.historyReceive_manager = historyReceive_manager;
         cb = new JComboBox(userManager.userGender());
         content();
     }
@@ -103,8 +102,8 @@ public class ManageUser_UI {
         logout_Label.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
+                lobbyFrame.setEnabled(true);
                 main_Frame.dispose();
-                new Lobby_UI();
             }
 
             @Override
@@ -296,7 +295,7 @@ public class ManageUser_UI {
                             userEmail
                     });
 
-                    User_In4_UI user_in4_ui = new User_In4_UI( bookManager, userManager, historyManager);
+                    User_In4_UI user_in4_ui = new User_In4_UI( bookManager, userManager, historyManager,historyReceive_manager);
                     user_in4_ui.setManagerUserSide(main_Frame, defaultTableModel, jt);
                     main_Frame.setEnabled(false);
                 }else {

@@ -1,7 +1,6 @@
 package Library_UI.Lib_UI;
 
 
-import Database.ConectionDTB;
 import Library.Book_Manager.BookManager;
 import Library.HIstory_Manager.HistoryManager;
 import Library.HIstory_Manager.HistoryReceive_Manager;
@@ -11,12 +10,9 @@ import Library.User_Manager.UserManager;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.Color;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.sql.Connection;
-import java.util.Calendar;
 import javax.swing.JFrame;
 
 
@@ -28,8 +24,7 @@ public class Lobby_UI {
     private JTextField txt_Group, txt_Reader, txt_NoBook, txt_NoBookBorrowed;
     private JButton logIn;
     private JPanel inFo;
-    private ConectionDTB conectionDTB = new ConectionDTB();
-    private Connection connection = conectionDTB.getConnect();
+    private Connection connection;
     private BookManager bookManager ;
     private UserManager userManager ;
     private StaffManager staffManager;
@@ -37,23 +32,28 @@ public class Lobby_UI {
     private HistoryReceive_Manager historyReceive_manager;
 
     //Constructor
-    public Lobby_UI(){
-        bookManager = new BookManager();
-        userManager = new UserManager();
-        staffManager = new StaffManager();
-        historyManager = new HistoryManager();
-        historyReceive_manager = new HistoryReceive_Manager();
+    public Lobby_UI(Connection connection){
+        this.connection = connection;
+        bookManager = new BookManager(connection);
+        userManager = new UserManager(connection);
+        staffManager = new StaffManager(connection);
+        historyManager = new HistoryManager(connection);
+        historyReceive_manager = new HistoryReceive_Manager(connection);
         content();
     }
 
-
-    public void content(){
-        //Dowload From My SQL
+    //Dowload Data
+    public void downloadData(){
         bookManager.downloadAllBook();
         userManager.downloadAllUser();
         staffManager.downloadAllStaff();
         historyManager.downLoadHistory();
+        historyReceive_manager.downloadHistoryReceive();
+    }
 
+    public void content(){
+        //Dowload From My SQL
+        downloadData();
 
         ImageIcon bk_Icon = new ImageIcon("src/Image_Icon/background/lobby_1.png");
         label = new JLabel(bk_Icon);
@@ -172,8 +172,9 @@ public class Lobby_UI {
         b1.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                main_Frame.dispose();
                 ManageBook_UI manageBook_ui = new ManageBook_UI(bookManager);
+                manageBook_ui.setLobbySide(main_Frame);
+                main_Frame.setEnabled(false);
             }
 
             @Override
@@ -208,8 +209,9 @@ public class Lobby_UI {
         b2.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                new ManageUser_UI(bookManager, userManager, historyManager);
-                main_Frame.dispose();
+                ManageUser_UI manageUser_ui = new ManageUser_UI(bookManager, userManager, historyManager, historyReceive_manager);
+                manageUser_ui.setLobbySide(main_Frame);
+                main_Frame.setEnabled(false);
             }
 
             @Override
@@ -244,8 +246,14 @@ public class Lobby_UI {
         b3.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                new ManageStaff_UI(staffManager);
-                main_Frame.dispose();
+                //ReDownLoad
+                staffManager = new StaffManager(connection);
+                staffManager.downloadAllStaff();
+
+
+                ManageStaff_UI manageStaff_ui = new ManageStaff_UI(staffManager);
+                manageStaff_ui.setLobbySide(main_Frame);
+                main_Frame.setEnabled(false);
             }
 
             @Override
@@ -280,8 +288,9 @@ public class Lobby_UI {
         b4.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                new LentBooks_UI(bookManager, userManager,historyManager);
-                main_Frame.dispose();
+                LentBooks_UI lentBooks_ui = new LentBooks_UI(bookManager, userManager,historyManager, historyReceive_manager);
+                lentBooks_ui.setLobbySide(main_Frame);
+                main_Frame.setEnabled(false);
             }
 
             @Override
@@ -316,8 +325,9 @@ public class Lobby_UI {
         b5.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                new DayHis_UI(historyManager, historyReceive_manager);
-                main_Frame.dispose();
+                DayHis_UI dayHis_ui = new DayHis_UI(historyManager, historyReceive_manager);
+                dayHis_ui.setLobbySide(main_Frame);
+                main_Frame.setEnabled(false);
             }
 
             @Override
@@ -352,8 +362,9 @@ public class Lobby_UI {
         b6.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                new Team_In4();
-                main_Frame.dispose();
+                Team_In4 team_in4 = new Team_In4();
+                team_in4.setLobbySide(main_Frame);
+                main_Frame.setEnabled(false);
             }
 
             @Override

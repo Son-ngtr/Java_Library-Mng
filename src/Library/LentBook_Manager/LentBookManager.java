@@ -1,32 +1,27 @@
 package Library.LentBook_Manager;
 
-import Database.ConectionDTB;
 import Database.LentBook_DataBase;
-import Database.UserBook_info;
 import Library.Check;
-import Library.Staff_Manager.Staff;
 import Library.User_Manager.UserManager;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import java.nio.file.StandardWatchEventKinds;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Vector;
-import java.util.function.BiPredicate;
 
 public class LentBookManager {
     private Check check = new Check();
     LentBook_DataBase lentBook_dataBase;
-    private ConectionDTB conectionDTB = new ConectionDTB();
-    private Connection connection = conectionDTB.getConnect();
+    private Connection connection;
     private int codeCount = 0;
     private String userID;
 
     //Constructor
-    public LentBookManager(String ID){
+    public LentBookManager(Connection connection,String ID){
+        this.connection = connection;
         this.userID = ID;
         lentBook_dataBase = new LentBook_DataBase(ID);
     }

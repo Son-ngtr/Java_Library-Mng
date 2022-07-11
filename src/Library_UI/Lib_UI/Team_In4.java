@@ -1,17 +1,17 @@
 package Library_UI.Lib_UI;
 
-import Database.ConectionDTB;
-
 import javax.swing.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.sql.Connection;
 
 public class Team_In4 {
-    private JFrame main_Frame;
+    private JFrame main_Frame, lobbyFrame;
     private JLabel label, notification_Label, logout_Label, exit_Label;
-    private ConectionDTB conectionDTB = new ConectionDTB();
-    private Connection connection = conectionDTB.getConnect();
+
+    //Set Lobby Side
+    public void setLobbySide(JFrame jFrameLobby){
+        lobbyFrame = jFrameLobby;
+    }
 
     //Constructor
     public Team_In4(){
@@ -62,8 +62,8 @@ public class Team_In4 {
         logout_Label.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
+                lobbyFrame.setEnabled(true);
                 main_Frame.dispose();
-                new Lobby_UI();
             }
 
             @Override

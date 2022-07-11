@@ -1,6 +1,5 @@
 package Library_UI.Lib_UI;
 
-import Database.ConectionDTB;
 import Library.Check;
 import Library.Staff_Manager.CountDownStaff;
 import Library.Staff_Manager.StaffManager;
@@ -18,11 +17,10 @@ import javax.swing.table.TableRowSorter;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.sql.Connection;
 import java.util.Calendar;
 
 public class ManageStaff_UI {
-    private JFrame main_Frame;
+    private JFrame main_Frame, lobbyFrame;
     private ImageIcon bk_Icon, notepad_Icon, login_Ani, login_ef;
     private JLabel label, notification_Label, login_Icon, logout_Label, exit_Label, brand;
     private JButton button, bt_add, bt_remove, bt_search;
@@ -37,9 +35,12 @@ public class ManageStaff_UI {
     private JComboBox cbAttendence;
     private CountDownStaff countDown;
     private Check check = new Check();
-    private ConectionDTB conectionDTB = new ConectionDTB();
-    private Connection connection = conectionDTB.getConnect();
     private Calendar currentTime = Calendar.getInstance();
+
+    //Set Lobby Side
+    public void setLobbySide(JFrame jFrameLobby){
+        lobbyFrame = jFrameLobby;
+    }
 
     //Constructor
     public ManageStaff_UI(StaffManager staffManager){
@@ -107,8 +108,8 @@ public class ManageStaff_UI {
             @Override
             public void mouseClicked(MouseEvent e) {
                 countDown.stopRun();
+                lobbyFrame.setEnabled(true);
                 main_Frame.dispose();
-                new Lobby_UI();
             }
 
             @Override
