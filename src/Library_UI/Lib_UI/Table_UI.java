@@ -1,6 +1,13 @@
 package Library_UI.Lib_UI;
 
+import Library.Book_Manager.BookManager;
+import Library.HIstory_Manager.HistoryManager;
+import Library.Table_Manager.Table;
+import Library.Table_Manager.TableManager;
+import Library.User_Manager.UserManager;
+
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import java.awt.*;
 import java.awt.event.MouseEvent;
@@ -8,9 +15,31 @@ import java.awt.event.MouseListener;
 
 public class Table_UI {
 
-    private JFrame main_Frame;
+    private JFrame main_Frame, lobbyFrame;
+    private JTable jt;
+    private DefaultTableModel defaultTableModel;
+    private TableManager tableManager;
+    private String code;
+    private UserManager userManager;
+    private BookManager bookManager;
 
-    public Table_UI(){
+    //Constructor
+    public Table_UI(TableManager tableManager){
+        this.tableManager = tableManager;
+        content();
+    }
+    public Table_UI(String code, UserManager userManager , BookManager bookManager){
+        this.code = code;
+        this.userManager = userManager;
+        this.bookManager = bookManager;
+    }
+
+    //Set Lobby Side
+    public void setLobbySide(JFrame jFrameLobby){
+        lobbyFrame = jFrameLobby;
+    }
+
+    public void content(){
         ImageIcon bk_Icon = new ImageIcon("src/Image_Icon/background/Table/sfff (1).png");
         JLabel label = new JLabel(bk_Icon);
         label.setSize(1794,956);
@@ -63,8 +92,8 @@ public class Table_UI {
         logout_Label.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
+                lobbyFrame.setEnabled(true);
                 main_Frame.dispose();
-                new Lobby_UI();
             }
 
             @Override
@@ -119,20 +148,19 @@ public class Table_UI {
         });
 
         ImageIcon table_Icon = new ImageIcon("src/Image_Icon/background/Table/dinner-table (3).png");
-        JLabel table_Label = new JLabel(table_Icon);
-        table_Label.setSize(75,75);
-        table_Label.setBounds(1100, 500, 75, 75);
-
+        ImageIcon table_full_Icon = new ImageIcon("src/Image_Icon/background/Table/dinner-table-full.png");
 
 // create table area in left of Frame
-        JLabel table_Area = new JLabel();
-
         JLabel[] table_LB = new JLabel[20];
         JLabel[] table_Name = new JLabel[20];
+
+
+        //Line 1
         for (int i = 0; i < 5; i++){
             int y = 90;
             int t = i;
-            table_LB[i] = new JLabel(table_Icon);
+
+            table_LB[i] = new JLabel();
             table_LB[i].setSize(75,75);
             table_LB[i].setBounds(1207+ (t-2)*200, y, 75, 75);
 
@@ -140,42 +168,78 @@ public class Table_UI {
             table_Name[i].setBounds(1207+ (t-2)*200 + 15, y+65, 75, 75);
             table_Name[i].setFont(Font_me_3);
             table_Name[i].setForeground(Color_ForeG);
-            int finalI = i;
-            table_Name[i].addMouseListener(new MouseListener() {
-                @Override
-                public void mouseClicked(MouseEvent e) {
 
+            //Set enable
+            if(userManager != null){
+                if(tableManager.checkUsedTable(i)){
+                    table_LB[i].setIcon(table_full_Icon);
+                    table_Name[i].setForeground(Color_me);
+                }else {
+                    table_LB[i].setIcon(table_Icon);
+                    table_Name[i].setForeground(Color_ForeG);
                 }
 
-                @Override
-                public void mousePressed(MouseEvent e) {
+                //Table Action
+                int finalI = i;
+                table_LB[i].addMouseListener(new MouseListener() {
+                    @Override
+                    public void mouseClicked(MouseEvent e) {
+                        if(table_LB[finalI].getIcon().equals(table_full_Icon)){
+                            JOptionPane.showMessageDialog(null,"Table " + finalI + " Is Full");
+                        }else {
+                            if (JOptionPane.showConfirmDialog(null, "Chose table " + finalI +". Are you sure ?",  "Table",
+                                    JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
 
+                                //Set Color
+                                table_LB[finalI].setIcon(table_full_Icon);
+                                table_Name[finalI].setForeground(Color_me);
+
+                                //Input Value
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void mousePressed(MouseEvent e) {
+
+                    }
+
+                    @Override
+                    public void mouseReleased(MouseEvent e) {
+
+                    }
+
+                    @Override
+                    public void mouseEntered(MouseEvent e) {
+
+                    }
+
+                    @Override
+                    public void mouseExited(MouseEvent e) {
+
+                    }
+                });
+            }else {
+                if(tableManager.checkUsedTable(i+1)){
+                    table_LB[i].setIcon(table_full_Icon);
+                    table_Name[i].setForeground(Color_me);
+                }else {
+                    table_LB[i].setIcon(table_Icon);
+                    table_Name[i].setForeground(Color_ForeG);
                 }
+            }
 
-                @Override
-                public void mouseReleased(MouseEvent e) {
-
-                }
-
-                @Override
-                public void mouseEntered(MouseEvent e) {
-                    table_Name[finalI].setForeground(Color_me);
-                }
-
-                @Override
-                public void mouseExited(MouseEvent e) {
-                    table_Name[finalI].setForeground(Color_ForeG);
-                }
-            });
-
+            //Add To Label
             label.add(table_Name[i]);
             label.add(table_LB[i]);
         }
 
+        //Line 2
         for (int i = 5; i < 10; i++){
             int y = 90+200;
             int t = i-5;
-            table_LB[i] = new JLabel(table_Icon);
+
+            table_LB[i] = new JLabel();
             table_LB[i].setSize(75,75);
             table_LB[i].setBounds(1207+ (t-2)*200, y, 75, 75);
 
@@ -183,42 +247,76 @@ public class Table_UI {
             table_Name[i].setBounds(1207+ (t-2)*200 + 15, y+65, 75, 75);
             table_Name[i].setFont(Font_me_3);
             table_Name[i].setForeground(Color_ForeG);
-            int finalI = i;
-            table_Name[i].addMouseListener(new MouseListener() {
-                @Override
-                public void mouseClicked(MouseEvent e) {
 
+            if(userManager != null){
+                if(tableManager.checkUsedTable(i)){
+                    table_LB[i].setIcon(table_full_Icon);
+                    table_Name[i].setForeground(Color_me);
+                }else {
+                    table_LB[i].setIcon(table_Icon);
+                    table_Name[i].setForeground(Color_ForeG);
                 }
 
-                @Override
-                public void mousePressed(MouseEvent e) {
+                //Table Action
+                int finalI = i;
+                table_LB[i].addMouseListener(new MouseListener() {
+                    @Override
+                    public void mouseClicked(MouseEvent e) {
+                        if(table_LB[finalI].getIcon().equals(table_full_Icon)){
+                            JOptionPane.showMessageDialog(null,"Table " + finalI + " Is Full");
+                        }else {
+                            if (JOptionPane.showConfirmDialog(null, "Chose table " + finalI +". Are you sure ?",  "Table",
+                                    JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
 
+                                //Set Color
+                                table_LB[finalI].setIcon(table_full_Icon);
+                                table_Name[finalI].setForeground(Color_me);
+
+                                //Input Value
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void mousePressed(MouseEvent e) {
+
+                    }
+
+                    @Override
+                    public void mouseReleased(MouseEvent e) {
+
+                    }
+
+                    @Override
+                    public void mouseEntered(MouseEvent e) {
+
+                    }
+
+                    @Override
+                    public void mouseExited(MouseEvent e) {
+
+                    }
+                });
+            }else {
+                if(tableManager.checkUsedTable(i+1)){
+                    table_LB[i].setIcon(table_full_Icon);
+                    table_Name[i].setForeground(Color_me);
+                }else {
+                    table_LB[i].setIcon(table_Icon);
+                    table_Name[i].setForeground(Color_ForeG);
                 }
-
-                @Override
-                public void mouseReleased(MouseEvent e) {
-
-                }
-
-                @Override
-                public void mouseEntered(MouseEvent e) {
-                    table_Name[finalI].setForeground(Color_me);
-                }
-
-                @Override
-                public void mouseExited(MouseEvent e) {
-                    table_Name[finalI].setForeground(Color_ForeG);
-                }
-            });
+            }
 
             label.add(table_Name[i]);
             label.add(table_LB[i]);
         }
 
+        //Line 3
         for (int i = 10; i < 15; i++){
             int y = 90+200+200;
             int t = i-10;
-            table_LB[i] = new JLabel(table_Icon);
+
+            table_LB[i] = new JLabel();
             table_LB[i].setSize(75,75);
             table_LB[i].setBounds(1207+ (t-2)*200, y, 75, 75);
 
@@ -226,42 +324,77 @@ public class Table_UI {
             table_Name[i].setBounds(1207+ (t-2)*200 + 15, y+65, 75, 75);
             table_Name[i].setFont(Font_me_3);
             table_Name[i].setForeground(Color_ForeG);
-            int finalI = i;
-            table_Name[i].addMouseListener(new MouseListener() {
-                @Override
-                public void mouseClicked(MouseEvent e) {
 
+            if(userManager != null){
+                if(tableManager.checkUsedTable(i)){
+                    table_LB[i].setIcon(table_full_Icon);
+                    table_Name[i].setForeground(Color_me);
+                }else {
+                    table_LB[i].setIcon(table_Icon);
+                    table_Name[i].setForeground(Color_ForeG);
                 }
 
-                @Override
-                public void mousePressed(MouseEvent e) {
+                //Table Action
+                int finalI = i;
+                table_LB[i].addMouseListener(new MouseListener() {
+                    @Override
+                    public void mouseClicked(MouseEvent e) {
+                        if(table_LB[finalI].getIcon().equals(table_full_Icon)){
+                            JOptionPane.showMessageDialog(null,"Table " + finalI + " Is Full");
+                        }else {
+                            if (JOptionPane.showConfirmDialog(null, "Chose table " + finalI +". Are you sure ?",  "Table",
+                                    JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
 
+                                //Set Color
+                                table_LB[finalI].setIcon(table_full_Icon);
+                                table_Name[finalI].setForeground(Color_me);
+
+                                //Input Value
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void mousePressed(MouseEvent e) {
+
+                    }
+
+                    @Override
+                    public void mouseReleased(MouseEvent e) {
+
+                    }
+
+                    @Override
+                    public void mouseEntered(MouseEvent e) {
+
+                    }
+
+                    @Override
+                    public void mouseExited(MouseEvent e) {
+
+                    }
+                });
+            }else {
+                if(tableManager.checkUsedTable(i+1)){
+                    System.out.println(i);
+                    table_LB[i].setIcon(table_full_Icon);
+                    table_Name[i].setForeground(Color_me);
+                }else {
+                    table_LB[i].setIcon(table_Icon);
+                    table_Name[i].setForeground(Color_ForeG);
                 }
-
-                @Override
-                public void mouseReleased(MouseEvent e) {
-
-                }
-
-                @Override
-                public void mouseEntered(MouseEvent e) {
-                    table_Name[finalI].setForeground(Color_me);
-                }
-
-                @Override
-                public void mouseExited(MouseEvent e) {
-                    table_Name[finalI].setForeground(Color_ForeG);
-                }
-            });
+            }
 
             label.add(table_Name[i]);
             label.add(table_LB[i]);
         }
 
+        //Line 4
         for (int i = 15; i < 20; i++){
             int y = 90+200+200+200;
             int t = i-15;
-            table_LB[i] = new JLabel(table_Icon);
+
+            table_LB[i] = new JLabel();
             table_LB[i].setSize(75,75);
             table_LB[i].setBounds(1207+ (t-2)*200, y, 75, 75);
 
@@ -269,33 +402,65 @@ public class Table_UI {
             table_Name[i].setBounds(1207+ (t-2)*200 + 15, y+65, 75, 75);
             table_Name[i].setFont(Font_me_3);
             table_Name[i].setForeground(Color_ForeG);
-            int finalI = i;
-            table_Name[i].addMouseListener(new MouseListener() {
-                @Override
-                public void mouseClicked(MouseEvent e) {
 
+            if(userManager != null){
+                if(tableManager.checkUsedTable(i)){
+                    table_LB[i].setIcon(table_full_Icon);
+                    table_Name[i].setForeground(Color_me);
+                }else {
+                    table_LB[i].setIcon(table_Icon);
+                    table_Name[i].setForeground(Color_ForeG);
                 }
 
-                @Override
-                public void mousePressed(MouseEvent e) {
+                //Table Action
+                int finalI = i;
+                table_LB[i].addMouseListener(new MouseListener() {
+                    @Override
+                    public void mouseClicked(MouseEvent e) {
+                        if(table_LB[finalI].getIcon().equals(table_full_Icon)){
+                            JOptionPane.showMessageDialog(null,"Table " + finalI + " Is Full");
+                        }else {
+                            if (JOptionPane.showConfirmDialog(null, "Chose table " + finalI +". Are you sure ?",  "Table",
+                                    JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
 
+                                //Set Color
+                                table_LB[finalI].setIcon(table_full_Icon);
+                                table_Name[finalI].setForeground(Color_me);
+
+                                //Input Value
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void mousePressed(MouseEvent e) {
+
+                    }
+
+                    @Override
+                    public void mouseReleased(MouseEvent e) {
+
+                    }
+
+                    @Override
+                    public void mouseEntered(MouseEvent e) {
+
+                    }
+
+                    @Override
+                    public void mouseExited(MouseEvent e) {
+
+                    }
+                });
+            }else {
+                if(tableManager.checkUsedTable(i+1)){
+                    table_LB[i].setIcon(table_full_Icon);
+                    table_Name[i].setForeground(Color_me);
+                }else {
+                    table_LB[i].setIcon(table_Icon);
+                    table_Name[i].setForeground(Color_ForeG);
                 }
-
-                @Override
-                public void mouseReleased(MouseEvent e) {
-
-                }
-
-                @Override
-                public void mouseEntered(MouseEvent e) {
-                    table_Name[finalI].setForeground(Color_me);
-                }
-
-                @Override
-                public void mouseExited(MouseEvent e) {
-                    table_Name[finalI].setForeground(Color_ForeG);
-                }
-            });
+            }
 
             label.add(table_Name[i]);
             label.add(table_LB[i]);
@@ -303,28 +468,27 @@ public class Table_UI {
 
 
 // create information table of used table
-        String[][] data = {
-                { "Kundan Kumar Jha", "1", "Lucas Journeys", "1" },
-                { "Anand Jha", "1", "Moon Space", "2" }
+
+        defaultTableModel = new DefaultTableModel(tableManager.listTable(), tableManager.tableContent());
+        jt = new JTable(defaultTableModel){
+            public boolean isCellEditable(int row, int column) {
+                if (column == tableManager.tableContentIndex("STT") || column == tableManager.tableContentIndex("Book Name") || column == tableManager.tableContentIndex("Quantity")) return false;
+                return true;
+            }
         };
 
-        // Column Names
-        String[] columnNames = { "Name", "Table", "Lent_Book", "Quantity" };
-
-        // Initializing the JTable
-        JTable j = new JTable(data, columnNames);
-        j.setFont(Font_Table);
-        j.setGridColor(Color_ForeG);
-        j.setBackground(Color_me);
-        j.setForeground(Color_ForeG);
-        JTableHeader jth = j.getTableHeader();
+        jt.setFont(Font_Table);
+        jt.setGridColor(Color_ForeG);
+        jt.setBackground(Color_me);
+        jt.setForeground(Color_ForeG);
+        JTableHeader jth = jt.getTableHeader();
         jth.setBackground(Color_ForeG);
         jth.setFont(Font_Table);
         jth.setForeground(Color_me);
 
 
         // adding it to JScrollPane
-        JScrollPane sp = new JScrollPane(j);
+        JScrollPane sp = new JScrollPane(jt);
         sp.setBounds(20, 20, 679, 918);
         sp.setForeground(Color_me);
         sp.setFont(Font_Table);
@@ -347,6 +511,5 @@ public class Table_UI {
     }
 
     public static void main(String[] args) {
-        new Table_UI();
     }
 }

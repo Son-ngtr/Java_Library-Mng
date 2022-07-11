@@ -103,9 +103,9 @@ public class AddStaff_UI {
     public void tableReset(){
         staffManager.setIsUpdate(true);
         defaultTableModel.setDataVector(staffManager.listStaff(), staffManager.staffContent());
-        table.getColumnModel().getColumn(7).setCellEditor(new DefaultCellEditor(cbCategory));
-        table.getColumnModel().getColumn(2).setCellEditor(new DefaultCellEditor(cbGender));
-        table.getColumnModel().getColumn(9).setCellEditor(new DefaultCellEditor(cbAttendence));
+        table.getColumnModel().getColumn(staffManager.staffContentIndex("Position")).setCellEditor(new DefaultCellEditor(cbCategory));
+        table.getColumnModel().getColumn(staffManager.staffContentIndex("Gender")).setCellEditor(new DefaultCellEditor(cbGender));
+        table.getColumnModel().getColumn(staffManager.staffContentIndex("Attendance")).setCellEditor(new DefaultCellEditor(cbAttendence));
         staffManager.setIsUpdate(false);
     }
 

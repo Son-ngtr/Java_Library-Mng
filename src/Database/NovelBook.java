@@ -38,8 +38,9 @@ public class NovelBook {
             String Category = rs.getString(7);
             int Quantity = rs.getInt(8);
             int TypeCode = rs.getInt(9);
-            String Type = rs.getString(10);
-            String AgeLimitted = rs.getString(11);
+            String SerialNumber = rs.getString(10);
+            String Type = rs.getString(11);
+            String AgeLimitted = rs.getString(12);
 
             // Ghi vào vector
             Vector<Object> temp = new Vector<>();
@@ -52,6 +53,7 @@ public class NovelBook {
             temp.add(Category);
             temp.add(Quantity);
             temp.add(TypeCode);
+            temp.add(SerialNumber);
             temp.add(Type);
             temp.add(AgeLimitted);
 
@@ -125,12 +127,18 @@ public class NovelBook {
                 
                 return updateStatus;
             case 9:
+                sql = "UPDATE novelbook set SerialNumber='" + value +  "' WHERE TypeCode='" + TypeCode + "'";
+                stm1 = connection.createStatement();
+                updateStatus = stm1.executeUpdate(sql);
+
+                return updateStatus;
+            case 10:
                 sql = "UPDATE novelbook set Type='" + value +  "' WHERE TypeCode='" + TypeCode + "'";
                 stm1 = connection.createStatement();
                 updateStatus = stm1.executeUpdate(sql);
                 
                 return updateStatus;
-            case 10:
+            case 11:
                 sql = "UPDATE novelbook set AgeLimitted='" + value +  "' WHERE TypeCode='" + TypeCode + "'";
                 stm1 = connection.createStatement();
                 updateStatus = stm1.executeUpdate(sql);
@@ -141,11 +149,11 @@ public class NovelBook {
     }
 
     public void addNewNovelBook(Connection connection, int Code, String Name, String DateAdded, String Price, String Author, String Publisher, String Category,
-                                int Quantity, int TypeCode, String Type, String AgeLimitted)
+                                int Quantity, int TypeCode,String SerialNumber ,String Type, String AgeLimitted)
             throws ClassNotFoundException, SQLException {
 
         // Tạo câu lệnh SQL (Cách 2: sử dụng PreparedStatement)
-        String sql = "INSERT INTO novelbook(Code,Name,DateAdded,Price,Author,Publisher,Category,Quantity,TypeCode,Type,AgeLimitted) VALUES(?,?,?,?,?,?,?,?,?,?,?)";
+        String sql = "INSERT INTO novelbook(Code,Name,DateAdded,Price,Author,Publisher,Category,Quantity,TypeCode,SerialNumber,Type,AgeLimitted) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)";
         PreparedStatement stmt = connection.prepareStatement(sql);
         stmt.setInt(1, Code);
         stmt.setString(2, Name);
@@ -156,8 +164,9 @@ public class NovelBook {
         stmt.setString(7, Category);
         stmt.setInt(8, Quantity);
         stmt.setInt(9, TypeCode);
-        stmt.setString(10, Type);
-        stmt.setString(11, AgeLimitted);
+        stmt.setString(10, SerialNumber);
+        stmt.setString(11, Type);
+        stmt.setString(12, AgeLimitted);
 
 
         // Thực hiện lệnh SQL

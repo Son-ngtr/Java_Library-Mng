@@ -93,8 +93,16 @@ public class AddUser_UI {
     public void tableUserReset(){
         userManager.setIsUpdate(true);
         defaultTableModel.setDataVector(userManager.listUser(), userManager.userContent());
-        table.getColumnModel().getColumn(2).setCellEditor(new DefaultCellEditor(new JComboBox(userManager.userGender())));
+        table.getColumnModel().getColumn(userManager.userContentIndex("Gender")).setCellEditor(new DefaultCellEditor(new JComboBox(userManager.userGender())));
         userManager.setIsUpdate(false);
+    }
+
+    //Refresh
+    public void refresh(){
+        txt_1.setText("");
+        txt_4.setText("");
+        txt_5.setText("");
+        txt_6.setText("");
     }
 
     public void content() {
@@ -282,6 +290,7 @@ public class AddUser_UI {
                             user
                     );
                     tableUserReset();
+                    refresh();
                 }
 
                 @Override
@@ -352,7 +361,7 @@ public class AddUser_UI {
             bt_reset.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-
+                    refresh();
                 }
             });
             bt_reset.addMouseListener(new MouseListener() {

@@ -1,11 +1,8 @@
 package Library_UI.Book_Category;
 
-import Database.ConectionDTB;
 import Library.Check;
 import Library.Book_Manager.BookManager;
 import Library_UI.Funtion.Add_novel_UI;
-import Library_UI.Funtion.Addbook_UI;
-import Library_UI.Lib_UI.Lobby_UI;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
@@ -19,23 +16,17 @@ import javax.swing.table.TableRowSorter;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.sql.Connection;
-import java.util.Calendar;
 
 public class Novel_UI {
-    private ConectionDTB conectionDTB = new ConectionDTB();
-    private Connection connection = conectionDTB.getConnect();
-
     //Constructor
     public Novel_UI(BookManager bookManager){
         this.bookManager = bookManager;
-        cbBookType = new JComboBox(bookManager.bookCategory());
         cbNovelType = new JComboBox(bookManager.novelType());
         cbNovelRecommentForAge = new JComboBox(bookManager.novelAgeLimited());
         Content();
     }
 
-    private JFrame main_Frame;
+    private JFrame main_Frame, lobbyFrame;
     private ImageIcon bk_Icon;
     private JLabel label, notification_Label, logout_Label, exit_Label;
     private JButton bt_add, bt_remove, bt_search;
@@ -44,16 +35,19 @@ public class Novel_UI {
     private JTable jt;
     private DefaultTableModel defaultTableModel;
     private BookManager bookManager;
-    private JComboBox cbBookType ;
     private JComboBox cbNovelType ;
     private JComboBox cbNovelRecommentForAge;
     private Check check = new Check();
 
+    //Set Lobby Side
+    public void setLobbySide(JFrame jFrameLobby){
+        lobbyFrame = jFrameLobby;
+    }
+
     //Table add Combobox and CheckBox
     public void tableAddCombobox(){
-        jt.getColumnModel().getColumn(6).setCellEditor(new DefaultCellEditor(cbBookType));
-        jt.getColumnModel().getColumn(8).setCellEditor(new DefaultCellEditor(cbNovelType));
-        jt.getColumnModel().getColumn(9).setCellEditor(new DefaultCellEditor(cbNovelRecommentForAge));
+        jt.getColumnModel().getColumn(bookManager.bookContentNovelIndex("Type")).setCellEditor(new DefaultCellEditor(cbNovelType));
+        jt.getColumnModel().getColumn(bookManager.bookContentNovelIndex("Age Recomment")).setCellEditor(new DefaultCellEditor(cbNovelRecommentForAge));
     }
 
     //Table reset
@@ -105,8 +99,8 @@ public class Novel_UI {
         logout_Label.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
+                lobbyFrame.setEnabled(true);
                 main_Frame.dispose();
-                new Lobby_UI();
             }
 
             @Override
@@ -169,6 +163,7 @@ public class Novel_UI {
             @Override
             public void mouseClicked(MouseEvent e) {
                 TextBook_UI textBook_ui = new TextBook_UI(bookManager);
+                textBook_ui.setLobbySide(lobbyFrame);
                 main_Frame.dispose();
             }
 
@@ -201,6 +196,7 @@ public class Novel_UI {
             @Override
             public void mouseClicked(MouseEvent e) {
                 PsyBook_UI psyBook_ui = new PsyBook_UI(bookManager);
+                psyBook_ui.setLobbySide(lobbyFrame);
                 main_Frame.dispose();
             }
 
@@ -300,7 +296,7 @@ public class Novel_UI {
             @Override
             public void mouseClicked(MouseEvent e) {
                 if(jt.getSelectedRow() != -1){
-                    bookManager.removeBookNoval(check.codeConvert(String.valueOf(jt.getValueAt(jt.getSelectedRow(), 0)).trim()));
+                    bookManager.removeBookNoval(check.codeConvert(String.valueOf(jt.getValueAt(jt.getSelectedRow(), bookManager.bookContentNovelIndex("Code"))).trim()));
                     tableReset();
                 }
             }
@@ -377,7 +373,7 @@ public class Novel_UI {
         defaultTableModel = new DefaultTableModel(bookManager.listBookNovel(), bookManager.bookContentNoval());
         jt = new JTable(defaultTableModel){
             public boolean isCellEditable(int row, int column) {
-                if (column == 0 || column == 6) return false;
+                if (column == bookManager.bookContentNovelIndex("Code") || column == bookManager.bookContentNovelIndex("Category") || column == bookManager.bookContentNovelIndex("Serial Number")) return false;
                 return true;
             }
         };
@@ -434,7 +430,7 @@ public class Novel_UI {
             @Override
             public void tableChanged(TableModelEvent e) {
                 if(!bookManager.getIsUpdate()){
-                    String codeValue = check.codeConvert(String.valueOf(jt.getValueAt(jt.getSelectedRow(), 0)).trim());
+                    String codeValue = check.codeConvert(String.valueOf(jt.getValueAt(jt.getSelectedRow(), bookManager.bookContentNovelIndex("Code"))).trim());
                     String newValue = String.valueOf(jt.getValueAt(jt.getSelectedRow(), jt.getSelectedColumn())).trim();
                     switch (jt.getSelectedColumn()){
                         case 1:
@@ -442,7 +438,7 @@ public class Novel_UI {
                                 if(newValue.trim().length() > 0){
                                     bookManager.editBookNoval(codeValue, jt.getSelectedColumn(), newValue);
                                 }else {
-                                    JOptionPane.showMessageDialog(null, "Tên phải được đưa vào ở dạng chuỗi và có nhiều hơn 1 kí tự");
+                                    JOptionPane.showMessageDialog(null, "Name");
                                     tableReset();
                                 }
                             }
@@ -453,7 +449,7 @@ public class Novel_UI {
                                     bookManager.editBookNoval(codeValue, jt.getSelectedColumn(), newValue);
                                     tableReset();
                                 }else {
-                                    JOptionPane.showMessageDialog(null, "Thông tin phải được nhập dưới dạng d/m/y và tồn tại thời điểm nhập");
+                                    JOptionPane.showMessageDialog(null, "Date");
                                     tableReset();
                                 }
                             }
@@ -464,7 +460,7 @@ public class Novel_UI {
                                     bookManager.editBookNoval(codeValue, jt.getSelectedColumn(), check.moneyConvert(check.matConvert(check.mathAnalysis(newValue))) );
                                     tableReset();
                                 }else {
-                                    JOptionPane.showMessageDialog(null, "Số lượng sách phải được nhập dưới dạng number(int)");
+                                    JOptionPane.showMessageDialog(null, "Price");
                                     tableReset();
                                 }
                             }
@@ -474,7 +470,7 @@ public class Novel_UI {
                                 if(newValue.trim().length() > 0 ){
                                     bookManager.editBookNoval(codeValue, jt.getSelectedColumn(), newValue);
                                 }else {
-                                    JOptionPane.showMessageDialog(null, "Tác Giả");
+                                    JOptionPane.showMessageDialog(null, "Author");
                                     tableReset();
                                 }
                             }
@@ -484,7 +480,7 @@ public class Novel_UI {
                                 if(newValue.trim().length() > 0 ){
                                     bookManager.editBookNoval(codeValue, jt.getSelectedColumn(), newValue);
                                 }else {
-                                    JOptionPane.showMessageDialog(null, "Phone Number");
+                                    JOptionPane.showMessageDialog(null, "Publisher");
                                     tableReset();
                                 }
                             }
@@ -502,7 +498,7 @@ public class Novel_UI {
                                     bookManager.editBookNoval(codeValue, jt.getSelectedColumn(), check.matConvert(check.mathAnalysis(newValue)));
                                     tableReset();
                                 }else {
-                                    JOptionPane.showMessageDialog(null, "Số lượng sách phải được nhập dưới dạng number(int)");
+                                    JOptionPane.showMessageDialog(null, "Quantity");
                                     tableReset();
                                 }
                             }
@@ -515,6 +511,13 @@ public class Novel_UI {
                             }
                             break;
                         case 9:
+                            if(!bookManager.getIsUpdate()){
+                                if(newValue.trim().length() > 0 ){
+                                    bookManager.editBookNoval(codeValue, jt.getSelectedColumn(), newValue);
+                                }
+                            }
+                            break;
+                        case 10:
                             if(!bookManager.getIsUpdate()){
                                 if(newValue.trim().length() > 0 ){
                                     bookManager.editBookNoval(codeValue, jt.getSelectedColumn(), newValue);

@@ -92,7 +92,7 @@ public class Login_UI {
                 AccountData accountData = new AccountData(usename, password);
                 conn = LibraryManager.getConnect(accountData);
                 if(conn !=null){
-                    new Lobby_UI();
+                    Lobby_UI lobby_ui = new Lobby_UI(conn);
                 }
 
                 //Close Login

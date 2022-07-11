@@ -1,10 +1,7 @@
 package Library_UI.Lib_UI;
 
-import Database.ConectionDTB;
 import Library.HIstory_Manager.HistoryManager;
 import Library.HIstory_Manager.HistoryReceive_Manager;
-import Library_UI.Book_Category.ChildrenBook_UI;
-import Library_UI.Book_Category.PsyBook_UI;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
@@ -16,13 +13,10 @@ import javax.swing.table.TableRowSorter;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.sql.Connection;
 
 public class DayHis_UI {
-    private JFrame main_Frame;
+    private JFrame main_Frame, lobbyFrame;
     private JLabel label, notification_Label, logout_Label,exit_Label;
-    private ConectionDTB conectionDTB = new ConectionDTB();
-    private Connection connection = conectionDTB.getConnect();
     private HistoryManager historyManager;
     private JTable jt;
     private DefaultTableModel defaultTableModel;
@@ -33,6 +27,11 @@ public class DayHis_UI {
         this.historyReceive_manager = historyReceive_manager;
         this.historyManager = historyManager;
         content();
+    }
+
+    //Set Lobby Side
+    public void setLobbySide(JFrame jFrameLobby){
+        lobbyFrame = jFrameLobby;
     }
 
     public void content(){
@@ -88,8 +87,8 @@ public class DayHis_UI {
         logout_Label.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
+                lobbyFrame.setEnabled(true);
                 main_Frame.dispose();
-                new Lobby_UI();
             }
 
             @Override
@@ -151,7 +150,8 @@ public class DayHis_UI {
         left_Label.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                new DayHis_Op_UI(historyManager, historyReceive_manager);
+                DayHis_Op_UI dayHis_op_ui = new DayHis_Op_UI(historyManager, historyReceive_manager);
+                dayHis_op_ui.setLobbySide(lobbyFrame);
                 main_Frame.dispose();
             }
 
@@ -183,7 +183,8 @@ public class DayHis_UI {
         right_Label.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                new DayHis_Op_UI(historyManager, historyReceive_manager);
+                DayHis_Op_UI dayHis_op_ui = new DayHis_Op_UI(historyManager, historyReceive_manager);
+                dayHis_op_ui.setLobbySide(lobbyFrame);
                 main_Frame.dispose();
             }
 

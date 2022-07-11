@@ -1,10 +1,12 @@
 package Library.User_Manager;
 
-import Database.ConectionDTB;
+import Database.UserBook_info;
 import Database.User_Database;
 import Library.Check;
 import Library.LentBook_Manager.LentBookManager;
 
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -18,11 +20,16 @@ public class UserManager {
     //DataBase
     private User_Database user_database = new User_Database();
 
+    private UserBook_info userBook_info = new UserBook_info();
     private boolean isUpdate = false;
     private int codeCount = 0;
-    private ConectionDTB conectionDTB = new ConectionDTB();
-    private Connection connection = conectionDTB.getConnect();
+    private Connection connection;
     private String[] useLentInfo;
+
+    //Constructor
+    public UserManager(Connection connection){
+        this.connection = connection;
+    }
 
     //Getter and Setter
     public boolean getIsUpdate() {
@@ -37,6 +44,7 @@ public class UserManager {
         return useLentInfo;
     }
 
+    //User Save Info
     public void setUseLentInfo(String[] useLentInfo) {
         this.useLentInfo = useLentInfo;
     }
@@ -46,12 +54,38 @@ public class UserManager {
         return users.get(ID-1);
     }
 
-    //Staff List
+    //User List
     private final ArrayList<User> users = new ArrayList<>();
+
+    //Lent Book List
+    private final ArrayList<LentBookManager> lentBookManagers = new ArrayList<>();
 
     //User Header
     public String[] userContent(){
         return new String[]{"ID", "Name", "Gender", "Date Of Birth", "Address", "Phone Number", "Email", "Total Books", "Fine Money"};
+    }
+    public int userContentIndex(String s){
+        switch (s){
+            case "ID":
+                return 0;
+            case "Name":
+                return 1;
+            case "Gender":
+                return 2;
+            case "Date Of Birth":
+                return 3;
+            case "Address":
+                return 4;
+            case "Phone Number":
+                return 5;
+            case "Email":
+                return 6;
+            case "Total Books":
+                return 7;
+            case "Fine Money":
+                return 8;
+        }
+        return 100;
     }
 
     //User Gender
@@ -63,6 +97,16 @@ public class UserManager {
     public User createUser(String name, String gender, Calendar dateOfBirth, String address, String phoneNumber, String email,int totalBooks, Long moneyFine){
         codeCount++;
         return new User(codeCount, name, gender, dateOfBirth, address, phoneNumber, email ,totalBooks, moneyFine);
+    }
+
+    //Add LentBookManager
+    public void addLentBookManager(){
+        lentBookManagers.add(new LentBookManager(connection, String.valueOf(codeCount)));
+    }
+
+    //Get LentBook Manager
+    public LentBookManager getLentBookManager(String code){
+        return lentBookManagers.get(Integer.parseInt(code) - 1);
     }
 
     //Add User
@@ -83,6 +127,17 @@ public class UserManager {
             );
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        //Create lentbookManager
+        addLentBookManager();
+
+        //Create lent zone
+        try {
+            userBook_info.createTable(connection , String.valueOf(codeCount));
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -115,6 +170,12 @@ public class UserManager {
                     Long.parseLong(String.valueOf(vector.get(8)))
             );
             users.add(user);
+            addLentBookManager();
+        }
+        //Lent Book Manager
+        Vector<Vector<Object>> lentVectors = null;
+        for (LentBookManager lentBookManager : lentBookManagers){
+            lentBookManager.downloadLentBook();
         }
     }
 
@@ -153,6 +214,7 @@ public class UserManager {
                 //Delete in DTB
                 try {
                     user_database.deleteUser(connection, code);
+                    userBook_info.deleteAndSort(connection, code, String.valueOf(codeCount));
                 } catch (SQLException e) {
                     e.printStackTrace();
                 } catch (ClassNotFoundException e) {
@@ -172,6 +234,12 @@ public class UserManager {
                     } catch (SQLException e) {
                         e.printStackTrace();
                     }
+                }
+
+                //Remove in lentbook
+                lentBookManagers.remove(Integer.parseInt(code) - 1);
+                for (int i = Integer.parseInt(code) - 1; i<lentBookManagers.size(); i++){
+                    lentBookManagers.get(i).changeUserID(String.valueOf(i+1));
                 }
             }
 
@@ -229,9 +297,13 @@ public class UserManager {
         }
     }
 
-    //LentBook List
-    public LentBookManager lentBookManager(String userCode){
-        int intUserCode = Integer.parseInt(userCode);
-        return users.get(intUserCode - 1).getLentBookManager();
+    //Start Count Down
+    public void startCountDown(String userID,LentBookManager lentBookManager, JTable tableBook, UserManager userManager, DefaultTableModel defaultTableModelBook){
+        lentBookManagers.get(Integer.parseInt(userID) - 1).startCountDown(lentBookManager, tableBook, userManager, defaultTableModelBook);
+    }
+
+    //Stop Run
+    public void stopCountDown(String userID){
+        lentBookManagers.get(Integer.parseInt(userID) - 1).stopRun();
     }
 }

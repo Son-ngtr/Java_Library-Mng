@@ -1,8 +1,8 @@
 package Library_UI.Lib_UI;
 
-import Database.ConectionDTB;
 import Library.Book_Manager.BookManager;
 import Library.HIstory_Manager.HistoryManager;
+import Library.HIstory_Manager.HistoryReceive_Manager;
 import Library.User_Manager.UserManager;
 import Library_UI.Funtion.User_In4_UI;
 import Library_UI.Funtion.lent_UI;
@@ -17,26 +17,30 @@ import javax.swing.table.TableRowSorter;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.sql.Connection;
 
 public class LentBooks_UI {
 
-    private JFrame main_Frame, userInfoFrame;
+    private JFrame main_Frame, userInfoFrame, lobbyFrame;
     private JLabel label, notification_Label, logout_Label,exit_Label;
     private BookManager bookManager;
     private DefaultTableModel defaultTableModel, defaultTableModelUser;
     private JTable jt, tableUser;
     private UserManager userManager;
     private String[] tableContent;
-    private ConectionDTB conectionDTB = new ConectionDTB();
-    private Connection connection = conectionDTB.getConnect();
     private HistoryManager historyManager;
+    private HistoryReceive_Manager historyReceive_manager;
+
+    //Set Lobby Side
+    public void setLobbySide(JFrame jFrameLobby){
+        lobbyFrame = jFrameLobby;
+    }
 
     //Constructor
-    public LentBooks_UI(BookManager bookManager, UserManager userManager, HistoryManager historyManager){
+    public LentBooks_UI(BookManager bookManager, UserManager userManager, HistoryManager historyManager, HistoryReceive_Manager historyReceive_manager){
         this.bookManager = bookManager;
         this.userManager = userManager;
         this.historyManager = historyManager;
+        this.historyReceive_manager = historyReceive_manager;
         tableContent = bookManager.bookBorrowContent();
         content();
     }
@@ -105,11 +109,11 @@ public class LentBooks_UI {
             @Override
             public void mouseClicked(MouseEvent e) {
                 if(userInfoFrame != null){
-                    User_In4_UI user_in4_ui = new User_In4_UI(bookManager, userManager, historyManager);
-                    user_in4_ui.setManagerUserSide(userInfoFrame,defaultTableModel, tableUser);
+                    User_In4_UI user_in4_ui = new User_In4_UI(bookManager, userManager, historyManager,historyReceive_manager );
+                    user_in4_ui.setManagerUserSide(userInfoFrame,defaultTableModelUser, tableUser);
                     main_Frame.dispose();
                 }else {
-                    new Lobby_UI();
+                    lobbyFrame.setEnabled(true);
                     main_Frame.dispose();
                 }
 
@@ -244,9 +248,9 @@ public class LentBooks_UI {
             @Override
             public void mouseClicked(MouseEvent e) {
                 try {
-                    if(Integer.parseInt(String.valueOf(jt.getValueAt(jt.getSelectedRow(), 6))) > 0){
+                    if(Integer.parseInt(String.valueOf(jt.getValueAt(jt.getSelectedRow(), bookManager.bookBorrowContentIndex("Quantity")))) > 0){
                         if(jt.getSelectedRow() != -1 ){
-                            lent_UI lent_ui = new lent_UI(String.valueOf(jt.getValueAt(jt.getSelectedRow(), 0)).trim(), userManager, bookManager,  historyManager);
+                            lent_UI lent_ui = new lent_UI(String.valueOf(jt.getValueAt(jt.getSelectedRow(), bookManager.bookBorrowContentIndex("Code"))).trim(), userManager, bookManager,  historyManager);
                             lent_ui.setLentBooksSide(main_Frame,userInfoFrame, defaultTableModel, defaultTableModelUser,tableUser,jt);
                             main_Frame.setEnabled(false);
                         }else {

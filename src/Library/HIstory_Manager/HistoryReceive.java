@@ -6,22 +6,18 @@ public class HistoryReceive {
     private int ID;
     private String name;
     private String phoneNumber;
-    private Calendar regisDate;
     private Calendar expDate;
     private String bookName;
-    private String bookType;
     private int quantity;
     private Calendar returnDate;
 
     //Constructor
-    public HistoryReceive(int ID, String name, String phoneNumber, Calendar regisDate, Calendar expDate, String bookName, String bookType, int quantity, Calendar returnDate) {
+    public HistoryReceive(int ID, String name, String phoneNumber, Calendar expDate, String bookName, int quantity, Calendar returnDate) {
         this.ID = ID;
         this.name = name;
         this.phoneNumber = phoneNumber;
-        this.regisDate = regisDate;
         this.expDate = expDate;
         this.bookName = bookName;
-        this.bookType = bookType;
         this.quantity = quantity;
         this.returnDate = returnDate;
     }
@@ -31,26 +27,6 @@ public class HistoryReceive {
         return date.get(Calendar.DATE) + "/" + (date.get(Calendar.MONTH) + 1) + "/" + date.get(Calendar.YEAR);
     }
 
-    //DateReConvert
-    public void dateReConvert(String dateReConvert, int num){
-        Calendar newCalendar = Calendar.getInstance();
-        String[] times = dateReConvert.split("/");
-        int date = Integer.parseInt(times[0]);
-        int month = Integer.parseInt(times[1]);
-        int year = Integer.parseInt(times[2]);
-        newCalendar.set(year, month - 1 , date);
-        switch (num){
-            case 1:
-                setRegisDate(newCalendar);
-                break;
-            case 2:
-                setExpDate(newCalendar);
-                break;
-            case 3:
-                setReturnDate(newCalendar);
-                break;
-        }
-    }
 
     //Getter and Setter
     public int getID() {
@@ -77,14 +53,6 @@ public class HistoryReceive {
         this.phoneNumber = phoneNumber;
     }
 
-    public Calendar getRegisDate() {
-        return regisDate;
-    }
-
-    public void setRegisDate(Calendar regisDate) {
-        this.regisDate = regisDate;
-    }
-
     public Calendar getExpDate() {
         return expDate;
     }
@@ -99,14 +67,6 @@ public class HistoryReceive {
 
     public void setBookName(String bookName) {
         this.bookName = bookName;
-    }
-
-    public String getBookType() {
-        return bookType;
-    }
-
-    public void setBookType(String bookType) {
-        this.bookType = bookType;
     }
 
     public int getQuantity() {

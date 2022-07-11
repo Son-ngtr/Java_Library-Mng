@@ -2,6 +2,7 @@ package Library.User_Manager;
 
 import Library.LentBook_Manager.LentBookManager;
 
+import java.sql.Connection;
 import java.util.Calendar;
 
 public class User {
@@ -14,7 +15,9 @@ public class User {
    private String email;
    private int totalBooks;
    private Long moneyFine;
-   private LentBookManager lentBookManager = new LentBookManager();
+   //!!
+   private Connection connection;
+   private LentBookManager lentBookManager;
 
    //Constructor
    public User(int id, String name, String gender, Calendar dateOfBirth, String address, String phoneNumber, String email, int totalBooks, Long moneyFine) {
@@ -27,6 +30,7 @@ public class User {
         this.email = email;
         this.totalBooks = totalBooks;
         this.moneyFine = moneyFine;
+        lentBookManager = new LentBookManager(connection,String.valueOf(id));
    }
 
    //Getter and Setter
@@ -102,13 +106,6 @@ public class User {
         this.moneyFine = moneyFine;
     }
 
-    public LentBookManager getLentBookManager() {
-        return lentBookManager;
-    }
-
-    public void setLentBookManager(LentBookManager lentBookManager) {
-        this.lentBookManager = lentBookManager;
-    }
 
     //Date convert
     public String dateConvert(Calendar calendar){

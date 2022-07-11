@@ -1,12 +1,8 @@
 package Library_UI.Book_Category;
 
-import Database.ConectionDTB;
 import Library.Book_Manager.BookManager;
 import Library.Check;
-import Library.Staff_Manager.StaffManager;
 import Library_UI.Funtion.Add_childrenBook_UI;
-import Library_UI.Funtion.Addbook_UI;
-import Library_UI.Lib_UI.Lobby_UI;
 import Library_UI.Lib_UI.ManageBook_UI;
 
 import javax.swing.*;
@@ -21,12 +17,8 @@ import javax.swing.table.TableRowSorter;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.sql.Connection;
-import java.util.Calendar;
 
 public class ChildrenBook_UI {
-    private ConectionDTB conectionDTB = new ConectionDTB();
-    private Connection connection = conectionDTB.getConnect();
     //Constructor
     public ChildrenBook_UI(BookManager bookManager){
         this.bookManager = bookManager;
@@ -39,7 +31,7 @@ public class ChildrenBook_UI {
 
     }
 
-    private JFrame main_Frame;
+    private JFrame main_Frame, lobbyFrame;
     private ImageIcon bk_Icon;
     private JLabel label, notification_Label, logout_Label, exit_Label;
     private JButton bt_add, bt_remove, bt_search;
@@ -53,11 +45,16 @@ public class ChildrenBook_UI {
     private JComboBox cbChildRecommentForAge;
     private Check check = new Check();
 
+    //Set Lobby Side
+    public void setLobbySide(JFrame jFrameLobby){
+        lobbyFrame = jFrameLobby;
+    }
+
 
     //Table add Combobox and CheckBox
     public void tableAddCombobox(){
-        jt.getColumnModel().getColumn(8).setCellEditor(new DefaultCellEditor(cbChildType));
-        jt.getColumnModel().getColumn(9).setCellEditor(new DefaultCellEditor(cbChildRecommentForAge));
+        jt.getColumnModel().getColumn(bookManager.bookContentChildrenIndex("Type")).setCellEditor(new DefaultCellEditor(cbChildType));
+        jt.getColumnModel().getColumn(bookManager.bookContentChildrenIndex("Age Recomment")).setCellEditor(new DefaultCellEditor(cbChildRecommentForAge));
     }
 
     //Table reset
@@ -109,8 +106,8 @@ public class ChildrenBook_UI {
         logout_Label.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
+                lobbyFrame.setEnabled(true);
                 main_Frame.dispose();
-                new Lobby_UI();
             }
 
             @Override
@@ -173,6 +170,7 @@ public class ChildrenBook_UI {
             @Override
             public void mouseClicked(MouseEvent e) {
                 ManageBook_UI manageBook_ui = new ManageBook_UI(bookManager);
+                manageBook_ui.setLobbySide(lobbyFrame);
                 main_Frame.dispose();
             }
 
@@ -205,6 +203,7 @@ public class ChildrenBook_UI {
             @Override
             public void mouseClicked(MouseEvent e) {
                 TextBook_UI textBook_ui = new TextBook_UI(bookManager);
+                textBook_ui.setLobbySide(lobbyFrame);
                 main_Frame.dispose();
             }
 
@@ -304,7 +303,7 @@ public class ChildrenBook_UI {
             @Override
             public void mouseClicked(MouseEvent e) {
                 if(jt.getSelectedRow() != -1){
-                    bookManager.removeBookChild(check.codeConvert(String.valueOf(jt.getValueAt(jt.getSelectedRow(), 0)).trim()));
+                    bookManager.removeBookChild(check.codeConvert(String.valueOf(jt.getValueAt(jt.getSelectedRow(), bookManager.bookContentLearningIndex("Code"))).trim()));
                     tableReset();
                 }
             }
@@ -381,7 +380,7 @@ public class ChildrenBook_UI {
         defaultTableModel = new DefaultTableModel(bookManager.listBookChild(), bookManager.bookContentChildren());
         jt = new JTable(defaultTableModel){
             public boolean isCellEditable(int row, int column) {
-                if (column == 0 || column == 6) return false;
+                if (column == bookManager.bookContentChildrenIndex("Code") || column == bookManager.bookContentChildrenIndex("Category") || column == bookManager.bookContentChildrenIndex("Serial Number")) return false;
                 return true;
             }
         };
@@ -438,7 +437,7 @@ public class ChildrenBook_UI {
             @Override
             public void tableChanged(TableModelEvent e) {
                 if(!bookManager.getIsUpdate()){
-                    String codeValue = check.codeConvert(String.valueOf(jt.getValueAt(jt.getSelectedRow(), 0)).trim());
+                    String codeValue = check.codeConvert(String.valueOf(jt.getValueAt(jt.getSelectedRow(), bookManager.bookContentChildrenIndex("Code"))).trim());
                     String newValue = String.valueOf(jt.getValueAt(jt.getSelectedRow(), jt.getSelectedColumn())).trim();
                     switch (jt.getSelectedColumn()){
                         case 1:
@@ -446,7 +445,7 @@ public class ChildrenBook_UI {
                                 if(newValue.trim().length() > 0){
                                     bookManager.editBookChild(codeValue, jt.getSelectedColumn(), newValue);
                                 }else {
-                                    JOptionPane.showMessageDialog(null, "Tên phải được đưa vào ở dạng chuỗi và có nhiều hơn 1 kí tự");
+                                    JOptionPane.showMessageDialog(null, "Name");
                                     tableReset();
                                 }
                             }
@@ -457,7 +456,7 @@ public class ChildrenBook_UI {
                                     bookManager.editBookChild(codeValue, jt.getSelectedColumn(), newValue);
                                     tableReset();
                                 }else {
-                                    JOptionPane.showMessageDialog(null, "Thông tin phải được nhập dưới dạng d/m/y và tồn tại thời điểm nhập");
+                                    JOptionPane.showMessageDialog(null, "Date");
                                     tableReset();
                                 }
                             }
@@ -468,7 +467,7 @@ public class ChildrenBook_UI {
                                     bookManager.editBookChild(codeValue, jt.getSelectedColumn(), check.moneyConvert(check.matConvert(check.mathAnalysis(newValue))) );
                                     tableReset();
                                 }else {
-                                    JOptionPane.showMessageDialog(null, "Số lượng sách phải được nhập dưới dạng number(int)");
+                                    JOptionPane.showMessageDialog(null, "Price");
                                     tableReset();
                                 }
                             }
@@ -478,7 +477,7 @@ public class ChildrenBook_UI {
                                 if(newValue.trim().length() > 0 ){
                                     bookManager.editBookChild(codeValue, jt.getSelectedColumn(), newValue);
                                 }else {
-                                    JOptionPane.showMessageDialog(null, "Tác Giả");
+                                    JOptionPane.showMessageDialog(null, "Author");
                                     tableReset();
                                 }
                             }
@@ -488,7 +487,7 @@ public class ChildrenBook_UI {
                                 if(newValue.trim().length() > 0 ){
                                     bookManager.editBookChild(codeValue, jt.getSelectedColumn(), newValue);
                                 }else {
-                                    JOptionPane.showMessageDialog(null, "Phone Number");
+                                    JOptionPane.showMessageDialog(null, "Publisher");
                                     tableReset();
                                 }
                             }
@@ -506,7 +505,7 @@ public class ChildrenBook_UI {
                                     bookManager.editBookChild(codeValue, jt.getSelectedColumn(), check.matConvert(check.mathAnalysis(newValue)));
                                     tableReset();
                                 }else {
-                                    JOptionPane.showMessageDialog(null, "Số lượng sách phải được nhập dưới dạng number(int)");
+                                    JOptionPane.showMessageDialog(null, "Quantity");
                                     tableReset();
                                 }
                             }
@@ -519,6 +518,13 @@ public class ChildrenBook_UI {
                             }
                             break;
                         case 9:
+                            if(!bookManager.getIsUpdate()){
+                                if(newValue.trim().length() > 0 ){
+                                    bookManager.editBookChild(codeValue, jt.getSelectedColumn(), newValue);
+                                }
+                            }
+                            break;
+                        case 10:
                             if(!bookManager.getIsUpdate()){
                                 if(newValue.trim().length() > 0 ){
                                     bookManager.editBookChild(codeValue, jt.getSelectedColumn(), newValue);

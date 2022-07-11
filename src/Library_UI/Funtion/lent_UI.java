@@ -3,6 +3,7 @@ package Library_UI.Funtion;
 import Library.Book_Manager.BookManager;
 import Library.Check;
 import Library.HIstory_Manager.HistoryManager;
+import Library.LentBook_Manager.LentBookManager;
 import Library.User_Manager.User;
 import Library.User_Manager.UserManager;
 import Library_UI.Lib_UI.ManageUser_UI;
@@ -46,6 +47,7 @@ public class lent_UI {
     private String codeNumber;
     private String codeLetter;
     private HistoryManager historyManager;
+    private LentBookManager lentBookManager;
 
     //Constructor
     public lent_UI(String code, UserManager userManager ,BookManager bookManager, HistoryManager historyManager){
@@ -80,7 +82,7 @@ public class lent_UI {
     public void tableUserReset(){
         userManager.setIsUpdate(true);
         defaultTableModelUser.setDataVector(userManager.listUser(), userManager.userContent());
-        tableUser.getColumnModel().getColumn(2).setCellEditor(new DefaultCellEditor(new JComboBox(userManager.userGender())));
+        tableUser.getColumnModel().getColumn(userManager.userContentIndex("Gender")).setCellEditor(new DefaultCellEditor(new JComboBox(userManager.userGender())));
         userManager.setIsUpdate(false);
     }
 
@@ -120,7 +122,7 @@ public class lent_UI {
                                     JOptionPane.showMessageDialog(null, "Regis EXP");
                                     inputCheck = false;
                                 }else {
-                                    if (txt_8.getText().trim().length() == 0 || !check.isLong(txt_8.getText().trim())){
+                                    if (txt_8.getText().trim().length() == 0 || !check.mathCheck(check.mathAnalysis(txt_8.getText().trim()))){
                                         JOptionPane.showMessageDialog(null, "Book Quantity");
                                         inputCheck = false;
                                     }else {
@@ -137,6 +139,91 @@ public class lent_UI {
             }
         }
         return inputCheck;
+    }
+
+    //Add Lent Book
+    public void lentBookDTB(User user, int quantityBorrow){
+        lentBookManager = userManager.getLentBookManager(String.valueOf(user.getId()));
+        lentBookManager.addLentBook(lentBookManager.createLentBook(
+                String.valueOf(tableBook.getValueAt(tableBook.getSelectedRow(), bookManager.bookBorrowContentIndex("Name"))),
+                quantityBorrow,
+                fineMoneyCalc(quantityBorrow),
+                check.dateReConvert(datePicker.getJFormattedTextField().getText()),
+                String.valueOf(tableBook.getValueAt(tableBook.getSelectedRow(), bookManager.bookBorrowContentIndex("Serial Number")))
+        ));
+    }
+
+    //Create History
+    public void createHistory(int quantityBorrow){
+        historyManager.addHistory(historyManager.createHistory(
+                txt_1.getText().trim(),
+                txt_4.getText().trim(),
+                check.dateReConvert(txt_6.getText()) ,
+                check.dateReConvert(datePicker.getJFormattedTextField().getText()),
+                String.valueOf(tableBook.getValueAt(tableBook.getSelectedRow(), bookManager.bookBorrowContentIndex("Name"))),
+                String.valueOf(tableBook.getValueAt(tableBook.getSelectedRow(), bookManager.bookBorrowContentIndex("Category"))),
+                quantityBorrow
+        ));
+    }
+
+    //Table Refresh
+    public void tableRefresh(){
+        txt_1.setText("");
+        txt_2.setText("");
+        txt_3.setText("");
+        txt_4.setText("");
+        txt_5.setText("");
+        txt_6.setText("");
+    }
+
+    //Fix quantity of book
+    public void fixQuantityOfBook(int result){
+        switch (codeLetter){
+            case "C":
+                bookManager.editBookChild(codeNumber, bookManager.bookContentChildrenIndex("Quantity"), String.valueOf(result));
+                tableBookReset();
+                break;
+            case "N":
+                bookManager.editBookNoval(codeNumber, bookManager.bookContentNovelIndex("Quantity"), String.valueOf(result));
+                tableBookReset();
+                break;
+            case "P":
+                bookManager.editBookPsychology(codeNumber, bookManager.bookContentPsychologyIndex("Quantity"), String.valueOf(result));
+                tableBookReset();
+                break;
+            case "L":
+                bookManager.editBookLearning(codeNumber, bookManager.bookContentLearningIndex("Quantity"), String.valueOf(result));
+                tableBookReset();
+                break;
+        }
+    }
+
+    //Fix total book of User
+    public void fixtotalBook(User user, int quantityBorrow){
+        userManager.editUser(String.valueOf(user.getId()) , userManager.userContentIndex("Total Books"), String.valueOf(user.getTotalBooks() + quantityBorrow));
+    }
+
+    //Fine Mony Calc
+    public Long fineMoneyCalc(int quantityBorrow){
+        Long dayTillEnd = Long.valueOf(check.dateReConvert(datePicker.getJFormattedTextField().getText()).get(Calendar.DATE) - check.dateReConvert(txt_6.getText()).get(Calendar.DATE));
+        Long lentMoneyPlus = dayTillEnd * Long.valueOf(quantityBorrow) * Long.valueOf(check.moneyConvert(String.valueOf(tableBook.getValueAt(tableBook.getSelectedRow(), bookManager.bookBorrowContentIndex("Price"))))) / 10;
+        return lentMoneyPlus;
+    }
+
+    //Fix Fine Money Of User
+    public void fixFineMoney(User user,int quantityBorrow){
+        Long lentMoneyPlus = fineMoneyCalc(quantityBorrow);
+        userManager.editUser(
+                String.valueOf(user.getId()),
+                userManager.userContentIndex("Fine Money"),
+                String.valueOf(user.getMoneyFine() + lentMoneyPlus)
+        );
+    }
+
+    //Exit Frame
+    public void exitFrame(){
+        lentBookFrame.setEnabled(true);
+        main_Frame.dispose();
     }
 
     // get time
@@ -324,7 +411,7 @@ public class lent_UI {
             public void actionPerformed(ActionEvent e) {
                 if(checkValue()){
                     int quantityBorrow = Integer.parseInt(txt_8.getText().trim());
-                    int quantity = Integer.parseInt(String.valueOf(tableBook.getValueAt(tableBook.getSelectedRow(), 6)).trim());
+                    int quantity = Integer.parseInt(String.valueOf(tableBook.getValueAt(tableBook.getSelectedRow(), bookManager.bookBorrowContentIndex("Quantity"))).trim());
                     int result = quantity - quantityBorrow;
                     if(result >= 0){
                         User user;
@@ -343,16 +430,28 @@ public class lent_UI {
                             userManager.addUser(
                                     user
                             );
+
+                            //LentBook DataBase
+                            userManager.addLentBookManager();
+                            lentBookDTB(user, quantityBorrow);
                         }else {
                             if(defaultTableModelUser != null){
                                 user = userManager.getUser(Integer.parseInt(userManager.getUseLentInfo()[0]));
+
+                                //LentBook DataBase
+                                lentBookDTB(user, quantityBorrow);
                             }else {
                                 user = userManager.getUser(userManager.totalUser());
+
+                                //LentBook DataBase
+                                lentBookDTB(user, quantityBorrow);
                             }
                         }
 
                         //Fix total Books of user
-                        userManager.editUser(String.valueOf(user.getId()) , 7, String.valueOf(user.getTotalBooks() + quantityBorrow));
+                        fixtotalBook(user, quantityBorrow);
+                        //Fix Fine Money of user
+                        fixFineMoney(user, quantityBorrow);
 
                         //Reset User Table
                         if(defaultTableModelUser != null){
@@ -360,44 +459,13 @@ public class lent_UI {
                         }
 
                         //Add History
-                        historyManager.addHistory(historyManager.createHistory(
-                                txt_1.getText().trim(),
-                                txt_4.getText().trim(),
-                                check.dateReConvert(txt_6.getText()) ,
-                                check.dateReConvert(datePicker.getJFormattedTextField().getText()),
-                                String.valueOf(tableBook.getValueAt(tableBook.getSelectedRow(), 1)),
-                                String.valueOf(tableBook.getValueAt(tableBook.getSelectedRow(), 5)),
-                                quantityBorrow
-                        ));
+                        createHistory(quantityBorrow);
 
                         //Fix Quantity Of Book
-                        int row;
-                        switch (codeLetter){
-                            case "C":
-                                bookManager.editBookChild(codeNumber, 7, String.valueOf(result));
-                                row = tableBook.getSelectedRow();
-                                tableBookReset();
-                                break;
-                            case "N":
-                                bookManager.editBookNoval(codeNumber, 7, String.valueOf(result));
-                                row = tableBook.getSelectedRow();
-                                tableBookReset();
-                                break;
-                            case "P":
-                                bookManager.editBookPsychology(codeNumber, 7, String.valueOf(result));
-                                row = tableBook.getSelectedRow();
-                                tableBookReset();
-                                break;
-                            case "L":
-                                bookManager.editBookLearning(codeNumber, 7, String.valueOf(result));
-                                row = tableBook.getSelectedRow();
-                                tableBookReset();
-                                break;
-                        }
+                        fixQuantityOfBook(result);
 
                         //Exit Lent UI
-                        lentBookFrame.setEnabled(true);
-                        main_Frame.dispose();
+                        exitFrame();
 
                         //Continue or not
                         if(defaultTableModelUser == null){
@@ -445,8 +513,7 @@ public class lent_UI {
                 if(defaultTableModelUser == null){
                     userManager.setUseLentInfo(null);
                 }
-                lentBookFrame.setEnabled(true);
-                main_Frame.dispose();
+                exitFrame();
             }
 
             @Override
@@ -479,12 +546,7 @@ public class lent_UI {
         bt_reset.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                txt_1.setText("");
-                txt_2.setText("");
-                txt_3.setText("");
-                txt_4.setText("");
-                txt_5.setText("");
-                txt_6.setText("");
+                tableRefresh();
             }
         });
 
