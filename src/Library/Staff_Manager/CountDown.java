@@ -12,7 +12,6 @@ import java.util.TimerTask;
 
 public class CountDown {
 
-    private Long second;
     private Long currentTime;
     private Timer timer;
     private TimerTask timerTask;
@@ -31,36 +30,39 @@ public class CountDown {
         staffManager.setIsUpdate(false);
     }
 
-    //Constructor
-    public CountDown(JTable table, StaffManager staffManager, DefaultTableModel defaultTableModel){
+    //Time till midnight
+    public Long timeTillMidnight(){
         Calendar c = Calendar.getInstance();
         c.add(Calendar.DAY_OF_MONTH, 1);
         c.set(Calendar.HOUR_OF_DAY, 0);
         c.set(Calendar.MINUTE, 0);
         c.set(Calendar.SECOND, 0);
         c.set(Calendar.MILLISECOND, 0);
-        long howMany = (c.getTimeInMillis()-System.currentTimeMillis())/1000;
+        return (c.getTimeInMillis()-System.currentTimeMillis())/1000;
+    }
 
-        this.currentTime = howMany;
+    //Constructor
+    public CountDown(JTable table, StaffManager staffManager, DefaultTableModel defaultTableModel){
+        this.currentTime = timeTillMidnight();
         this.staffManager = staffManager;
         this.defaultTableModel = defaultTableModel;
-        this.second = howMany;
         this.table = table;
         timer = new Timer();
         run();
     }
 
     public void run(){
+        tableReset();
         try {
             timerTask = new TimerTask() {
                 @Override
                 public void run() {
+                    System.out.println(currentTime);
                     currentTime--;
                     if(currentTime == -1){
                         staffManager.salaryPayment();
                         tableReset();
-                        //?????
-                        currentTime = second;
+                        currentTime = timeTillMidnight();
                     }
                 }
             };

@@ -316,6 +316,9 @@ public class StaffManager {
                         editDatabase(code, col, value);
                     }
                     case 8 -> {
+                        if(Long.parseLong(value) < 0){
+                            value = "0";
+                        }
                         staff.setSalary(Long.parseLong(value));
                         editDatabase(code, col, value);
                     }
