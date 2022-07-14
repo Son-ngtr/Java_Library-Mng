@@ -9,8 +9,8 @@ public class Book_Psychology extends Book{
 
     //Constructor
     public Book_Psychology(){}
-    public Book_Psychology(int code, String name, Calendar dateAdded, Long price, String author, String publisher, int quantity,int typeCode, String type, String recommentForAge) {
-        super(code, name, dateAdded, price, author, publisher, "Psychological Book", quantity);
+    public Book_Psychology(int code, String name, Calendar dateAdded, Long price, String author, String publisher, int quantity,int typeCode,String serialNumber ,String type, String recommentForAge) {
+        super(code, name, dateAdded, price, author, publisher, "Psychological Book", quantity, serialNumber);
         this.typeCode = typeCode;
         this.type = type;
         this.recommentForAge = recommentForAge;
@@ -45,13 +45,11 @@ public class Book_Psychology extends Book{
 
     //Psychology Type
     public String[] psychologyType(){
-        String[] type = {"Awareness", "Behavior", "Criminal"};
-        return type;
+        return new String[]{"Awareness", "Behavior", "Criminal"};
     }
 
     //Psychology RecommentForAge
     public String[] psychologyRecommentForAge(){
-        String[] recommentForAge = {"6->10", "11->16", "16->18", "18+"};
-        return recommentForAge;
+        return new String[]{"6->10", "11->16", "16->18", "18+"};
     }
 }

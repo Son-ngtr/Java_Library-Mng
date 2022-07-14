@@ -20,6 +20,7 @@ public class Login_UI {
     private JButton logIn;
     private JPanel inFo;
     private JPasswordField txtPassword;
+    private Connection conn;
 
     public Login_UI(){
 
@@ -27,11 +28,6 @@ public class Login_UI {
         JLabel label = new JLabel(bk_Icon);
         label.setSize(935,499);
 
-
-//        ImageIcon notepad_Icon = new ImageIcon("src/image/notepad_Gif.gif");
-//        notepad_Label = new JLabel(notepad_Icon);
-//        notepad_Label.setSize(80,80);
-//        notepad_Label.setBounds(715,205+10,80,80);
 
         Font Font_me = new Font("MV Boli", Font.PLAIN, 12);
         Font Font_login = new Font("MV Boli", Font.PLAIN, 16);
@@ -91,6 +87,7 @@ public class Login_UI {
         logIn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+<<<<<<< HEAD
                 try{
                     String username = txtName.getText();
                     String password = String.valueOf(txtPassword.getPassword());
@@ -111,14 +108,21 @@ public class Login_UI {
 //                    new Lobby_UI(conn);
 //                }
 //                else JOptionPane.showMessageDialog(null,"Log in uncompleted");
+=======
+                String usename = txtName.getText();
+                String password = String.valueOf(txtPassword.getPassword());
+                AccountData accountData = new AccountData(usename, password);
+                conn = LibraryManager.getConnect(accountData);
+                if(conn !=null){
+                    Lobby_UI lobby_ui = new Lobby_UI(conn);
+                }
+
+                //Close Login
+                main_Frame.dispose();
+>>>>>>> TMQuang
             }
         });
 
-//        ImageIcon login_Ani = new ImageIcon("src/image/login_Ani.gif");
-//        login_Icon = new JLabel(login_Ani);
-//        login_Icon.setSize(25,25);
-//        login_Icon.setBackground(Color_me);
-//        login_Icon.setBounds(415,320+10,25,25);
 
         txt_info = new JTextField("LIBRARY MANAGEMENT",362);
         txt_info.setBackground(new Color(84, 103, 71));
@@ -221,10 +225,8 @@ public class Login_UI {
         label.add(txtPassword);
         label.add(txt_name);
         label.add(txt_pass);
-//        label.add(login_Icon);
         label.add(logIn);
         label.add(txt_info);
-//        label.add(notepad_Label);
         label.add(txt_Group);
 
         main_Frame = new JFrame("Main_UI");
@@ -249,4 +251,3 @@ public class Login_UI {
         new Login_UI();
     }
 }
-

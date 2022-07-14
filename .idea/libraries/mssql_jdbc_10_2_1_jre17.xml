@@ -1,7 +1,11 @@
 <component name="libraryTable">
   <library name="mssql-jdbc-10.2.1.jre17">
     <CLASSES>
+<<<<<<< HEAD
       <root url="jar://$PROJECT_DIR$/src/MsqlLibrary/mssql-jdbc-10.2.1.jre17.jar!/" />
+=======
+      <root url="jar://$PROJECT_DIR$/src/MysqlLibrary/mssql-jdbc-10.2.1.jre17.jar!/" />
+>>>>>>> TMQuang
     </CLASSES>
     <JAVADOC />
     <SOURCES />

@@ -1,9 +1,13 @@
 package Library_UI.Lib_UI;
 
 import Library.Book_Manager.BookManager;
-import Library.Staff_Manager.StaffManager;
-import Library.User_Manager.UserManager;
-import Library_UI.Funtion.Addbook_UI;
+import Library.Check;
+import Library.HIstory_Manager.HistoryManager;
+import Library.HIstory_Manager.HistoryReceive_Manager;
+import Library.Human.User_Manager.UserManager;
+import Library.Table_Manager.TableManager;
+import Library_UI.Funtion.AddUser_UI;
+import Library_UI.Funtion.User_In4_UI;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
@@ -17,10 +21,9 @@ import javax.swing.table.TableRowSorter;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.util.Calendar;
 
 public class ManageUser_UI {
-    private JFrame main_Frame;
+    private JFrame main_Frame, lobbyFrame;
     private ImageIcon bk_Icon, notepad_Icon, login_Ani, login_ef;
     private JLabel label, notification_Label, login_Icon, logout_Label, exit_Label,brand;
     private JButton button, bt_add, bt_remove, bt_search;
@@ -29,27 +32,39 @@ public class ManageUser_UI {
     private JPanel inFo;
     private JTable jt;
     private DefaultTableModel defaultTableModel;
-    private UserManager userManager= new UserManager();
-    private JComboBox cb = new JComboBox(userManager.userGender());
+    private UserManager userManager;
+    private BookManager bookManager;
+    private JComboBox cb;
+    private Check check = new Check();
+    private HistoryManager historyManager;
+    private HistoryReceive_Manager historyReceive_manager;
+    private TableManager tableManager;
 
-    public void createTableExample(){
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(2020, 10, 10);
-        userManager.addUser(userManager.createUser("Quang", "Male", calendar, "sdfsdf", "dsfsd", "dsfsd", calendar, calendar, 1000L));
-        userManager.addUser(userManager.createUser("Phong", "Other", calendar, "sdfsdf", "dsfsd", "dsfsd", calendar, calendar, 1000L));
-        userManager.addUser(userManager.createUser("Hai", "Female", calendar, "sdfsdf", "dsfsd", "dsfsd", calendar, calendar, 1000L));
-        userManager.addUser(userManager.createUser("Duong", "Male", calendar, "sdfsdf", "dsfsd", "dsfsd", calendar, calendar, 1000L));
+    //Set Lobby Side
+    public void setLobbySide(JFrame jFrameLobby){
+        lobbyFrame = jFrameLobby;
+    }
+
+    //Constructor
+    public ManageUser_UI(BookManager bookManager, UserManager userManager, HistoryManager historyManager, HistoryReceive_Manager historyReceive_manager, TableManager tableManager){
+        this.bookManager = bookManager;
+        this.userManager = userManager;
+        this.historyManager = historyManager;
+        this.historyReceive_manager = historyReceive_manager;
+        this.tableManager = tableManager;
+        cb = new JComboBox(userManager.userGender());
+        content();
     }
 
     //Table reset
     public void tableReset(){
         userManager.setIsUpdate(true);
         defaultTableModel.setDataVector(userManager.listUser(), userManager.userContent());
-        jt.getColumnModel().getColumn(2).setCellEditor(new DefaultCellEditor(cb));
+        jt.getColumnModel().getColumn(userManager.userContentIndex("Gender")).setCellEditor(new DefaultCellEditor(cb));
         userManager.setIsUpdate(false);
     }
 
-    public ManageUser_UI(){
+    public void content(){
         ImageIcon bk_Icon = new ImageIcon("src/Image_Icon/background/_Reader_UI_.png");
         label = new JLabel(bk_Icon);
         label.setSize(1794,956);
@@ -90,6 +105,7 @@ public class ManageUser_UI {
         logout_Label.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
+                lobbyFrame.setEnabled(true);
                 main_Frame.dispose();
             }
 
@@ -182,9 +198,9 @@ public class ManageUser_UI {
         bt_add.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-//                Addbook_UI addBook = new Addbook_UI();
-//                addBook.setManagerUser(main_Frame, userManager, defaultTableModel, jt);
-//                main_Frame.setEnabled(false);
+                AddUser_UI addUser_ui = new AddUser_UI(userManager);
+                addUser_ui.setManagerUser(main_Frame, defaultTableModel, jt);
+                main_Frame.setEnabled(false);
             }
 
             @Override
@@ -220,8 +236,14 @@ public class ManageUser_UI {
             @Override
             public void mouseClicked(MouseEvent e) {
                 if(jt.getSelectedRow() != -1){
-                    userManager.removeUser(String.valueOf(jt.getValueAt(jt.getSelectedRow(), 0)));
-                    tableReset();
+                    if(userManager.getLentBookManager(check.codeConvert(String.valueOf(jt.getValueAt(jt.getSelectedRow(), userManager.userContentIndex("ID")))) ).totalLentBook() == 0 ){
+                        userManager.removeUser(check.codeConvert(String.valueOf(jt.getValueAt(jt.getSelectedRow(), userManager.userContentIndex("ID"))).trim()));
+                        tableReset();
+                    }else {
+                        JOptionPane.showMessageDialog(null, "Please Return All The Book Before Delete User");
+                    }
+                }else {
+                    JOptionPane.showMessageDialog(null, "Please Chose A User Form The Table");
                 }
             }
 
@@ -257,7 +279,31 @@ public class ManageUser_UI {
         bt_search.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
+                if(jt.getSelectedRow() != -1){
+                    //User Data
+                    String useID = check.codeConvert(String.valueOf(jt.getValueAt(jt.getSelectedRow(), userManager.userContentIndex("ID"))));
+                    String userName = String.valueOf(jt.getValueAt(jt.getSelectedRow(), userManager.userContentIndex("Name")));
+                    String userGender = String.valueOf(jt.getValueAt(jt.getSelectedRow(), userManager.userContentIndex("Gender")));
+                    String userDateOfBirth = String.valueOf(jt.getValueAt(jt.getSelectedRow(), userManager.userContentIndex("Date Of Birth")));
+                    String userAddress = String.valueOf(jt.getValueAt(jt.getSelectedRow(), userManager.userContentIndex("Address")));
+                    String userPhoneNumber = String.valueOf(jt.getValueAt(jt.getSelectedRow(), userManager.userContentIndex("Phone Number")));
+                    String userEmail = String.valueOf(jt.getValueAt(jt.getSelectedRow(), userManager.userContentIndex("Email")));
+                    userManager.setUseLentInfo(new String[]{
+                            useID,
+                            userName,
+                            userGender,
+                            userDateOfBirth,
+                            userAddress,
+                            userPhoneNumber,
+                            userEmail
+                    });
 
+                    User_In4_UI user_in4_ui = new User_In4_UI( bookManager, userManager, historyManager,historyReceive_manager, tableManager);
+                    user_in4_ui.setManagerUserSide(main_Frame, defaultTableModel, jt);
+                    main_Frame.setEnabled(false);
+                }else {
+                    JOptionPane.showMessageDialog(null, "Chose an user form the table");
+                }
             }
 
             @Override
@@ -294,11 +340,10 @@ public class ManageUser_UI {
         bookFilter.setForeground(Color_me);
 
         //Table
-        createTableExample();
         defaultTableModel = new DefaultTableModel(userManager.listUser(), userManager.userContent());
         jt = new JTable(defaultTableModel){
             public boolean isCellEditable(int row, int column) {
-                if (column == 0) return false;
+                if (column == userManager.userContentIndex("ID") || column == userManager.userContentIndex("Total Books") || column == userManager.userContentIndex("Fine Money")) return false;
                 return true;
             }
         };
@@ -355,7 +400,7 @@ public class ManageUser_UI {
             @Override
             public void tableChanged(TableModelEvent e) {
                 if(!userManager.getIsUpdate()){
-                    String codeValue = String.valueOf(jt.getValueAt(jt.getSelectedRow(), 0)).trim();
+                    String codeValue = check.codeConvert(String.valueOf(jt.getValueAt(jt.getSelectedRow(), userManager.userContentIndex("ID"))).trim());
                     String newValue = String.valueOf(jt.getValueAt(jt.getSelectedRow(), jt.getSelectedColumn())).trim();
                     switch (jt.getSelectedColumn()){
                         case 1:
@@ -363,9 +408,7 @@ public class ManageUser_UI {
                                 if(newValue.trim().length() > 0){
                                     userManager.editUser(codeValue, jt.getSelectedColumn(), newValue);
                                 }else {
-                                    int row = jt.getSelectedRow();
-                                    int col = jt.getSelectedColumn();
-                                    JOptionPane.showMessageDialog(null, "Tên phải được đưa vào ở dạng chuỗi và có nhiều hơn 1 kí tự");
+                                    JOptionPane.showMessageDialog(null, "Name");
                                     tableReset();
                                 }
                             }
@@ -379,12 +422,10 @@ public class ManageUser_UI {
                             break;
                         case 3:
                             if(!userManager.getIsUpdate()){
-                                if(newValue.trim().length() > 0 && userManager.isDateOrNot(newValue)){
+                                if(newValue.trim().length() > 0 && check.isDateOrNot(newValue)){
                                     userManager.editUser(codeValue, jt.getSelectedColumn(), newValue);
                                 }else {
-                                    int row = jt.getSelectedRow();
-                                    int col = jt.getSelectedColumn();
-                                    JOptionPane.showMessageDialog(null, "Thông tin phải được nhập dưới dạng d/m/y và tồn tại thời điểm nhập");
+                                    JOptionPane.showMessageDialog(null, "Date");
                                     tableReset();
                                 }
                             }
@@ -394,9 +435,7 @@ public class ManageUser_UI {
                                 if(newValue.trim().length() > 0 ){
                                     userManager.editUser(codeValue, jt.getSelectedColumn(), newValue);
                                 }else {
-                                    int row = jt.getSelectedRow();
-                                    int col = jt.getSelectedColumn();
-                                    JOptionPane.showMessageDialog(null, "Địa chỉ");
+                                    JOptionPane.showMessageDialog(null, "Address");
                                     tableReset();
                                 }
                             }
@@ -406,9 +445,7 @@ public class ManageUser_UI {
                                 if(newValue.trim().length() > 0 ){
                                     userManager.editUser(codeValue, jt.getSelectedColumn(), newValue);
                                 }else {
-                                    int row = jt.getSelectedRow();
-                                    int col = jt.getSelectedColumn();
-                                    JOptionPane.showMessageDialog(null, "SDT");
+                                    JOptionPane.showMessageDialog(null, "PhoneNumber");
                                     tableReset();
                                 }
                             }
@@ -418,8 +455,6 @@ public class ManageUser_UI {
                                 if(newValue.trim().length() > 0 ){
                                     userManager.editUser(codeValue, jt.getSelectedColumn(), newValue);
                                 }else {
-                                    int row = jt.getSelectedRow();
-                                    int col = jt.getSelectedColumn();
                                     JOptionPane.showMessageDialog(null, "Gmail");
                                     tableReset();
                                 }
@@ -427,43 +462,22 @@ public class ManageUser_UI {
                             break;
                         case 7:
                             if(!userManager.getIsUpdate()){
-                                if(newValue.trim().length() > 0 && userManager.isDateOrNot(newValue)){
+                                if(newValue.trim().length() > 0 && check.isLong(newValue)){
                                     userManager.editUser(codeValue, jt.getSelectedColumn(), newValue);
                                 }else {
-                                    int row = jt.getSelectedRow();
-                                    int col = jt.getSelectedColumn();
-                                    JOptionPane.showMessageDialog(null, "Thông tin phải được nhập dưới dạng d/m/y và tồn tại thời điểm nhập");
+                                    JOptionPane.showMessageDialog(null, "Total Books");
                                     tableReset();
                                 }
                             }
                             break;
                         case 8:
                             if(!userManager.getIsUpdate()){
-                                if(newValue.trim().length() > 0 && userManager.isDateOrNot(newValue)){
-                                    userManager.editUser(codeValue, jt.getSelectedColumn(), newValue);
-                                }else {
-                                    int row = jt.getSelectedRow();
-                                    int col = jt.getSelectedColumn();
-                                    JOptionPane.showMessageDialog(null, "Thông tin phải được nhập dưới dạng d/m/y và tồn tại thời điểm nhập");
-                                    tableReset();
-                                }
-                            }
-                            break;
-                        case 9:
-                            if(!userManager.getIsUpdate()){
-                                if(newValue.trim().length() > 0 && userManager.isLong(newValue)){
-                                    userManager.editUser(codeValue, jt.getSelectedColumn(), newValue);
+                                if(newValue.trim().length() > 0 && check.mathCheck(check.mathAnalysis(newValue))){
+                                    userManager.editUser(codeValue, jt.getSelectedColumn(), check.moneyConvert(check.matConvert(check.mathAnalysis(newValue))) );
                                     tableReset();
                                 }else {
-                                    if(userManager.moneyCheck(newValue)){
-                                        userManager.editUser(codeValue, jt.getSelectedColumn(), userManager.moneyConvert(newValue));
-                                        tableReset();
-                                    }else {
-                                        int row = jt.getSelectedRow();
-                                        int col = jt.getSelectedColumn();
-                                        JOptionPane.showMessageDialog(null, "Giá phải được nhập dưới dạng (VD: 10000 or 10.000VND)");
-                                        tableReset();
-                                    }
+                                    JOptionPane.showMessageDialog(null, "Fine Money");
+                                    tableReset();
                                 }
                             }
                             break;
@@ -496,6 +510,6 @@ public class ManageUser_UI {
     }
 
     public static void main(String[] args) {
-        new ManageUser_UI();
+//        new ManageUser_UI();
     }
 }

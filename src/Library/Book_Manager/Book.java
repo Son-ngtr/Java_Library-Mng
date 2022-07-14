@@ -3,7 +3,7 @@ package Library.Book_Manager;
 import java.util.Calendar;
 
 public class Book {
-    private int Code;
+    private int STT;
     private String Name;
     private Calendar DateAdded;
     private Long Price;
@@ -11,14 +11,15 @@ public class Book {
     private String Publisher;
     private String category;
     private int Quantity;
+    private String SerialNumber;
 
     //Constructor
     public Book(){
 
     }
 
-    public Book(int code, String name, Calendar dateAdded, Long price, String author, String publisher, String category, int quantity) {
-        Code = code;
+    public Book(int STT, String name, Calendar dateAdded, Long price, String author, String publisher, String category, int quantity, String serialNumber) {
+        this.STT = STT;
         Name = name;
         DateAdded = dateAdded;
         Price = price;
@@ -26,15 +27,16 @@ public class Book {
         Publisher = publisher;
         this.category = category;
         Quantity = quantity;
+        SerialNumber = serialNumber;
     }
 
     //Getter and Setter
-    public int getCode() {
-        return Code;
+    public int getSTT() {
+        return STT;
     }
 
-    public void setCode(int  code) {
-        Code = code;
+    public void setSTT(int STT) {
+        this.STT = STT;
     }
 
     public String getName() {
@@ -93,10 +95,17 @@ public class Book {
         Quantity = quantity;
     }
 
+    public String getSerialNumber() {
+        return SerialNumber;
+    }
+
+    public void setSerialNumber(String serialNumber) {
+        SerialNumber = serialNumber;
+    }
+
     //Date convert
     public String dateConvert(){
-        String date = getDateAdded().get(Calendar.DATE) + "/" + (getDateAdded().get(Calendar.MONTH) + 1) + "/" + getDateAdded().get(Calendar.YEAR);
-        return date;
+        return getDateAdded().get(Calendar.DATE) + "/" + (getDateAdded().get(Calendar.MONTH) + 1) + "/" + getDateAdded().get(Calendar.YEAR);
     }
 
     //DateReConvert
@@ -106,7 +115,7 @@ public class Book {
         int date = Integer.parseInt(times[0]);
         int month = Integer.parseInt(times[1]);
         int year = Integer.parseInt(times[2]);
-        newCalendar.set(year+0, month - 1 , date+0);
+        newCalendar.set(year, month - 1 , date);
         setDateAdded(newCalendar);
     }
 
@@ -144,12 +153,10 @@ public class Book {
 
     }
     public String[] childType(){
-        String a[] = {};
-        return a;
+        return new String[]{};
     }
     public String[] childRecommentForAge(){
-        String a[] = {};
-        return a;
+        return new String[]{};
     }
 
     //Book Learning Methods
@@ -172,12 +179,10 @@ public class Book {
 
     }
     public String[] learningEducation(){
-        String a[] = {};
-        return a;
+        return new String[]{};
     }
     public String[] learningEducaitionType(){
-        String a[] = {};
-        return a;
+        return new String[]{};
     }
 
     //Book Novel Methods
@@ -200,12 +205,10 @@ public class Book {
 
     }
     public String[] novelType(){
-        String[] type = {};
-        return type;
+        return new String[]{};
     }
     public String[] novelAgeLimited(){
-        String age[] = {};
-        return age;
+        return new String[]{};
     }
 
     //Book Psychology Methods
@@ -228,11 +231,9 @@ public class Book {
 
     }
     public String[] psychologyType(){
-        String a[] = {};
-        return a;
+        return new String[]{};
     }
     public String[] psychologyRecommentForAge(){
-        String a[] = {};
-        return a;
+        return new String[]{};
     }
 }

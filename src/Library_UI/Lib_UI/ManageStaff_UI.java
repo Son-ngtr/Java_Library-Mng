@@ -1,9 +1,9 @@
 package Library_UI.Lib_UI;
 
-import Library.Book_Manager.BookManager;
-import Library.Staff_Manager.Staff;
-import Library.Staff_Manager.StaffManager;
-import Library_UI.Funtion.Addbook_UI;
+import Library.Check;
+import Library.Human.Staff_Manager.CountDownStaff;
+import Library.Human.Staff_Manager.StaffManager;
+import Library_UI.Funtion.AddStaff_UI;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
@@ -20,7 +20,11 @@ import java.awt.event.MouseListener;
 import java.util.Calendar;
 
 public class ManageStaff_UI {
+<<<<<<< HEAD
     private JFrame main_Frame;
+=======
+    private JFrame main_Frame, lobbyFrame;
+>>>>>>> TMQuang
     private ImageIcon bk_Icon, notepad_Icon, login_Ani, login_ef;
     private JLabel label, notification_Label, login_Icon, logout_Label, exit_Label, brand;
     private JButton button, bt_add, bt_remove, bt_search;
@@ -29,25 +33,33 @@ public class ManageStaff_UI {
     private JPanel inFo;
     private JTable jt;
     private DefaultTableModel defaultTableModel;
-    private StaffManager staffManager= new StaffManager();
-    private JComboBox cbCategory = new JComboBox(staffManager.staffCategory());
-    private JComboBox cbGender = new JComboBox(staffManager.staffGender());
-    private JComboBox cbAttendence = new JComboBox(staffManager.staffAttendence());
+    private StaffManager staffManager;
+    private JComboBox cbCategory ;
+    private JComboBox cbGender;
+    private JComboBox cbAttendence;
+    private CountDownStaff countDown;
+    private Check check = new Check();
+    private Calendar currentTime = Calendar.getInstance();
 
-    public void createTableExample(){
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(2020, 10, 10);
-        staffManager.addStaff(staffManager.createStaff("Quang", "Male", calendar, "Sai Dong", "324234234","Treasurer", 1000L, "None" ));
-        staffManager.addStaff(staffManager.createStaff("Phong", "Female", calendar, "Sai Dong", "324234234","Treasurer", 1000L, "None" ));
-        staffManager.addStaff(staffManager.createStaff("Hieu", "Other", calendar, "Sai Dong", "324234234","Treasurer", 1000L, "None" ));
-        staffManager.addStaff(staffManager.createStaff("Binh", "Male", calendar, "Sai Dong", "324234234","Treasurer", 1000L, "None"));
+    //Set Lobby Side
+    public void setLobbySide(JFrame jFrameLobby){
+        lobbyFrame = jFrameLobby;
+    }
+
+    //Constructor
+    public ManageStaff_UI(StaffManager staffManager){
+        this.staffManager = staffManager;
+        cbCategory = new JComboBox(staffManager.staffCategory());
+        cbGender = new JComboBox(staffManager.staffGender());
+        cbAttendence = new JComboBox(staffManager.staffAttendence());
+        content();
     }
 
     //Table add Combobox and CheckBox
     public void tableAddCombobox(){
-        jt.getColumnModel().getColumn(6).setCellEditor(new DefaultCellEditor(cbCategory));
-        jt.getColumnModel().getColumn(2).setCellEditor(new DefaultCellEditor(cbGender));
-        jt.getColumnModel().getColumn(8).setCellEditor(new DefaultCellEditor(cbAttendence));
+        jt.getColumnModel().getColumn(staffManager.staffContentIndex("Position")).setCellEditor(new DefaultCellEditor(cbCategory));
+        jt.getColumnModel().getColumn(staffManager.staffContentIndex("Gender")).setCellEditor(new DefaultCellEditor(cbGender));
+        jt.getColumnModel().getColumn(staffManager.staffContentIndex("Attendance")).setCellEditor(new DefaultCellEditor(cbAttendence));
     }
 
     //Table reset
@@ -58,7 +70,11 @@ public class ManageStaff_UI {
         staffManager.setIsUpdate(false);
     }
 
+<<<<<<< HEAD
     public ManageStaff_UI(){
+=======
+    public void content(){
+>>>>>>> TMQuang
         ImageIcon bk_Icon = new ImageIcon("src/Image_Icon/background/_Staff_UI_.png");
         JLabel label = new JLabel(bk_Icon);
         label.setSize(1794,956);
@@ -99,6 +115,8 @@ public class ManageStaff_UI {
         logout_Label.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
+                countDown.stopRun();
+                lobbyFrame.setEnabled(true);
                 main_Frame.dispose();
             }
 
@@ -189,9 +207,9 @@ public class ManageStaff_UI {
         bt_add.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-//                Addbook_UI addBook = new Addbook_UI();
-//                addBook.setManagerUser(main_Frame, staffManager, defaultTableModel, jt);
-//                main_Frame.setEnabled(false);
+                AddStaff_UI addStaff_ui = new AddStaff_UI(staffManager);
+                addStaff_ui.setManagerUser(main_Frame, defaultTableModel, jt);
+                main_Frame.setEnabled(false);
             }
 
             @Override
@@ -227,7 +245,7 @@ public class ManageStaff_UI {
             @Override
             public void mouseClicked(MouseEvent e) {
                 if(jt.getSelectedRow() != -1){
-                    staffManager.removeStaff(String.valueOf(jt.getValueAt(jt.getSelectedRow(), 0)));
+                    staffManager.removeStaff(check.codeConvert(String.valueOf(jt.getValueAt(jt.getSelectedRow(), staffManager.staffContentIndex("ID"))).trim()));
                     tableReset();
                 }
             }
@@ -301,11 +319,10 @@ public class ManageStaff_UI {
         bookFilter.setForeground(Color_me);
 
         //Table
-        createTableExample();
         defaultTableModel = new DefaultTableModel(staffManager.listStaff(), staffManager.staffContent());
         jt = new JTable(defaultTableModel){
             public boolean isCellEditable(int row, int column) {
-                if (column == 0) return false;
+                if (column == staffManager.staffContentIndex("ID")) return false;
                 return true;
             }
         };
@@ -315,6 +332,7 @@ public class ManageStaff_UI {
         jt.setGridColor(Color_ForeG);
         jt.setBackground(Color_me);
         jt.setForeground(Color_ForeG);
+        countDown = new CountDownStaff(jt, staffManager, defaultTableModel);
 
         JTableHeader jth = jt.getTableHeader();
         jth.setBackground(Color_ForeG);
@@ -362,7 +380,7 @@ public class ManageStaff_UI {
             @Override
             public void tableChanged(TableModelEvent e) {
                 if(!staffManager.getIsUpdate()){
-                    String codeValue = String.valueOf(jt.getValueAt(jt.getSelectedRow(), 0)).trim();
+                    String codeValue = check.codeConvert(String.valueOf(jt.getValueAt(jt.getSelectedRow(), staffManager.staffContentIndex("ID"))).trim());
                     String newValue = String.valueOf(jt.getValueAt(jt.getSelectedRow(), jt.getSelectedColumn())).trim();
                     switch (jt.getSelectedColumn()){
                         case 1:
@@ -370,9 +388,7 @@ public class ManageStaff_UI {
                                 if(newValue.trim().length() > 0){
                                     staffManager.editStaff(codeValue, jt.getSelectedColumn(), newValue);
                                 }else {
-                                    int row = jt.getSelectedRow();
-                                    int col = jt.getSelectedColumn();
-                                    JOptionPane.showMessageDialog(null, "Tên phải được đưa vào ở dạng chuỗi và có nhiều hơn 1 kí tự");
+                                    JOptionPane.showMessageDialog(null, "Name");
                                     tableReset();
                                 }
                             }
@@ -386,13 +402,11 @@ public class ManageStaff_UI {
                             break;
                         case 3:
                             if(!staffManager.getIsUpdate()){
-                                if(newValue.trim().length() > 0 && staffManager.isDateOrNot(newValue)){
+                                if(newValue.trim().length() > 0 && check.isDateOrNot(newValue)){
                                     staffManager.editStaff(codeValue, jt.getSelectedColumn(), newValue);
                                     tableReset();
                                 }else {
-                                    int row = jt.getSelectedRow();
-                                    int col = jt.getSelectedColumn();
-                                    JOptionPane.showMessageDialog(null, "Thông tin phải được nhập dưới dạng d/m/y và tồn tại thời điểm nhập");
+                                    JOptionPane.showMessageDialog(null, "Date");
                                     tableReset();
                                 }
                             }
@@ -402,9 +416,7 @@ public class ManageStaff_UI {
                                 if(newValue.trim().length() > 0 ){
                                     staffManager.editStaff(codeValue, jt.getSelectedColumn(), newValue);
                                 }else {
-                                    int row = jt.getSelectedRow();
-                                    int col = jt.getSelectedColumn();
-                                    JOptionPane.showMessageDialog(null, "Địa chỉ");
+                                    JOptionPane.showMessageDialog(null, "Address");
                                     tableReset();
                                 }
                             }
@@ -414,8 +426,6 @@ public class ManageStaff_UI {
                                 if(newValue.trim().length() > 0 ){
                                     staffManager.editStaff(codeValue, jt.getSelectedColumn(), newValue);
                                 }else {
-                                    int row = jt.getSelectedRow();
-                                    int col = jt.getSelectedColumn();
                                     JOptionPane.showMessageDialog(null, "Phone Number");
                                     tableReset();
                                 }
@@ -425,28 +435,31 @@ public class ManageStaff_UI {
                             if(!staffManager.getIsUpdate()){
                                 if(newValue.trim().length() > 0 ){
                                     staffManager.editStaff(codeValue, jt.getSelectedColumn(), newValue);
+                                }else {
+                                    JOptionPane.showMessageDialog(null, "Email");
+                                    tableReset();
                                 }
                             }
                             break;
                         case 7:
                             if(!staffManager.getIsUpdate()){
-                                if(newValue.trim().length() > 0 && staffManager.isLong(newValue)){
+                                if(newValue.trim().length() > 0 ){
                                     staffManager.editStaff(codeValue, jt.getSelectedColumn(), newValue);
-                                    tableReset();
-                                }else {
-                                    if(staffManager.moneyCheck(newValue)){
-                                        staffManager.editStaff(codeValue, jt.getSelectedColumn(), staffManager.moneyConvert(newValue));
-                                        tableReset();
-                                    }else {
-                                        int row = jt.getSelectedRow();
-                                        int col = jt.getSelectedColumn();
-                                        JOptionPane.showMessageDialog(null, "Lương phải được nhập dưới dạng (VD: 10000 or 10.000VND)");
-                                        tableReset();
-                                    }
                                 }
                             }
                             break;
                         case 8:
+                            if(!staffManager.getIsUpdate()){
+                                if(newValue.trim().length() > 0 && check.mathCheck(check.mathAnalysis(newValue))){
+                                    staffManager.editStaff(codeValue, jt.getSelectedColumn(), check.moneyConvert(check.matConvert(check.mathAnalysis(newValue))) );
+                                    tableReset();
+                                }else {
+                                    JOptionPane.showMessageDialog(null, "Salary");
+                                    tableReset();
+                                }
+                            }
+                            break;
+                        case 9:
                             if(!staffManager.getIsUpdate()){
                                 if(newValue.trim().length() > 0 ){
                                     staffManager.editStaff(codeValue, jt.getSelectedColumn(), newValue);
@@ -484,6 +497,6 @@ public class ManageStaff_UI {
     }
 
     public static void main(String[] args) {
-        new ManageStaff_UI();
+//        new ManageStaff_UI();
     }
 }

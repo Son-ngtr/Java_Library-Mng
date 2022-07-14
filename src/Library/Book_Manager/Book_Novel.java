@@ -12,8 +12,8 @@ public class Book_Novel extends Book{
 
     }
 
-    public Book_Novel(int code, String name, Calendar dateAdded, Long price, String author, String publisher, int quantity,int typeCode, String type, String ageLimited) {
-        super(code, name, dateAdded, price, author, publisher, "Noval Book", quantity);
+    public Book_Novel(int code, String name, Calendar dateAdded, Long price, String author, String publisher, int quantity,int typeCode, String serialNumber,String type, String ageLimited) {
+        super(code, name, dateAdded, price, author, publisher, "Noval Book", quantity, serialNumber);
         this.typeCode = typeCode;
         this.type = type;
         this.ageLimited = ageLimited;
@@ -25,7 +25,6 @@ public class Book_Novel extends Book{
     }
 
     public void novalSetType(String type) {
-        System.out.println("dfsdfsd");
         this.type = type;
     }
 
@@ -47,11 +46,9 @@ public class Book_Novel extends Book{
 
     //Novel Type
     public String[] novelType(){
-        String[] type = {"Science Fiction", "Sports", "Slice Of Life", "Fantasy", "Comedy", "Adult"};
-        return type;
+        return new String[]{"Science Fiction", "Sports", "Slice Of Life", "Fantasy", "Comedy", "Adult"};
     }
     public String[] novelAgeLimited(){
-        String age[] = {"6->10", "11->16", "16->18", "18+"};
-        return age;
+        return new String[]{"6->10", "11->16", "16->18", "18+"};
     }
 }

@@ -5,9 +5,20 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 public class Team_In4 {
-    private JFrame main_Frame;
+    private JFrame main_Frame, lobbyFrame;
     private JLabel label, notification_Label, logout_Label, exit_Label;
+
+    //Set Lobby Side
+    public void setLobbySide(JFrame jFrameLobby){
+        lobbyFrame = jFrameLobby;
+    }
+
+    //Constructor
     public Team_In4(){
+        content();
+    }
+
+    public void content(){
         ImageIcon bk_Icon = new ImageIcon("src/Image_Icon/background/Team_In4.png");
         label = new JLabel(bk_Icon);
         int w,h;
@@ -51,6 +62,7 @@ public class Team_In4 {
         logout_Label.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
+                lobbyFrame.setEnabled(true);
                 main_Frame.dispose();
             }
 
@@ -121,6 +133,6 @@ public class Team_In4 {
     }
 
     public static void main(String[] args) {
-        new Team_In4();
+//        new Team_In4();
     }
 }

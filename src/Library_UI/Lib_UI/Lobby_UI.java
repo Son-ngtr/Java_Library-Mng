@@ -2,17 +2,24 @@ package Library_UI.Lib_UI;
 
 
 import Library.Book_Manager.BookManager;
+import Library.HIstory_Manager.HistoryManager;
+import Library.HIstory_Manager.HistoryReceive_Manager;
+import Library.Human.Staff_Manager.StaffManager;
+import Library.Human.User_Manager.UserManager;
+import Library.Table_Manager.TableManager;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.Color;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.sql.Connection;
+<<<<<<< HEAD
 import java.util.Calendar;
+=======
+>>>>>>> TMQuang
 import javax.swing.JFrame;
+
 
 public class Lobby_UI {
     private JFrame main_Frame;
@@ -23,8 +30,51 @@ public class Lobby_UI {
     private JButton logIn;
     private JPanel inFo;
     private Connection connection;
+<<<<<<< HEAD
     public Lobby_UI(Connection conn){
         this.connection = conn;
+=======
+    private BookManager bookManager ;
+    private UserManager userManager ;
+    private StaffManager staffManager;
+    private HistoryManager historyManager;
+    private HistoryReceive_Manager historyReceive_manager;
+    private TableManager tableManager;
+
+    //Constructor
+    public Lobby_UI(Connection connection){
+        this.connection = connection;
+        bookManager = new BookManager(connection);
+        userManager = new UserManager(connection);
+        staffManager = new StaffManager(connection);
+        historyManager = new HistoryManager(connection);
+        historyReceive_manager = new HistoryReceive_Manager(connection);
+        tableManager = new TableManager(connection);
+        content();
+    }
+
+    //Dowload Data
+    public void downloadData(){
+        bookManager.downloadAllBook();
+        userManager.downloadAllUser();
+        staffManager.downloadAllStaff();
+        historyManager.downLoadHistory();
+        historyReceive_manager.downloadHistoryReceive();
+        tableManager.downloadTable();
+    }
+
+    //Reset lobby
+    public void resetLobby(){
+        txt_Reader.setText(String.valueOf(userManager.totalUser()));
+        txt_NoBook.setText(String.valueOf(bookManager.numberOfBook()));
+        txt_NoBookBorrowed.setText(String.valueOf(userManager.totalBookBorrow()));
+    }
+
+    public void content(){
+        //Dowload From My SQL
+        downloadData();
+
+>>>>>>> TMQuang
         ImageIcon bk_Icon = new ImageIcon("src/Image_Icon/background/lobby_1.png");
         label = new JLabel(bk_Icon);
         label.setSize(bk_Icon.getIconWidth(), bk_Icon.getIconHeight());
@@ -66,7 +116,8 @@ public class Lobby_UI {
         logout_Label.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-
+                main_Frame.dispose();
+                new Login_UI();
             }
 
             @Override
@@ -138,35 +189,12 @@ public class Lobby_UI {
         b1.setBorder(BorderFactory.createLineBorder(Color_me));
         b1.setForeground(Color_ForeG);
         b1.setBackground(Color_me);
-        b1.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-//                new ManageBook_UI();
-            }
-        });
         b1.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                BookManager bookManager = new BookManager();
-                Calendar calendar = Calendar.getInstance();
-                calendar.set(2020, 10, 10);
-                bookManager.addBookChild(bookManager.createBookChild("Quang", calendar, 1000L, "Son", "Dfsd", 10, "Classic", "6->10"));
-                bookManager.addBookChild(bookManager.createBookChild("Phong", calendar, 1000L, "Son", "Dfsd", 10, "Classic", "6->10"));
-                bookManager.addBookChild(bookManager.createBookChild("Toan", calendar, 1000L, "Son", "Dfsd", 10, "Classic", "6->10"));
-                calendar.set(2020, 11, 20);
-                bookManager.addBookLearning(bookManager.createBookLearning("Shark", calendar, 1000L, "Sn", "Dfsdf", 10, "High School", "Math"));
-                bookManager.addBookLearning(bookManager.createBookLearning("Meme", calendar, 1000L, "Sn", "Dfsdf", 10, "High School", "Math"));
-                bookManager.addBookLearning(bookManager.createBookLearning("Leesin", calendar, 1000L, "Sn", "Dfsdf", 10, "High School", "Math"));
-                calendar.set(2020, 1, 9);
-                bookManager.addBookPsychology(bookManager.createBookPsychology("Babe", calendar, 1000L, "Sn", "Dfsdf", 10, "Criminal", "11->16"));
-                bookManager.addBookPsychology(bookManager.createBookPsychology("Babe shark", calendar, 1000L, "Sn", "Dfsdf", 10, "Criminal", "11->16"));
-                bookManager.addBookPsychology(bookManager.createBookPsychology("Babe Sister", calendar, 1000L, "Sn", "Dfsdf", 10, "Criminal", "11->16"));
-                calendar.set(2020, 4, 1);
-                bookManager.addBookNovel(bookManager.createBookNovel("Duong", calendar, 1000L, "Sn", "Dfsdf", 10, "Science Fictiong", "11->16"));
-                bookManager.addBookNovel(bookManager.createBookNovel("Duoc", calendar, 1000L, "Sn", "Dfsdf", 10, "Science Fictiong", "11->16"));
-                bookManager.addBookNovel(bookManager.createBookNovel("Dung", calendar, 1000L, "Sn", "Dfsdf", 10, "Science Fictiong", "11->16"));
-
                 ManageBook_UI manageBook_ui = new ManageBook_UI(bookManager);
+                manageBook_ui.setLobbySide(main_Frame);
+                main_Frame.setEnabled(false);
             }
 
             @Override
@@ -201,7 +229,9 @@ public class Lobby_UI {
         b2.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                new ManageUser_UI();
+                ManageUser_UI manageUser_ui = new ManageUser_UI(bookManager, userManager, historyManager, historyReceive_manager, tableManager);
+                manageUser_ui.setLobbySide(main_Frame);
+                main_Frame.setEnabled(false);
             }
 
             @Override
@@ -236,7 +266,14 @@ public class Lobby_UI {
         b3.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                new ManageStaff_UI();
+                //ReDownLoad
+                staffManager = new StaffManager(connection);
+                staffManager.downloadAllStaff();
+
+
+                ManageStaff_UI manageStaff_ui = new ManageStaff_UI(staffManager);
+                manageStaff_ui.setLobbySide(main_Frame);
+                main_Frame.setEnabled(false);
             }
 
             @Override
@@ -271,7 +308,9 @@ public class Lobby_UI {
         b4.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                new LentBooks_UI();
+                LentBooks_UI lentBooks_ui = new LentBooks_UI(bookManager, userManager,historyManager, historyReceive_manager, tableManager);
+                lentBooks_ui.setLobbySide(main_Frame);
+                main_Frame.setEnabled(false);
             }
 
             @Override
@@ -306,7 +345,9 @@ public class Lobby_UI {
         b5.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                new DayHis_UI();
+                DayHis_UI dayHis_ui = new DayHis_UI(historyManager, historyReceive_manager);
+                dayHis_ui.setLobbySide(main_Frame);
+                main_Frame.setEnabled(false);
             }
 
             @Override
@@ -341,7 +382,9 @@ public class Lobby_UI {
         b6.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                new Team_In4();
+                Table_UI table_ui = new Table_UI(tableManager);
+                table_ui.setLobbySide(main_Frame);
+                main_Frame.setEnabled(false);
             }
 
             @Override
@@ -378,7 +421,8 @@ public class Lobby_UI {
         txt_Group.setEditable(false);
 
 // add 3 properties of book on the left side
-        txt_Reader = new JTextField("10",362);
+        txt_Reader = new JTextField("",362);
+        txt_Reader.setText(String.valueOf(userManager.totalUser()));
         txt_Reader.setBackground(Color_left);
         txt_Reader.setFont(Font_left);
         txt_Reader.setBorder(BorderFactory.createLineBorder(new Color(84, 103, 71)));
@@ -386,7 +430,8 @@ public class Lobby_UI {
         txt_Reader.setBounds(250,353,80,100);
         txt_Reader.setEditable(false);
 
-        txt_NoBook = new JTextField("250",362);
+        txt_NoBook = new JTextField("",362);
+        txt_NoBook.setText(String.valueOf(bookManager.numberOfBook()));
         txt_NoBook.setBackground(Color_left);
         txt_NoBook.setFont(Font_left );
         txt_NoBook.setBorder(BorderFactory.createLineBorder(new Color(84, 103, 71)));
@@ -394,7 +439,8 @@ public class Lobby_UI {
         txt_NoBook.setBounds(250,550,80,100);
         txt_NoBook.setEditable(false);
 
-        txt_NoBookBorrowed = new JTextField("16",362);
+        txt_NoBookBorrowed = new JTextField("",362);
+        txt_NoBookBorrowed.setText(String.valueOf(userManager.totalBookBorrow()));
         txt_NoBookBorrowed.setBackground(Color_left);
         txt_NoBookBorrowed.setFont(Font_left );
         txt_NoBookBorrowed.setBorder(BorderFactory.createLineBorder(new Color(84, 103, 71)));
@@ -432,7 +478,11 @@ public class Lobby_UI {
     }
 
     public static void main(String[] args) {
+<<<<<<< HEAD
 //        new Lobby_UI(Connection );
+=======
+//        new Lobby_UI();
+>>>>>>> TMQuang
     }
 }
 

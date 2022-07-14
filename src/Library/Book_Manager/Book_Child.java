@@ -12,8 +12,8 @@ public class Book_Child extends Book{
 
     }
 
-    public Book_Child(int code, String name, Calendar dateAdded, Long price, String author, String publisher, int quantity,int typeCode, String type, String recommentForAge) {
-        super(code, name, dateAdded, price, author, publisher, "Children Book", quantity);
+    public Book_Child(int code, String name, Calendar dateAdded, Long price, String author, String publisher, int quantity,int typeCode,String serialNumber ,String type, String recommentForAge) {
+        super(code, name, dateAdded, price, author, publisher, "Children Book", quantity, serialNumber);
         this.typeCode = typeCode;
         this.type = type;
         this.recommentForAge = recommentForAge;
@@ -46,13 +46,11 @@ public class Book_Child extends Book{
 
     //ChildType
     public String[] childType(){
-        String[] type = {"Classic", "Modern"};
-        return type;
+        return new String[]{"Classic", "Modern"};
     }
 
     //ChildRecommentForAge
     public String[] childRecommentForAge(){
-        String[] recommentForAge = {"6->10", "11->16", "16+"};
-        return recommentForAge;
+        return new String[]{"6->10", "11->16", "16+"};
     }
 }
