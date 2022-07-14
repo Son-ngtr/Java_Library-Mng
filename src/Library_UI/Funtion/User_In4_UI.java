@@ -36,11 +36,9 @@ public class User_In4_UI {
     private BookManager bookManager;
     private HistoryManager historyManager;
     private HistoryReceive_Manager historyReceive_manager;
-    private Calendar calendar = Calendar.getInstance()  ;
     private String UserId;
     private LentBookManager lentBookManager;
     private TableManager tableManager;
-    private Calendar today = Calendar.getInstance();
     private boolean borrowType;
 
     //Constructor

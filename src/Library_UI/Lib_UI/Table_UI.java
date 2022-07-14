@@ -472,7 +472,8 @@ public class Table_UI {
             table_Name[i].setForeground(Color_ForeG);
 
             if(userManager != null){
-                if(tableManager.checkUsedTable(i)){
+                //Fill Table Color
+                if(tableManager.checkUsedTable(i+1)){
                     table_LB[i].setIcon(table_full_Icon);
                     table_Name[i].setForeground(Color_me);
                 }else {
@@ -486,16 +487,92 @@ public class Table_UI {
                     @Override
                     public void mouseClicked(MouseEvent e) {
                         if(table_LB[finalI].getIcon().equals(table_full_Icon)){
-                            JOptionPane.showMessageDialog(null,"Table " + finalI + " Is Full");
+                            JOptionPane.showMessageDialog(null,"Table " + (finalI+1) + " Is Full");
                         }else {
-                            if (JOptionPane.showConfirmDialog(null, "Chose table " + finalI +". Are you sure ?",  "Table",
+                            if (JOptionPane.showConfirmDialog(null, "Chose table " + (finalI+1) +". Are you sure ?",  "Table",
                                     JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
 
                                 //Set Color
                                 table_LB[finalI].setIcon(table_full_Icon);
                                 table_Name[finalI].setForeground(Color_me);
 
-                                //Input Value
+                                User user;
+                                if(userManager.getUseLentInfo() == null){
+                                    //Add User
+                                    user = userManager.createUser(
+                                            readerName,
+                                            gender,
+                                            check.dateReConvert(dateOfBirth),
+                                            address,
+                                            phoneNumber,
+                                            email,
+                                            0,
+                                            0L
+
+                                    );
+                                    userManager.addUser(user);
+
+                                    //LentBook DTB
+                                    userManager.addLentBookManager();
+                                    lentBookDTB(user, quantityBorrow);
+                                }else {
+                                    if(defaultTableModelUser != null){
+                                        user = userManager.getUser(Integer.parseInt(userManager.getUseLentInfo()[0]));
+
+                                        //Lent Book DTB
+                                        lentBookDTB(user, quantityBorrow);
+                                    }else {
+                                        user = userManager.getUser(userManager.totalUser());
+
+                                        //LentBook DTB
+                                        lentBookDTB(user, quantityBorrow);
+                                    }
+                                }
+
+                                //Add To Table Manager
+                                addTableToTableManager(user,finalI);
+                                //Fix Total Books of User
+                                fixtotalBook(user, quantityBorrow);
+                                //Fix Fine Money of User
+                                fixFineMoney(user,quantityBorrow);
+
+                                //Reset User Table
+                                if (defaultTableModelUser != null){
+                                    tableUserReset();
+                                }
+
+                                //Fix Quantity Of Book
+                                fixQuantityOfBook(result);
+
+                                //Exit Table UI
+                                exitFrame();
+
+                                //Continue or Not
+                                if(defaultTableModelUser == null){
+                                    if (JOptionPane.showConfirmDialog(null, "Continue Adding ?", "Lent Books",
+                                            JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+                                        if(userManager.getUseLentInfo() == null){
+                                            String userID = Integer.toString(user.getId());
+                                            String userName = readerName;
+                                            String userGender = gender;
+                                            String userDateOfBirth = dateOfBirth;
+                                            String userAddress = address;
+                                            String userPhoneNumber = phoneNumber;
+                                            String userEmail = email;
+                                            userManager.setUseLentInfo(new String[]{
+                                                    userID,
+                                                    userName,
+                                                    userGender,
+                                                    userDateOfBirth,
+                                                    userAddress,
+                                                    userPhoneNumber,
+                                                    userEmail
+                                            });
+                                        }
+                                    } else {
+                                        userManager.setUseLentInfo(null);
+                                    }
+                                }
                             }
                         }
                     }
@@ -549,7 +626,8 @@ public class Table_UI {
             table_Name[i].setForeground(Color_ForeG);
 
             if(userManager != null){
-                if(tableManager.checkUsedTable(i)){
+                //Fill Table Color
+                if(tableManager.checkUsedTable(i+1)){
                     table_LB[i].setIcon(table_full_Icon);
                     table_Name[i].setForeground(Color_me);
                 }else {
@@ -563,17 +641,92 @@ public class Table_UI {
                     @Override
                     public void mouseClicked(MouseEvent e) {
                         if(table_LB[finalI].getIcon().equals(table_full_Icon)){
-                            JOptionPane.showMessageDialog(null,"Table " + finalI + " Is Full");
+                            JOptionPane.showMessageDialog(null,"Table " + (finalI+1) + " Is Full");
                         }else {
-                            if (JOptionPane.showConfirmDialog(null, "Chose table " + finalI +". Are you sure ?",  "Table",
+                            if (JOptionPane.showConfirmDialog(null, "Chose table " + (finalI+1) +". Are you sure ?",  "Table",
                                     JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
 
                                 //Set Color
                                 table_LB[finalI].setIcon(table_full_Icon);
                                 table_Name[finalI].setForeground(Color_me);
 
-                                //Input Value
+                                User user;
+                                if(userManager.getUseLentInfo() == null){
+                                    //Add User
+                                    user = userManager.createUser(
+                                            readerName,
+                                            gender,
+                                            check.dateReConvert(dateOfBirth),
+                                            address,
+                                            phoneNumber,
+                                            email,
+                                            0,
+                                            0L
 
+                                    );
+                                    userManager.addUser(user);
+
+                                    //LentBook DTB
+                                    userManager.addLentBookManager();
+                                    lentBookDTB(user, quantityBorrow);
+                                }else {
+                                    if(defaultTableModelUser != null){
+                                        user = userManager.getUser(Integer.parseInt(userManager.getUseLentInfo()[0]));
+
+                                        //Lent Book DTB
+                                        lentBookDTB(user, quantityBorrow);
+                                    }else {
+                                        user = userManager.getUser(userManager.totalUser());
+
+                                        //LentBook DTB
+                                        lentBookDTB(user, quantityBorrow);
+                                    }
+                                }
+
+                                //Add To Table Manager
+                                addTableToTableManager(user,finalI);
+                                //Fix Total Books of User
+                                fixtotalBook(user, quantityBorrow);
+                                //Fix Fine Money of User
+                                fixFineMoney(user,quantityBorrow);
+
+                                //Reset User Table
+                                if (defaultTableModelUser != null){
+                                    tableUserReset();
+                                }
+
+                                //Fix Quantity Of Book
+                                fixQuantityOfBook(result);
+
+                                //Exit Table UI
+                                exitFrame();
+
+                                //Continue or Not
+                                if(defaultTableModelUser == null){
+                                    if (JOptionPane.showConfirmDialog(null, "Continue Adding ?", "Lent Books",
+                                            JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+                                        if(userManager.getUseLentInfo() == null){
+                                            String userID = Integer.toString(user.getId());
+                                            String userName = readerName;
+                                            String userGender = gender;
+                                            String userDateOfBirth = dateOfBirth;
+                                            String userAddress = address;
+                                            String userPhoneNumber = phoneNumber;
+                                            String userEmail = email;
+                                            userManager.setUseLentInfo(new String[]{
+                                                    userID,
+                                                    userName,
+                                                    userGender,
+                                                    userDateOfBirth,
+                                                    userAddress,
+                                                    userPhoneNumber,
+                                                    userEmail
+                                            });
+                                        }
+                                    } else {
+                                        userManager.setUseLentInfo(null);
+                                    }
+                                }
                             }
                         }
                     }
@@ -627,7 +780,8 @@ public class Table_UI {
             table_Name[i].setForeground(Color_ForeG);
 
             if(userManager != null){
-                if(tableManager.checkUsedTable(i)){
+                //Fill Table Color
+                if(tableManager.checkUsedTable(i+1)){
                     table_LB[i].setIcon(table_full_Icon);
                     table_Name[i].setForeground(Color_me);
                 }else {
@@ -641,17 +795,92 @@ public class Table_UI {
                     @Override
                     public void mouseClicked(MouseEvent e) {
                         if(table_LB[finalI].getIcon().equals(table_full_Icon)){
-                            JOptionPane.showMessageDialog(null,"Table " + finalI + " Is Full");
+                            JOptionPane.showMessageDialog(null,"Table " + (finalI+1) + " Is Full");
                         }else {
-                            if (JOptionPane.showConfirmDialog(null, "Chose table " + finalI +". Are you sure ?",  "Table",
+                            if (JOptionPane.showConfirmDialog(null, "Chose table " + (finalI+1) +". Are you sure ?",  "Table",
                                     JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
 
                                 //Set Color
                                 table_LB[finalI].setIcon(table_full_Icon);
                                 table_Name[finalI].setForeground(Color_me);
 
-                                //Input Value
+                                User user;
+                                if(userManager.getUseLentInfo() == null){
+                                    //Add User
+                                    user = userManager.createUser(
+                                            readerName,
+                                            gender,
+                                            check.dateReConvert(dateOfBirth),
+                                            address,
+                                            phoneNumber,
+                                            email,
+                                            0,
+                                            0L
 
+                                    );
+                                    userManager.addUser(user);
+
+                                    //LentBook DTB
+                                    userManager.addLentBookManager();
+                                    lentBookDTB(user, quantityBorrow);
+                                }else {
+                                    if(defaultTableModelUser != null){
+                                        user = userManager.getUser(Integer.parseInt(userManager.getUseLentInfo()[0]));
+
+                                        //Lent Book DTB
+                                        lentBookDTB(user, quantityBorrow);
+                                    }else {
+                                        user = userManager.getUser(userManager.totalUser());
+
+                                        //LentBook DTB
+                                        lentBookDTB(user, quantityBorrow);
+                                    }
+                                }
+
+                                //Add To Table Manager
+                                addTableToTableManager(user,finalI);
+                                //Fix Total Books of User
+                                fixtotalBook(user, quantityBorrow);
+                                //Fix Fine Money of User
+                                fixFineMoney(user,quantityBorrow);
+
+                                //Reset User Table
+                                if (defaultTableModelUser != null){
+                                    tableUserReset();
+                                }
+
+                                //Fix Quantity Of Book
+                                fixQuantityOfBook(result);
+
+                                //Exit Table UI
+                                exitFrame();
+
+                                //Continue or Not
+                                if(defaultTableModelUser == null){
+                                    if (JOptionPane.showConfirmDialog(null, "Continue Adding ?", "Lent Books",
+                                            JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+                                        if(userManager.getUseLentInfo() == null){
+                                            String userID = Integer.toString(user.getId());
+                                            String userName = readerName;
+                                            String userGender = gender;
+                                            String userDateOfBirth = dateOfBirth;
+                                            String userAddress = address;
+                                            String userPhoneNumber = phoneNumber;
+                                            String userEmail = email;
+                                            userManager.setUseLentInfo(new String[]{
+                                                    userID,
+                                                    userName,
+                                                    userGender,
+                                                    userDateOfBirth,
+                                                    userAddress,
+                                                    userPhoneNumber,
+                                                    userEmail
+                                            });
+                                        }
+                                    } else {
+                                        userManager.setUseLentInfo(null);
+                                    }
+                                }
                             }
                         }
                     }
