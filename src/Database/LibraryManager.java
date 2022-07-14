@@ -11,11 +11,6 @@ public class LibraryManager {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             conn = DriverManager.getConnection(DatabaseInfo.dbURL, account.getUsername(), account.getPassword());
-<<<<<<< HEAD
-            System.out.println("connect successfully!");
-            //System.out.println("CONNECTTED!");
-=======
->>>>>>> TMQuang
         } catch (Exception ex) {
             System.out.println("connect failure!");
             ex.printStackTrace();

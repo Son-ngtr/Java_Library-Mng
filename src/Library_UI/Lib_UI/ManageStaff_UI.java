@@ -20,11 +20,7 @@ import java.awt.event.MouseListener;
 import java.util.Calendar;
 
 public class ManageStaff_UI {
-<<<<<<< HEAD
-    private JFrame main_Frame;
-=======
     private JFrame main_Frame, lobbyFrame;
->>>>>>> TMQuang
     private ImageIcon bk_Icon, notepad_Icon, login_Ani, login_ef;
     private JLabel label, notification_Label, login_Icon, logout_Label, exit_Label, brand;
     private JButton button, bt_add, bt_remove, bt_search;
@@ -70,11 +66,7 @@ public class ManageStaff_UI {
         staffManager.setIsUpdate(false);
     }
 
-<<<<<<< HEAD
-    public ManageStaff_UI(){
-=======
     public void content(){
->>>>>>> TMQuang
         ImageIcon bk_Icon = new ImageIcon("src/Image_Icon/background/_Staff_UI_.png");
         JLabel label = new JLabel(bk_Icon);
         label.setSize(1794,956);

@@ -1,12 +1,5 @@
 package Database;
 
-<<<<<<< HEAD
-import java.sql.*;
-import java.util.Vector;
-
-public class Staff_Database {
-    public boolean checkStaff(Connection connection, int ID) throws SQLException {
-=======
 import Library.Check;
 
 import java.sql.*;
@@ -17,7 +10,6 @@ public class Staff_Database {
     Check check = new Check();
 
     public boolean checkStaff(Connection connection, String ID) throws SQLException {
->>>>>>> TMQuang
         // Kết nối database
 
 
@@ -28,17 +20,10 @@ public class Staff_Database {
 
         // Trả về kết quả
         if (!rs.next()) {
-<<<<<<< HEAD
-            connection.close();
-            return false;
-        }
-        connection.close();
-=======
             
             return false;
         }
         
->>>>>>> TMQuang
         return true;
     }
 
@@ -62,14 +47,9 @@ public class Staff_Database {
             String PhoneNumber = rs.getString(6);
             String Email = rs.getString(7);
             String Staff = rs.getString(8);
-<<<<<<< HEAD
-            int Salary = rs.getInt(9);
-            String Attendance = rs.getString(10);
-=======
             String Salary = rs.getString(9);
             String Attendance = rs.getString(10);
             String TimeAttendance = rs.getString(11);
->>>>>>> TMQuang
 
 
             // Ghi vào vector
@@ -84,12 +64,7 @@ public class Staff_Database {
             temp.add(Staff);
             temp.add(Salary);
             temp.add(Attendance);
-<<<<<<< HEAD
-
-
-=======
             temp.add(TimeAttendance);
->>>>>>> TMQuang
 
             // Thêm dữ liệu vào data vector chính
             data.add(temp);
@@ -97,35 +72,6 @@ public class Staff_Database {
         return data;
     }
 
-<<<<<<< HEAD
-    public int updateStaff(Connection connection, int ID, String Name, String DateOfBirth, String Address, String PhoneNumber, String Gender, String Staff,
-                           String Email, int Salary, String Attendance)
-            throws ClassNotFoundException, SQLException {
-        int updateStatus = 0;
-        // Kết nối database
-//        AccountData accountData = new AccountData("root", "");
-//        Connection conn = getConnect(accountData);
-
-        // Tạo câu lệnh SQL
-        String sql = "UPDATE staff set ID='" + ID + "',Name='" + Name + "',Gender='" + Gender + "',DateOfBirth='"
-                + DateOfBirth + "',Address='" + Address + "',PhoneNumber='" + PhoneNumber + "',Email='" + Email + "',Staff='" + Staff +
-                "',Salary='" + Salary + "',Attendance='" + Attendance + "' WHERE ID='" + ID + "'";
-        Statement stm1 = connection.createStatement();
-        updateStatus = stm1.executeUpdate(sql);
-        connection.close();
-        return updateStatus;
-    }
-
-    public void addNewStaff(Connection connection, int ID, String Name, String Gender, String DateOfBirth, String Address, String PhoneNumber, String Email,
-                            String Staff, int Salary, String Attendance )
-            throws ClassNotFoundException, SQLException {
-        // Kết nối database
-//        AccountData accountData = new AccountData("root", "");
-//        connection = getConnect(accountData);
-
-        // Tạo câu lệnh SQL (Cách 2: sử dụng PreparedStatement)
-        String sql = "INSERT INTO staff(ID,Name,Gender,DateOfBirth,Address,PhoneNumber,Email,Staff,Salary,Attendance) VALUES(?,?,?,?,?,?,?,?,?,?)";
-=======
     public int updateTimeAttendance(Connection connection , int ID, String value) throws ClassNotFoundException, SQLException{
         Calendar time = Calendar.getInstance();
         String timeConvert = check.dateConvert(time);
@@ -254,7 +200,6 @@ public class Staff_Database {
 
         // Tạo câu lệnh SQL (Cách 2: sử dụng PreparedStatement)
         String sql = "INSERT INTO staff(ID,Name,Gender,DateOfBirth,Address,PhoneNumber,Email,Staff,Salary,Attendance,TimeAttendance) VALUES(?,?,?,?,?,?,?,?,?,?,?)";
->>>>>>> TMQuang
         PreparedStatement stmt = connection.prepareStatement(sql);
         stmt.setInt(1, ID);
         stmt.setString(2, Name);
@@ -264,14 +209,9 @@ public class Staff_Database {
         stmt.setString(6, PhoneNumber);
         stmt.setString(7, Email);
         stmt.setString(8, Staff);
-<<<<<<< HEAD
-        stmt.setInt(9, Salary);
-        stmt.setString(10, Attendance);
-=======
         stmt.setString(9, Salary);
         stmt.setString(10, Attendance);
         stmt.setString(11, "0");
->>>>>>> TMQuang
 
 
 
@@ -279,36 +219,19 @@ public class Staff_Database {
         stmt.executeUpdate();
 
         // Đóng kết nối
-<<<<<<< HEAD
-        connection.close();
-    }
-
-    public int deleteStaff(Connection connection, int ID) throws SQLException, ClassNotFoundException {
-        int deleteStatus = 0;
-
-        // Kết nối database
-//        AccountData accountData = new AccountData("root", "");
-//        connection = LibraryManager.getConnect(accountData);
-
-=======
         
     }
 
     public int deleteStaff(Connection connection, String ID) throws SQLException, ClassNotFoundException {
         int deleteStatus = 0;
 
->>>>>>> TMQuang
         // Xóa sinh viên
         String sql = "DELETE FROM staff WHERE ID='" + ID + "'";
         Statement stm1 = connection.createStatement();
         deleteStatus = stm1.executeUpdate(sql);
 
         // Trả về kết quả int (có xóa thành công hay không)
-<<<<<<< HEAD
-        connection.close();
-=======
         
->>>>>>> TMQuang
         return deleteStatus;
     }
 

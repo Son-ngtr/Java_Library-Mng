@@ -14,10 +14,6 @@ import java.awt.Color;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.sql.Connection;
-<<<<<<< HEAD
-import java.util.Calendar;
-=======
->>>>>>> TMQuang
 import javax.swing.JFrame;
 
 
@@ -30,10 +26,6 @@ public class Lobby_UI {
     private JButton logIn;
     private JPanel inFo;
     private Connection connection;
-<<<<<<< HEAD
-    public Lobby_UI(Connection conn){
-        this.connection = conn;
-=======
     private BookManager bookManager ;
     private UserManager userManager ;
     private StaffManager staffManager;
@@ -74,7 +66,6 @@ public class Lobby_UI {
         //Dowload From My SQL
         downloadData();
 
->>>>>>> TMQuang
         ImageIcon bk_Icon = new ImageIcon("src/Image_Icon/background/lobby_1.png");
         label = new JLabel(bk_Icon);
         label.setSize(bk_Icon.getIconWidth(), bk_Icon.getIconHeight());
@@ -478,11 +469,7 @@ public class Lobby_UI {
     }
 
     public static void main(String[] args) {
-<<<<<<< HEAD
-//        new Lobby_UI(Connection );
-=======
 //        new Lobby_UI();
->>>>>>> TMQuang
     }
 }
 
