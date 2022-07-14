@@ -41,6 +41,7 @@ public class User_In4_UI {
     private LentBookManager lentBookManager;
     private TableManager tableManager;
     private Calendar today = Calendar.getInstance();
+    private boolean borrowType;
 
     //Constructor
     public User_In4_UI(BookManager bookManager, UserManager userManager, HistoryManager historyManager, HistoryReceive_Manager historyReceive_manager, TableManager tableManager){
@@ -52,6 +53,11 @@ public class User_In4_UI {
         this.UserId = userManager.getUseLentInfo()[0];
         lentBookManager = userManager.getLentBookManager(userManager.getUseLentInfo()[0]);
         content();
+    }
+
+    public void setBorrowType(){
+        String countDownValue = String.valueOf(jt.getValueAt(jt.getSelectedRow(), lentBookManager.lentBookContentIndex("Remain Time")));
+        borrowType = countDownValue.equalsIgnoreCase("--:--:--") ? true : false;
     }
 
     //Fix Quantity Of Book
@@ -94,12 +100,12 @@ public class User_In4_UI {
 
     //Fix Fine Money of user
     public void fixFineMoneyOfUser(){
-        Long dayTillEnd = Long.valueOf(check.dateReConvert(String.valueOf(jt.getValueAt(jt.getSelectedRow(), lentBookManager.lentBookContentIndex("End Date")))).get(Calendar.DATE) - today.get(Calendar.DATE));
-        Long lentMoneyMinus = dayTillEnd * Long.valueOf(String.valueOf(jt.getValueAt(jt.getSelectedRow(), lentBookManager.lentBookContentIndex("Quantity")))) * Long.valueOf(check.moneyConvert(String.valueOf(jt.getValueAt(jt.getSelectedRow(), lentBookManager.lentBookContentIndex("LentMoney"))))) / 10;
+        Long currentFineMoney = userManager.getUser(Integer.parseInt(UserId)).getMoneyFine();
+        Long lentMoneyMinus = Long.valueOf(check.moneyConvert((String)jt.getValueAt(jt.getSelectedRow(), lentBookManager.lentBookContentIndex("LentMoney"))));
         userManager.editUser(
                 UserId,
                 userManager.userContentIndex("Fine Money"),
-                String.valueOf(userManager.getUser(Integer.parseInt(UserId)).getMoneyFine() - lentMoneyMinus)
+                String.valueOf( currentFineMoney - lentMoneyMinus)
         );
     }
 
@@ -367,8 +373,13 @@ public class User_In4_UI {
                     String serialNumber = String.valueOf(jt.getValueAt(jt.getSelectedRow(), lentBookManager.lentBookContentIndex("Serial Number")));
                     Book book = bookManager.getBookBySeri(serialNumber);
                     if(book != null){
+                        //Set Borrow Type
+                        setBorrowType();
+
                         //Remove Lent Table
-                        removeLentTable();
+                        if(borrowType){
+                            removeLentTable();
+                        }
 
                         //Fix Quantity Of Book
                         int numberOfBook = Integer.valueOf((String)(jt.getValueAt(jt.getSelectedRow(), lentBookManager.lentBookContentIndex("Quantity"))));
@@ -381,7 +392,9 @@ public class User_In4_UI {
                         fixFineMoneyOfUser();
 
                         //Add History To History Receive
-                        addHistoryReceive();
+                        if(!borrowType){
+                            addHistoryReceive();
+                        }
 
                         //Remove Lent Book
                         removeLentBook();
