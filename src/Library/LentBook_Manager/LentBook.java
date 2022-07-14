@@ -10,9 +10,10 @@ public class LentBook {
     private Calendar endDate;
     private String SerialNumber;
     private Long timeLate;
+    private int code;
 
     //Constructor
-    public LentBook(int STT, String bookName, int numberOfBook, Long lentMoney, Calendar endDate, String SerialNumber,Long timeLate ) {
+    public LentBook(int STT, String bookName, int numberOfBook, Long lentMoney, Calendar endDate, String SerialNumber,Long timeLate) {
         this.STT = STT;
         this.bookName = bookName;
         this.numberOfBook = numberOfBook;
@@ -77,6 +78,14 @@ public class LentBook {
 
     public void setTimeLate(Long timeLate) {
         this.timeLate = timeLate;
+    }
+
+    public int getCode() {
+        return code;
+    }
+
+    public void setCode(int code) {
+        this.code = code;
     }
 
     //Date convert

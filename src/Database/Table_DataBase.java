@@ -36,6 +36,7 @@ public class Table_DataBase {
             int Desk = rs.getInt(3);
             String BookName = rs.getString(4);
             int Quantity = rs.getInt(5);
+            int Code = rs.getInt(6);
 
 
             // Ghi vào vector
@@ -45,6 +46,7 @@ public class Table_DataBase {
             temp.add(Desk);
             temp.add(BookName);
             temp.add(Quantity);
+            temp.add(Code);
 
             // Thêm dữ liệu vào data vector chính
             data.add(temp);
@@ -89,22 +91,30 @@ public class Table_DataBase {
                 updateStatus = stm1.executeUpdate(sql);
 
                 return updateStatus;
+            case 5:
+                sql = "UPDATE desk set Code='" + Integer.parseInt(value) +  "' WHERE STT='" + ID + "'";
+                stm1 = connection.createStatement();
+                updateStatus = stm1.executeUpdate(sql);
+
+                return updateStatus;
+
             default:
                 return updateStatus;
         }
     }
 
-    public void addNewTable(Connection connection, int STT, String Name ,int Desk, String BookName, int Quantity )
+    public void addNewTable(Connection connection, int STT, String Name ,int Desk, String BookName, int Quantity , int Code)
             throws ClassNotFoundException, SQLException {
 
         // Tạo câu lệnh SQL (Cách 2: sử dụng PreparedStatement)
-        String sql = "INSERT INTO desk(STT,Name,Desk,BookName,Quantity) VALUES(?,?,?,?,?)";
+        String sql = "INSERT INTO desk(STT,Name,Desk,BookName,Quantity,Code) VALUES(?,?,?,?,?,?)";
         PreparedStatement stmt = connection.prepareStatement(sql);
         stmt.setInt(1, STT);
         stmt.setString(2, Name);
         stmt.setInt(3, Desk);
         stmt.setString(4, BookName);
         stmt.setInt(5, Quantity);
+        stmt.setInt(6,Code);
 
 
 

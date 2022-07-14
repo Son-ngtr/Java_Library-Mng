@@ -9,16 +9,14 @@ import java.util.Calendar;
 public class User extends Human {
    private int totalBooks;
    private Long moneyFine;
-   //!!
-   private Connection connection;
-   private LentBookManager lentBookManager;
+   private int deskNumber;
 
    //Constructor
-   public User(int id, String name, String gender, Calendar dateOfBirth, String address, String phoneNumber, String email, int totalBooks, Long moneyFine) {
+   public User(int id, String name, String gender, Calendar dateOfBirth, String address, String phoneNumber, String email, int totalBooks, Long moneyFine, int deskNumber) {
        super(id, name, gender, dateOfBirth, address, phoneNumber, email);
         this.totalBooks = totalBooks;
         this.moneyFine = moneyFine;
-        lentBookManager = new LentBookManager(connection,String.valueOf(id));
+        this.deskNumber = deskNumber;
    }
 
    //Getter and Setter
@@ -38,6 +36,13 @@ public class User extends Human {
         this.moneyFine = moneyFine;
     }
 
+    public int getDeskNumber() {
+        return deskNumber;
+    }
+
+    public void setDeskNumber(int deskNumber) {
+        this.deskNumber = deskNumber;
+    }
 
     //Date convert
     public String dateConvert(Calendar calendar){

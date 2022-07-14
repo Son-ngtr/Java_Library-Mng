@@ -6,14 +6,16 @@ public class Table {
     private int Table;
     private String BookName;
     private int Quantity;
+    private int code;
 
     //Constructor
-    public Table(int STT, String name, int table, String bookName, int quantity) {
+    public Table(int STT, String name, int table, String bookName, int quantity, int code ) {
         this.STT = STT;
         Name = name;
         Table = table;
         BookName = bookName;
         Quantity = quantity;
+        this.code = code;
     }
 
     //Getter and Setter
@@ -55,5 +57,13 @@ public class Table {
 
     public void setQuantity(int quantity) {
         Quantity = quantity;
+    }
+
+    public int getCode() {
+        return code;
+    }
+
+    public void setCode(int code) {
+        this.code = code;
     }
 }

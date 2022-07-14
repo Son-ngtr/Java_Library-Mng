@@ -2,11 +2,11 @@ package Library_UI.Funtion;
 
 import Library.Book_Manager.BookManager;
 import Library.Check;
-import Library.HIstory_Manager.HistoryManager;
 import Library.Human.User_Manager.User;
 import Library.Human.User_Manager.UserManager;
 import Library.LentBook_Manager.LentBookManager;
-import Library_UI.Lib_UI.ManageUser_UI;
+import Library.Table_Manager.TableManager;
+import Library_UI.Lib_UI.Table_UI;
 import org.jdatepicker.impl.JDatePanelImpl;
 import org.jdatepicker.impl.JDatePickerImpl;
 import org.jdatepicker.impl.SqlDateModel;
@@ -16,8 +16,6 @@ import java.awt.*;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
@@ -27,63 +25,53 @@ import java.util.Properties;
 import javax.swing.JFrame;
 import javax.swing.table.DefaultTableModel;
 
-public class lent_UI {
+public class lent_table_UI {
     private UserManager userManager;
-    private Calendar calendar = Calendar.getInstance();
-    private JFrame main_Frame, lentBookFrame, userFrame;
-    private ImageIcon bk_Icon, notepad_Icon, login_Ani, login_ef;
-    private JLabel label, notification_Label, login_Icon, logout_Label, exit_Label;
-    private JButton button ,b1, b2, b3, b4, b5, b6, bt_save, bt_exit, bt_reset;
-    private JTextField txt_1, txt_2, txt_3, txt_4, txt_5, txt_6, txt_8;
-    private JButton logIn;
-    private JPanel inFo;
     private BookManager bookManager;
-    private DefaultTableModel defaultTableModelBook, defaultTableModelUser;
+    private JFrame main_Frame, lentBookFrame, userFrame;
+    private JLabel label;
+    private JButton button ,b1, b2, b3, b4, b5, b6,b7,b8, bt_save, bt_exit, bt_reset;
+    private JTextField txt_1, txt_2, txt_3, txt_4, txt_5, txt_6,txt_7, txt_8;
     private JComboBox gd;
-    private JTable tableUser, tableBook;
     private Check check = new Check();
-    private JDatePickerImpl datePicker, datePicker_birth;
-    private String code;
+    private JDatePickerImpl datePicker_birth;
+    private DefaultTableModel defaultTableModelUser, defaultTableModelBook;
+    private JTable tableUser, tableBook;
     private String codeNumber;
     private String codeLetter;
-    private HistoryManager historyManager;
+    private String code;
+    private TableManager tableManager;
+    private String readerName;
+    private String gender;
+    private String address;
+    private String phoneNumber;
+    private String email;
+    private String regisDate, expDate, dateOfBirth;
+    private int quantityBorrow;
+    private int quantity;
+    private int result;
     private LentBookManager lentBookManager;
 
     //Constructor
-    public lent_UI(String code, UserManager userManager , BookManager bookManager, HistoryManager historyManager){
+    public lent_table_UI(String code, UserManager userManager , BookManager bookManager, TableManager tableManager){
         this.code = code;
-        this.userManager = userManager;
-        this.bookManager = bookManager;
-        this.historyManager = historyManager;
         codeNumber = check.codeConvert(code);
         codeLetter = check.codeLetter(code);
+        this.userManager = userManager;
+        this.bookManager = bookManager;
+        this.tableManager = tableManager;
         gd = new JComboBox(userManager.userGender());
         content();
     }
 
     //Lent Books Side
-    public void setLentBooksSide(JFrame frameLentBook, JFrame frameUser ,DefaultTableModel defaultTableModelBook, DefaultTableModel defaultTableModelUser, JTable tableUser, JTable tableBook){
+    public void setLentBooksSide(JFrame frameLentBook, JFrame frameUser , DefaultTableModel defaultTableModelBook, DefaultTableModel defaultTableModelUser, JTable tableUser, JTable tableBook){
         lentBookFrame = frameLentBook;
         this.userFrame = frameUser;
         this.defaultTableModelBook = defaultTableModelBook;
         this.defaultTableModelUser = defaultTableModelUser;
         this.tableUser = tableUser;
         this.tableBook = tableBook;
-    }
-
-    //Table Book Reset
-    public void tableBookReset(){
-        bookManager.setIsUpdate(true);
-        defaultTableModelBook.setDataVector(bookManager.listBookBorrow(), bookManager.bookBorrowContent());
-        userManager.setIsUpdate(false);
-    }
-
-    //Table User Reset
-    public void tableUserReset(){
-        userManager.setIsUpdate(true);
-        defaultTableModelUser.setDataVector(userManager.listUser(), userManager.userContent());
-        tableUser.getColumnModel().getColumn(userManager.userContentIndex("Gender")).setCellEditor(new DefaultCellEditor(new JComboBox(userManager.userGender())));
-        userManager.setIsUpdate(false);
     }
 
     //Check Common Value
@@ -97,43 +85,14 @@ public class lent_UI {
             if(false){
                 JOptionPane.showMessageDialog(null, "gender");
                 inputCheck = false;
-            }  else
-            {
-                if(txt_3.getText().trim().length() == 0){
-                    JOptionPane.showMessageDialog(null, "Address");
+            }else {
+                if (txt_3.getText().trim().length() == 0){
+                    JOptionPane.showMessageDialog(null, "Phone Number");
                     inputCheck = false;
-                }else
-                {
-                    if(txt_4.getText().trim().length() == 0){
-                        JOptionPane.showMessageDialog(null, "Phone Number");
+                }else {
+                    if(txt_6.getText().trim().length() == 0 || !check.mathCheck(check.mathAnalysis(txt_6.getText().trim()))){
+                        JOptionPane.showMessageDialog(null, "Quantity");
                         inputCheck = false;
-                    }else
-                    {
-                        if(txt_5.getText().trim().length() == 0){
-                            JOptionPane.showMessageDialog(null, "Email");
-                            inputCheck = false;
-                        }else
-                        {
-                            if(false){
-                                JOptionPane.showMessageDialog(null, "Regis Date");
-                                inputCheck = false;
-                            }else {
-                                if(datePicker.getJFormattedTextField().getText().length() == 0 || check.dateReConvert(txt_6.getText()).compareTo(check.dateReConvert(datePicker.getJFormattedTextField().getText())) >= 0 ){
-                                    JOptionPane.showMessageDialog(null, "Regis EXP");
-                                    inputCheck = false;
-                                }else {
-                                    if (txt_8.getText().trim().length() == 0 || !check.mathCheck(check.mathAnalysis(txt_8.getText().trim()))){
-                                        JOptionPane.showMessageDialog(null, "Book Quantity");
-                                        inputCheck = false;
-                                    }else {
-                                        if (datePicker_birth.getJFormattedTextField().getText().length() == 0){
-                                            JOptionPane.showMessageDialog(null, "Date Of Birth");
-                                            inputCheck = false;
-                                        }
-                                    }
-                                }
-                            }
-                        }
                     }
                 }
             }
@@ -141,40 +100,19 @@ public class lent_UI {
         return inputCheck;
     }
 
-    //Add Lent Book
-    public void lentBookDTB(User user, int quantityBorrow){
-        lentBookManager = userManager.getLentBookManager(String.valueOf(user.getId()));
-        userManager.addLentBook(
-                lentBookManager,
-                lentBookManager.createLentBook(
-                        String.valueOf(tableBook.getValueAt(tableBook.getSelectedRow(), bookManager.bookBorrowContentIndex("Name"))),
-                        quantityBorrow,
-                        fineMoneyCalc(quantityBorrow),
-                        check.dateReConvert(datePicker.getJFormattedTextField().getText()),
-                        String.valueOf(tableBook.getValueAt(tableBook.getSelectedRow(), bookManager.bookBorrowContentIndex("Serial Number")))
-                ));
+    //Table User Reset
+    public void tableUserReset(){
+        userManager.setIsUpdate(true);
+        defaultTableModelUser.setDataVector(userManager.listUser(), userManager.userContent());
+        tableUser.getColumnModel().getColumn(userManager.userContentIndex("Gender")).setCellEditor(new DefaultCellEditor(new JComboBox(userManager.userGender())));
+        userManager.setIsUpdate(false);
     }
 
-    //Create History
-    public void createHistory(int quantityBorrow){
-        historyManager.addHistory(historyManager.createHistory(
-                txt_1.getText().trim(),
-                txt_4.getText().trim(),
-                check.dateReConvert(txt_6.getText()) ,
-                check.dateReConvert(datePicker.getJFormattedTextField().getText()),
-                String.valueOf(tableBook.getValueAt(tableBook.getSelectedRow(), bookManager.bookBorrowContentIndex("Name"))),
-                quantityBorrow
-        ));
-    }
-
-    //Table Refresh
-    public void tableRefresh(){
-        txt_1.setText("");
-        txt_2.setText("");
-        txt_3.setText("");
-        txt_4.setText("");
-        txt_5.setText("");
-        txt_6.setText("");
+    //Table Book Reset
+    public void tableBookReset(){
+        bookManager.setIsUpdate(true);
+        defaultTableModelBook.setDataVector(bookManager.listBookBorrow(), bookManager.bookBorrowContent());
+        userManager.setIsUpdate(false);
     }
 
     //Fix quantity of book
@@ -199,16 +137,30 @@ public class lent_UI {
         }
     }
 
-    //Fix total book of User
-    public void fixtotalBook(User user, int quantityBorrow){
-        userManager.editUser(String.valueOf(user.getId()) , userManager.userContentIndex("Total Books"), String.valueOf(user.getTotalBooks() + quantityBorrow));
+    //
+    public void lentBookDTB(User user, int quantityBorrow){
+        lentBookManager = userManager.getLentBookManager(String.valueOf(user.getId()));
+        userManager.addLentBook(
+                lentBookManager,
+                lentBookManager.createLentBook(
+                        String.valueOf(tableBook.getValueAt(tableBook.getSelectedRow(), bookManager.bookBorrowContentIndex("Name"))),
+                        quantityBorrow,
+                        fineMoneyCalc(quantityBorrow),
+                        check.dateReConvert(expDate),
+                        String.valueOf(tableBook.getValueAt(tableBook.getSelectedRow(), bookManager.bookBorrowContentIndex("Serial Number")))
+                ));
     }
 
     //Fine Mony Calc
     public Long fineMoneyCalc(int quantityBorrow){
-        Long dayTillEnd = Long.valueOf(check.dateReConvert(datePicker.getJFormattedTextField().getText()).get(Calendar.DATE) - check.dateReConvert(txt_6.getText()).get(Calendar.DATE));
+        Long dayTillEnd = Long.valueOf(check.dateReConvert(expDate).get(Calendar.DATE) - check.dateReConvert(regisDate).get(Calendar.DATE));
         Long lentMoneyPlus = dayTillEnd * Long.valueOf(quantityBorrow) * Long.valueOf(check.moneyConvert(String.valueOf(tableBook.getValueAt(tableBook.getSelectedRow(), bookManager.bookBorrowContentIndex("Price"))))) / 10;
         return lentMoneyPlus;
+    }
+
+    //Fix total book of User
+    public void fixtotalBook(User user, int quantityBorrow){
+        userManager.editUser(String.valueOf(user.getId()) , userManager.userContentIndex("Total Books"), String.valueOf(user.getTotalBooks() + quantityBorrow));
     }
 
     //Fix Fine Money Of User
@@ -221,15 +173,32 @@ public class lent_UI {
         );
     }
 
+    //Add Table To Table Manager
+    public void addTableToTableManager(User user, int finalI){
+        tableManager.addTable(
+                tableManager.createTable(
+                        readerName,
+                        finalI,
+                        String.valueOf(tableBook.getValueAt(tableBook.getSelectedRow(), bookManager.bookBorrowContentIndex("Name"))),
+                        quantityBorrow,
+                        userManager.getLentBookCode()
+                )
+        );
+    }
+
+    //Refresh
+    public void refresh(){
+        txt_1.setText("");
+        txt_3.setText("");
+        txt_6.setText("");
+    }
+
     //Exit Frame
     public void exitFrame(){
         lentBookFrame.setEnabled(true);
         main_Frame.dispose();
     }
 
-    // get time
-    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-    LocalDateTime now = LocalDateTime.now();
 
     public void content(){
         ImageIcon bk_Icon = new ImageIcon("src/Image_Icon/background/Add_UI.png");
@@ -245,12 +214,14 @@ public class lent_UI {
         Color Color_ForeG = new Color(13,54,57);
         Color Color_ForeG_2 = new Color(236,131,2);
         Color Color_left = new Color(84, 103, 71);
-
+// get time
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        LocalDateTime now = LocalDateTime.now();
 // width and height of txt
         int width = 176;
         int height = 30;
         int po_x = 59;
-        int po_y = 60;
+        int po_y = 60+80;
 // create 6 button
         b1 = new JButton("name reader");
         b1.setBounds(po_x, po_y, width, height);
@@ -294,19 +265,20 @@ public class lent_UI {
         b6.setForeground(Color_me);
         b6.setBackground(Color_left);
 
-        JButton b7 = new JButton("regis.Exp");
+        b7 = new JButton("regis.Exp");
         b7.setBounds(po_x, po_y+65*6, width, height);
         b7.setFont(Font_me_3);
         b7.setBorder(BorderFactory.createLineBorder(Color_me));
         b7.setForeground(Color_me);
         b7.setBackground(Color_left);
 
-        JButton b8 = new JButton("quantity.Books");
+        b8 = new JButton("quantity.Books");
         b8.setBounds(po_x, po_y+65*7, width, height);
         b8.setFont(Font_me_3);
         b8.setBorder(BorderFactory.createLineBorder(Color_me));
         b8.setForeground(Color_me);
         b8.setBackground(Color_left);
+
 
 
 
@@ -354,6 +326,7 @@ public class lent_UI {
         txt_3.setForeground(Color_me);
         txt_3.setBorder(BorderFactory.createLineBorder(Color_me));
         txt_3.setFont(Font_me_3);
+        txt_3.setEditable(false);
 
 
         if(userManager.getUseLentInfo() != null){
@@ -368,6 +341,7 @@ public class lent_UI {
         txt_4.setBorder(BorderFactory.createLineBorder(Color_me));
         txt_4.setFont(Font_me_3);
 
+
         if(userManager.getUseLentInfo() != null){
             txt_5 = new JTextField(userManager.getUseLentInfo()[6]);
             txt_5.setEnabled(false);
@@ -379,9 +353,11 @@ public class lent_UI {
         txt_5.setForeground(Color_me);
         txt_5.setBorder(BorderFactory.createLineBorder(Color_me));
         txt_5.setFont(Font_me_3);
+        txt_5.setEditable(false);
 
 
         txt_6 = new JTextField(dtf.format(now));
+        txt_6.getText().toString();
         txt_6.setBackground(Color_left);
         txt_6.setBounds(283, po_y+65*5, 337, height);
         txt_6.setForeground(Color_me);
@@ -389,6 +365,14 @@ public class lent_UI {
         txt_6.setFont(Font_me_3);
         txt_6.setEditable(false);
 
+        txt_7 = new JTextField(dtf.format(now));
+        txt_7.getText().toString();
+        txt_7.setBackground(Color_left);
+        txt_7.setBounds(283, po_y+65*6, 337, height);
+        txt_7.setForeground(Color_me);
+        txt_7.setBorder(BorderFactory.createLineBorder(Color_me));
+        txt_7.setFont(Font_me_3);
+        txt_7.setEditable(false);
 
         txt_8 = new JTextField();
         txt_8.setBackground(Color_left);
@@ -407,76 +391,98 @@ public class lent_UI {
         bt_save.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                //Value
                 if(checkValue()){
-                    int quantityBorrow = Integer.parseInt(txt_8.getText().trim());
-                    int quantity = Integer.parseInt(String.valueOf(tableBook.getValueAt(tableBook.getSelectedRow(), bookManager.bookBorrowContentIndex("Quantity"))).trim());
-                    int result = quantity - quantityBorrow;
-                    if(result >= 0){
+                    //Valuation
+                    readerName = txt_1.getText().trim();
+                    gender = String.valueOf(gd.getItemAt(gd.getSelectedIndex()));
+                    dateOfBirth = datePicker_birth.getJFormattedTextField().getText();
+                    address = txt_3.getText().trim();
+                    phoneNumber = txt_4.getText().trim();
+                    email = txt_5.getText().trim();
+                    regisDate = txt_6.getText();
+                    expDate = txt_7.getText();
+                    quantityBorrow = Integer.parseInt(txt_8.getText().trim());
+                    quantity = Integer.parseInt(String.valueOf(tableBook.getValueAt(tableBook.getSelectedRow(), bookManager.bookBorrowContentIndex("Quantity"))).trim());
+                    result = quantity - quantityBorrow;
+
+                    //Action
+                    if(userManager.getUser(Integer.parseInt(userManager.getUseLentInfo()[0])).getDeskNumber() == 0){
+                        if(quantity - quantityBorrow >=0){
+                            Table_UI table_ui = new Table_UI(code, userManager, bookManager,tableManager);
+                            table_ui.setLentBooksSide(main_Frame,lentBookFrame,userFrame,defaultTableModelBook, defaultTableModelUser,tableUser, tableBook);
+                            table_ui.setUserInput(
+                                    readerName,
+                                    gender,
+                                    address,
+                                    phoneNumber,
+                                    email,
+                                    regisDate,
+                                    expDate,
+                                    dateOfBirth,
+                                    quantityBorrow,
+                                    quantity
+                            );
+                            main_Frame.setEnabled(false);
+                        }
+                    }else {
                         User user;
                         if(userManager.getUseLentInfo() == null){
                             //Add User
                             user = userManager.createUser(
-                                    txt_1.getText().trim(),
-                                    (String) gd.getItemAt(gd.getSelectedIndex()),
-                                    check.dateReConvert(datePicker_birth.getJFormattedTextField().getText()),
-                                    txt_3.getText().trim(),
-                                    txt_4.getText().trim(),
-                                    txt_5.getText().trim(),
+                                    readerName,
+                                    gender,
+                                    check.dateReConvert(dateOfBirth),
+                                    address,
+                                    phoneNumber,
+                                    email,
                                     0,
                                     0L
-                            );
-                            userManager.addUser(
-                                    user
-                            );
 
-                            //LentBook DataBase
+                            );
+                            userManager.addUser(user);
+
                             userManager.addLentBookManager();
                             lentBookDTB(user, quantityBorrow);
                         }else {
                             if(defaultTableModelUser != null){
                                 user = userManager.getUser(Integer.parseInt(userManager.getUseLentInfo()[0]));
-
-                                //LentBook DataBase
                                 lentBookDTB(user, quantityBorrow);
                             }else {
                                 user = userManager.getUser(userManager.totalUser());
-
-                                //LentBook DataBase
                                 lentBookDTB(user, quantityBorrow);
                             }
                         }
-
-                        //Fix total Books of user
+                        //Add To Table Manager
+                        addTableToTableManager(user,user.getDeskNumber());
+                        //Fix Total Books of User
                         fixtotalBook(user, quantityBorrow);
-                        //Fix Fine Money of user
-                        fixFineMoney(user, quantityBorrow);
+                        //Fix Fine Money of User
+                        fixFineMoney(user,quantityBorrow);
 
                         //Reset User Table
-                        if(defaultTableModelUser != null){
+                        if (defaultTableModelUser != null){
                             tableUserReset();
                         }
-
-                        //Add History
-                        createHistory(quantityBorrow);
 
                         //Fix Quantity Of Book
                         fixQuantityOfBook(result);
 
-                        //Exit Lent UI
+                        //Exit Table UI
                         exitFrame();
 
-                        //Continue or not
+                        //Continue or Not
                         if(defaultTableModelUser == null){
                             if (JOptionPane.showConfirmDialog(null, "Continue Adding ?", "Lent Books",
                                     JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
                                 if(userManager.getUseLentInfo() == null){
                                     String userID = Integer.toString(user.getId());
-                                    String userName = txt_1.getText().trim();
-                                    String userGender = (String) gd.getItemAt(gd.getSelectedIndex());
-                                    String userDateOfBirth = datePicker_birth.getJFormattedTextField().getText();
-                                    String userAddress = txt_3.getText().trim();
-                                    String userPhoneNumber = txt_4.getText().trim();
-                                    String userEmail = txt_5.getText().trim();
+                                    String userName = readerName;
+                                    String userGender = gender;
+                                    String userDateOfBirth = dateOfBirth;
+                                    String userAddress = address;
+                                    String userPhoneNumber = phoneNumber;
+                                    String userEmail = email;
                                     userManager.setUseLentInfo(new String[]{
                                             userID,
                                             userName,
@@ -487,17 +493,15 @@ public class lent_UI {
                                             userEmail
                                     });
                                 }
-
                             } else {
                                 userManager.setUseLentInfo(null);
                             }
                         }
-                    }else {
-                        JOptionPane.showMessageDialog(null, "Số lượng sách mượn quá lớn");
                     }
                 }
             }
         });
+
 
         bt_exit = new JButton("exit");
         bt_exit.setForeground(Color_ForeG);
@@ -505,33 +509,13 @@ public class lent_UI {
         bt_exit.setFont(Font_me_3);
         bt_exit.setBorder(BorderFactory.createLineBorder(Color_ForeG));
         bt_exit.setBounds(255, 582+32, 175, 39);
-        bt_exit.addMouseListener(new MouseListener() {
+        bt_exit.addActionListener(new ActionListener() {
             @Override
-            public void mouseClicked(MouseEvent e) {
+            public void actionPerformed(ActionEvent e) {
                 if(defaultTableModelUser == null){
                     userManager.setUseLentInfo(null);
                 }
                 exitFrame();
-            }
-
-            @Override
-            public void mousePressed(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-
             }
         });
 
@@ -544,57 +528,17 @@ public class lent_UI {
         bt_reset.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                tableRefresh();
+                refresh();
             }
         });
 
-// set combo box
-//        gd.setEnabled(false);
-//        datePicker.getJFormattedTextField().getText();
-
-// add calendar
-        SqlDateModel model = new SqlDateModel();
-        Properties p = new Properties();
-        p.put("text.day", "Day");
-        p.put("text.month", "Month");
-        p.put("text.year", "Year");
-        JDatePanelImpl panel = new JDatePanelImpl(model, p);
-        datePicker = new JDatePickerImpl(panel, new JFormattedTextField.AbstractFormatter() {
-            @Override
-            public String valueToString(Object value) throws ParseException {
-                if(value != null){
-                    Calendar cal = (Calendar) value;
-                    SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
-                    String strDate = format.format(cal.getTime());
-                    return strDate;}
-                return "";
-            }
-
-            @Override
-            public Object stringToValue(String text) throws ParseException {
-                return "";
-            }
-        });
-
-        datePicker.setBounds(283, po_y+65*6, 337, height);
-        datePicker.setBackground(Color_left);
-        datePicker.setForeground(Color_me);
-        datePicker.setFont(Font_me_3);
-        datePicker.getJFormattedTextField().setBackground(Color_left);
-        datePicker.getJFormattedTextField().setFont(Font_me_3);
-        datePicker.getJFormattedTextField().setForeground(Color_me);
-        datePicker.getJFormattedTextField().setBorder(BorderFactory.createLineBorder(Color_me));
-
-
-// create date of birth
-// create button
         JButton b_bir = new JButton("date.birth");
         b_bir.setBounds(po_x, po_y+65*8, width, height);
         b_bir.setFont(Font_me_3);
         b_bir.setBorder(BorderFactory.createLineBorder(Color_me));
         b_bir.setForeground(Color_me);
         b_bir.setBackground(Color_left);
-// create txt field
+
         SqlDateModel model_birth = new SqlDateModel();
         Properties p_birth = new Properties();
         p_birth.put("text.day", "Day");
@@ -646,6 +590,7 @@ public class lent_UI {
         datePicker_birth.getJFormattedTextField().setBorder(BorderFactory.createLineBorder(Color_me));
 
 
+
 // add all properties on UI
         label.add(b1);
         label.add(b2);
@@ -662,13 +607,12 @@ public class lent_UI {
         label.add(txt_4);
         label.add(txt_5);
         label.add(txt_6);
-//        label.add(txt_7);
+        label.add(txt_7);
         label.add(txt_8);
 
         label.add(bt_save);
         label.add(bt_exit);
         label.add(bt_reset);
-        label.add(datePicker);
 
         label.add(b_bir);
         label.add(datePicker_birth);
@@ -685,7 +629,7 @@ public class lent_UI {
     }
 
     public static void main(String[] args) {
-//        new lent_UI();
+//        new lent_table_UI();
     }
 
 }

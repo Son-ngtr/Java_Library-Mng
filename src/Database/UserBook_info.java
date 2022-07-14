@@ -8,7 +8,7 @@ import java.sql.Statement;
 public class UserBook_info {
     public int createTable(Connection connection, String ID) throws SQLException {
         int createStatus = 0;
-        String sql = "CREATE TABLE library.lentbook" + ID + "(STT INT(20) NOT NULL,BookName VARCHAR(255) NOT NULL,NumberOfBook INT(20) NOT NULL,LentMoney BIGINT(20) NOT NULL,endDate VARCHAR(255) NOT NULL,SerialNumber VARCHAR(255) NOT NULL,TimeLate BIGINT(20) NOT NULL)ENGINE=InnoDB" ;
+        String sql = "CREATE TABLE library.lentbook" + ID + "(STT INT(20) NOT NULL,BookName VARCHAR(255) NOT NULL,NumberOfBook INT(20) NOT NULL,LentMoney BIGINT(20) NOT NULL,endDate VARCHAR(255) NOT NULL,SerialNumber VARCHAR(255) NOT NULL,TimeLate BIGINT(20) NOT NULL,Code INT(20) NOT NULL)ENGINE=InnoDB" ;
         Statement stm1 = connection.createStatement();
 
         createStatus = stm1.executeUpdate(sql);

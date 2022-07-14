@@ -9,7 +9,6 @@ public class Staff extends Human {
     private String staff;
     private Long salary;
     private String attendace;
-    private Calendar timeAttendance;
 
     //Constructor
     public Staff(int id, String name, String gender, Calendar dateOfBirth, String address, String phoneNumber, String email,String staff, Long salary, String attendace) {
@@ -42,14 +41,6 @@ public class Staff extends Human {
 
     public void setAttendace(String attendace) {
         this.attendace = attendace;
-    }
-
-    public Calendar getTimeAttendance() {
-        return timeAttendance;
-    }
-
-    public void setTimeAttendance(Calendar timeAttendance) {
-        this.timeAttendance = timeAttendance;
     }
 
     //Date convert

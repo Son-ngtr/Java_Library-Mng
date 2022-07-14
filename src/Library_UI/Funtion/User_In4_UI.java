@@ -5,6 +5,7 @@ import Library.Book_Manager.BookManager;
 import Library.Check;
 import Library.HIstory_Manager.HistoryReceive_Manager;
 import Library.Human.User_Manager.UserManager;
+import Library.LentBook_Manager.LentBook;
 import Library.LentBook_Manager.LentBookManager;
 import Library.HIstory_Manager.HistoryManager;
 import Library.Table_Manager.TableManager;
@@ -115,6 +116,26 @@ public class User_In4_UI {
                         calendar
                 )
         );
+    }
+
+    //Remove Lent Table
+    public void removeLentTable(){
+        int tableNumber = userManager.getUser(Integer.parseInt(userManager.getUseLentInfo()[0])).getDeskNumber();
+        LentBook lentBook = lentBookManager.getLentBook(
+                Integer.parseInt(String.valueOf(jt.getValueAt(jt.getSelectedRow(), lentBookManager.lentBookContentIndex("STT"))))
+        );
+        int code = lentBook.getCode();
+
+        tableManager.removeTable(
+                String.valueOf(tableManager.getSTTByCode(code))
+        );
+        if(!tableManager.checkUsedTable(tableNumber)){
+            userManager.editUser(
+                    userManager.getUseLentInfo()[0],
+                    9,
+                    String.valueOf(0)
+            );
+        }
     }
 
     //Table Reset
@@ -342,31 +363,39 @@ public class User_In4_UI {
         bt_delete.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                String serialNumber = String.valueOf(jt.getValueAt(jt.getSelectedRow(), lentBookManager.lentBookContentIndex("Serial Number")));
-                Book book = bookManager.getBookBySeri(serialNumber);
-                if(book != null){
-                    //Fix Quantity Of Book
-                    int numberOfBook = Integer.valueOf((String)(jt.getValueAt(jt.getSelectedRow(), lentBookManager.lentBookContentIndex("Quantity"))));
-                    fixQuantityOfBook(book, serialNumber, numberOfBook);
+                if(jt.getSelectedRow() != -1){
+                    String serialNumber = String.valueOf(jt.getValueAt(jt.getSelectedRow(), lentBookManager.lentBookContentIndex("Serial Number")));
+                    Book book = bookManager.getBookBySeri(serialNumber);
+                    if(book != null){
+                        //Remove Lent Table
+                        removeLentTable();
 
-                    //Fix total Books of user
-                    fixTotalBookOfUser();
+                        //Fix Quantity Of Book
+                        int numberOfBook = Integer.valueOf((String)(jt.getValueAt(jt.getSelectedRow(), lentBookManager.lentBookContentIndex("Quantity"))));
+                        fixQuantityOfBook(book, serialNumber, numberOfBook);
 
-                    //Fix Fine Money of user
-                    fixFineMoneyOfUser();
+                        //Fix total Books of user
+                        fixTotalBookOfUser();
 
-                    //Add History To History Receive
-                    addHistoryReceive();
+                        //Fix Fine Money of user
+                        fixFineMoneyOfUser();
 
-                    //Remove Lent Book
-                    removeLentBook();
+                        //Add History To History Receive
+                        addHistoryReceive();
 
-                    //Receive Book Back To Book Category (Reset Table)
-                    tableReset();
-                    tableUserReset();
+                        //Remove Lent Book
+                        removeLentBook();
+
+                        //Receive Book Back To Book Category (Reset Table)
+                        tableReset();
+                        tableUserReset();
+                    }else {
+                        JOptionPane.showMessageDialog(null, "We can not find " + serialNumber + " please create one");
+                    }
                 }else {
-                    JOptionPane.showMessageDialog(null, "We can not find " + serialNumber + " please create one");
+                    JOptionPane.showMessageDialog(null, "Please Chose A Book Form The Borrow List");
                 }
+
             }
 
             @Override

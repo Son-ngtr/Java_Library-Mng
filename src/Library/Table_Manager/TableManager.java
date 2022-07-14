@@ -32,7 +32,6 @@ public class TableManager {
 
     //List Table
     ArrayList<Table> tables = new ArrayList<>();
-    ArrayList<Integer> currentUseTable = new ArrayList<Integer>();
 
     //Table Content
     public String[] tableContent(){
@@ -61,8 +60,8 @@ public class TableManager {
 
     //Check Used Table
     public boolean checkUsedTable(int table){
-        for (Integer currentTable : currentUseTable){
-            if(currentTable == table){
+        for (Table table1 : tables){
+            if(table1.getTable() == table){
                 return true;
             }
         }
@@ -85,14 +84,13 @@ public class TableManager {
     }
 
     //Create Table
-    public Table createTable(String name, int table, String bookName, int quantity){
+    public Table createTable(String name, int table, String bookName, int quantity, int code){
         codeCount++;
-        return new Table(codeCount, name, table, bookName, quantity);
+        return new Table(codeCount, name, table, bookName, quantity, code);
     }
     //Add Table
     public void addTable(Table table){
         tables.add(table);
-        currentUseTable.add(table.getTable());
         try {
             table_dataBase.addNewTable(
                     connection,
@@ -100,7 +98,8 @@ public class TableManager {
                     table.getName(),
                     table.getTable(),
                     table.getBookName(),
-                    table.getQuantity()
+                    table.getQuantity(),
+                    table.getCode()
             );
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
@@ -124,10 +123,11 @@ public class TableManager {
                     String.valueOf(vector.get(1)),
                     Integer.parseInt(String.valueOf(vector.get(2))),
                     String.valueOf(vector.get(3)),
-                    Integer.parseInt(String.valueOf(vector.get(4)))
+                    Integer.parseInt(String.valueOf(vector.get(4))),
+                    Integer.parseInt(String.valueOf(vector.get(5)))
+
             );
             tables.add(table);
-            currentUseTable.add(Integer.parseInt(String.valueOf(vector.get(2))));
         }
     }
 
@@ -162,6 +162,15 @@ public class TableManager {
         return mainObj;
     }
 
+    //Get STT By Code
+    public int getSTTByCode(int code){
+        for (Table table : tables){
+            if(table.getCode() == code){
+                return table.getSTT();
+            }
+        }
+        return 0;
+    }
     //Table Delete
     public void removeTable(String code){
         int intCode = Integer.parseInt(code);
@@ -221,6 +230,10 @@ public class TableManager {
                     }
                     case 4 -> {
                         table.setQuantity(Integer.parseInt(value));
+                        editDatabase(code, col, value);
+                    }
+                    case 5 -> {
+                        table.setCode(Integer.parseInt(value));
                         editDatabase(code, col, value);
                     }
                 }
