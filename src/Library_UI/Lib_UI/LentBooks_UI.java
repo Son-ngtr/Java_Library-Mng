@@ -176,12 +176,11 @@ public class LentBooks_UI {
 // create table
         //Search Field
         JTextField bookFilter = new JTextField("  ",20);
-        bookFilter.setBounds(160, 85, 1475, 35);
+        bookFilter.setBounds(160, 85, 1475-135, 35);
         bookFilter.setFont(Font_Table);
         bookFilter.setBackground(Color_left);
         bookFilter.setBorder(BorderFactory.createLineBorder(Color_me));
         bookFilter.setForeground(Color_me);
-
 
         //Table
         defaultTableModel = new DefaultTableModel(bookManager.listBookBorrow(), tableContent);
@@ -293,7 +292,7 @@ public class LentBooks_UI {
 
 
 
-        JTextField info = new JTextField();
+        JTextField info = new JTextField("");
         info.setBounds(1500, 85, 135, 35);
         info.setFont(Font_Table);
         info.setBackground(Color_ForeG);
@@ -387,6 +386,8 @@ public class LentBooks_UI {
 
         label.add(op_here);
         label.add(op_home);
+
+        info.setText("ABC");
         label.add(info);
 
         main_Frame = new JFrame("_LentBooks_UI_");
