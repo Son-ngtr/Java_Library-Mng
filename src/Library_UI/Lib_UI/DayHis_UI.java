@@ -1,7 +1,9 @@
 package Library_UI.Lib_UI;
 
+import Library.Book_Manager.BookManager;
 import Library.HIstory_Manager.HistoryManager;
 import Library.HIstory_Manager.HistoryReceive_Manager;
+import Library.Human.User_Manager.UserManager;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
@@ -19,6 +21,9 @@ public class DayHis_UI {
     private JLabel label, notification_Label, logout_Label,exit_Label;
     private HistoryManager historyManager;
     private JTable jt;
+    private JTextField txt_Reader,txt_NoBook, txt_NoBookBorrowed ;
+    private UserManager userManager;
+    private BookManager bookManager;
     private DefaultTableModel defaultTableModel;
     private HistoryReceive_Manager historyReceive_manager;
 
@@ -27,6 +32,22 @@ public class DayHis_UI {
         this.historyReceive_manager = historyReceive_manager;
         this.historyManager = historyManager;
         content();
+    }
+
+    //Set lobby info
+    public void setLobbyInfo(JTextField txt_Reader, JTextField txt_NoBook, JTextField txt_NoBookBorrowed, UserManager userManager, BookManager bookManager){
+        this.userManager = userManager;
+        this.bookManager = bookManager;
+        this.txt_Reader = txt_Reader;
+        this.txt_NoBook = txt_NoBook;
+        this.txt_NoBookBorrowed = txt_NoBookBorrowed;
+    }
+
+    //Reset lobby
+    public void resetLobbyInfo(){
+        txt_Reader.setText(String.valueOf(userManager.totalUser()));
+        txt_NoBook.setText(String.valueOf(bookManager.numberOfBook()));
+        txt_NoBookBorrowed.setText(String.valueOf(userManager.totalBookBorrow()));
     }
 
     //Set Lobby Side
@@ -87,6 +108,7 @@ public class DayHis_UI {
         logout_Label.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
+                resetLobbyInfo();
                 lobbyFrame.setEnabled(true);
                 main_Frame.dispose();
             }
@@ -152,6 +174,7 @@ public class DayHis_UI {
             public void mouseClicked(MouseEvent e) {
                 DayHis_Op_UI dayHis_op_ui = new DayHis_Op_UI(historyManager, historyReceive_manager);
                 dayHis_op_ui.setLobbySide(lobbyFrame);
+                dayHis_op_ui.setLobbyInfo(txt_Reader,txt_NoBook,txt_NoBookBorrowed, userManager, bookManager);
                 main_Frame.dispose();
             }
 
@@ -185,6 +208,7 @@ public class DayHis_UI {
             public void mouseClicked(MouseEvent e) {
                 DayHis_Op_UI dayHis_op_ui = new DayHis_Op_UI(historyManager, historyReceive_manager);
                 dayHis_op_ui.setLobbySide(lobbyFrame);
+                dayHis_op_ui.setLobbyInfo(txt_Reader,txt_NoBook,txt_NoBookBorrowed, userManager, bookManager);
                 main_Frame.dispose();
             }
 

@@ -185,6 +185,7 @@ public class Lobby_UI {
             public void mouseClicked(MouseEvent e) {
                 ManageBook_UI manageBook_ui = new ManageBook_UI(bookManager);
                 manageBook_ui.setLobbySide(main_Frame);
+                manageBook_ui.setLobbyInfo(txt_Reader,txt_NoBook,txt_NoBookBorrowed,userManager);
                 main_Frame.setEnabled(false);
             }
 
@@ -222,6 +223,7 @@ public class Lobby_UI {
             public void mouseClicked(MouseEvent e) {
                 ManageUser_UI manageUser_ui = new ManageUser_UI(bookManager, userManager, historyManager, historyReceive_manager, tableManager);
                 manageUser_ui.setLobbySide(main_Frame);
+                manageUser_ui.setLobbyInfo(txt_Reader,txt_NoBook,txt_NoBookBorrowed);
                 main_Frame.setEnabled(false);
             }
 
@@ -261,9 +263,10 @@ public class Lobby_UI {
                 staffManager = new StaffManager(connection);
                 staffManager.downloadAllStaff();
 
-
+                //Staff Manager
                 ManageStaff_UI manageStaff_ui = new ManageStaff_UI(staffManager);
                 manageStaff_ui.setLobbySide(main_Frame);
+                manageStaff_ui.setLobbyInfo(txt_Reader,txt_NoBook,txt_NoBookBorrowed, userManager, bookManager);
                 main_Frame.setEnabled(false);
             }
 
@@ -301,6 +304,7 @@ public class Lobby_UI {
             public void mouseClicked(MouseEvent e) {
                 LentBooks_UI lentBooks_ui = new LentBooks_UI(bookManager, userManager,historyManager, historyReceive_manager, tableManager);
                 lentBooks_ui.setLobbySide(main_Frame);
+                lentBooks_ui.setLobbyInfo(txt_Reader,txt_NoBook,txt_NoBookBorrowed);
                 main_Frame.setEnabled(false);
             }
 
@@ -338,6 +342,7 @@ public class Lobby_UI {
             public void mouseClicked(MouseEvent e) {
                 DayHis_UI dayHis_ui = new DayHis_UI(historyManager, historyReceive_manager);
                 dayHis_ui.setLobbySide(main_Frame);
+                dayHis_ui.setLobbyInfo(txt_Reader,txt_NoBook,txt_NoBookBorrowed, userManager, bookManager);
                 main_Frame.setEnabled(false);
             }
 

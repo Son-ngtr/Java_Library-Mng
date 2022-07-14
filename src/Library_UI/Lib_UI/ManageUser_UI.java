@@ -27,7 +27,7 @@ public class ManageUser_UI {
     private ImageIcon bk_Icon, notepad_Icon, login_Ani, login_ef;
     private JLabel label, notification_Label, login_Icon, logout_Label, exit_Label,brand;
     private JButton button, bt_add, bt_remove, bt_search;
-    private JTextField txt_Group;
+    private JTextField txt_Group,txt_Reader,txt_NoBook, txt_NoBookBorrowed ;
     private JButton logIn;
     private JPanel inFo;
     private JTable jt;
@@ -54,6 +54,20 @@ public class ManageUser_UI {
         this.tableManager = tableManager;
         cb = new JComboBox(userManager.userGender());
         content();
+    }
+
+    //Set lobby info
+    public void setLobbyInfo(JTextField txt_Reader, JTextField txt_NoBook, JTextField txt_NoBookBorrowed){
+        this.txt_Reader = txt_Reader;
+        this.txt_NoBook = txt_NoBook;
+        this.txt_NoBookBorrowed = txt_NoBookBorrowed;
+    }
+
+    //Reset lobby
+    public void resetLobbyInfo(){
+        txt_Reader.setText(String.valueOf(userManager.totalUser()));
+        txt_NoBook.setText(String.valueOf(bookManager.numberOfBook()));
+        txt_NoBookBorrowed.setText(String.valueOf(userManager.totalBookBorrow()));
     }
 
     //Table reset
@@ -105,6 +119,7 @@ public class ManageUser_UI {
         logout_Label.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
+                resetLobbyInfo();
                 lobbyFrame.setEnabled(true);
                 main_Frame.dispose();
             }

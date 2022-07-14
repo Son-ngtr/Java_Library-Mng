@@ -1,8 +1,10 @@
 package Library_UI.Lib_UI;
 
+import Library.Book_Manager.BookManager;
 import Library.Check;
 import Library.Human.Staff_Manager.CountDownStaff;
 import Library.Human.Staff_Manager.StaffManager;
+import Library.Human.User_Manager.UserManager;
 import Library_UI.Funtion.AddStaff_UI;
 
 import javax.swing.*;
@@ -24,7 +26,9 @@ public class ManageStaff_UI {
     private ImageIcon bk_Icon, notepad_Icon, login_Ani, login_ef;
     private JLabel label, notification_Label, login_Icon, logout_Label, exit_Label, brand;
     private JButton button, bt_add, bt_remove, bt_search;
-    private JTextField txt_Group;
+    private JTextField txt_Group,txt_Reader,txt_NoBook, txt_NoBookBorrowed ;
+    private BookManager bookManager;
+    private UserManager userManager;
     private JButton logIn;
     private JPanel inFo;
     private JTable jt;
@@ -56,6 +60,22 @@ public class ManageStaff_UI {
         jt.getColumnModel().getColumn(staffManager.staffContentIndex("Position")).setCellEditor(new DefaultCellEditor(cbCategory));
         jt.getColumnModel().getColumn(staffManager.staffContentIndex("Gender")).setCellEditor(new DefaultCellEditor(cbGender));
         jt.getColumnModel().getColumn(staffManager.staffContentIndex("Attendance")).setCellEditor(new DefaultCellEditor(cbAttendence));
+    }
+
+    //Set lobby info
+    public void setLobbyInfo(JTextField txt_Reader, JTextField txt_NoBook, JTextField txt_NoBookBorrowed, UserManager userManager, BookManager bookManager){
+        this.userManager = userManager;
+        this.txt_Reader = txt_Reader;
+        this.txt_NoBook = txt_NoBook;
+        this.txt_NoBookBorrowed = txt_NoBookBorrowed;
+        this.bookManager = bookManager;
+    }
+
+    //Reset lobby
+    public void resetLobbyInfo(){
+        txt_Reader.setText(String.valueOf(userManager.totalUser()));
+        txt_NoBook.setText(String.valueOf(bookManager.numberOfBook()));
+        txt_NoBookBorrowed.setText(String.valueOf(userManager.totalBookBorrow()));
     }
 
     //Table reset
@@ -108,6 +128,7 @@ public class ManageStaff_UI {
             @Override
             public void mouseClicked(MouseEvent e) {
                 countDown.stopRun();
+                resetLobbyInfo();
                 lobbyFrame.setEnabled(true);
                 main_Frame.dispose();
             }
