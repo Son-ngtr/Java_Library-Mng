@@ -1,8 +1,8 @@
 package Library_UI.Lib_UI;
 
 import Library.Check;
-import Library.Staff_Manager.CountDownStaff;
-import Library.Staff_Manager.StaffManager;
+import Library.Human.Staff_Manager.CountDownStaff;
+import Library.Human.Staff_Manager.StaffManager;
 import Library_UI.Funtion.AddStaff_UI;
 
 import javax.swing.*;

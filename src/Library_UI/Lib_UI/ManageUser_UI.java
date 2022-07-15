@@ -4,7 +4,8 @@ import Library.Book_Manager.BookManager;
 import Library.Check;
 import Library.HIstory_Manager.HistoryManager;
 import Library.HIstory_Manager.HistoryReceive_Manager;
-import Library.User_Manager.UserManager;
+import Library.Human.User_Manager.UserManager;
+import Library.Table_Manager.TableManager;
 import Library_UI.Funtion.AddUser_UI;
 import Library_UI.Funtion.User_In4_UI;
 
@@ -37,6 +38,7 @@ public class ManageUser_UI {
     private Check check = new Check();
     private HistoryManager historyManager;
     private HistoryReceive_Manager historyReceive_manager;
+    private TableManager tableManager;
 
     //Set Lobby Side
     public void setLobbySide(JFrame jFrameLobby){
@@ -44,11 +46,12 @@ public class ManageUser_UI {
     }
 
     //Constructor
-    public ManageUser_UI(BookManager bookManager, UserManager userManager, HistoryManager historyManager, HistoryReceive_Manager historyReceive_manager){
+    public ManageUser_UI(BookManager bookManager, UserManager userManager, HistoryManager historyManager, HistoryReceive_Manager historyReceive_manager, TableManager tableManager){
         this.bookManager = bookManager;
         this.userManager = userManager;
         this.historyManager = historyManager;
         this.historyReceive_manager = historyReceive_manager;
+        this.tableManager = tableManager;
         cb = new JComboBox(userManager.userGender());
         content();
     }
@@ -295,7 +298,7 @@ public class ManageUser_UI {
                             userEmail
                     });
 
-                    User_In4_UI user_in4_ui = new User_In4_UI( bookManager, userManager, historyManager,historyReceive_manager);
+                    User_In4_UI user_in4_ui = new User_In4_UI( bookManager, userManager, historyManager,historyReceive_manager, tableManager);
                     user_in4_ui.setManagerUserSide(main_Frame, defaultTableModel, jt);
                     main_Frame.setEnabled(false);
                 }else {

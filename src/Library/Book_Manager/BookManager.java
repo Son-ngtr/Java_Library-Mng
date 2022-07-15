@@ -218,6 +218,15 @@ public class BookManager {
         return codeCountPsychology;
     }
 
+    //Number Of Book
+    public int numberOfBook(){
+        int sum = 0;
+        for (Book book : books){
+            sum+=book.getQuantity();
+        }
+        return sum;
+    }
+
     //Tổng số lượng sách (cùng loại) của thư viên
     public int totalBookSame(){
         int total = 0;

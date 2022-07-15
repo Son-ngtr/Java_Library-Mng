@@ -6,44 +6,18 @@ public class History {
     private int ID;
     private String name;
     private String phoneNumber;
-    private Calendar regisDate;
     private Calendar expDate;
     private String bookName;
-    private String bookType;
     private int quantity;
 
-    public History(int ID, String name, String phoneNumber, Calendar regisDate, Calendar expDate, String bookName,String bookType ,int quantity) {
+    //Constructor
+    public History(int ID, String name, String phoneNumber, Calendar expDate, String bookName, int quantity) {
         this.ID = ID;
         this.name = name;
         this.phoneNumber = phoneNumber;
-        this.regisDate = regisDate;
         this.expDate = expDate;
         this.bookName = bookName;
-        this.bookType = bookType;
         this.quantity = quantity;
-    }
-
-    //Date convert
-    public String dateConvert(Calendar date){
-        return date.get(Calendar.DATE) + "/" + (date.get(Calendar.MONTH) + 1) + "/" + date.get(Calendar.YEAR);
-    }
-
-    //DateReConvert
-    public void dateReConvert(String dateReConvert, int num){
-        Calendar newCalendar = Calendar.getInstance();
-        String[] times = dateReConvert.split("/");
-        int date = Integer.parseInt(times[0]);
-        int month = Integer.parseInt(times[1]);
-        int year = Integer.parseInt(times[2]);
-        newCalendar.set(year, month - 1 , date);
-        switch (num){
-            case 1:
-                setRegisDate(newCalendar);
-                break;
-            case 2:
-                setExpDate(newCalendar);
-                break;
-        }
     }
 
     //Getter and Setter
@@ -71,14 +45,6 @@ public class History {
         this.phoneNumber = phoneNumber;
     }
 
-    public Calendar getRegisDate() {
-        return regisDate;
-    }
-
-    public void setRegisDate(Calendar regisDate) {
-        this.regisDate = regisDate;
-    }
-
     public Calendar getExpDate() {
         return expDate;
     }
@@ -93,14 +59,6 @@ public class History {
 
     public void setBookName(String bookName) {
         this.bookName = bookName;
-    }
-
-    public String getBookType() {
-        return bookType;
-    }
-
-    public void setBookType(String bookType) {
-        this.bookType = bookType;
     }
 
     public int getQuantity() {

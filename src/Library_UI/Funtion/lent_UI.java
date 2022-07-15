@@ -3,9 +3,9 @@ package Library_UI.Funtion;
 import Library.Book_Manager.BookManager;
 import Library.Check;
 import Library.HIstory_Manager.HistoryManager;
+import Library.Human.User_Manager.User;
+import Library.Human.User_Manager.UserManager;
 import Library.LentBook_Manager.LentBookManager;
-import Library.User_Manager.User;
-import Library.User_Manager.UserManager;
 import Library_UI.Lib_UI.ManageUser_UI;
 import org.jdatepicker.impl.JDatePanelImpl;
 import org.jdatepicker.impl.JDatePickerImpl;
@@ -50,7 +50,7 @@ public class lent_UI {
     private LentBookManager lentBookManager;
 
     //Constructor
-    public lent_UI(String code, UserManager userManager ,BookManager bookManager, HistoryManager historyManager){
+    public lent_UI(String code, UserManager userManager , BookManager bookManager, HistoryManager historyManager){
         this.code = code;
         this.userManager = userManager;
         this.bookManager = bookManager;
@@ -144,13 +144,15 @@ public class lent_UI {
     //Add Lent Book
     public void lentBookDTB(User user, int quantityBorrow){
         lentBookManager = userManager.getLentBookManager(String.valueOf(user.getId()));
-        lentBookManager.addLentBook(lentBookManager.createLentBook(
-                String.valueOf(tableBook.getValueAt(tableBook.getSelectedRow(), bookManager.bookBorrowContentIndex("Name"))),
-                quantityBorrow,
-                fineMoneyCalc(quantityBorrow),
-                check.dateReConvert(datePicker.getJFormattedTextField().getText()),
-                String.valueOf(tableBook.getValueAt(tableBook.getSelectedRow(), bookManager.bookBorrowContentIndex("Serial Number")))
-        ));
+        userManager.addLentBook(
+                lentBookManager,
+                lentBookManager.createLentBook(
+                        String.valueOf(tableBook.getValueAt(tableBook.getSelectedRow(), bookManager.bookBorrowContentIndex("Name"))),
+                        quantityBorrow,
+                        fineMoneyCalc(quantityBorrow),
+                        check.dateReConvert(datePicker.getJFormattedTextField().getText()),
+                        String.valueOf(tableBook.getValueAt(tableBook.getSelectedRow(), bookManager.bookBorrowContentIndex("Serial Number")))
+                ));
     }
 
     //Create History
@@ -161,7 +163,6 @@ public class lent_UI {
                 check.dateReConvert(txt_6.getText()) ,
                 check.dateReConvert(datePicker.getJFormattedTextField().getText()),
                 String.valueOf(tableBook.getValueAt(tableBook.getSelectedRow(), bookManager.bookBorrowContentIndex("Name"))),
-                String.valueOf(tableBook.getValueAt(tableBook.getSelectedRow(), bookManager.bookBorrowContentIndex("Category"))),
                 quantityBorrow
         ));
     }
@@ -467,7 +468,7 @@ public class lent_UI {
                         //Continue or not
                         if(defaultTableModelUser == null){
                             if (JOptionPane.showConfirmDialog(null, "Continue Adding ?", "Lent Books",
-                                    JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION && userFrame == null) {
+                                    JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
                                 if(userManager.getUseLentInfo() == null){
                                     String userID = Integer.toString(user.getId());
                                     String userName = txt_1.getText().trim();

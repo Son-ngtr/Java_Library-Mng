@@ -1,8 +1,7 @@
 package Library.LentBook_Manager;
 
 import Library.Check;
-import Library.Staff_Manager.StaffManager;
-import Library.User_Manager.UserManager;
+import Library.Human.User_Manager.UserManager;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -45,7 +44,8 @@ public class CountDownBook {
         c.set(Calendar.MINUTE, 0);
         c.set(Calendar.SECOND, 0);
         c.set(Calendar.MILLISECOND, 0);
-        return (c.getTimeInMillis()-System.currentTimeMillis())/1000;
+        Long timeTillEnd = (c.getTimeInMillis()-System.currentTimeMillis())/1000;
+        return timeTillEnd <= 0 ? 0 : timeTillEnd;
     }
 
     //Get Time
@@ -70,18 +70,29 @@ public class CountDownBook {
 
         second = timeTillEnd(lentBook.getEndDate());
 
-        timerTask = new TimerTask() {
-            @Override
-            public void run() {
-                second--;
-                tableBook.setValueAt(getTime(second),lentBook.getSTT()-1, lentBookManager.lentBookContentIndex("Remain Time"));
-                while (second <= -lentBook.getTimeLate()){
-                    lentBookManager.editLentBook(String.valueOf(lentBook.getSTT()), 6, String.valueOf(lentBook.getTimeLate() + 86400));
-                    IncreaseLentMoney();
+        if(second != 0){
+            timerTask = new TimerTask() {
+                @Override
+                public void run() {
+                    second--;
+                    tableBook.setValueAt(getTime(second),lentBook.getSTT()-1, lentBookManager.lentBookContentIndex("Remain Time"));
+                    while (second <= -lentBook.getTimeLate()){
+                        lentBookManager.editLentBook(String.valueOf(lentBook.getSTT()), 6, String.valueOf(lentBook.getTimeLate() + 86400));
+                        IncreaseLentMoney();
+                    }
                 }
-            }
-        };
-        timer.schedule(timerTask, 0, 1000);
+            };
+            timer.schedule(timerTask, 0, 1000);
+        }else {
+            timerTask = new TimerTask() {
+                @Override
+                public void run() {
+                    tableBook.setValueAt("--:--:--",lentBook.getSTT()-1, lentBookManager.lentBookContentIndex("Remain Time"));
+                }
+            };
+            timer.schedule(timerTask, 0, 1000);
+        }
+
     }
 
     public void stopRun(){

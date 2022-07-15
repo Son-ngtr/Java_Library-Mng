@@ -4,9 +4,9 @@ package Library_UI.Lib_UI;
 import Library.Book_Manager.BookManager;
 import Library.HIstory_Manager.HistoryManager;
 import Library.HIstory_Manager.HistoryReceive_Manager;
-import Library.Staff_Manager.StaffManager;
+import Library.Human.Staff_Manager.StaffManager;
+import Library.Human.User_Manager.UserManager;
 import Library.Table_Manager.TableManager;
-import Library.User_Manager.UserManager;
 
 import javax.swing.*;
 import java.awt.*;
@@ -53,6 +53,13 @@ public class Lobby_UI {
         historyManager.downLoadHistory();
         historyReceive_manager.downloadHistoryReceive();
         tableManager.downloadTable();
+    }
+
+    //Reset lobby
+    public void resetLobby(){
+        txt_Reader.setText(String.valueOf(userManager.totalUser()));
+        txt_NoBook.setText(String.valueOf(bookManager.numberOfBook()));
+        txt_NoBookBorrowed.setText(String.valueOf(userManager.totalBookBorrow()));
     }
 
     public void content(){
@@ -213,7 +220,7 @@ public class Lobby_UI {
         b2.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                ManageUser_UI manageUser_ui = new ManageUser_UI(bookManager, userManager, historyManager, historyReceive_manager);
+                ManageUser_UI manageUser_ui = new ManageUser_UI(bookManager, userManager, historyManager, historyReceive_manager, tableManager);
                 manageUser_ui.setLobbySide(main_Frame);
                 main_Frame.setEnabled(false);
             }
@@ -292,7 +299,7 @@ public class Lobby_UI {
         b4.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                LentBooks_UI lentBooks_ui = new LentBooks_UI(bookManager, userManager,historyManager, historyReceive_manager);
+                LentBooks_UI lentBooks_ui = new LentBooks_UI(bookManager, userManager,historyManager, historyReceive_manager, tableManager);
                 lentBooks_ui.setLobbySide(main_Frame);
                 main_Frame.setEnabled(false);
             }
@@ -405,7 +412,8 @@ public class Lobby_UI {
         txt_Group.setEditable(false);
 
 // add 3 properties of book on the left side
-        txt_Reader = new JTextField("10",362);
+        txt_Reader = new JTextField("",362);
+        txt_Reader.setText(String.valueOf(userManager.totalUser()));
         txt_Reader.setBackground(Color_left);
         txt_Reader.setFont(Font_left);
         txt_Reader.setBorder(BorderFactory.createLineBorder(new Color(84, 103, 71)));
@@ -413,7 +421,8 @@ public class Lobby_UI {
         txt_Reader.setBounds(250,353,80,100);
         txt_Reader.setEditable(false);
 
-        txt_NoBook = new JTextField("250",362);
+        txt_NoBook = new JTextField("",362);
+        txt_NoBook.setText(String.valueOf(bookManager.numberOfBook()));
         txt_NoBook.setBackground(Color_left);
         txt_NoBook.setFont(Font_left );
         txt_NoBook.setBorder(BorderFactory.createLineBorder(new Color(84, 103, 71)));
@@ -421,7 +430,8 @@ public class Lobby_UI {
         txt_NoBook.setBounds(250,550,80,100);
         txt_NoBook.setEditable(false);
 
-        txt_NoBookBorrowed = new JTextField("16",362);
+        txt_NoBookBorrowed = new JTextField("",362);
+        txt_NoBookBorrowed.setText(String.valueOf(userManager.totalBookBorrow()));
         txt_NoBookBorrowed.setBackground(Color_left);
         txt_NoBookBorrowed.setFont(Font_left );
         txt_NoBookBorrowed.setBorder(BorderFactory.createLineBorder(new Color(84, 103, 71)));

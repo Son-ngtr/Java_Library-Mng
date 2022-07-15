@@ -4,10 +4,11 @@ import Library.Book_Manager.Book;
 import Library.Book_Manager.BookManager;
 import Library.Check;
 import Library.HIstory_Manager.HistoryReceive_Manager;
+import Library.Human.User_Manager.UserManager;
+import Library.LentBook_Manager.LentBook;
 import Library.LentBook_Manager.LentBookManager;
-import Library.Staff_Manager.CountDownStaff;
 import Library.HIstory_Manager.HistoryManager;
-import Library.User_Manager.UserManager;
+import Library.Table_Manager.TableManager;
 import Library_UI.Lib_UI.LentBooks_UI;
 import org.jdatepicker.impl.JDatePickerImpl;
 
@@ -35,21 +36,26 @@ public class User_In4_UI {
     private BookManager bookManager;
     private HistoryManager historyManager;
     private HistoryReceive_Manager historyReceive_manager;
-    private Calendar calendar = Calendar.getInstance()  ;
-    private CountDownStaff countDown;
     private String UserId;
     private LentBookManager lentBookManager;
-    private Calendar today = Calendar.getInstance();
+    private TableManager tableManager;
+    private boolean borrowType;
 
     //Constructor
-    public User_In4_UI(BookManager bookManager, UserManager userManager, HistoryManager historyManager, HistoryReceive_Manager historyReceive_manager){
+    public User_In4_UI(BookManager bookManager, UserManager userManager, HistoryManager historyManager, HistoryReceive_Manager historyReceive_manager, TableManager tableManager){
         this.bookManager = bookManager;
         this.userManager = userManager;
         this.historyManager = historyManager;
         this.historyReceive_manager = historyReceive_manager;
+        this.tableManager = tableManager;
         this.UserId = userManager.getUseLentInfo()[0];
         lentBookManager = userManager.getLentBookManager(userManager.getUseLentInfo()[0]);
         content();
+    }
+
+    public void setBorrowType(){
+        String countDownValue = String.valueOf(jt.getValueAt(jt.getSelectedRow(), lentBookManager.lentBookContentIndex("Remain Time")));
+        borrowType = countDownValue.equalsIgnoreCase("--:--:--") ? true : false;
     }
 
     //Fix Quantity Of Book
@@ -92,12 +98,12 @@ public class User_In4_UI {
 
     //Fix Fine Money of user
     public void fixFineMoneyOfUser(){
-        Long dayTillEnd = Long.valueOf(check.dateReConvert(String.valueOf(jt.getValueAt(jt.getSelectedRow(), lentBookManager.lentBookContentIndex("End Date")))).get(Calendar.DATE) - today.get(Calendar.DATE));
-        Long lentMoneyMinus = dayTillEnd * Long.valueOf(String.valueOf(jt.getValueAt(jt.getSelectedRow(), lentBookManager.lentBookContentIndex("Quantity")))) * Long.valueOf(check.moneyConvert(String.valueOf(jt.getValueAt(jt.getSelectedRow(), lentBookManager.lentBookContentIndex("LentMoney"))))) / 10;
+        Long currentFineMoney = userManager.getUser(Integer.parseInt(UserId)).getMoneyFine();
+        Long lentMoneyMinus = Long.valueOf(check.moneyConvert((String)jt.getValueAt(jt.getSelectedRow(), lentBookManager.lentBookContentIndex("LentMoney"))));
         userManager.editUser(
                 UserId,
                 userManager.userContentIndex("Fine Money"),
-                String.valueOf(userManager.getUser(Integer.parseInt(UserId)).getMoneyFine() - lentMoneyMinus)
+                String.valueOf( currentFineMoney - lentMoneyMinus)
         );
     }
 
@@ -114,6 +120,26 @@ public class User_In4_UI {
                         calendar
                 )
         );
+    }
+
+    //Remove Lent Table
+    public void removeLentTable(){
+        int tableNumber = userManager.getUser(Integer.parseInt(userManager.getUseLentInfo()[0])).getDeskNumber();
+        LentBook lentBook = lentBookManager.getLentBook(
+                Integer.parseInt(String.valueOf(jt.getValueAt(jt.getSelectedRow(), lentBookManager.lentBookContentIndex("STT"))))
+        );
+        int code = lentBook.getCode();
+
+        tableManager.removeTable(
+                String.valueOf(tableManager.getSTTByCode(code))
+        );
+        if(!tableManager.checkUsedTable(tableNumber)){
+            userManager.editUser(
+                    userManager.getUseLentInfo()[0],
+                    9,
+                    String.valueOf(0)
+            );
+        }
     }
 
     //Table Reset
@@ -304,7 +330,7 @@ public class User_In4_UI {
             @Override
             public void mouseClicked(MouseEvent e) {
                 userManager.stopCountDown(UserId);
-                LentBooks_UI lentBooks_ui = new LentBooks_UI(bookManager, userManager,historyManager, historyReceive_manager);
+                LentBooks_UI lentBooks_ui = new LentBooks_UI(bookManager, userManager,historyManager, historyReceive_manager, tableManager);
                 lentBooks_ui.setUserI4InfoSide(userFrame, defaultTableModelUser, tableUser);
                 main_Frame.dispose();
             }
@@ -341,31 +367,46 @@ public class User_In4_UI {
         bt_delete.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                String serialNumber = String.valueOf(jt.getValueAt(jt.getSelectedRow(), lentBookManager.lentBookContentIndex("Serial Number")));
-                Book book = bookManager.getBookBySeri(serialNumber);
-                if(book != null){
-                    //Fix Quantity Of Book
-                    int numberOfBook = Integer.valueOf((String)(jt.getValueAt(jt.getSelectedRow(), lentBookManager.lentBookContentIndex("Quantity"))));
-                    fixQuantityOfBook(book, serialNumber, numberOfBook);
+                if(jt.getSelectedRow() != -1){
+                    String serialNumber = String.valueOf(jt.getValueAt(jt.getSelectedRow(), lentBookManager.lentBookContentIndex("Serial Number")));
+                    Book book = bookManager.getBookBySeri(serialNumber);
+                    if(book != null){
+                        //Set Borrow Type
+                        setBorrowType();
 
-                    //Fix total Books of user
-                    fixTotalBookOfUser();
+                        //Remove Lent Table
+                        if(borrowType){
+                            removeLentTable();
+                        }
 
-                    //Fix Fine Money of user
-                    fixFineMoneyOfUser();
+                        //Fix Quantity Of Book
+                        int numberOfBook = Integer.valueOf((String)(jt.getValueAt(jt.getSelectedRow(), lentBookManager.lentBookContentIndex("Quantity"))));
+                        fixQuantityOfBook(book, serialNumber, numberOfBook);
 
-                    //Add History To History Receive
-                    addHistoryReceive();
+                        //Fix total Books of user
+                        fixTotalBookOfUser();
 
-                    //Remove Lent Book
-                    removeLentBook();
+                        //Fix Fine Money of user
+                        fixFineMoneyOfUser();
 
-                    //Receive Book Back To Book Category (Reset Table)
-                    tableReset();
-                    tableUserReset();
+                        //Add History To History Receive
+                        if(!borrowType){
+                            addHistoryReceive();
+                        }
+
+                        //Remove Lent Book
+                        removeLentBook();
+
+                        //Receive Book Back To Book Category (Reset Table)
+                        tableReset();
+                        tableUserReset();
+                    }else {
+                        JOptionPane.showMessageDialog(null, "We can not find " + serialNumber + " please create one");
+                    }
                 }else {
-                    JOptionPane.showMessageDialog(null, "We can not find " + serialNumber + " please create one");
+                    JOptionPane.showMessageDialog(null, "Please Chose A Book Form The Borrow List");
                 }
+
             }
 
             @Override
