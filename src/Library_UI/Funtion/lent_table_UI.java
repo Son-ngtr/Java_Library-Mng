@@ -87,12 +87,22 @@ public class lent_table_UI {
                 inputCheck = false;
             }else {
                 if (txt_3.getText().trim().length() == 0){
-                    JOptionPane.showMessageDialog(null, "Phone Number");
+                    JOptionPane.showMessageDialog(null, "Address");
                     inputCheck = false;
                 }else {
-                    if(txt_6.getText().trim().length() == 0 || !check.mathCheck(check.mathAnalysis(txt_6.getText().trim()))){
-                        JOptionPane.showMessageDialog(null, "Quantity");
+                    if (txt_4.getText().trim().length() == 0){
+                        JOptionPane.showMessageDialog(null, "Phone Number");
                         inputCheck = false;
+                    }else {
+                        if (txt_5.getText().trim().length() == 0){
+                            JOptionPane.showMessageDialog(null, "Email");
+                            inputCheck = false;
+                        }else {
+                            if(txt_6.getText().trim().length() == 0 || !check.mathCheck(check.mathAnalysis(txt_6.getText().trim()))){
+                                JOptionPane.showMessageDialog(null, "Quantity");
+                                inputCheck = false;
+                            }
+                        }
                     }
                 }
             }
@@ -316,6 +326,7 @@ public class lent_table_UI {
 
 
         if(userManager.getUseLentInfo() != null){
+            System.out.println("sdfsdf");
             txt_3 = new JTextField(userManager.getUseLentInfo()[4]);
             txt_3.setEnabled(false);
         }else {
@@ -326,7 +337,6 @@ public class lent_table_UI {
         txt_3.setForeground(Color_me);
         txt_3.setBorder(BorderFactory.createLineBorder(Color_me));
         txt_3.setFont(Font_me_3);
-        txt_3.setEditable(false);
 
 
         if(userManager.getUseLentInfo() != null){
@@ -353,7 +363,6 @@ public class lent_table_UI {
         txt_5.setForeground(Color_me);
         txt_5.setBorder(BorderFactory.createLineBorder(Color_me));
         txt_5.setFont(Font_me_3);
-        txt_5.setEditable(false);
 
 
         txt_6 = new JTextField(dtf.format(now));
@@ -407,7 +416,7 @@ public class lent_table_UI {
                     result = quantity - quantityBorrow;
 
                     //Action
-                    if(userManager.getUser(Integer.parseInt(userManager.getUseLentInfo()[0])).getDeskNumber() == 0){
+                    if(userManager.getUseLentInfo() == null || userManager.getUser(Integer.parseInt(userManager.getUseLentInfo()[0])).getDeskNumber() == 0){
                         if(quantity - quantityBorrow >=0){
                             Table_UI table_ui = new Table_UI(code, userManager, bookManager,tableManager);
                             table_ui.setLentBooksSide(main_Frame,lentBookFrame,userFrame,defaultTableModelBook, defaultTableModelUser,tableUser, tableBook);

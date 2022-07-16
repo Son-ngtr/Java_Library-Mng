@@ -2,6 +2,7 @@ package Library_UI.Book_Category;
 
 import Library.Book_Manager.BookManager;
 import Library.Check;
+import Library.Human.User_Manager.UserManager;
 import Library_UI.Funtion.Add_textBook_UI;
 
 import javax.swing.*;
@@ -31,8 +32,9 @@ public class TextBook_UI {
     private ImageIcon bk_Icon;
     private JLabel label, notification_Label, logout_Label, exit_Label;
     private JButton bt_add, bt_remove, bt_search;
-    private JTextField txt_Group;
+    private JTextField txt_Group,txt_Reader,txt_NoBook, txt_NoBookBorrowed ;
     private JLabel brand;
+    private UserManager userManager;
     private JTable jt;
     private DefaultTableModel defaultTableModel;
     private BookManager bookManager;
@@ -59,6 +61,21 @@ public class TextBook_UI {
         defaultTableModel.setDataVector(bookManager.listBookLearning(), bookManager.bookContentLearning());
         tableAddCombobox();
         bookManager.setIsUpdate(false);
+    }
+
+    //Set lobby info
+    public void setLobbyInfo(JTextField txt_Reader, JTextField txt_NoBook, JTextField txt_NoBookBorrowed, UserManager userManager){
+        this.userManager = userManager;
+        this.txt_Reader = txt_Reader;
+        this.txt_NoBook = txt_NoBook;
+        this.txt_NoBookBorrowed = txt_NoBookBorrowed;
+    }
+
+    //Reset lobby
+    public void resetLobbyInfo(){
+        txt_Reader.setText(String.valueOf(userManager.totalUser()));
+        txt_NoBook.setText(String.valueOf(bookManager.numberOfBook()));
+        txt_NoBookBorrowed.setText(String.valueOf(userManager.totalBookBorrow()));
     }
 
     public void Content(){
@@ -102,6 +119,7 @@ public class TextBook_UI {
         logout_Label.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
+                resetLobbyInfo();
                 lobbyFrame.setEnabled(true);
                 main_Frame.dispose();
             }
@@ -167,6 +185,7 @@ public class TextBook_UI {
             public void mouseClicked(MouseEvent e) {
                 ChildrenBook_UI childrenBook_ui = new ChildrenBook_UI(bookManager);
                 childrenBook_ui.setLobbySide(lobbyFrame);
+                childrenBook_ui.setLobbyInfo(txt_Reader,txt_NoBook,txt_NoBookBorrowed,userManager);
                 main_Frame.dispose();
             }
 
@@ -200,6 +219,7 @@ public class TextBook_UI {
             public void mouseClicked(MouseEvent e) {
                 Novel_UI novel_ui = new Novel_UI(bookManager);
                 novel_ui.setLobbySide(lobbyFrame);
+                novel_ui.setLobbyInfo(txt_Reader,txt_NoBook,txt_NoBookBorrowed,userManager);
                 main_Frame.dispose();
             }
 

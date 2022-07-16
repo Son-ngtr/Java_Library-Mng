@@ -82,6 +82,18 @@ public class Check {
         }
         return s;
     }
+    public String moneyReconvert(String money){
+        String soDu_String= money;
+        String soDu_String_result = "" ;
+        for(int i=soDu_String.length()-1 ; i>=0; i-=3){
+            if(i >= 3){
+                soDu_String_result = "." + soDu_String.substring(i-2, i+1) + soDu_String_result;
+            }else {
+                soDu_String_result = soDu_String.substring(0, i+1) + soDu_String_result;
+            }
+        }
+        return soDu_String_result + "VND";
+    }
 
     //Kiểm tra có phải phép tính không
     public String[] mathAnalysis(String math){

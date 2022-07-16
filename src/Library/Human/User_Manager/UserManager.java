@@ -6,6 +6,7 @@ import Library.Check;
 import Library.Human.User_Manager.User;
 import Library.LentBook_Manager.LentBook;
 import Library.LentBook_Manager.LentBookManager;
+import Library.Table_Manager.TableManager;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -327,8 +328,8 @@ public class UserManager {
     }
 
     //Start Count Down
-    public void startCountDown(String userID,LentBookManager lentBookManager, JTable tableBook, UserManager userManager, DefaultTableModel defaultTableModelBook){
-        lentBookManagers.get(Integer.parseInt(userID) - 1).startCountDown(lentBookManager, tableBook, userManager, defaultTableModelBook);
+    public void startCountDown(String userID, LentBookManager lentBookManager, JTable tableBook, UserManager userManager, DefaultTableModel defaultTableModelBook, TableManager tableManager){
+        lentBookManagers.get(Integer.parseInt(userID) - 1).startCountDown(userID,lentBookManager, tableBook, userManager, defaultTableModelBook, tableManager);
     }
 
     //Stop Run

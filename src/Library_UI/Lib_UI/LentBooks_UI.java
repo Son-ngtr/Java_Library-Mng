@@ -29,6 +29,7 @@ public class LentBooks_UI {
     private JLabel label, notification_Label, logout_Label,exit_Label;
     private BookManager bookManager;
     private DefaultTableModel defaultTableModel, defaultTableModelUser;
+    private JTextField txt_Reader,txt_NoBook, txt_NoBookBorrowed ;
     private JTable jt, tableUser;
     private UserManager userManager;
     private String[] tableContent;
@@ -52,6 +53,20 @@ public class LentBooks_UI {
         this.tableManager = tableManager;
         tableContent = bookManager.bookBorrowContent();
         content();
+    }
+
+    //Set lobby info
+    public void setLobbyInfo(JTextField txt_Reader, JTextField txt_NoBook, JTextField txt_NoBookBorrowed){
+        this.txt_Reader = txt_Reader;
+        this.txt_NoBook = txt_NoBook;
+        this.txt_NoBookBorrowed = txt_NoBookBorrowed;
+    }
+
+    //Reset lobby
+    public void resetLobbyInfo(){
+        txt_Reader.setText(String.valueOf(userManager.totalUser()));
+        txt_NoBook.setText(String.valueOf(bookManager.numberOfBook()));
+        txt_NoBookBorrowed.setText(String.valueOf(userManager.totalBookBorrow()));
     }
 
     //User info Side
@@ -122,6 +137,7 @@ public class LentBooks_UI {
                     user_in4_ui.setManagerUserSide(userInfoFrame,defaultTableModelUser, tableUser);
                     main_Frame.dispose();
                 }else {
+                    resetLobbyInfo();
                     lobbyFrame.setEnabled(true);
                     main_Frame.dispose();
                 }
