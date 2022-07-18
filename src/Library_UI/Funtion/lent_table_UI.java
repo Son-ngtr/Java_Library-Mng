@@ -2,19 +2,11 @@ package Library_UI.Funtion;
 
 import Library.Book_Manager.BookManager;
 import Library.Check;
-<<<<<<< HEAD
-import Library.HIstory_Manager.HistoryManager;
-import Library.LentBook_Manager.LentBookManager;
-import Library.User_Manager.User;
-import Library.User_Manager.UserManager;
-import Library_UI.Lib_UI.ManageUser_UI;
-=======
 import Library.Human.User_Manager.User;
 import Library.Human.User_Manager.UserManager;
 import Library.LentBook_Manager.LentBookManager;
 import Library.Table_Manager.TableManager;
 import Library_UI.Lib_UI.Table_UI;
->>>>>>> TMQuang
 import org.jdatepicker.impl.JDatePanelImpl;
 import org.jdatepicker.impl.JDatePickerImpl;
 import org.jdatepicker.impl.SqlDateModel;
@@ -24,11 +16,6 @@ import java.awt.*;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-<<<<<<< HEAD
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-=======
->>>>>>> TMQuang
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
@@ -40,20 +27,6 @@ import javax.swing.table.DefaultTableModel;
 
 public class lent_table_UI {
     private UserManager userManager;
-<<<<<<< HEAD
-    private Calendar calendar = Calendar.getInstance();
-    private JFrame main_Frame, lentBookFrame, userFrame;
-    private ImageIcon bk_Icon, notepad_Icon, login_Ani, login_ef;
-    private JLabel label, notification_Label, login_Icon, logout_Label, exit_Label;
-    private JButton button ,b1, b2, b3, b4, b5, b6, bt_save, bt_exit, bt_reset;
-    private JTextField txt_1, txt_2, txt_3, txt_4, txt_5, txt_6, txt_8;
-    private JComboBox gd;
-    private Check check = new Check();
-
-
-    //Constructor
-    public lent_table_UI(){
-=======
     private BookManager bookManager;
     private JFrame main_Frame, lentBookFrame, userFrame;
     private JLabel label;
@@ -238,7 +211,6 @@ public class lent_table_UI {
 
 
     public void content(){
->>>>>>> TMQuang
         ImageIcon bk_Icon = new ImageIcon("src/Image_Icon/background/Add_UI.png");
         label = new JLabel(bk_Icon);
         label.setSize(bk_Icon.getIconWidth(), bk_Icon.getIconHeight());
@@ -252,13 +224,6 @@ public class lent_table_UI {
         Color Color_ForeG = new Color(13,54,57);
         Color Color_ForeG_2 = new Color(236,131,2);
         Color Color_left = new Color(84, 103, 71);
-<<<<<<< HEAD
-
-//
-        String gender[] = {"male", "female", "other"};
-        gd = new JComboBox(gender);
-=======
->>>>>>> TMQuang
 // get time
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         LocalDateTime now = LocalDateTime.now();
@@ -268,18 +233,7 @@ public class lent_table_UI {
         int po_x = 59;
         int po_y = 60+80;
 // create 6 button
-<<<<<<< HEAD
-        JButton b0 = new JButton("book name");
-        b0.setBounds(po_x, po_y-80, width, height);
-        b0.setFont(Font_me_3);
-        b0.setBorder(BorderFactory.createLineBorder(Color_me));
-        b0.setForeground(Color_me);
-        b0.setBackground(Color_left);
-
-        b1 = new JButton("reader name");
-=======
         b1 = new JButton("name reader");
->>>>>>> TMQuang
         b1.setBounds(po_x, po_y, width, height);
         b1.setFont(Font_me_3);
         b1.setBorder(BorderFactory.createLineBorder(Color_me));
@@ -287,78 +241,40 @@ public class lent_table_UI {
         b1.setBackground(Color_left);
 
         b2 = new JButton("gender");
-<<<<<<< HEAD
-        b2.setBounds(po_x, po_y+80, width, height);
-=======
         b2.setBounds(po_x, po_y+65, width, height);
->>>>>>> TMQuang
         b2.setFont(Font_me_3);
         b2.setBorder(BorderFactory.createLineBorder(Color_me));
         b2.setForeground(Color_me);
         b2.setBackground(Color_left);
 
-<<<<<<< HEAD
-        b3 = new JButton("phone.No");
-        b3.setBounds(po_x, po_y+80*2, width, height);
-=======
         b3 = new JButton("address");
         b3.setBounds(po_x, po_y+65*2, width, height);
->>>>>>> TMQuang
         b3.setFont(Font_me_3);
         b3.setBorder(BorderFactory.createLineBorder(Color_me));
         b3.setForeground(Color_me);
         b3.setBackground(Color_left);
 
-<<<<<<< HEAD
-        b4 = new JButton("regis.Date");
-        b4.setBounds(po_x, po_y+80*3, width, height);
-=======
         b4 = new JButton("phone.No");
         b4.setBounds(po_x, po_y+65*3, width, height);
->>>>>>> TMQuang
         b4.setFont(Font_me_3);
         b4.setBorder(BorderFactory.createLineBorder(Color_me));
         b4.setForeground(Color_me);
         b4.setBackground(Color_left);
 
-<<<<<<< HEAD
-        JButton b5 = new JButton("regis.Exp");
-        b5.setBounds(po_x, po_y+80*4, width, height);
-=======
         b5 = new JButton("email");
         b5.setBounds(po_x, po_y+65*4, width, height);
->>>>>>> TMQuang
         b5.setFont(Font_me_3);
         b5.setBorder(BorderFactory.createLineBorder(Color_me));
         b5.setForeground(Color_me);
         b5.setBackground(Color_left);
 
-<<<<<<< HEAD
-        JButton b6 = new JButton("quantity.Books");
-        b6.setBounds(po_x, po_y+80*5, width, height);
-=======
         b6 = new JButton("regis.Date");
         b6.setBounds(po_x, po_y+65*5, width, height);
->>>>>>> TMQuang
         b6.setFont(Font_me_3);
         b6.setBorder(BorderFactory.createLineBorder(Color_me));
         b6.setForeground(Color_me);
         b6.setBackground(Color_left);
 
-<<<<<<< HEAD
-
-
-// create 6 text fields
-        JTextField txt_0 = new JTextField("???");
-        txt_0.setBackground(Color_left);
-        txt_0.setBounds(283, po_y-80, 337, height);
-        txt_0.setForeground(Color_me);
-        txt_0.setBorder(BorderFactory.createLineBorder(Color_me));
-        txt_0.setFont(Font_me_3);
-        txt_0.setEditable(false);
-
-        txt_1 = new JTextField();
-=======
         b7 = new JButton("regis.Exp");
         b7.setBounds(po_x, po_y+65*6, width, height);
         b7.setFont(Font_me_3);
@@ -383,17 +299,12 @@ public class lent_table_UI {
         }else {
             txt_1 = new JTextField();
         }
->>>>>>> TMQuang
         txt_1.setBackground(Color_left);
         txt_1.setBounds(283, po_y, 337, height);
         txt_1.setForeground(Color_me);
         txt_1.setBorder(BorderFactory.createLineBorder(Color_me));
         txt_1.setFont(Font_me_3);
 
-<<<<<<< HEAD
-        gd.setBackground(Color_left);
-        gd.setBounds(283, po_y+80, 337, height);
-=======
         if(userManager.getUseLentInfo() != null){
             switch (userManager.getUseLentInfo()[2]){
                 case "Male":
@@ -409,16 +320,10 @@ public class lent_table_UI {
         }
         gd.setBackground(Color_left);
         gd.setBounds(283, po_y+65, 337, height);
->>>>>>> TMQuang
         gd.setForeground(Color_me);
         gd.setBorder(BorderFactory.createLineBorder(Color_me));
         gd.setFont(Font_me_3);
 
-<<<<<<< HEAD
-        txt_3 = new JTextField();
-        txt_3.setBackground(Color_left);
-        txt_3.setBounds(283, po_y+80*2, 337, height);
-=======
 
         if(userManager.getUseLentInfo() != null){
             System.out.println("sdfsdf");
@@ -429,38 +334,10 @@ public class lent_table_UI {
         }
         txt_3.setBackground(Color_left);
         txt_3.setBounds(283, po_y+65*2, 337, height);
->>>>>>> TMQuang
         txt_3.setForeground(Color_me);
         txt_3.setBorder(BorderFactory.createLineBorder(Color_me));
         txt_3.setFont(Font_me_3);
 
-<<<<<<< HEAD
-        txt_4 = new JTextField(dtf.format(now));
-        txt_4.getText().toString();
-        txt_4.setBackground(Color_left);
-        txt_4.setBounds(283, po_y+80*3, 337, height);
-        txt_4.setForeground(Color_me);
-        txt_4.setBorder(BorderFactory.createLineBorder(Color_me));
-        txt_4.setFont(Font_me_3);
-        txt_4.setEditable(false);
-
-        JTextField txt_5 = new JTextField(dtf.format(now));
-        txt_5.getText().toString();
-        txt_5.setBackground(Color_left);
-        txt_5.setBounds(283, po_y+80*4, 337, height);
-        txt_5.setForeground(Color_me);
-        txt_5.setBorder(BorderFactory.createLineBorder(Color_me));
-        txt_5.setFont(Font_me_3);
-        txt_5.setEditable(false);
-
-
-        txt_6 = new JTextField();
-        txt_6.setBackground(Color_left);
-        txt_6.setBounds(283, po_y+80*5, 337, height);
-        txt_6.setForeground(Color_me);
-        txt_6.setBorder(BorderFactory.createLineBorder(Color_me));
-        txt_6.setFont(Font_me_3);
-=======
 
         if(userManager.getUseLentInfo() != null){
             txt_4 = new JTextField(userManager.getUseLentInfo()[5]);
@@ -512,7 +389,6 @@ public class lent_table_UI {
         txt_8.setForeground(Color_me);
         txt_8.setBorder(BorderFactory.createLineBorder(Color_me));
         txt_8.setFont(Font_me_3);
->>>>>>> TMQuang
 
 // create 3 function bt
         bt_save = new JButton("save");
@@ -521,8 +397,6 @@ public class lent_table_UI {
         bt_save.setFont(Font_me_3);
         bt_save.setBorder(BorderFactory.createLineBorder(Color_ForeG));
         bt_save.setBounds(46, 582+32, 175, 39);
-<<<<<<< HEAD
-=======
         bt_save.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -636,7 +510,6 @@ public class lent_table_UI {
                 }
             }
         });
->>>>>>> TMQuang
 
 
         bt_exit = new JButton("exit");
@@ -645,8 +518,6 @@ public class lent_table_UI {
         bt_exit.setFont(Font_me_3);
         bt_exit.setBorder(BorderFactory.createLineBorder(Color_ForeG));
         bt_exit.setBounds(255, 582+32, 175, 39);
-<<<<<<< HEAD
-=======
         bt_exit.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -656,7 +527,6 @@ public class lent_table_UI {
                 exitFrame();
             }
         });
->>>>>>> TMQuang
 
         bt_reset = new JButton("reset");
         bt_reset.setForeground(Color_ForeG);
@@ -664,8 +534,6 @@ public class lent_table_UI {
         bt_reset.setFont(Font_me_3);
         bt_reset.setBorder(BorderFactory.createLineBorder(Color_ForeG));
         bt_reset.setBounds(464, 582+32, 176, 39);
-<<<<<<< HEAD
-=======
         bt_reset.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -729,51 +597,35 @@ public class lent_table_UI {
         datePicker_birth.getJFormattedTextField().setFont(Font_me_3);
         datePicker_birth.getJFormattedTextField().setForeground(Color_me);
         datePicker_birth.getJFormattedTextField().setBorder(BorderFactory.createLineBorder(Color_me));
->>>>>>> TMQuang
 
 
 
 // add all properties on UI
-<<<<<<< HEAD
-        label.add(b0);
-=======
->>>>>>> TMQuang
         label.add(b1);
         label.add(b2);
         label.add(b3);
         label.add(b4);
         label.add(b5);
         label.add(b6);
-<<<<<<< HEAD
-
-        label.add(txt_0);
-=======
         label.add(b7);
         label.add(b8);
 
->>>>>>> TMQuang
         label.add(txt_1);
         label.add(gd);
         label.add(txt_3);
         label.add(txt_4);
         label.add(txt_5);
         label.add(txt_6);
-<<<<<<< HEAD
-=======
         label.add(txt_7);
         label.add(txt_8);
->>>>>>> TMQuang
 
         label.add(bt_save);
         label.add(bt_exit);
         label.add(bt_reset);
 
-<<<<<<< HEAD
-=======
         label.add(b_bir);
         label.add(datePicker_birth);
 
->>>>>>> TMQuang
         main_Frame = new JFrame("Main_UI");
         main_Frame.add(label);
         main_Frame.setSize(bk_Icon.getIconWidth(),bk_Icon.getIconHeight());
@@ -786,11 +638,7 @@ public class lent_table_UI {
     }
 
     public static void main(String[] args) {
-<<<<<<< HEAD
-        new lent_table_UI();
-=======
 //        new lent_table_UI();
->>>>>>> TMQuang
     }
 
 }
