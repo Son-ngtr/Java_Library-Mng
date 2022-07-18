@@ -1,9 +1,12 @@
-package Library.User_Manager;
+package Library.Human.User_Manager;
 
 import Database.UserBook_info;
 import Database.User_Database;
 import Library.Check;
+import Library.Human.User_Manager.User;
+import Library.LentBook_Manager.LentBook;
 import Library.LentBook_Manager.LentBookManager;
+import Library.Table_Manager.TableManager;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -16,11 +19,9 @@ import java.util.Vector;
 public class UserManager {
 
     Check check = new Check();
-
-    //DataBase
     private User_Database user_database = new User_Database();
-
     private UserBook_info userBook_info = new UserBook_info();
+    private int lentBookCode = 0;
     private boolean isUpdate = false;
     private int codeCount = 0;
     private Connection connection;
@@ -44,6 +45,10 @@ public class UserManager {
         return useLentInfo;
     }
 
+    public int getLentBookCode() {
+        return lentBookCode;
+    }
+
     //User Save Info
     public void setUseLentInfo(String[] useLentInfo) {
         this.useLentInfo = useLentInfo;
@@ -54,11 +59,25 @@ public class UserManager {
         return users.get(ID-1);
     }
 
+    //Get LentBook Manager
+    public LentBookManager getLentBookManager(String code){
+        return lentBookManagers.get(Integer.parseInt(code) - 1);
+    }
+
     //User List
     private final ArrayList<User> users = new ArrayList<>();
 
     //Lent Book List
     private final ArrayList<LentBookManager> lentBookManagers = new ArrayList<>();
+
+    //Total Book Borrow
+    public int totalBookBorrow(){
+        int sum=0;
+        for (LentBookManager lentBookManager : lentBookManagers){
+            sum+=lentBookManager.numberOfBook();
+        }
+        return sum;
+    }
 
     //User Header
     public String[] userContent(){
@@ -96,7 +115,7 @@ public class UserManager {
     //Create a User
     public User createUser(String name, String gender, Calendar dateOfBirth, String address, String phoneNumber, String email,int totalBooks, Long moneyFine){
         codeCount++;
-        return new User(codeCount, name, gender, dateOfBirth, address, phoneNumber, email ,totalBooks, moneyFine);
+        return new User(codeCount, name, gender, dateOfBirth, address, phoneNumber, email ,totalBooks, moneyFine, 0);
     }
 
     //Add LentBookManager
@@ -104,9 +123,11 @@ public class UserManager {
         lentBookManagers.add(new LentBookManager(connection, String.valueOf(codeCount)));
     }
 
-    //Get LentBook Manager
-    public LentBookManager getLentBookManager(String code){
-        return lentBookManagers.get(Integer.parseInt(code) - 1);
+    //Add Lent Book To LentBook Manager
+    public void addLentBook(LentBookManager lentBookManager, LentBook lentBook){
+        lentBookCode++;
+        lentBook.setCode(lentBookCode);
+        lentBookManager.addLentBook(lentBook);
     }
 
     //Add User
@@ -134,7 +155,7 @@ public class UserManager {
         //Create lentbookManager
         addLentBookManager();
 
-        //Create lent zone
+        //Create lent zone on DTB
         try {
             userBook_info.createTable(connection , String.valueOf(codeCount));
 
@@ -167,16 +188,21 @@ public class UserManager {
                     String.valueOf(vector.get(5)),
                     String.valueOf(vector.get(6)),
                     Integer.parseInt(String.valueOf(vector.get(7))),
-                    Long.parseLong(String.valueOf(vector.get(8)))
+                    Long.parseLong(String.valueOf(vector.get(8))),
+                    Integer.parseInt(String.valueOf(vector.get(9)))
             );
             users.add(user);
             addLentBookManager();
         }
-        //Lent Book Manager
-        Vector<Vector<Object>> lentVectors = null;
+        //Lent Book Manager and Define the max code value
+        int max = 0;
         for (LentBookManager lentBookManager : lentBookManagers){
             lentBookManager.downloadLentBook();
+            if(lentBookManager.getHighestCode() > max){
+                max = lentBookManager.getHighestCode();
+            }
         }
+        lentBookCode = max;
     }
 
     //User List
@@ -292,14 +318,18 @@ public class UserManager {
                         user.setMoneyFine(Long.parseLong(value));
                         editDatabase(code, col, value);
                     }
+                    case 9 -> {
+                        user.setDeskNumber(Integer.parseInt(value));
+                        editDatabase(code, col,  value);
+                    }
                 }
             }
         }
     }
 
     //Start Count Down
-    public void startCountDown(String userID,LentBookManager lentBookManager, JTable tableBook, UserManager userManager, DefaultTableModel defaultTableModelBook){
-        lentBookManagers.get(Integer.parseInt(userID) - 1).startCountDown(lentBookManager, tableBook, userManager, defaultTableModelBook);
+    public void startCountDown(String userID, LentBookManager lentBookManager, JTable tableBook, UserManager userManager, DefaultTableModel defaultTableModelBook, TableManager tableManager){
+        lentBookManagers.get(Integer.parseInt(userID) - 1).startCountDown(userID,lentBookManager, tableBook, userManager, defaultTableModelBook, tableManager);
     }
 
     //Stop Run

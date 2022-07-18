@@ -2,7 +2,7 @@ package Library_UI.Funtion;
 
 import Library.Check;
 import Library.Book_Manager.BookManager;
-import Library.Staff_Manager.StaffManager;
+import Library.Human.Staff_Manager.StaffManager;
 import org.jdatepicker.impl.JDatePanelImpl;
 import org.jdatepicker.impl.JDatePickerImpl;
 import org.jdatepicker.impl.SqlDateModel;

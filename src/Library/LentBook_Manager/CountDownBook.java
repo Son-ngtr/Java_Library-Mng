@@ -1,8 +1,8 @@
 package Library.LentBook_Manager;
 
 import Library.Check;
-import Library.Staff_Manager.StaffManager;
-import Library.User_Manager.UserManager;
+import Library.Human.User_Manager.UserManager;
+import Library.Table_Manager.TableManager;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -19,8 +19,10 @@ public class CountDownBook {
     private UserManager userManager;
     private DefaultTableModel defaultTableModelBook;
     private LentBookManager lentBookManager;
+    private TableManager tableManager;
     private LentBook lentBook;
-    private int row, col;
+    private String userID;
+    private boolean borrowType;
 
     //Constructor
     public CountDownBook(LentBook lentBook) {
@@ -45,7 +47,8 @@ public class CountDownBook {
         c.set(Calendar.MINUTE, 0);
         c.set(Calendar.SECOND, 0);
         c.set(Calendar.MILLISECOND, 0);
-        return (c.getTimeInMillis()-System.currentTimeMillis())/1000;
+        Long timeTillEnd = (c.getTimeInMillis()-System.currentTimeMillis())/1000;
+        return timeTillEnd;
     }
 
     //Get Time
@@ -57,31 +60,46 @@ public class CountDownBook {
         return timeString;
     }
 
-    //Increase Lent Money
-    public void IncreaseLentMoney(){
 
-    }
 
-    public void run(LentBookManager lentBookManager, JTable tableBook, UserManager userManager, DefaultTableModel defaultTableModelBook){
+    public void run(String userID, LentBookManager lentBookManager, JTable tableBook, UserManager userManager, DefaultTableModel defaultTableModelBook, TableManager tableManager){
+        this.userID = userID;
         this.lentBookManager = lentBookManager;
         this.tableBook = tableBook;
         this.userManager = userManager;
         this.defaultTableModelBook = defaultTableModelBook;
+        this.tableManager = tableManager;
+
+        //Define BorrowType
+        if (tableManager.getSTTByCode(lentBook.getCode()) == 0){
+            borrowType = true;
+        }else {
+            borrowType = false;
+        }
 
         second = timeTillEnd(lentBook.getEndDate());
-
-        timerTask = new TimerTask() {
-            @Override
-            public void run() {
-                second--;
-                tableBook.setValueAt(getTime(second),lentBook.getSTT()-1, lentBookManager.lentBookContentIndex("Remain Time"));
-                while (second <= -lentBook.getTimeLate()){
-                    lentBookManager.editLentBook(String.valueOf(lentBook.getSTT()), 6, String.valueOf(lentBook.getTimeLate() + 86400));
-                    IncreaseLentMoney();
+        if(borrowType){
+            timerTask = new TimerTask() {
+                @Override
+                public void run() {
+                    second--;
+                    tableBook.setValueAt(getTime(second),lentBook.getSTT()-1, lentBookManager.lentBookContentIndex("Remain Time"));
+                    while (second <= -lentBook.getTimeLate()){
+                        lentBookManager.editLentBook(String.valueOf(lentBook.getSTT()), 6, String.valueOf(lentBook.getTimeLate() + 86400));
+                    }
                 }
-            }
-        };
-        timer.schedule(timerTask, 0, 1000);
+            };
+            timer.schedule(timerTask, 0, 1000);
+        }else {
+            timerTask = new TimerTask() {
+                @Override
+                public void run() {
+                    tableBook.setValueAt("--:--:--",lentBook.getSTT()-1, lentBookManager.lentBookContentIndex("Remain Time"));
+                }
+            };
+            timer.schedule(timerTask, 0, 1000);
+        }
+
     }
 
     public void stopRun(){

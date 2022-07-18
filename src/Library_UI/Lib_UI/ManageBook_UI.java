@@ -2,6 +2,7 @@ package Library_UI.Lib_UI;
 
 import Library.Book_Manager.BookManager;
 import Library.Check;
+import Library.Human.User_Manager.UserManager;
 import Library_UI.Book_Category.ChildrenBook_UI;
 
 import Library_UI.Book_Category.PsyBook_UI;
@@ -32,10 +33,11 @@ public class ManageBook_UI {
     private ImageIcon bk_Icon;
     private JLabel label, notification_Label, logout_Label, exit_Label, right_Label, left_Label;
     private JButton bt_add, bt_remove, bt_search;
-    private JTextField txt_Group;
+    private JTextField txt_Group,txt_Reader,txt_NoBook, txt_NoBookBorrowed ;
     private JLabel brand;
     private JTable jt;
     private DefaultTableModel defaultTableModel;
+    private UserManager userManager;
     private BookManager bookManager;
     private JComboBox cb;
     private Check check = new Check();
@@ -44,12 +46,26 @@ public class ManageBook_UI {
     public void setLobbySide(JFrame jFrameLobby){
         lobbyFrame = jFrameLobby;
     }
-
     //Table reset
     public void tableReset(){
         bookManager.setIsUpdate(true);
         defaultTableModel.setDataVector(bookManager.listBookAll(), bookManager.bookContent());
         bookManager.setIsUpdate(false);
+    }
+
+    //Set lobby info
+    public void setLobbyInfo(JTextField txt_Reader, JTextField txt_NoBook, JTextField txt_NoBookBorrowed, UserManager userManager){
+        this.userManager = userManager;
+        this.txt_Reader = txt_Reader;
+        this.txt_NoBook = txt_NoBook;
+        this.txt_NoBookBorrowed = txt_NoBookBorrowed;
+    }
+
+    //Reset lobby
+    public void resetLobbyInfo(){
+        txt_Reader.setText(String.valueOf(userManager.totalUser()));
+        txt_NoBook.setText(String.valueOf(bookManager.numberOfBook()));
+        txt_NoBookBorrowed.setText(String.valueOf(userManager.totalBookBorrow()));
     }
 
     //Edit Book
@@ -111,6 +127,7 @@ public class ManageBook_UI {
         logout_Label.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
+                resetLobbyInfo();
                 lobbyFrame.setEnabled(true);
                 main_Frame.dispose();
             }
@@ -176,6 +193,7 @@ public class ManageBook_UI {
             public void mouseClicked(MouseEvent e) {
                 PsyBook_UI psyBook_ui = new PsyBook_UI(bookManager);
                 psyBook_ui.setLobbySide(lobbyFrame);
+                psyBook_ui.setLobbyInfo(txt_Reader,txt_NoBook,txt_NoBookBorrowed,userManager);
                 main_Frame.dispose();
             }
 
@@ -209,6 +227,7 @@ public class ManageBook_UI {
             public void mouseClicked(MouseEvent e) {
                 ChildrenBook_UI childrenBook_ui = new ChildrenBook_UI(bookManager);
                 childrenBook_ui.setLobbySide(lobbyFrame);
+                childrenBook_ui.setLobbyInfo(txt_Reader,txt_NoBook,txt_NoBookBorrowed,userManager);
                 main_Frame.dispose();
             }
 
@@ -439,6 +458,7 @@ public class ManageBook_UI {
         jt.getModel().addTableModelListener(new TableModelListener() {
             @Override
             public void tableChanged(TableModelEvent e) {
+                System.out.println(bookManager.getIsUpdate());
                 if(!bookManager.getIsUpdate()){
                     String bookCategory = String.valueOf(jt.getValueAt(jt.getSelectedRow(), bookManager.bookContentIndex("Category"))).trim();
                     String codeValue = String.valueOf(jt.getValueAt(jt.getSelectedRow(), bookManager.bookContentIndex("Number"))).trim();

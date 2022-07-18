@@ -8,6 +8,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Locale;
 import java.util.Vector;
 
 public class BookManager {
@@ -58,6 +59,9 @@ public class BookManager {
     //Add Seri to ListBook Seri
     public void addSeri(String seri){
         lisBookSeri.add(seri);
+    }
+    public void removeSeri(String seri){
+        lisBookSeri.remove(lisBookSeri.indexOf(seri));
     }
     public boolean seriCheck(String seri){
         if (lisBookSeri.contains(seri)){
@@ -218,13 +222,13 @@ public class BookManager {
         return codeCountPsychology;
     }
 
-    //Tổng số lượng sách (cùng loại) của thư viên
-    public int totalBookSame(){
-        int total = 0;
+    //Number Of Book
+    public int numberOfBook(){
+        int sum = 0;
         for (Book book : books){
-            total += book.getQuantity();
+            sum+=book.getQuantity();
         }
-        return total;
+        return sum;
     }
 
     //Dowload Book
@@ -401,6 +405,7 @@ public class BookManager {
 
         return newArrayList;
     }
+
 
     //List Book
     public String[][] listBookBorrow(){
@@ -580,7 +585,6 @@ public class BookManager {
 
 
     //Tiêu Đề Danh Sách
-
     public String[] bookBorrowContent(){
         return new String[]{
                 "Code", "Name", "Price", "Author", "Publisher", "Category", "Quantity", "Serial Number"
@@ -778,6 +782,8 @@ public class BookManager {
                 String cChild = Integer.toString(books.get(intCode -1).childCode());
                 String cPsychology = Integer.toString(books.get(intCode - 1).psychologyCode());
                 String category = books.get(intCode -1 ).getCategory().trim();
+                String seri = books.get(intCode - 1).getSerialNumber().trim();
+                lisBookSeri.remove(seri);
                 books.remove(books.get(intCode - 1));
                 codeCountAll--;
                 switch (category) {

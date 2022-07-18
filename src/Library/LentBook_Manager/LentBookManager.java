@@ -2,7 +2,8 @@ package Library.LentBook_Manager;
 
 import Database.LentBook_DataBase;
 import Library.Check;
-import Library.User_Manager.UserManager;
+import Library.Human.User_Manager.UserManager;
+import Library.Table_Manager.TableManager;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -36,10 +37,20 @@ public class LentBookManager {
     private ArrayList<CountDownBook> countDownBooks = new ArrayList<>();
 
     //Get Lent Book By STT
-    public LentBook getLentBook(String STT){
-        return lentBooks.get(Integer.parseInt(STT) -1 );
+    public LentBook getLentBook(int STT){
+        return lentBooks.get(STT -1 );
     }
 
+    //Get The Highest Code Value
+    public int getHighestCode(){
+        int highest = 0;
+        for (LentBook lentBook : lentBooks){
+            if(lentBook.getCode() > highest){
+                highest = lentBook.getCode();
+            }
+        }
+        return highest;
+    }
 
     //LentBook Header
     public String[] lentBookContent(){
@@ -89,7 +100,8 @@ public class LentBookManager {
                     String.valueOf(lentBook.getLentMoney()),
                     lentBook.dateConvert(),
                     lentBook.getSerialNumber(),
-                    String.valueOf(lentBook.getTimeLate())
+                    String.valueOf(lentBook.getTimeLate()),
+                    lentBook.getCode()
             );
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
@@ -101,6 +113,15 @@ public class LentBookManager {
     //Total Lent Book
     public int totalLentBook(){
         return lentBooks.size();
+    }
+
+    //Number Of Book
+    public int numberOfBook(){
+        int sum = 0;
+        for (LentBook lentBook : lentBooks){
+            sum+=lentBook.getNumberOfBook();
+        }
+        return sum;
     }
 
     //Download LentBook
@@ -124,6 +145,7 @@ public class LentBookManager {
                     String.valueOf(vector.get(5)),
                     Long.parseLong(String.valueOf(vector.get(6)))
             );
+            lentBook.setCode(Integer.parseInt(String.valueOf(vector.get(7))));
             addCountDown(lentBook);
             lentBooks.add(lentBook);
         }
@@ -218,30 +240,41 @@ public class LentBookManager {
                     case 1:
                         lentBook.setBookName(value);
                         editDataBase(STT, col, value);
+                        break;
                     case 2:
                         lentBook.setNumberOfBook(Integer.parseInt(value));
                         editDataBase(STT, col, value);
+                        break;
                     case 3:
                         lentBook.setLentMoney(Long.valueOf(value));
                         editDataBase(STT, col, value);
+                        break;
                     case 4:
                         lentBook.dateReConvert(value);
                         editDataBase(STT, col, value);
+                        break;
                     case 5:
                         lentBook.setSerialNumber(value);
                         editDataBase(STT, col, value);
+                        break;
                     case 6:
                         lentBook.setTimeLate(Long.valueOf(value));
                         editDataBase(STT, col, value);
+                        break;
+                    case 7:
+                        lentBook.setCode(Integer.parseInt(value));
+                        editDataBase(STT, col, value);
+                        break;
+
                 }
             }
         }
     }
 
     //Count Down Starter
-    public void startCountDown(LentBookManager lentBookManager, JTable tableBook, UserManager userManager, DefaultTableModel defaultTableModelBook){
+    public void startCountDown(String userID, LentBookManager lentBookManager, JTable tableBook, UserManager userManager, DefaultTableModel defaultTableModelBook, TableManager tableManager){
         for (CountDownBook countDownBook : countDownBooks){
-            countDownBook.run(lentBookManager, tableBook, userManager,defaultTableModelBook);
+            countDownBook.run(userID, lentBookManager, tableBook, userManager,defaultTableModelBook,tableManager);
         }
     }
 
