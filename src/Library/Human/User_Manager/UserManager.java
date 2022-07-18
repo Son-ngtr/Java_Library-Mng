@@ -59,6 +59,11 @@ public class UserManager {
         return users.get(ID-1);
     }
 
+    //Get LentBook Manager
+    public LentBookManager getLentBookManager(String code){
+        return lentBookManagers.get(Integer.parseInt(code) - 1);
+    }
+
     //User List
     private final ArrayList<User> users = new ArrayList<>();
 
@@ -125,11 +130,6 @@ public class UserManager {
         lentBookManager.addLentBook(lentBook);
     }
 
-    //Get LentBook Manager
-    public LentBookManager getLentBookManager(String code){
-        return lentBookManagers.get(Integer.parseInt(code) - 1);
-    }
-
     //Add User
     public void addUser(User user){
         users.add(user);
@@ -155,7 +155,7 @@ public class UserManager {
         //Create lentbookManager
         addLentBookManager();
 
-        //Create lent zone
+        //Create lent zone on DTB
         try {
             userBook_info.createTable(connection , String.valueOf(codeCount));
 
@@ -194,7 +194,7 @@ public class UserManager {
             users.add(user);
             addLentBookManager();
         }
-        //Lent Book Manager
+        //Lent Book Manager and Define the max code value
         int max = 0;
         for (LentBookManager lentBookManager : lentBookManagers){
             lentBookManager.downloadLentBook();

@@ -458,6 +458,7 @@ public class ManageBook_UI {
         jt.getModel().addTableModelListener(new TableModelListener() {
             @Override
             public void tableChanged(TableModelEvent e) {
+                System.out.println(bookManager.getIsUpdate());
                 if(!bookManager.getIsUpdate()){
                     String bookCategory = String.valueOf(jt.getValueAt(jt.getSelectedRow(), bookManager.bookContentIndex("Category"))).trim();
                     String codeValue = String.valueOf(jt.getValueAt(jt.getSelectedRow(), bookManager.bookContentIndex("Number"))).trim();

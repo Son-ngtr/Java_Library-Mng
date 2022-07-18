@@ -55,12 +55,6 @@ public class Lobby_UI {
         tableManager.downloadTable();
     }
 
-    //Reset lobby
-    public void resetLobby(){
-        txt_Reader.setText(String.valueOf(userManager.totalUser()));
-        txt_NoBook.setText(String.valueOf(bookManager.numberOfBook()));
-        txt_NoBookBorrowed.setText(String.valueOf(userManager.totalBookBorrow()));
-    }
 
     public void content(){
         //Dowload From My SQL
