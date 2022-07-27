@@ -299,7 +299,7 @@ public class User_In4_UI {
                 return false;
             }
         };
-        userManager.startCountDown(UserId,lentBookManager, jt, userManager, defaultTableModel);
+        userManager.startCountDown(UserId,lentBookManager, jt, userManager, defaultTableModel, tableManager);
         jt.getTableHeader().setReorderingAllowed(false);
         jt.setBackground(Color_1);
         jt.setForeground(Color_2);
@@ -371,6 +371,14 @@ public class User_In4_UI {
                     String serialNumber = String.valueOf(jt.getValueAt(jt.getSelectedRow(), lentBookManager.lentBookContentIndex("Serial Number")));
                     Book book = bookManager.getBookBySeri(serialNumber);
                     if(book != null){
+                        //Late Money
+                        LentBook lentBook = lentBookManager.getLentBook(Integer.parseInt((String)jt.getValueAt(jt.getSelectedRow(), lentBookManager.lentBookContentIndex("STT"))));
+                        Long dayLate = lentBook.getTimeLate()/86400;
+                        Long lateMoney = dayLate * lentBook.getLentMoney()/10;
+                        if(lateMoney != 0 ){
+                            JOptionPane.showMessageDialog(null, "Late: " + dayLate + " Day\n"  +"Need To Pay More: "+ check.moneyReconvert(String.valueOf(lateMoney)));
+                        }
+
                         //Set Borrow Type
                         setBorrowType();
 

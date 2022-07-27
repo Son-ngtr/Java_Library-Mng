@@ -3,6 +3,7 @@ package Library.LentBook_Manager;
 import Database.LentBook_DataBase;
 import Library.Check;
 import Library.Human.User_Manager.UserManager;
+import Library.Table_Manager.TableManager;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -239,24 +240,31 @@ public class LentBookManager {
                     case 1:
                         lentBook.setBookName(value);
                         editDataBase(STT, col, value);
+                        break;
                     case 2:
                         lentBook.setNumberOfBook(Integer.parseInt(value));
                         editDataBase(STT, col, value);
+                        break;
                     case 3:
                         lentBook.setLentMoney(Long.valueOf(value));
                         editDataBase(STT, col, value);
+                        break;
                     case 4:
                         lentBook.dateReConvert(value);
                         editDataBase(STT, col, value);
+                        break;
                     case 5:
                         lentBook.setSerialNumber(value);
                         editDataBase(STT, col, value);
+                        break;
                     case 6:
                         lentBook.setTimeLate(Long.valueOf(value));
                         editDataBase(STT, col, value);
+                        break;
                     case 7:
                         lentBook.setCode(Integer.parseInt(value));
                         editDataBase(STT, col, value);
+                        break;
 
                 }
             }
@@ -264,9 +272,9 @@ public class LentBookManager {
     }
 
     //Count Down Starter
-    public void startCountDown(LentBookManager lentBookManager, JTable tableBook, UserManager userManager, DefaultTableModel defaultTableModelBook){
+    public void startCountDown(String userID, LentBookManager lentBookManager, JTable tableBook, UserManager userManager, DefaultTableModel defaultTableModelBook, TableManager tableManager){
         for (CountDownBook countDownBook : countDownBooks){
-            countDownBook.run(lentBookManager, tableBook, userManager,defaultTableModelBook);
+            countDownBook.run(userID, lentBookManager, tableBook, userManager,defaultTableModelBook,tableManager);
         }
     }
 
