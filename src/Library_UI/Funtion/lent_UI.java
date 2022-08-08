@@ -75,7 +75,7 @@ public class lent_UI {
     public void tableBookReset(){
         bookManager.setIsUpdate(true);
         defaultTableModelBook.setDataVector(bookManager.listBookBorrow(), bookManager.bookBorrowContent());
-        userManager.setIsUpdate(false);
+        bookManager.setIsUpdate(false);
     }
 
     //Table User Reset

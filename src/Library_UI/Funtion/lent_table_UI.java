@@ -98,7 +98,7 @@ public class lent_table_UI {
                             JOptionPane.showMessageDialog(null, "Email");
                             inputCheck = false;
                         }else {
-                            if(txt_6.getText().trim().length() == 0 || !check.mathCheck(check.mathAnalysis(txt_6.getText().trim()))){
+                            if(txt_8.getText().trim().length() == 0 || !check.mathCheck(check.mathAnalysis(txt_6.getText().trim()))){
                                 JOptionPane.showMessageDialog(null, "Quantity");
                                 inputCheck = false;
                             }
@@ -122,7 +122,7 @@ public class lent_table_UI {
     public void tableBookReset(){
         bookManager.setIsUpdate(true);
         defaultTableModelBook.setDataVector(bookManager.listBookBorrow(), bookManager.bookBorrowContent());
-        userManager.setIsUpdate(false);
+        bookManager.setIsUpdate(false);
     }
 
     //Fix quantity of book
