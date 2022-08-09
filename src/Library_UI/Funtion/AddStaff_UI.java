@@ -102,6 +102,7 @@ public class AddStaff_UI {
     //Table Reset
     public void tableReset(){
         staffManager.setIsUpdate(true);
+        cbCategory = new JComboBox(staffManager.staffCategory());
         defaultTableModel.setDataVector(staffManager.listStaff(), staffManager.staffContent());
         table.getColumnModel().getColumn(staffManager.staffContentIndex("Position")).setCellEditor(new DefaultCellEditor(cbCategory));
         table.getColumnModel().getColumn(staffManager.staffContentIndex("Gender")).setCellEditor(new DefaultCellEditor(cbGender));

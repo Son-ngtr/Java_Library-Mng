@@ -363,7 +363,7 @@ public class Lobby_UI {
             }
         });
 
-        b6 = new JButton("Info_Team");
+        b6 = new JButton("Table Manager");
         b6.setBounds(1385,669,203,99);
         b6.setFont(Font_login);
         b6.setBorder(BorderFactory.createLineBorder(Color_me));

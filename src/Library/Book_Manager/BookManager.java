@@ -859,8 +859,8 @@ public class BookManager {
                 } catch (ClassNotFoundException e) {
                     e.printStackTrace();
                 }
-                removeBook(c);
                 codeCountNovel--;
+                removeBook(c);
 
                 for (int i=intCode-1;i<booksNovel.size(); i++ ){
                     int newTypeCode = booksNovel.get(i).novelCode() - 1;
@@ -895,8 +895,9 @@ public class BookManager {
                 } catch (ClassNotFoundException e) {
                     e.printStackTrace();
                 }
-                removeBook(c);
                 codeCountChild--;
+                removeBook(c);
+
 
                 for (int i=intCode-1;i<booksChild.size(); i++ ){
                     int newTypeCode = booksChild.get(i).childCode() - 1;
@@ -929,8 +930,8 @@ public class BookManager {
                 } catch (ClassNotFoundException e) {
                     e.printStackTrace();
                 }
-                removeBook(c);
                 codeCountLearning--;
+                removeBook(c);
 
                 for (int i=intCode-1;i<booksLearning.size(); i++ ){
                     int newTypeCode = booksLearning.get(i).learningCode() - 1;
@@ -963,8 +964,9 @@ public class BookManager {
                 } catch (ClassNotFoundException e) {
                     e.printStackTrace();
                 }
-                removeBook(c);
                 codeCountPsychology--;
+                removeBook(c);
+
 
                 for (int i=intCode-1;i<booksPsychology.size(); i++ ){
                     int newTypeCode = booksPsychology.get(i).psychologyCode() - 1;
@@ -1064,6 +1066,23 @@ public class BookManager {
             }
         }
     }
+    public void editBook(String bookCategory,String code, int col, String value){
+        String codeValue = getTypeCode(code, bookCategory);
+        switch (bookCategory){
+            case "Learning Book":
+                editBookLearning(codeValue, col, value);
+                break;
+            case "Noval Book":
+                editBookNoval(codeValue, col, value);
+                break;
+            case "Children Book":
+                editBookChild(codeValue, col, value);
+                break;
+            case "Psychological Book":
+                editBookPsychology(codeValue, col, value);
+                break;
+        }
+    }
     public void editBookChild(String code, int col, String value){
         for (Book bookChild: booksChild){
             if(Integer.toString(bookChild.childCode()).equalsIgnoreCase(code.trim())){
@@ -1142,6 +1161,37 @@ public class BookManager {
             }
         }
         return bookU;
+    }
+    //Get TypeCode By STT
+    public String getTypeCode(String STT, String bookCategory){
+        switch (bookCategory){
+            case "Learning Book":
+                for (Book bookLearning: booksLearning){
+                    if (STT.trim().equalsIgnoreCase(String.valueOf(bookLearning.getSTT()))){
+                        return String.valueOf(bookLearning.learningCode());
+                    }
+                }
+            case "Noval Book":
+                for (Book bookNoval: booksNovel){
+                    if (STT.trim().equalsIgnoreCase(String.valueOf(bookNoval.getSTT()))){
+                        return String.valueOf(bookNoval.novelCode());
+                    }
+                }
+            case "Children Book":
+                for (Book bookChildren: booksChild){
+                    if (STT.trim().equalsIgnoreCase(String.valueOf(bookChildren.getSTT()))){
+                        return String.valueOf(bookChildren.childCode());
+                    }
+                }
+            case "Psychological Book":
+                for (Book bookPsychology: booksPsychology){
+                    if (STT.trim().equalsIgnoreCase(String.valueOf(bookPsychology.getSTT()))){
+                        return String.valueOf(bookPsychology.psychologyCode());
+                    }
+                }
+
+        }
+        return "";
     }
 
     //Book Child Methods

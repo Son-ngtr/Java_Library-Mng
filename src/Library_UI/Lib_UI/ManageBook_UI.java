@@ -68,23 +68,6 @@ public class ManageBook_UI {
         txt_NoBookBorrowed.setText(String.valueOf(userManager.totalBookBorrow()));
     }
 
-    //Edit Book
-    public void editBook(String bookCategory , String codeValue, int col, String value){
-        switch (bookCategory){
-            case "Learning Book":
-                bookManager.editBookLearning(codeValue, col, value);
-                break;
-            case "Noval Book":
-                bookManager.editBookNoval(codeValue, col, value);
-                break;
-            case "Children Book":
-                bookManager.editBookChild(codeValue, col, value);
-                break;
-            case "Psychological Book":
-                bookManager.editBookPsychology(codeValue, col, value);
-                break;
-        }
-    }
 
     public void Content(){
         ImageIcon bk_Icon = new ImageIcon("src/Image_Icon/background/_Book_UI_.png");
@@ -466,7 +449,7 @@ public class ManageBook_UI {
                         case 1:
                             if(!bookManager.getIsUpdate()){
                                 if(newValue.trim().length() > 0){
-                                    editBook(bookCategory, codeValue, jt.getSelectedColumn(), newValue);
+                                    bookManager.editBook(bookCategory, codeValue, jt.getSelectedColumn(), newValue);
                                 }else {
                                     JOptionPane.showMessageDialog(null, "Name");
                                     tableReset();
@@ -476,7 +459,7 @@ public class ManageBook_UI {
                         case 2:
                             if(!bookManager.getIsUpdate()){
                                 if(newValue.trim().length() > 0 && check.isDateOrNot(newValue)){
-                                    editBook(bookCategory ,codeValue, jt.getSelectedColumn(), newValue);
+                                    bookManager.editBook(bookCategory, codeValue, jt.getSelectedColumn(), newValue);
                                 }else {
                                     JOptionPane.showMessageDialog(null, "Date");
                                     tableReset();
@@ -486,7 +469,7 @@ public class ManageBook_UI {
                         case 3:
                             if(!bookManager.getIsUpdate()){
                                 if(newValue.trim().length() > 0 && check.mathCheck(check.mathAnalysis(newValue))){
-                                    editBook(bookCategory,codeValue, jt.getSelectedColumn(), check.moneyConvert(check.matConvert(check.mathAnalysis(newValue))) );
+                                    bookManager.editBook(bookCategory,codeValue, jt.getSelectedColumn(), check.moneyConvert(check.matConvert(check.mathAnalysis(newValue))));
                                     tableReset();
                                 }else {
                                     JOptionPane.showMessageDialog(null, "Price");
@@ -497,7 +480,7 @@ public class ManageBook_UI {
                         case 4:
                             if(!bookManager.getIsUpdate()){
                                 if(newValue.trim().length() > 0 ){
-                                    editBook(bookCategory, codeValue, jt.getSelectedColumn(), newValue);
+                                    bookManager.editBook(bookCategory, codeValue, jt.getSelectedColumn(), newValue);
                                 }else {
                                     JOptionPane.showMessageDialog(null, "Author");
                                     tableReset();
@@ -507,7 +490,7 @@ public class ManageBook_UI {
                         case 5:
                             if(!bookManager.getIsUpdate()){
                                 if(newValue.trim().length() > 0 ){
-                                    editBook(bookCategory,codeValue, jt.getSelectedColumn(), newValue);
+                                    bookManager.editBook(bookCategory,codeValue, jt.getSelectedColumn(), newValue);
                                 }else {
                                     JOptionPane.showMessageDialog(null, "Publisher");
                                     tableReset();
@@ -517,14 +500,14 @@ public class ManageBook_UI {
                         case 6:
                             if(!bookManager.getIsUpdate()){
                                 if(newValue.trim().length() > 0 ){
-                                    editBook(bookCategory, codeValue, jt.getSelectedColumn(), newValue);
+                                    bookManager.editBook(bookCategory, codeValue, jt.getSelectedColumn(), newValue);
                                 }
                             }
                             break;
                         case 7:
                             if(!bookManager.getIsUpdate()){
                                 if(newValue.trim().length() > 0 && check.mathCheck(check.mathAnalysis(newValue))){
-                                    editBook(bookCategory, codeValue, jt.getSelectedColumn(), check.matConvert(check.mathAnalysis(newValue)));
+                                    bookManager.editBook(bookCategory, codeValue, jt.getSelectedColumn(), check.matConvert(check.mathAnalysis(newValue)));
                                     tableReset();
                                 }else {
                                     JOptionPane.showMessageDialog(null, "Quantity");
@@ -535,7 +518,7 @@ public class ManageBook_UI {
                         case 8:
                             if(!bookManager.getIsUpdate()){
                                 if(newValue.trim().length() > 0 ){
-                                    editBook(bookCategory, codeValue, jt.getSelectedColumn(), newValue);
+                                    bookManager.editBook(bookCategory, codeValue, jt.getSelectedColumn(), newValue);
                                 }
                             }
                             break;

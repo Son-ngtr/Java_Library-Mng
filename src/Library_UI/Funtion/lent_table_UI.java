@@ -146,7 +146,6 @@ public class lent_table_UI {
                 break;
         }
     }
-
     //
     public void lentBookDTB(User user, int quantityBorrow){
         lentBookManager = userManager.getLentBookManager(String.valueOf(user.getId()));
