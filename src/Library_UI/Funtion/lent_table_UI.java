@@ -230,7 +230,7 @@ public class lent_table_UI {
         int width = 176;
         int height = 30;
         int po_x = 59;
-        int po_y = 60+80;
+        int po_y = 30;
 // create 6 button
         b1 = new JButton("name reader");
         b1.setBounds(po_x, po_y, width, height);
