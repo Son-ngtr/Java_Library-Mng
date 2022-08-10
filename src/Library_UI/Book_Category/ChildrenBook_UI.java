@@ -5,6 +5,7 @@ import Library.Check;
 import Library.Human.User_Manager.UserManager;
 import Library_UI.Funtion.Add_childrenBook_UI;
 import Library_UI.Lib_UI.ManageBook_UI;
+import Library_UI.Lib_UI.Team_In4;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
@@ -266,6 +267,32 @@ public class ChildrenBook_UI {
         txt_Group.setForeground(Color_ForeG);
         txt_Group.setBounds(1200,910,230,20);
         txt_Group.setEditable(false);
+        txt_Group.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                new Team_In4();
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                txt_Group.setForeground(Color_me);
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                txt_Group.setForeground(Color_ForeG);
+            }
+        });
 
 // create brand
         brand = new JLabel("CHILDREN_BOOKS");
@@ -274,11 +301,11 @@ public class ChildrenBook_UI {
         brand.setForeground(Color_me);
 // create 3 button -> function
         bt_add = new JButton("Add book");
-        bt_add.setBounds(75,287+8,190,42);
+        bt_add.setBounds(75-1,287-1,190,42);
         bt_add.setFont(Font_left);
         bt_add.setBorder(BorderFactory.createLineBorder(Color_me));
-        bt_add.setForeground(Color_me);
-        bt_add.setBackground(Color_left);
+        bt_add.setForeground(Color_ForeG);
+        bt_add.setBackground(Color_me);
         bt_add.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -311,11 +338,11 @@ public class ChildrenBook_UI {
         });
 
         bt_remove = new JButton("Remove book");
-        bt_remove.setBounds(75,399+8,190,42);
+        bt_remove.setBounds(75-1,399-1,190,42);
         bt_remove.setFont(Font_left);
         bt_remove.setBorder(BorderFactory.createLineBorder(Color_me));
-        bt_remove.setForeground(Color_me);
-        bt_remove.setBackground(Color_left);
+        bt_remove.setForeground(Color_ForeG);
+        bt_remove.setBackground(Color_me);
         bt_remove.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -349,11 +376,11 @@ public class ChildrenBook_UI {
         });
 
         bt_search = new JButton("???");
-        bt_search.setBounds(75,511+8,190,42);
+        bt_search.setBounds(75-1,511-1,190,42);
         bt_search.setFont(Font_left);
         bt_search.setBorder(BorderFactory.createLineBorder(Color_me));
-        bt_search.setForeground(Color_me);
-        bt_search.setBackground(Color_left);
+        bt_search.setForeground(Color_ForeG);
+        bt_search.setBackground(Color_me);
         bt_search.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {

@@ -174,10 +174,11 @@ public class ManageBook_UI {
         left_Label.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                PsyBook_UI psyBook_ui = new PsyBook_UI(bookManager);
-                psyBook_ui.setLobbySide(lobbyFrame);
-                psyBook_ui.setLobbyInfo(txt_Reader,txt_NoBook,txt_NoBookBorrowed,userManager);
-                main_Frame.dispose();
+//                PsyBook_UI psyBook_ui = new PsyBook_UI(bookManager);
+//                psyBook_ui.setLobbySide(lobbyFrame);
+//                psyBook_ui.setLobbyInfo(txt_Reader,txt_NoBook,txt_NoBookBorrowed,userManager);
+//                main_Frame.dispose();
+                JOptionPane.showMessageDialog(null, "None page found");
             }
 
             @Override
@@ -237,7 +238,6 @@ public class ManageBook_UI {
 
 
         Font Font_left = new Font("MV Boli", Font.PLAIN, 16);
-//        Font Font_login = new Font("Lucida Calligraphy", Font.PLAIN, 20);
 //        Font Font_me_2 = new Font("Lucida Console", Font.PLAIN, 48);
         Font Font_Brand = new Font("MV Boli", Font.BOLD, 60);
         Font Font_me_3 = new Font("MV Boli", Font.ITALIC, 12);
@@ -255,6 +255,32 @@ public class ManageBook_UI {
         txt_Group.setForeground(Color_ForeG);
         txt_Group.setBounds(1200,910,230,20);
         txt_Group.setEditable(false);
+        txt_Group.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                new Team_In4();
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                txt_Group.setForeground(Color_me);
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                txt_Group.setForeground(Color_ForeG);
+            }
+        });
 
 // create brand
         brand = new JLabel("Books Management");
@@ -266,8 +292,8 @@ public class ManageBook_UI {
         bt_add.setBounds(75,287+8,190,42);
         bt_add.setFont(Font_left);
         bt_add.setBorder(BorderFactory.createLineBorder(Color_me));
-        bt_add.setForeground(Color_me);
-        bt_add.setBackground(Color_left);
+        bt_add.setForeground(Color_ForeG);
+        bt_add.setBackground(Color_me);
         bt_add.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -303,8 +329,8 @@ public class ManageBook_UI {
         bt_remove.setBounds(75,399+8,190,42);
         bt_remove.setFont(Font_left);
         bt_remove.setBorder(BorderFactory.createLineBorder(Color_me));
-        bt_remove.setForeground(Color_me);
-        bt_remove.setBackground(Color_left);
+        bt_remove.setForeground(Color_ForeG);
+        bt_remove.setBackground(Color_me);
         bt_remove.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -341,8 +367,8 @@ public class ManageBook_UI {
         bt_search.setBounds(75,511+8,190,42);
         bt_search.setFont(Font_left);
         bt_search.setBorder(BorderFactory.createLineBorder(Color_me));
-        bt_search.setForeground(Color_me);
-        bt_search.setBackground(Color_left);
+        bt_search.setForeground(Color_ForeG);
+        bt_search.setBackground(Color_me);
         bt_search.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {

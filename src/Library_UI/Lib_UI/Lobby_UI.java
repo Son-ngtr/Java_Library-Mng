@@ -156,8 +156,8 @@ public class Lobby_UI {
             }
         });
 
-        Font Font_left = new Font("Lucida Calligraphy", Font.PLAIN, 42);
-        Font Font_login = new Font("Lucida Calligraphy", Font.PLAIN, 20);
+        Font Font_left = new Font("MV Boli", Font.PLAIN, 30);
+        Font Font_login = new Font("MV Boli", Font.PLAIN, 20);
         Font Font_me_2 = new Font("Lucida Console", Font.PLAIN, 48);
         Font Font_me_3 = new Font("MV Boli", Font.ITALIC, 12);
 
@@ -409,6 +409,34 @@ public class Lobby_UI {
         txt_Group.setForeground(Color_ForeG);
         txt_Group.setBounds(1200,910,230,20);
         txt_Group.setEditable(false);
+        txt_Group.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                Team_In4 team_in4 =  new Team_In4();
+                team_in4.setLobbySide(main_Frame);
+                main_Frame.setEnabled(false);
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                txt_Group.setForeground(Color_me);
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                txt_Group.setForeground(Color_ForeG);
+            }
+        });
 
 // add 3 properties of book on the left side
         txt_Reader = new JTextField("",362);
