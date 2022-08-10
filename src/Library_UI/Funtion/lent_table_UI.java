@@ -401,110 +401,117 @@ public class lent_table_UI {
             public void actionPerformed(ActionEvent e) {
                 //Value
                 if(checkValue()){
-                    //Valuation
-                    readerName = txt_1.getText().trim();
-                    gender = String.valueOf(gd.getItemAt(gd.getSelectedIndex()));
-                    dateOfBirth = datePicker_birth.getJFormattedTextField().getText();
-                    address = txt_3.getText().trim();
-                    phoneNumber = txt_4.getText().trim();
-                    email = txt_5.getText().trim();
-                    regisDate = txt_6.getText();
-                    expDate = txt_7.getText();
-                    quantityBorrow = Integer.parseInt(txt_8.getText().trim());
-                    quantity = Integer.parseInt(String.valueOf(tableBook.getValueAt(tableBook.getSelectedRow(), bookManager.bookBorrowContentIndex("Quantity"))).trim());
-                    result = quantity - quantityBorrow;
+                    int quantityBorrow = Integer.parseInt(txt_8.getText().trim());
+                    int quantity = Integer.parseInt(String.valueOf(tableBook.getValueAt(tableBook.getSelectedRow(), bookManager.bookBorrowContentIndex("Quantity"))).trim());
+                    int result = quantity - quantityBorrow;
+                    if(result >= 0){
+                        //Valuation
+                        readerName = txt_1.getText().trim();
+                        gender = String.valueOf(gd.getItemAt(gd.getSelectedIndex()));
+                        dateOfBirth = datePicker_birth.getJFormattedTextField().getText();
+                        address = txt_3.getText().trim();
+                        phoneNumber = txt_4.getText().trim();
+                        email = txt_5.getText().trim();
+                        regisDate = txt_6.getText();
+                        expDate = txt_7.getText();
+                        quantityBorrow = Integer.parseInt(txt_8.getText().trim());
+                        quantity = Integer.parseInt(String.valueOf(tableBook.getValueAt(tableBook.getSelectedRow(), bookManager.bookBorrowContentIndex("Quantity"))).trim());
+                        result = quantity - quantityBorrow;
 
-                    //Action
-                    if(userManager.getUseLentInfo() == null || userManager.getUser(Integer.parseInt(userManager.getUseLentInfo()[0])).getDeskNumber() == 0){
-                        if(quantity - quantityBorrow >=0){
-                            Table_UI table_ui = new Table_UI(code, userManager, bookManager,tableManager);
-                            table_ui.setLentBooksSide(main_Frame,lentBookFrame,userFrame,defaultTableModelBook, defaultTableModelUser,tableUser, tableBook);
-                            table_ui.setUserInput(
-                                    readerName,
-                                    gender,
-                                    address,
-                                    phoneNumber,
-                                    email,
-                                    regisDate,
-                                    expDate,
-                                    dateOfBirth,
-                                    quantityBorrow,
-                                    quantity
-                            );
-                            main_Frame.setEnabled(false);
-                        }
-                    }else {
-                        User user;
-                        if(userManager.getUseLentInfo() == null){
-                            //Add User
-                            user = userManager.createUser(
-                                    readerName,
-                                    gender,
-                                    check.dateReConvert(dateOfBirth),
-                                    address,
-                                    phoneNumber,
-                                    email,
-                                    0,
-                                    0L
-
-                            );
-                            userManager.addUser(user);
-
-                            userManager.addLentBookManager();
-                            lentBookDTB(user, quantityBorrow);
+                        //Action
+                        if(userManager.getUseLentInfo() == null || userManager.getUser(Integer.parseInt(userManager.getUseLentInfo()[0])).getDeskNumber() == 0){
+                            if(quantity - quantityBorrow >=0){
+                                Table_UI table_ui = new Table_UI(code, userManager, bookManager,tableManager);
+                                table_ui.setLentBooksSide(main_Frame,lentBookFrame,userFrame,defaultTableModelBook, defaultTableModelUser,tableUser, tableBook);
+                                table_ui.setUserInput(
+                                        readerName,
+                                        gender,
+                                        address,
+                                        phoneNumber,
+                                        email,
+                                        regisDate,
+                                        expDate,
+                                        dateOfBirth,
+                                        quantityBorrow,
+                                        quantity
+                                );
+                                main_Frame.setEnabled(false);
+                            }
                         }else {
-                            if(defaultTableModelUser != null){
-                                user = userManager.getUser(Integer.parseInt(userManager.getUseLentInfo()[0]));
+                            User user;
+                            if(userManager.getUseLentInfo() == null){
+                                //Add User
+                                user = userManager.createUser(
+                                        readerName,
+                                        gender,
+                                        check.dateReConvert(dateOfBirth),
+                                        address,
+                                        phoneNumber,
+                                        email,
+                                        0,
+                                        0L
+
+                                );
+                                userManager.addUser(user);
+
+                                userManager.addLentBookManager();
                                 lentBookDTB(user, quantityBorrow);
                             }else {
-                                user = userManager.getUser(userManager.totalUser());
-                                lentBookDTB(user, quantityBorrow);
-                            }
-                        }
-                        //Add To Table Manager
-                        addTableToTableManager(user,user.getDeskNumber());
-                        //Fix Total Books of User
-                        fixtotalBook(user, quantityBorrow);
-                        //Fix Fine Money of User
-                        fixFineMoney(user,quantityBorrow);
-
-                        //Reset User Table
-                        if (defaultTableModelUser != null){
-                            tableUserReset();
-                        }
-
-                        //Fix Quantity Of Book
-                        fixQuantityOfBook(result);
-
-                        //Exit Table UI
-                        exitFrame();
-
-                        //Continue or Not
-                        if(defaultTableModelUser == null){
-                            if (JOptionPane.showConfirmDialog(null, "Continue Adding ?", "Lent Books",
-                                    JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-                                if(userManager.getUseLentInfo() == null){
-                                    String userID = Integer.toString(user.getId());
-                                    String userName = readerName;
-                                    String userGender = gender;
-                                    String userDateOfBirth = dateOfBirth;
-                                    String userAddress = address;
-                                    String userPhoneNumber = phoneNumber;
-                                    String userEmail = email;
-                                    userManager.setUseLentInfo(new String[]{
-                                            userID,
-                                            userName,
-                                            userGender,
-                                            userDateOfBirth,
-                                            userAddress,
-                                            userPhoneNumber,
-                                            userEmail
-                                    });
+                                if(defaultTableModelUser != null){
+                                    user = userManager.getUser(Integer.parseInt(userManager.getUseLentInfo()[0]));
+                                    lentBookDTB(user, quantityBorrow);
+                                }else {
+                                    user = userManager.getUser(userManager.totalUser());
+                                    lentBookDTB(user, quantityBorrow);
                                 }
-                            } else {
-                                userManager.setUseLentInfo(null);
+                            }
+                            //Add To Table Manager
+                            addTableToTableManager(user,user.getDeskNumber());
+                            //Fix Total Books of User
+                            fixtotalBook(user, quantityBorrow);
+                            //Fix Fine Money of User
+                            fixFineMoney(user,quantityBorrow);
+
+                            //Reset User Table
+                            if (defaultTableModelUser != null){
+                                tableUserReset();
+                            }
+
+                            //Fix Quantity Of Book
+                            fixQuantityOfBook(result);
+
+                            //Exit Table UI
+                            exitFrame();
+
+                            //Continue or Not
+                            if(defaultTableModelUser == null){
+                                if (JOptionPane.showConfirmDialog(null, "Continue Adding ?", "Lent Books",
+                                        JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+                                    if(userManager.getUseLentInfo() == null){
+                                        String userID = Integer.toString(user.getId());
+                                        String userName = readerName;
+                                        String userGender = gender;
+                                        String userDateOfBirth = dateOfBirth;
+                                        String userAddress = address;
+                                        String userPhoneNumber = phoneNumber;
+                                        String userEmail = email;
+                                        userManager.setUseLentInfo(new String[]{
+                                                userID,
+                                                userName,
+                                                userGender,
+                                                userDateOfBirth,
+                                                userAddress,
+                                                userPhoneNumber,
+                                                userEmail
+                                        });
+                                    }
+                                } else {
+                                    userManager.setUseLentInfo(null);
+                                }
                             }
                         }
+                    }else {
+                        JOptionPane.showMessageDialog(null, "Số lượng sách mượn quá lớn");
                     }
                 }
             }
