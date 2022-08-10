@@ -88,7 +88,7 @@ public class Add_childrenBook_UI {
                         inputCheck = false;
                     }else
                     {
-                        if(txt_6.getText().trim().length() == 0 || !check.isInteger(txt_6.getText().trim())){
+                        if(txt_6.getText().trim().length() == 0 || !check.isInteger(txt_6.getText().trim()) || Integer.parseInt(txt_6.getText()) < 0){
                             JOptionPane.showMessageDialog(null, "Quantity");
                             inputCheck = false;
                         }else {
@@ -340,6 +340,7 @@ public class Add_childrenBook_UI {
         });
 
 // set combo box
+    cb.setSelectedItem("Children Book");
     cb.setEnabled(false);
 
 // add all properties on UI

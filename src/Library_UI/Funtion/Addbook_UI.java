@@ -78,7 +78,7 @@ public class Addbook_UI {
                         inputCheck = false;
                     }else
                     {
-                        if(txt_6.getText().trim().length() == 0 || !check.isInteger(txt_6.getText().trim())){
+                        if(txt_6.getText().trim().length() == 0 || !check.isInteger(txt_6.getText().trim()) || Integer.parseInt(txt_6.getText()) < 0){
                             JOptionPane.showMessageDialog(null, "Quantity");
                             inputCheck = false;
                         }else {
@@ -265,7 +265,7 @@ public class Addbook_UI {
         txt_6.setBorder(BorderFactory.createLineBorder(Color_me));
         txt_6.setFont(Font_me_3);
 
-        cb_7 = new JComboBox(new String[]{"Classic", "Modern"});
+        cb_7 = new JComboBox(new String[]{"Kindergarten", "Primary School", "Secondary School", "High School", "College"});
         cb_7.setBackground(Color_left);
         cb_7.setBounds(283, po_y+65*6, 337, height);
         cb_7.setForeground(Color_me);
@@ -304,7 +304,7 @@ public class Addbook_UI {
                             bookManager.addBookLearning(bookManager.createBookLearning(
                                     txt_1.getText().trim(),
                                     calendar,
-                                    Long.parseLong(txt_2.getText().trim()) ,
+                                    Long.parseLong(txt_2.getText().trim()),
                                     txt_3.getText().trim(),
                                     txt_4.getText().trim(),
                                     Integer.parseInt(txt_6.getText().trim()),
