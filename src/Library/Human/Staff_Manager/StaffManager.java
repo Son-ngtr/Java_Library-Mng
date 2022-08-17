@@ -92,7 +92,7 @@ public class StaffManager {
 
     //Staff Attendence
     public String[] staffAttendence(){
-        return new String[]{"None", "Attendance", "Absent", "Late", "Leave of Absence Letter" , "Quit"};
+        return new String[]{"None", "Attendance", "Absent", "Late"};
     }
 
     //Create a Staff
