@@ -122,7 +122,7 @@ public class lent_UI {
                                     JOptionPane.showMessageDialog(null, "Regis EXP");
                                     inputCheck = false;
                                 }else {
-                                    if (txt_8.getText().trim().length() == 0 || !check.mathCheck(check.mathAnalysis(txt_8.getText().trim()))){
+                                    if (txt_8.getText().trim().length() == 0 || !check.mathCheck(check.mathAnalysis(txt_8.getText().trim())) || Integer.parseInt(txt_8.getText()) <= 0){
                                         JOptionPane.showMessageDialog(null, "Book Quantity");
                                         inputCheck = false;
                                     }else {

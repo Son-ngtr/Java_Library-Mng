@@ -98,7 +98,7 @@ public class lent_table_UI {
                             JOptionPane.showMessageDialog(null, "Email");
                             inputCheck = false;
                         }else {
-                            if(txt_8.getText().trim().length() == 0 || !check.mathCheck(check.mathAnalysis(txt_6.getText().trim()))){
+                            if(txt_8.getText().trim().length() == 0 || !check.mathCheck(check.mathAnalysis(txt_6.getText().trim())) || Integer.parseInt(txt_8.getText()) <= 0){
                                 JOptionPane.showMessageDialog(null, "Quantity");
                                 inputCheck = false;
                             }
